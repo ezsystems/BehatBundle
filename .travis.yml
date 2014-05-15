@@ -1,0 +1,47 @@
+language: php
+
+# run tests on php 5.4 only and let unit / integration tests deal with php differences
+php:
+  - 5.4
+
+# list of paths/bundle to execute
+env:
+    # run setup wizard to install Demo+Content and then test demo with content
+  - INSTALL="installdemocontent" PROFILE="democontent"
+    # test REST
+  - INSTALL="installdemoclean" PROFILE="restapi"
+
+# test only master (+ Pull requests)
+branches:
+  only:
+    - master
+
+# Get ezpublish5 repo, set it as build dir & install it's packages
+before_install:
+  - export OLD_TRAVIS_BUILD_DIR="$TRAVIS_BUILD_DIR"
+  - export TRAVIS_BUILD_DIR="$HOME/build/ezpublish-community"
+  - cd "$HOME/build"
+  - git clone --depth 1 https://github.com/ezsystems/ezpublish-community.git
+  - cd ezpublish-community
+  - ./bin/.travis/prepare_system.sh
+  - ./bin/.travis/prepare_sahi.sh
+#  - ./bin/.travis/prepare_selenium2.sh
+
+# setup requirements for running tests, move our bundle in & run last requirements script
+before_script:
+  - ./bin/.travis/prepare_ezpublish.sh
+  - rm -fR vendor/ezsystems/behatbundle/EzSystems/BehatBundle
+  - mv "$OLD_TRAVIS_BUILD_DIR" vendor/ezsystems/behatbundle/EzSystems
+
+# execute behat as the script command
+script:
+    - php bin/behat --profile $INSTALL
+    - php bin/behat --profile $PROFILE
+
+# disable mail notifications
+notification:
+  email: false
+
+# reduce depth (history) of git checkout
+git:
+  depth: 30

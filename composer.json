@@ -1,0 +1,20 @@
+{
+    "name": "ezsystems/behatbundle",
+    "description": "Behat bundle for help testing eZ Bundles and projects",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "eZ Publish dev-team & eZ Community",
+            "homepage": "https://github.com/ezsystems/BehatBundle/graphs/contributors"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.3",
+        "ezsystems/ezpublish-kernel": "*"
+    },
+    "autoload": {
+        "psr-0": {"EzSystems\\BehatBundle": ""}
+    },
+    "target-dir": "EzSystems/BehatBundle"
+}
