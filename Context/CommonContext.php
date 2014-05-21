@@ -1,42 +1,35 @@
 <?php
 /**
- * File containing the FeatureContext class.
- *
- * This class contains general feature context for Behat.
+ * File containing the CommonContext class for BehatBundle.
  *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  * @version //autogentag//
  */
 
-namespace EzSystems\BehatBundle\Features\Context;
+namespace EzSystems\BehatBundle\Context;
 
-use EzSystems\BehatBundle\ObjectGivenContexts;
 use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use EzSystems\BehatBundle\Context\CommonSubContext;
+use EzSystems\BehatBundle\ObjectGivenContext;
 use EzSystems\BehatBundle\Helpers\ValueObjectHelper;
-use Behat\Behat\Event\OutlineExampleEvent;
-use Behat\Behat\Event\ScenarioEvent;
+use Behat\Behat\Context\BehatContext;
 use Behat\Gherkin\Node\TableNode;
-use Behat\MinkExtension\Context\MinkContext;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * Feature context.
+ * This context contains needed methods and implementations for both
+ * API's and browser contexts
  */
-class FeatureContext extends MinkContext implements KernelAwareInterface
+class CommonContext extends BehatContext implements KernelAwareInterface
 {
     const DEFAULT_SITEACCESS_NAME = 'behat_site';
 
     /**
      * @var \Symfony\Component\HttpKernel\KernelInterface
      */
-    protected $kernel;
-
-    /**
-     * @var array
-     */
-    private $parameters;
+    public $kernel;
 
     /**
      * @var \EzSystems\BehatBundle\Helpers\ValueObjectHelper;
@@ -44,39 +37,18 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     public $valueObjectHelper;
 
     /**
-     * @var array Array to map identifier to urls, should be set by child classes.
-     *
-     * Important:
-     *  this is an associative array( ex: array( 'key' => '/some/url') ) they keys
-     *  should be set (on contexts) as lower cases since the
-     *  FeatureContext::getPathByPageIdentifier() will check for lower case
+     * Add the given and common contexts to the main context
      */
-    protected $pageIdentifierMap = array();
-
-    /**
-     * This will contains the source path for media files
-     *
-     * ex:
-     * $fileSource = array(
-     * 	    "Video 1" => "/var/storage/original/media/video1.mp4",
-     * );
-     *
-     * @var array This will have a ( 'identifier' => 'path' )
-     */
-    protected $fileSource = array();
-
-    /**
-     * Initializes context with parameters from behat.yml.
-     *
-     * @param array $parameters
-     */
-    public function __construct( array $parameters )
+    public function __construct()
     {
-        $this->parameters = $parameters;
-        $this->valueObjectHelper = new ValueObjectHelper();
+        // add Common contexts to sub contexts
+        $this->getMainContext()->useContext( 'File', new CommonSubContext\File() );
 
-        // add Given steps sub contexts
-        $this->useContext( 'GivenContentTypeGroup', new ObjectGivenContexts\GivenContentTypeGroupContext() );
+        // add Given contexts sub contexts
+        $this->getMainContext()->useContext( 'GivenContentTypeGroup', new ObjectGivenContext\ContentTypeGroup() );
+
+        // add helpers
+        $this->valueObjectHelper = new ValueObjectHelper();
     }
 
     /**
@@ -103,7 +75,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     /**
      * @BeforeScenario
      *
-     * @param ScenarioEvent|OutlineExampleEvent $event
+     * @param \Behat\Behat\Event\ScenarioEvent|\Behat\Behat\Event\OutlineExampleEvent $event
      */
     public function prepareFeature( $event )
     {
@@ -120,7 +92,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
      */
     public function cleanGivenObjects( $event )
     {
-        $this->getSubContext( 'GivenContentTypeGroup' )->clean();
+        $this->getMainContext()->getSubContext( 'GivenContentTypeGroup' )->clean();
     }
 
     /**
@@ -240,95 +212,5 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
 
         // if its empty return false otherwise return the array with data
         return empty( $data ) ? false : $data;
-    }
-
-    /**
-     * Parameter given trough the BDD may come in so many ways like:
-     * "Column 1"
-     * "column1"
-     * "Column 1 Row 2"
-     * So it is needed a way to effectively get the number it's pretended for a
-     * more accurate search through xpath
-     *
-     * @param string $string
-     *
-     * @return string
-     */
-    public function getNumberFromString( $string )
-    {
-        $max = strlen( $string );
-        $result = "";
-
-        // go through each character
-        for ( $i = 0; $i < $max; $i++ )
-        {
-            // check if it is a number and add it to result
-            if ( $string[$i] >= '0' && $string[$i] <= '9' )
-            {
-                $result .= $string[$i];
-            }
-            // if not verify if the number was already found
-            else if ( $result !== "" )
-            {
-                return $result;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Returns the path associated with $pageIdentifier
-     *
-     * @param string $pageIdentifier
-     *
-     * @return string
-     *
-     * @throws \RuntimeException If $pageIdentifier is not set
-     */
-    public function getPathByPageIdentifier( $pageIdentifier )
-    {
-        if ( !isset( $this->pageIdentifierMap[strtolower( $pageIdentifier )] ) )
-        {
-            throw new \RuntimeException( "Unknown page identifier '{$pageIdentifier}'." );
-        }
-
-        return $this->pageIdentifierMap[strtolower( $pageIdentifier )];
-    }
-
-    /**
-     * Returns the path associated with the $fileSource
-     *
-     * @param string $file
-     *
-     * @return string
-     *
-     * @throws \RuntimeException If file is not set
-     */
-    public function getPathByFileSource( $file )
-    {
-        if ( !isset( $this->fileSource[$file] ) )
-        {
-            throw new \RuntimeException( "Unknown file '{$file}'." );
-        }
-
-        return $this->fileSource[$file];
-    }
-
-    /**
-     * Returns $url without its query string
-     *
-     * @param string $url
-     *
-     * @return string
-     */
-    public function getUrlWithoutQueryString( $url )
-    {
-        if ( strpos( $url, '?' ) !== false )
-        {
-            $url = substr( $url, 0, strpos( $url, '?' ) );
-        }
-
-        return $url;
     }
 }

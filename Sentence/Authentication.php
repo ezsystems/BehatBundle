@@ -1,19 +1,14 @@
 <?php
 /**
- * File containing the Authentication class.
- *
- * This interface as the sentences definitions for the authentication steps
+ * File containing the Authentication sentences interface for BehatBundle.
  *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  * @version //autogentag//
  */
 
-namespace EzSystems\BehatBundle\Features\Context\SentencesInterfaces;
+namespace EzSystems\BehatBundle\Sentence;
 
-/**
- * Authentication Sentences Interface
- */
 interface Authentication
 {
     /**

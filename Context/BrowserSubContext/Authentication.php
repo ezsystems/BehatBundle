@@ -1,39 +1,26 @@
 <?php
-/**
- * File containing the AuthenticationContext class.
- *
- * This class contains the implementation of the Authentication interface which
- * has the sentences for the Authentication BDD
- *
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
- * @license For full copyright and license information view LICENSE file distributed with this source code.
- * @version //autogentag//
- */
 
-namespace EzSystems\BehatBundle\Features\Context\Browser\SubContexts;
+namespace EzSystems\BehatBundle\Context\BrowserSubContext;
 
-use EzSystems\BehatBundle\Features\Context\SentencesInterfaces\Authentication;
+use EzSystems\BehatBundle\Sentence\Authentication as AuthenticationSentences;
 use Behat\Behat\Exception\PendingException;
 use Behat\Behat\Context\Step;
 
-/**
- * AuthenticationContext
- */
-class AuthenticationContext extends BrowserSubContext implements Authentication
+class Authentication extends Base implements AuthenticationSentences
 {
     public function iAmLoggedInAsAn( $role )
     {
         switch( strtolower( $role ) ) {
         case 'administrator':
             $user = 'admin';
-            $passwd = 'publish';
+            $password = 'publish';
             break;
 
         default:
             throw new PendingException( "Login with '$role' role not implemented yet" );
         }
 
-        return $this->iAmLoggedInAsWithPassword( $user, $passwd );
+        return $this->iAmLoggedInAsWithPassword( $user, $password );
     }
 
     public function iAmLoggedInAsWithPassword( $user, $password )

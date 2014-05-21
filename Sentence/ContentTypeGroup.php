@@ -1,21 +1,16 @@
 <?php
 /**
- * File containing the ContentTypeGroup interface.
- * 
+ * File containing the ContentTypeGroup sentences interface for BehatBundle.
+ *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  * @version //autogentag//
  */
 
-namespace EzSystems\BehatBundle\Features\Context\SentencesInterfaces;
+namespace EzSystems\BehatBundle\Sentence;
 
 use Behat\Gherkin\Node\TableNode;
 
-/**
- * ContentTypeGroup Sentences Interface
- *
- * This interface has the sentences definitions for the ContentTypeGroup steps
- */
 interface ContentTypeGroup
 {
     /**
