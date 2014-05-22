@@ -1,4 +1,6 @@
-# System Manager
+## System Manager
+
+*Still on todo list*
 
 System manager will be responsible to put the (test) system on a specific state,
 so that we can test exactly some eZ Publish answers, and have the system prepared
