@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ContentTypeGroup context class for BrowserContext.
+ * File containing the ContentTypeGroup given context class for BrowserContext.
  *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
