@@ -13,6 +13,7 @@ interface Authentication
 {
     /**
      * @Given /^I am not logged in$/
+     * @Given /^I (?:do not|don't) have permissions$/
      */
     public function iAmNotLoggedIn();
 
@@ -23,6 +24,7 @@ interface Authentication
 
     /**
      * @Given /^I am logged (?:in |)as (?:an |a |)"(?P<role>[^"]*)"$/
+     * @Given /^I have "(?P<role>[^"]*)" permissions$/
      */
     public function iAmLoggedInAsAn( $role );
 }
