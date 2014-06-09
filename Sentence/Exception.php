@@ -20,6 +20,16 @@ interface Exception
     public function iSeeAnInvalidFieldError();
 
     /**
+     * @Then /^I see (?:a |)forbidden (?:exception|error)$/
+     */
+    public function iSeeAForbiddenError();
+
+    /**
+     * @Then /^I see (?:a |)forbidden (?:exception|error) with "(?P<message>[^"]+)" message$/
+     */
+    public function iSeeAForbiddenErrorWithMessage( $message );
+
+    /**
      * @Then /^I see (?:a |)not authorized (?:exception|error)$/
      * @Then /^I see (?:an |)unauthorized (?:exception|error)$/
      */
