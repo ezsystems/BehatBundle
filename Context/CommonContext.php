@@ -55,7 +55,7 @@ class CommonContext extends BehatContext implements KernelAwareInterface
         $this->getMainContext()->useContext( 'File', new CommonSubContext\File() );
 
         // add Given contexts sub contexts
-        $this->getMainContext()->useContext( 'GivenContentTypeGroup', new ObjectContext\ContentTypeGroup() );
+        $this->getMainContext()->useContext( 'ObjectContentTypeGroup', new ObjectContext\ContentTypeGroup() );
 
         // add helpers
         $this->valueObjectHelper = new ValueObjectHelper();
@@ -102,7 +102,7 @@ class CommonContext extends BehatContext implements KernelAwareInterface
      */
     public function cleanGivenObjects( $event )
     {
-        $this->getMainContext()->getSubContext( 'GivenContentTypeGroup' )->clean();
+        $this->getMainContext()->getSubContext( 'ObjectContentTypeGroup' )->clean();
     }
 
     /**
