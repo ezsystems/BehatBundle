@@ -1,26 +1,24 @@
 <?php
 /**
- * File containing the GivenContexts class.
- *
- * This is the parent object of all object given steps sub contexts
+ * File containing the Base class for all Given contexts.
  *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  * @version //autogentag//
  */
 
-namespace EzSystems\BehatBundle\ObjectGivenContexts;
+namespace EzSystems\BehatBundle\ObjectGivenContext;
 
 use Behat\Behat\Context\BehatContext;
 use eZ\Publish\API\Repository\Values\ValueObject;
 
-abstract class GivenContexts extends BehatContext
+abstract class Base extends BehatContext
 {
     /**
      * This var is needed to be set when the __destruct is called
      * (if any object was created)
      *
-     * @var eZ\Publish\API\Repository\Repository
+     * @var \eZ\Publish\API\Repository\Repository
      */
     private $repository;
 
@@ -34,7 +32,7 @@ abstract class GivenContexts extends BehatContext
     /**
      * This method is actually needed for the deletion of the created objects
      *
-     * @return eZ\Publish\API\Repository\Repository
+     * @return \eZ\Publish\API\Repository\Repository
      *
      * @see $this->repository
      */

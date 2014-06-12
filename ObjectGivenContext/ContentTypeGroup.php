@@ -1,26 +1,24 @@
 <?php
 /**
- * File containing the ContentTypeGroup class.
- *
- * This class contains the given steps for manipulating content type groups
+ * File containing the ContentTypeGroup given context class for BrowserContext.
  *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  * @version //autogentag//
  */
 
-namespace EzSystems\BehatBundle\ObjectGivenContexts;
+namespace EzSystems\BehatBundle\ObjectGivenContext;
 
-use EzSystems\BehatBundle\ObjectGivenContexts\GivenContexts;
+use EzSystems\BehatBundle\Sentence\GivenSentence\ContentTypeGroup as ContentTypeGroupGivenSentence;
 use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use Behat\Gherkin\Node\TableNode;
 
-class GivenContentTypeGroupContext extends GivenContexts
+class ContentTypeGroup extends Base implements ContentTypeGroupGivenSentence
 {
     /**
-     * @Given /^I have (?:a |)Content Type Group with identifier "(?P<identifier>[^"]*)"$/
+     * Given I have (?:a |)Content Type Group with identifier "<identifier>"
      */
     public function iHaveContentTypeGroup( $identifier )
     {
@@ -53,7 +51,7 @@ class GivenContentTypeGroupContext extends GivenContexts
     }
 
     /**
-     * @Given /^I (?:do not|don\'t) have a Content Type Group with identifier "(?P<identifier>[^"]*)"$/
+     * Given I (?:do not|don\'t) have a Content Type Group with identifier "<identifier>"
      */
     public function iDonTHaveContentTypeGroup( $identifier )
     {
@@ -81,7 +79,7 @@ class GivenContentTypeGroupContext extends GivenContexts
     }
 
     /**
-     * @Given /^I have (?:the |)following Content Type Groups(?:\:|)$/
+     * Given I have (?:the |)following Content Type Groups:
      */
     public function iHaveTheFollowingContentTypeGroups( TableNode $table )
     {

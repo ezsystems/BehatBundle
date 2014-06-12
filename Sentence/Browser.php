@@ -1,16 +1,13 @@
 <?php
 /**
- * File containing the BrowserInternalSentences class.
- *
- * This interface contains the browser internal sentences that will match some
- * action or assertion for browser testing
+ * File containing the Browser sentences interface for BrowserContext.
  *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  * @version //autogentag//
  */
 
-namespace EzSystems\BehatBundle\Features\Context\Browser;
+namespace EzSystems\BehatBundle\Sentence;
 
 use Behat\Gherkin\Node\TableNode;
 
@@ -20,7 +17,7 @@ use Behat\Gherkin\Node\TableNode;
  * @todo Add examples and/or explanations for not so easy to understand sentences
  * @todo Add example tables to the sentences that use TableNode
  */
-interface BrowserInternalSentences
+interface Browser
 {
     /**
      * @Given /^I checked "(?P<label>[^"]*)" checkbox$/
@@ -35,14 +32,14 @@ interface BrowserInternalSentences
     public function iClickAtButton( $button );
 
     /**
-     * @Given /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I clicked (?:at |on |)"(?P<button>[^"]*)" button$/
-     * @When /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I click (?:at |on |)"(?P<button>[^"]*)" button$/
+     * @Given /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I clicked (?:at |on |)"(?P<button>[^"]*)" button$/
+     * @When /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I click (?:at |on |)"(?P<button>[^"]*)" button$/
      */
     public function onPageSectionIClickAtButton( $pageSection, $button );
 
     /**
-     * @Given /^I clicked (?:at|on) "([^"]*)" image$/
-     * @When /^I click (?:at|on) "([^"]*)" image$/
+     * @Given /^I clicked (?:at|on) "(?P<image>[^"]*)" image$/
+     * @When /^I click (?:at|on) "(?P<image>[^"]*)" image$/
      */
     public function iClickAtImage( $image );
 
@@ -53,8 +50,8 @@ interface BrowserInternalSentences
     public function iClickAtLink( $link );
 
     /**
-     * @Given /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I clicked (?:on|at) "(?P<link>[^"]*)" link$/
-     * @When /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I click (?:on|at) "(?P<link>[^"]*)" link$/
+     * @Given /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I clicked (?:on|at) "(?P<link>[^"]*)" link$/
+     * @When /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I click (?:on|at) "(?P<link>[^"]*)" link$/
      */
     public function onPageSectionIClickAtLink( $pageSection, $link );
 
@@ -87,7 +84,7 @@ interface BrowserInternalSentences
      * @Given /^I selected "(?P<label>[^"]*)" radio button$/
      * @When /^I select "(?P<abel>[^"]*)" radio button$/
      */
-    public function iSelectRadioButon( $label );
+    public function iSelectRadioButton( $label );
 
     /**
      * @When /^I follow the redirection$/
@@ -113,7 +110,7 @@ interface BrowserInternalSentences
     public function iSeeElement( $element );
 
     /**
-     * @Then /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I see (?:the|a|an) "(?P<element>[^"]*)" element$/
+     * @Then /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I see (?:the|a|an) "(?P<element>[^"]*)" element$/
      */
     public function onPageSectionISeeElement( $pageSection, $element );
 
@@ -132,7 +129,7 @@ interface BrowserInternalSentences
     public function iDonTSeeElement( $element );
 
     /**
-     * @Then /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I (?:don\'t|do not) see (?:the|a|an) "(?P<element>[^"]*)" element$/
+     * @Then /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I (?:don\'t|do not) see (?:the|a|an) "(?P<element>[^"]*)" element$/
      */
     public function onPageSectionIDontSeeElement( $pageSection, $element );
 
@@ -147,7 +144,7 @@ interface BrowserInternalSentences
     public function iSeeText( $text );
 
     /**
-     * @Then /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I see (?:the |)exact "(?P<text>[^"]*)" (?:message|text|key)$/
+     * @Then /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I see (?:the |)exact "(?P<text>[^"]*)" (?:message|text|key)$/
      */
     public function onPageSectionISeeText( $pageSection, $text );
 
@@ -165,7 +162,7 @@ interface BrowserInternalSentences
     public function iSeeLink( $link );
 
     /**
-     * @Then /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I see (?:the|an|a) "(?P<link>[^"]*)" link$/
+     * @Then /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I see (?:the|an|a) "(?P<link>[^"]*)" link$/
      */
     public function onPageSectionISeeLink( $pageSection, $link );
 
@@ -180,8 +177,7 @@ interface BrowserInternalSentences
     public function iSeeLinks( TableNode $table );
 
     /**
-     * @Then /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I see links(?:|\:)$/
-     *
+     * @Then /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I see links(?:|\:)$/
      */
     public function onPageSectionISeeLinks( $pageSection, TableNode $table );
 
@@ -191,7 +187,7 @@ interface BrowserInternalSentences
     public function iSeeLinksForContentObjects( TableNode $table );
 
     /**
-     * @Then /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I see the links for Content objects(?:|\:)$/
+     * @Then /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I see the links for Content objects(?:|\:)$/
      *      | link    | content    |
      *      | link A  | content A  |
      *      | BLink   | BContent   |
@@ -211,12 +207,12 @@ interface BrowserInternalSentences
     public function iSeeLinksInFollowingOrder( TableNode $table );
 
     /**
-     * @Then /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I see links in following order(?:|\:)$/
+     * @Then /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I see links in following order(?:|\:)$/
      */
     public function onPageSectionISeeLinksInFollowingOrder( $pageSection, TableNode $table );
 
     /**
-     * @Then /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I see (?P<total>\d+) links$/
+     * @Then /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I see (?P<total>\d+) links$/
      *
      * Examples:
      *  - Then on "breadcrumb" I see 7 links
@@ -241,7 +237,7 @@ interface BrowserInternalSentences
     public function iDontSeeLink( $link );
 
     /**
-     * @Then /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I (?:don\'t|do not) see "(?P<link>[^"]*)" link$/
+     * @Then /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I (?:don\'t|do not) see "(?P<link>[^"]*)" link$/
      */
     public function onPageSectionIDonTSeeLink( $pageSection, $link );
 
@@ -251,7 +247,7 @@ interface BrowserInternalSentences
     public function iDonTSeeLinks( TableNode $table );
 
     /**
-     * @Then /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I (?:don\'t|do not) see (?: the|)links(?:|\:)$/
+     * @Then /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I (?:don\'t|do not) see (?: the|)links(?:|\:)$/
      */
     public function onPageSectionIDonTSeeLinks( $pageSection, TableNode $table );
 
@@ -263,7 +259,7 @@ interface BrowserInternalSentences
     /**
      * @Given /^I (?:don\'t|do not) see "(?P<text>[^"]*)" message$/
      */
-    public function iDonTSeeMessage( $message );
+    public function iDonTSeeMessage( $text );
 
     /**
      * @Then /^I see "(?P<page>[^"]*)" page$/
@@ -299,7 +295,7 @@ interface BrowserInternalSentences
     public function iSeeTextEmphasized( $text );
 
     /**
-     * @Then /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I see (?:the |)"(?P<text>[^"]*)" text emphasized$/
+     * @Then /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I see (?:the |)"(?P<text>[^"]*)" text emphasized$/
      */
     public function onPageSectionISeeTextEmphasized( $pageSection, $text );
 
@@ -309,7 +305,7 @@ interface BrowserInternalSentences
     public function iSeeTitle( $title );
 
     /**
-     * @Then /^on "(?P<pagePart>[A-Za-z0-9\s-_]*)" I see "(?P<video>[^"]*)" video$/
+     * @Then /^on "(?P<pageSection>[A-Za-z0-9\s-_]*)" I see "(?P<video>[^"]*)" video$/
      */
     public function onPageSectionISeeVideo( $pageSection, $video );
 

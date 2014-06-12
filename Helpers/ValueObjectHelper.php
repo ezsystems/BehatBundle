@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ValueObjectHelper class.
+ * File containing the ValueObjectHelper class for BehatBundle.
  *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -10,6 +10,7 @@
 namespace EzSystems\BehatBundle\Helpers;
 
 use eZ\Publish\API\Repository\Values\ValueObject;
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 
 /**
  * Helper class for value objects handling.
@@ -27,7 +28,7 @@ class ValueObjectHelper
      *
      * @return mixed
      *
-     * @throws InvalidArgumentException If the property/field is not found
+     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException If the property/field is not found
      */
     public function getProperty( ValueObject $object, $property )
     {
@@ -52,7 +53,7 @@ class ValueObjectHelper
      * @param string $property Name of property or field
      * @param mixed  $value The value to set the property/field to
      *
-     * @throws InvalidArgumentException If the property/field is not found
+     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException If the property/field is not found
      */
     public function setProperty( ValueObject $object, $property, $value )
     {
