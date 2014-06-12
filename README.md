@@ -1,197 +1,97 @@
-# eZ Publish BDD Testing
-
-This as a fast summary of the possible sentences,
-and the guidelines for in case you want to add new sentences.
-
-For the following documentation you should remember:
-
-* Words inside angular brackets (**[]**) are sentence definitions
-* Words inside less and greater characters (**<>**) are user input
+## eZ Publish Behat Bundle
 
 
+**Important** - Behat Bundle is a work in progress (it can dramatically change)
 
-## Single sentences
+
+### Behat Bundle, what is it for?
+
+Behat Bundle brings the Behavior Driven Development (as known as BDD) into
+the eZ Publish.
 
 
-### Given
+### How to install
 
-```Cucumber
-    I am on "<name>" page
-    I am on "<name>" page for "<special-location>"
-    I am "<action>" "<what>"
-    I am logged in as "<username>" with password "<password>"
-    I am logged in as a "<type>" user
-    I have "<what>" "[type]"
-    test is pending "<some-reason>"
+Probably it's already installed, to check if it is, jump to [How to run tests](#how-to-run-tests)
+
+If not, it's easy to do:
+
+1. Get Behat bundle:
+  * Through [composer](http://getcomposer.org), run on console:
+    * `$ php composer.phar require "ezsystems/behatbundle": "*"`
+  * Through Git:
+    * `$ git clone https://github.com/ezsystems/BehatBundle vendor/ezsystems/behatbundle/EzSystems/BehatBundle`
+  * Download from GitHub:
+    * download BehatBundle and unzip it in `<ezpublish-root>/vendor/ezsystems/behatbundle/EzSystems/BehatBundle`
+2. Add Behat Bundle to load list
+  * Edit `<ezpublish-roo>/ezpublish/EzPublishKernel.php`
+  * Add `new EzSystems\BehatBundle\EzSystemsBehatBundle(),` to `$bundles` in `EzPublishKernel::registerBundles()`
+
+
+### Configure Behat Yaml
+
+The `behat.yml` is located on the eZ Publish root folder.
+
+You need to change:
+  * `base_url` (and `rest_url` in case of testing rest) to your website url
+  * `javascript_session` if you need to interact with JS (JavaScript), you can choose:
+    * [Selenium2](http://docs.seleniumhq.org/download/)
+    * [Sahi](http://sahi.co.in/sahi-open-source/)
+
+For more information you can check [Behat Yaml configuration](http://docs.behat.org/guides/7.config.html)
+at [Behat official website](http://behat.org)
+
+If you're having problems in setup the Selenium2/Sahi, take a look at the [.travis.yml](./.travis.yml).
+
+
+### How to run tests
+
+Simply run:
+  * $ php bin/behat --profile <profile>
+
+Defined profiles:
+  * `demo` (todo)   - tests Demo interface
+  * `admin` (todo)  - tests legacy Admin2 interface
+  * `restApi`       - tests REST API
+  * `publicApi` (todo)  - tests Public API
+  * `command` (todo)    - test eZ Publish commands
+  * `installDemoContent`- it run Setup Wizard and install Demo with content
+  * `installDemoClean`  - it run Setup Wizard and install Demo without content
+  * `demoContent` - it checks the Demo installation content (only)
+
+
+### Make your testing profile
+
+Again, it a easy task:
+
+1. Go to your bundle, add this structure (this is *not* a requirement):
+  * Main folder for BDD
+    * `<YourBundle>/BddTests`
+  * Context folder with sentences implementations
+    * `<YourBundle>/BddTests/Context`
+    * `<YourBundle>/BddTests/Context/<YourBundle>Context.php`
+  * Feature folder with scenarios
+    * `<YourBundle>/BddTests/Feature`
+    * `<YourBundle>/BddTests/Feature/some-feature.feature`
+    * `<YourBundle>/BddTests/Feature/another-feature.feature`
+2. Then you just need to pick what you want to test, since your context must extend a class from BehatBundle:
+  * Browser - extend `EzSystems\BehatBundle\Context\BrowserContext`
+  * Any API - extend `EzSystems\BehatBundle\Context\ApiContext`
+    * this is a clean context with only the object creation for given steps
+  * RestAPI with our sentences - extend `eZ\Bundle\EzPublishRestBundle\BddTests\Context\RestContext`
+  * PublicAPI with our sentences - (todo)
+3. Now add the profile to `behat.yml` it should look like:
+```yaml
+someProfileName:
+    context:
+        class: <YourBundleNamespace>\BddTests\<YourBundle>Context
+    paths:
+        features: <PathToYourBundle>/BddTests/Feature
 ```
 
-
-### When
-
-Notice that several When sentences can and should also be used in Given sentences.
-
-```Cucumber
-    I "[action]" "<what>" "[type]"
-    I "[action]" "<what>" "[type]" to "<where>"
-    I on "[place]" "[action]" "<what>" "[type]"
-    I follow "<link>"
-    I go to "<page>"
-    I go to "<page>" at "<special-case>"
-    I press "<button>"
-    I search for "<what>"
-    I attach "<what>"
-    I attach "<what>" in "<where>"
-    I fill in "<key>" with "<value>"
-    I fill a valid "<which>" form
-```
+You're ready to go, create your feature files and then run:
+ * `$ php bin/behat --profile someProfileName`
 
 
-### Then
-
-```Cucumber
-    I see "<what>" "[type]"
-    I see "<what>" "[type]" with "<value>"
-    I see "<what>" "[type]" emphasized
-    I see search "<total>" results
-    I see a "<block>" on the page
-    on "[place]" I see "<what>" [type]
-    I see key "<key>" with value "<value>"
-    I check "<name>" page for "<special>" Location
-    I see "[type]" for Content object
-```
-
-```Cucumber
-    I don't see "<what>" [type]
-    I don't see "<what>" [type] with "<value>"
-    I don't see key "<key>" with value "<value>"
-    on "[place]" I don't see "<what>" "[type]"
-```
-
-
-
-## Tabled sentences
-
-About the tables, you shouldn't forget that the first row is always informative,
-it means that it will be discarded by implementation, is only for user
-readability.
-
-
-### Given
-
-```Cucumber
-    I have "<what>" with:
-```
-
-### When
-
-```Cucumber
-    I fill the form with:
-        | Key | Value |
-    I fill "<which>" form with:
-```
-
-
-### Then
-
-```Cucumber
-    I see "[type]":
-    I see "[type]" with:
-    I see "[type]" in following order:
-    on "[place]" I see "<what>" "[type]" in following order:
-    I see form filled with:
-    I see "<what>" [type] with attributes:
-    I see "[type]" for "[eZ Content]":
-    I see "[type]" for "[eZ Content]" in following order:
-```
-
-```Cucumber
-    I don't see "[type]":
-    I don't see "[type]" with:
-    I don't see form filled with:
-```
-
-
-## Possible system definitions
-
-Following are the possible values for the words inside angular brackets ([]).
-
-
-### Action
-* click
-* go to
-* attach
-
-There are some actions that have a specific tab, for example **go to** action
-must/can have **page** type:
-
-    I go to "<name>" page
-
-
-### Place
-* main (this is the main content)
-* menu
-    * main menu
-    * sub menu
-    * side menu
-* footer
-* header
-* breadcrumb
-
-
-### Type
-* page
-* table
-* link / links
-* title / topic
-* message / text
-* error / warning
-* button
-* place / block / element
-* node
-
-There are some types that are only for a specific step, like **extension** type
-that should be used only for preparing the system, ie. used at Given steps.
-
-For more information on **pages**, **places** and **blocks** see each bundle,
-since these are defined in tested bundle itself
-
-
-### eZ Content
-
-These are content specific for the eZ Publish:
-* Content object
-* Content Type
-* Location
-* Role
-* Policy
-* ...
-( these should be presented with Camel Case, with the exception of "object" from
-Content object )
-
-
-
-## Additional information
-
-In general the sentences can have the appropriated sentence construction,
-since it has many optional words like:
-* ```(?:the |an |a |)```
-* ```(?:on|at)```
-* ```(?:don\'t|do not)```
-* ```(?:\:|)```
-* ```(?:s|)```
-* ```['"](.+)["']```
-* ```(?:word1|word2)``` (in some cases you can choose from several words,
-ex: ```/^I see (?:the |an |a |)["'](.+)["'] (?:title|topic)$/``` here we have
-2 possible options)
-
-In Then sentences for almost each positive sentence, there is/should be/exist a
-negative sentence also.
-
-
-## Useful links
-
-Complete list for avaliable sentences - [BehatBundle/Sentences.md](https://github.com/ezsystems/ezpublish-community/blob/master/src/EzSystems/BehatBundle/Sentences.md)
-
-Content manager - [BehatBundle/ContentManager.md](https://github.com/ezsystems/ezpublish-community/blob/master/src/EzSystems/BehatBundle/ContentManager.md)
-
-System Manager - [BehatBundle/SystemManager.md](https://github.com/ezsystems/ezpublish-community/blob/master/src/EzSystems/BehatBundle/SystemManager.md)
+Once more, for more details you can check [Behat Yaml configuration](http://docs.behat.org/guides/7.config.html)
+at [Behat official website](http://behat.org)
