@@ -1,16 +1,17 @@
 <?php
 /**
- * File containing the Base class for all Given contexts.
+ * File containing the Base class for all Object contexts.
  *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  * @version //autogentag//
  */
 
-namespace EzSystems\BehatBundle\ObjectGivenContext;
+namespace EzSystems\BehatBundle\ObjectContext;
 
 use Behat\Behat\Context\BehatContext;
 use eZ\Publish\API\Repository\Values\ValueObject;
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
 
 abstract class Base extends BehatContext
 {
@@ -44,6 +45,37 @@ abstract class Base extends BehatContext
         }
 
         return $this->repository;
+    }
+
+    /**
+     * Decides if the object should be found or not
+     *
+     * This should be used in the methods that verify that an object exists or not through public api
+     *
+     * @see \EzSystems\BehatBundle\ObjectContext\ContentTypeGroup::contentTypeGroupIs()
+     *
+     * @param string $action The action passed through BDD
+     * @param bool $invert In cases where the sentence is negative, the values should be inverted
+     *
+     * @return bool
+     *
+     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue If $action is not expected
+     */
+    protected function shouldBeFound( $action, $invert = false )
+    {
+        switch ( $action )
+        {
+            case 'saved':
+            case 'stored':
+                return true && !$invert;
+
+            case 'deleted':
+            case 'removed':
+                return false || $invert;
+
+            default:
+                throw new InvalidArgumentValue( 'action', $action );
+        }
     }
 
     /**

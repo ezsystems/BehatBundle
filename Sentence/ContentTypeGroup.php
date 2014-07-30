@@ -24,6 +24,11 @@ interface ContentTypeGroup
     public function iReadContentTypeGroup( $identifier );
 
     /**
+     * @When /^I read Content Type Group with id "(?<id>[^"]+)"$/
+     */
+    public function iReadContentTypeGroupWithId( $id );
+
+    /**
      * @When /^I read Content Type Groups list$/
      */
     public function iReadContentTypeGroupsList();
@@ -39,19 +44,10 @@ interface ContentTypeGroup
     public function iDeleteContentTypeGroup( $identifier );
 
     /**
-     * @Then /^I see a Content Type Group with identifier "(?P<identifier>[^"]*)"$/
+     * @Then /^I see (?:a |)Content Type Group with identifier "(?P<identifier>[^"]*)"$/
+     * @Then /^response contains (?:a |)Content Type Group with identifier "(?P<identifier>[^"]*)"$/
      */
     public function iSeeContentTypeGroup( $identifier );
-
-    /**
-     * @Then /^I don\'t see a Content Type Group with identifier "(?P<identifier>[^"]*)"$/
-     */
-    public function iDonTSeeAContentTypeGroup( $identifier );
-
-    /**
-     * @Then /^I see (?P<total>\d+) Content Type Group(?:s|) with identifier "(?P<identifier>[^"]*)"$/
-     */
-    public function iSeeTotalContentTypeGroup( $total, $identifier );
 
     /**
      * @Then /^I see the following Content Type Groups:$/

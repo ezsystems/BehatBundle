@@ -11,14 +11,32 @@ namespace EzSystems\BehatBundle\Sentence;
 
 interface Exception
 {
+    const REGEX_NOT_FOUND_MESSAGE       = "/^Could not find '([^']+)' with identifier '([^']+)'$/";
+    const REGEX_INVALID_FIELD_MESSAGE   = "/^Argument '([^']+)' is invalid:(.+)$/";
+
     /**
-     * @Then /^I see (?:an |)invalid field error$/
+     * @Then /^I see (?:an |)invalid field (?:exception|error)$/
      */
     public function iSeeAnInvalidFieldError();
 
     /**
-     * @Then /^I see (?:a |)not authorized error$/
-     * @Then /^I see (?:an |)unauthorized error$/
+     * @Then /^I see (?:a |)forbidden (?:exception|error)$/
+     */
+    public function iSeeAForbiddenError();
+
+    /**
+     * @Then /^I see (?:a |)forbidden (?:exception|error) with "(?P<message>[^"]+)" message$/
+     */
+    public function iSeeAForbiddenErrorWithMessage( $message );
+
+    /**
+     * @Then /^I see (?:a |)not authorized (?:exception|error)$/
+     * @Then /^I see (?:an |)unauthorized (?:exception|error)$/
      */
     public function iSeeNotAuthorizedError();
+
+    /**
+     * @Then /^I see (?:a |)not found (?:exception|error)$/
+     */
+    public function iSeeNotFoundError();
 }

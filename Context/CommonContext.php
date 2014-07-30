@@ -9,9 +9,10 @@
 
 namespace EzSystems\BehatBundle\Context;
 
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\MVC\Symfony\SiteAccess;
 use EzSystems\BehatBundle\Context\CommonSubContext;
-use EzSystems\BehatBundle\ObjectGivenContext;
+use EzSystems\BehatBundle\ObjectContext;
 use EzSystems\BehatBundle\Helpers\ValueObjectHelper;
 use Behat\Behat\Context\BehatContext;
 use Behat\Gherkin\Node\TableNode;
@@ -37,6 +38,15 @@ class CommonContext extends BehatContext implements KernelAwareInterface
     public $valueObjectHelper;
 
     /**
+     * Associative array with values needed for a test that can't be passed through gherkin
+     * for example, objects ID can't be defined through gherkin, so we pass something, and them map
+     * it internally
+     *
+     * @var array Associative array
+     */
+    protected $map = array();
+
+    /**
      * Add the given and common contexts to the main context
      */
     public function __construct()
@@ -45,7 +55,7 @@ class CommonContext extends BehatContext implements KernelAwareInterface
         $this->getMainContext()->useContext( 'File', new CommonSubContext\File() );
 
         // add Given contexts sub contexts
-        $this->getMainContext()->useContext( 'GivenContentTypeGroup', new ObjectGivenContext\ContentTypeGroup() );
+        $this->getMainContext()->useContext( 'ObjectContentTypeGroup', new ObjectContext\ContentTypeGroup() );
 
         // add helpers
         $this->valueObjectHelper = new ValueObjectHelper();
@@ -92,7 +102,7 @@ class CommonContext extends BehatContext implements KernelAwareInterface
      */
     public function cleanGivenObjects( $event )
     {
-        $this->getMainContext()->getSubContext( 'GivenContentTypeGroup' )->clean();
+        $this->getMainContext()->getSubContext( 'ObjectContentTypeGroup' )->clean();
     }
 
     /**
@@ -212,5 +222,39 @@ class CommonContext extends BehatContext implements KernelAwareInterface
 
         // if its empty return false otherwise return the array with data
         return empty( $data ) ? false : $data;
+    }
+
+    /**
+     * Store (map) values needed for testing that can't be passed through gherkin
+     *
+     * @param string $key   (Unique) Identifier key on the array
+     * @param mixed $values Any kind of value/object to store
+     *
+     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException if $key is empty
+     */
+    public function addValuesToMap( $key, $values )
+    {
+        if( empty( $key ) )
+        {
+            throw new InvalidArgumentException( 'key', "can't be empty" );
+        }
+
+        $this->map[$key] = $values;
+    }
+
+    /**
+     * Fetches values needed for testing stored on mapping
+     *
+     * @param string $key (Unique) Identifier key on the array
+     *
+     * @return mixed Mapped value
+     */
+    public function getValuesFromMap( $key )
+    {
+        if ( empty( $key ) || empty( $this->map[$key] ) )
+        {
+            return null;
+        }
+        return $this->map[$key];
     }
 }
