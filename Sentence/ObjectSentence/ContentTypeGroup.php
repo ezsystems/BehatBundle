@@ -20,10 +20,22 @@ interface ContentTypeGroup
     public function iHaveContentTypeGroup( $identifier );
 
     /**
-     * @Given /^I (?:do not|don\'t) have a Content Type Group with identifier "(?P<identifier>[^"]*)"$/
-     * @Given /^there (?:is not|isn\'t) a Content Type Group with identifier "(?P<identifier>[^"]*)"$/
+     * @Given /^I have (?:a |)Content Type Group with id "(?P<id>[^"]*)"$/
+     * @Given /^there is (?:a |)Content Type Group with id "(?P<id>[^"]*)"$/
+     */
+    public function iHaveContentTypeGroupWithId( $id );
+
+    /**
+     * @Given /^I (?:do not|don\'t) have (?:a |)Content Type Group with identifier "(?P<identifier>[^"]*)"$/
+     * @Given /^there (?:is not|isn\'t) (?:a |)Content Type Group with identifier "(?P<identifier>[^"]*)"$/
      */
     public function iDonTHaveContentTypeGroup( $identifier );
+
+    /**
+     * @Given /^I have a Content Type Group with id "(?P<id>[^"]*)" and identifier "(?P<identifier>[^"]*)"$/
+     * @Given /^there is a Content Type Group with id "(?P<id>[^"]*)" and identifier "(?P<identifier>[^"]*)"$/
+     */
+    public function iHaveContentTypeGroupWithIdAndIdentifier( $id, $identifier );
 
     /**
      * @Given /^I have (?:the |)following Content Type Groups(?:\:|)$/
@@ -32,7 +44,12 @@ interface ContentTypeGroup
     public function iHaveTheFollowingContentTypeGroups( TableNode $table );
 
     /**
-     * @Then /^Content Type Group with identifier "(?P<identifier>[^"]*)" (?:was|is) (?<action>(?:stored|removed))$/
+     * @Given /^there (?:is not|isn\'t) a Content Type Group with id "(?P<id>[^"]*)"$/
+     */
+    public function iDontHaveContentTypeGroupWithId( $id );
+
+    /**
+     * @Then /^Content Type Group with identifier "(?P<identifier>[^"]*)" (?:was|is) (?P<action>(?:stored|removed))$/
      */
     public function contentTypeGroupIs( $identifier, $action );
 

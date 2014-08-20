@@ -24,7 +24,7 @@ interface ContentTypeGroup
     public function iReadContentTypeGroup( $identifier );
 
     /**
-     * @When /^I read Content Type Group with id "(?<id>[^"]+)"$/
+     * @When /^I read Content Type Group with id "(?P<id>[^"]+)"$/
      */
     public function iReadContentTypeGroupWithId( $id );
 
