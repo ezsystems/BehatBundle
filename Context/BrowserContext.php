@@ -774,8 +774,8 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Given I clicked (?:on|at) the "<button>" button
-     * When I click (?:on|at) the "<button>" button
+     * Given I clicked on|at the "<button>" button
+     * When I click on|at the "<button>" button
      */
     public function iClickAtButton( $button )
     {
@@ -783,8 +783,8 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Given on "<pageSection>" I clicked (?:at |on |)"<button>" button
-     * When on "<pageSection>" I click (?:at |on |)"<button>" button
+     * Given on "<pageSection>" I clicked at |on "<button>" button
+     * When on "<pageSection>" I click at |on "<button>" button
      */
     public function onPageSectionIClickAtButton( $pageSection, $button )
     {
@@ -809,8 +809,8 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Given I clicked (?:at|on) "<image>" image
-     * When I click (?:at|on) "<image>" image
+     * Given I clicked at|on "<image>" image
+     * When I click at|on "<image>" image
      */
     public function iClickAtImage( $image )
     {
@@ -827,8 +827,8 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Given I clicked (?:on|at) (?:the |)"<link>" link
-     * When I click (?:on|at) (?:the |)"<link>" link
+     * Given I clicked on|at the "<link>" link
+     * When I click on|at the"<link>" link
      */
     public function iClickAtLink( $link )
     {
@@ -838,8 +838,8 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Given on "<pageSection>" I clicked (?:on|at) "<link>" link
-     * When on "<pageSection>" I click (?:on|at) "<link>" link
+     * Given on "<pageSection>" I clicked on|at "<link>" link
+     * When on "<pageSection>" I click on|at "<link>" link
      */
     public function onPageSectionIClickAtLink( $pageSection, $link )
     {
@@ -857,8 +857,8 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Given I filled form with(?:|\:)
-     * When I fill form with(?:|\:)
+     * Given I filled form with:
+     * When I fill form with:
      */
     public function iFillFormWith( TableNode $table )
     {
@@ -873,8 +873,8 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Given I am (?:at|on) (?:|the )"<page>" page
-     * When  I go to (?:| the)"<page>"(?:| page)
+     * Given I am at|on the "<page>" page
+     * When  I go to the "<page>" page
      */
     public function iGoToThe( $pageIdentifier )
     {
@@ -974,7 +974,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I see (?:a |)checkbox field with "<label>" label
+     * Then I see a checkbox field with "<label>" label
      */
     public function iSeeCheckboxFieldWithLabel( $label )
     {
@@ -1003,7 +1003,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I see (?:the|a|an) "<element>" element
+     * Then I see the|a|an "<element>" element
      *
      * @param string $element This should be an id|class|name|src|href since it will attempt to find html that might not have any text
      */
@@ -1013,7 +1013,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then on "<pageSection>" I see (?:the|a|an) "<element>" element
+     * Then on "<pageSection>" I see the|a|an "<element>" element
      */
     public function onPageSectionISeeElement( $pageSection, $element )
     {
@@ -1063,7 +1063,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I (?:don\'t|do not) see(?: the|) "<element>" element
+     * Then I don't|do not see the "<element>" element
      */
     public function iDonTSeeElement( $element )
     {
@@ -1071,7 +1071,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then on "<pageSection>" I (?:don\'t|do not) see (?:the|a|an) "<element>" element
+     * Then on "<pageSection>" I don't|do not see the|a|an "<element>" element
      */
     public function onPageSectionIDontSeeElement( $pageSection, $element )
     {
@@ -1095,7 +1095,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I see "<warning>" (?:warning|error)
+     * Then I see "<warning>" warning|error
      */
     public function iSeeWarning( $warning )
     {
@@ -1110,7 +1110,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I see (?:the |)exact "<text>" (?:message|text|key)
+     * Then I see the exact "<text>" message|text|key
      */
     public function iSeeText( $text )
     {
@@ -1118,7 +1118,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then on "<pageSection>" I see (?:the |)exact "<text>" (?:message|text|key)
+     * Then on "<pageSection>" I see the exact "<text>" message|text|key
      */
     public function onPageSectionISeeText( $pageSection, $text )
     {
@@ -1136,7 +1136,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I see "<key>" key with "<value>"(?: value|)
+     * Then I see "<key>" key with "<value>" value
      *
      * Examples:
      *  - Then I see "Username" key with value "myusername"
@@ -1168,7 +1168,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then on "<pageSection>" I see (?:the|an|a) "<link>" link
+     * Then on "<pageSection>" I see the|an|a "<link>" link
      */
     public function onPageSectionISeeLink( $pageSection, $link )
     {
@@ -1184,7 +1184,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I see links(?:|\:)
+     * Then I see links:
      *      | link          |
      *      | some link     |
      *      | another link  |
@@ -1197,7 +1197,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then on "<pageSection>" I see links(?:|\:)
+     * Then on "<pageSection>" I see links:
      */
     public function onPageSectionISeeLinks( $pageSection, TableNode $table )
     {
@@ -1219,7 +1219,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I see links for Content objects(?:|\:)
+     * Then I see links for Content objects:
      */
     public function iSeeLinksForContentObjects( TableNode $table )
     {
@@ -1227,7 +1227,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then on "<pageSection>" I see the links for Content objects(?:|\:)
+     * Then on "<pageSection>" I see the links for Content objects:
      *      | link    | content    |
      *      | link A  | content A  |
      *      | BLink   | BContent   |
@@ -1261,7 +1261,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I see links in following order(?:|\:)
+     * Then I see links in following order:
      *      | ordered links |
      *      | link 1        |
      *      | link 2        |
@@ -1274,7 +1274,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then on "<pageSection>" I see links in following order(?:|\:)
+     * Then on "<pageSection>" I see links in following order:
      */
     public function onPageSectionISeeLinksInFollowingOrder( $pageSection, TableNode $table )
     {
@@ -1311,7 +1311,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then (?:|I )see links in(?:|\:)
+     * Then I see links in:
      *      | link  | tag   |
      *      | link1 | title |
      *      | link2 |       |
@@ -1348,7 +1348,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I (?:don\'t|do not) see "<link>" link
+     * Then I don't|do not see "<link>" link
      */
     public function iDontSeeLink( $link )
     {
@@ -1356,7 +1356,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then on "<pageSection>" I (?:don\'t|do not) see "<link>" link
+     * Then on "<pageSection>" I don't|do not see "<link>" link
      */
     public function onPageSectionIDonTSeeLink( $pageSection, $link )
     {
@@ -1373,7 +1373,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I (?:don\'t|do not) see links(?:|\:)
+     * Then I don't|do not see links
      */
     public function iDonTSeeLinks( TableNode $table )
     {
@@ -1381,7 +1381,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then on "<pageSection>" I (?:don\'t|do not) see (?: the|)links(?:|\:)
+     * Then on "<pageSection>" I don't|do not see the links:
      */
     public function onPageSectionIDonTSeeLinks( $pageSection, TableNode $table )
     {
@@ -1400,7 +1400,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I see "<message>" (?:message|text)
+     * Then I see "<message>" message|text
      */
     public function iSeeMessage( $text )
     {
@@ -1408,7 +1408,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Given I (?:don\'t|do not) see "<text>" message
+     * Given I don't|do not see "<text>" message
      */
     public function iDonTSeeMessage( $text )
     {
@@ -1468,7 +1468,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I see table with(?:|\:)
+     * Then I see table with:
      *      | Column 1 | Column 2 | Column 4 |
      *      | Value A  | Value B  | Value D  |
      *      ...
@@ -1515,7 +1515,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then on "<pageSection>" I see (?:the |)"<text>" text emphasized
+     * Then on "<pageSection>" I see the "<text>" text emphasized
      */
     public function onPageSectionISeeTextEmphasized( $pageSection, $text )
     {
@@ -1535,7 +1535,7 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
-     * Then I see "<title>" (?:title|topic)
+     * Then I see "<title>" title|topic
      */
     public function iSeeTitle( $title )
     {

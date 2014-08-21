@@ -19,7 +19,7 @@ use PHPUnit_Framework_Assert as Assertion;
 class ContentTypeGroup extends Base implements ContentTypeGroupObjectSentence
 {
     /**
-     * Given I have (?:a |)Content Type Group with identifier "<identifier>"
+     * Given I have a Content Type Group with identifier "<identifier>"
      */
     public function iHaveContentTypeGroup( $identifier )
     {
@@ -55,8 +55,8 @@ class ContentTypeGroup extends Base implements ContentTypeGroupObjectSentence
     }
 
     /**
-     * @Given /^I have a Content Type Group with id "(?P<id>[^"]*)"$/
-     * @Given /^there is a Content Type Group with id "(?P<id>[^"]*)"$/
+     * Given I have a Content Type Group with id "<id>
+     * Given there is a Content Type Group with id "<id>"
      */
     public function iHaveContentTypeGroupWithId( $id )
     {
@@ -66,8 +66,8 @@ class ContentTypeGroup extends Base implements ContentTypeGroupObjectSentence
     }
 
     /**
-     * @Given /^I have a Content Type Group with id "(?P<id>[^"]*)" and identifier "(?P<identifier>[^"]*)"$/
-     * @Given /^there is a Content Type Group with id "(?P<id>[^"]*)" and identifier "(?P<identifier>[^"]*)"$/
+     * Given I have a Content Type Group with id "<id>" and identifier "<identifier>"
+     * Given there is a Content Type Group with id "<id>" and identifier "<identifier>"
      */
     public function iHaveContentTypeGroupWithIdAndIdentifier( $id, $identifier )
     {
@@ -77,7 +77,7 @@ class ContentTypeGroup extends Base implements ContentTypeGroupObjectSentence
     }
 
     /**
-     * @Given /^there (?:is not|isn\'t) a Content Type Group with id "(?P<id>[^"]*)"$/
+     * Given there is not|isn't a Content Type Group with id "<id>""
      */
     public function iDontHaveContentTypeGroupWithId( $id )
     {
@@ -108,7 +108,7 @@ class ContentTypeGroup extends Base implements ContentTypeGroupObjectSentence
     }
 
     /**
-     * Given I (?:do not|don\'t) have a Content Type Group with identifier "<identifier>"
+     * Given I do not|don't have a Content Type Group with identifier "<identifier>"
      */
     public function iDonTHaveContentTypeGroup( $identifier )
     {
@@ -135,7 +135,7 @@ class ContentTypeGroup extends Base implements ContentTypeGroupObjectSentence
     }
 
     /**
-     * Given I have (?:the |)following Content Type Groups:
+     * Given I have the following Content Type Groups:
      */
     public function iHaveTheFollowingContentTypeGroups( TableNode $table )
     {
@@ -149,7 +149,7 @@ class ContentTypeGroup extends Base implements ContentTypeGroupObjectSentence
     }
 
     /**
-     * Then Content Type Group with identifier "<identifier>" is (<action>:stored|removed)
+     * Then Content Type Group with identifier "<identifier>" is stored|removed
      */
     public function contentTypeGroupIs( $identifier, $action )
     {
@@ -157,7 +157,7 @@ class ContentTypeGroup extends Base implements ContentTypeGroupObjectSentence
     }
 
     /**
-     * Then Content Type Group with identifier "<identifier>" (?:was not|wasn\'t) (<action>:stored|removed)
+     * Then Content Type Group with identifier "<identifier>" was not|wasn't stored|removed
      */
     public function contentTypeGroupIsNot( $identifier, $action )
     {
