@@ -94,6 +94,27 @@ class BrowserContext extends MinkContext implements BrowserSentences
     }
 
     /**
+     * Locates url, based on provided path.
+     *
+     * @param array|string $path(s)
+     *
+     * @return array|string
+     */
+    public function locatePath( $path )
+    {
+        $path = (array)$path;
+
+        for ( $i = 0; !empty( $path[$i] ); $i++ )
+        {
+            $path[$i] = parent::locatePath( $path[$i] );
+        }
+
+        return count( $path ) === 1 ?
+            $path[0] :
+            $path;
+    }
+
+    /**
      * Returns the path associated with $pageIdentifier
      *
      * @param string $pageIdentifier
@@ -878,7 +899,12 @@ class BrowserContext extends MinkContext implements BrowserSentences
      */
     public function iGoToThe( $pageIdentifier )
     {
-        return new Step\When( 'I am on "' . $this->getPathByPageIdentifier( $pageIdentifier ) . '"' );
+        $page = $this->getPathByPageIdentifier( $pageIdentifier );
+        $page = is_array( $page ) ?
+            array_shift( $page ) :
+            $page;
+
+        return new Step\When( 'I am on "' . $page . '"' );
     }
 
     /**
@@ -1427,10 +1453,10 @@ class BrowserContext extends MinkContext implements BrowserSentences
 
         $expectedUrl = $this->locatePath( $this->getPathByPageIdentifier( $pageIdentifier ) );
 
-        Assertion::assertEquals(
-            $expectedUrl,
+        Assertion::assertContains(
             $currentUrl,
-            "Unexpected URL of the current site. Expected: '$expectedUrl'. Actual: '$currentUrl'."
+            $expectedUrl,
+            "Unexpected URL of the current site. Expected: '" . print_r( $expectedUrl, true ) ."'. Actual: '$currentUrl'."
         );
     }
 
