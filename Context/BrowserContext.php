@@ -25,11 +25,16 @@ use Behat\Mink\Exception\UnsupportedDriverActionException as MinkUnsupportedDriv
 class BrowserContext extends MinkContext implements BrowserSentences
 {
     /**
-     * @var array Array to map identifier to urls, should be set by child classes.
+     * @var array Associative array to map identifier to URLs, should be set by child classes.
+     *
+     * The keys might have several URLs, for instance
+     *  $pageIdentifierMap = array( 'my-page' => array( '/main/URl', '/second/url' ) );
+     * Attention: 
+     *  In cases where it needs to use 1 URL, it will use the first it finds
+     *  throgh array_shift()
      *
      * Important:
-     *  this is an associative array( ex: array( 'key' => '/some/url') ) they keys
-     *  should be set (on contexts) as lower cases since the
+     *  the keys should be set (on contexts) as lower cases since the
      *  FeatureContext::getPathByPageIdentifier() will check for lower case
      */
     public $pageIdentifierMap = array();
