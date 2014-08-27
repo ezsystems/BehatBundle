@@ -40,7 +40,7 @@ class Authentication extends Base implements AuthenticationSentences
     public function iAmLoggedInAsWithPassword( $user, $password )
     {
         return array(
-            new Step\Given( 'I am on "/login"' ),
+            new Step\Given( 'I am on "login" page' ),
             new Step\When( 'I fill in "Username" with "' . $user . '"' ),
             new Step\When( 'I fill in "Password" with "' . $password . '"' ),
             new Step\When( 'I press "Login"' ),
@@ -55,7 +55,7 @@ class Authentication extends Base implements AuthenticationSentences
     public function iAmNotLoggedIn()
     {
         return array(
-            new Step\Given( 'I am on "/logout"' ),
+            new Step\Given( 'I am on "logout" page' ),
             new Step\Then( 'I should be on "/"' ),
         );
     }
