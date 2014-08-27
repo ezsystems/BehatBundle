@@ -25,11 +25,16 @@ use Behat\Mink\Exception\UnsupportedDriverActionException as MinkUnsupportedDriv
 class BrowserContext extends MinkContext implements BrowserSentences
 {
     /**
-     * @var array Array to map identifier to urls, should be set by child classes.
+     * @var array Associative array to map identifier to URLs, should be set by child classes.
+     *
+     * The keys might have several URLs, for instance
+     *  $pageIdentifierMap = array( 'my-page' => array( '/main/URl', '/second/url' ) );
+     * Attention: 
+     *  In cases where it needs to use 1 URL, it will use the first it finds
+     *  throgh array_shift()
      *
      * Important:
-     *  this is an associative array( ex: array( 'key' => '/some/url') ) they keys
-     *  should be set (on contexts) as lower cases since the
+     *  the keys should be set (on contexts) as lower cases since the
      *  FeatureContext::getPathByPageIdentifier() will check for lower case
      */
     public $pageIdentifierMap = array();
@@ -91,6 +96,27 @@ class BrowserContext extends MinkContext implements BrowserSentences
     public function getRepository()
     {
         return $this->getSubContext( 'Common' )->getRepository();
+    }
+
+    /**
+     * Locates url, based on provided path.
+     *
+     * @param array|string $path(s)
+     *
+     * @return array|string
+     */
+    public function locatePath( $path )
+    {
+        $path = (array)$path;
+
+        for ( $i = 0; !empty( $path[$i] ); $i++ )
+        {
+            $path[$i] = parent::locatePath( $path[$i] );
+        }
+
+        return count( $path ) === 1 ?
+            $path[0] :
+            $path;
     }
 
     /**
@@ -878,7 +904,12 @@ class BrowserContext extends MinkContext implements BrowserSentences
      */
     public function iGoToThe( $pageIdentifier )
     {
-        return new Step\When( 'I am on "' . $this->getPathByPageIdentifier( $pageIdentifier ) . '"' );
+        $page = $this->getPathByPageIdentifier( $pageIdentifier );
+        $page = is_array( $page ) ?
+            array_shift( $page ) :
+            $page;
+
+        return new Step\When( 'I am on "' . $page . '"' );
     }
 
     /**
@@ -1427,10 +1458,10 @@ class BrowserContext extends MinkContext implements BrowserSentences
 
         $expectedUrl = $this->locatePath( $this->getPathByPageIdentifier( $pageIdentifier ) );
 
-        Assertion::assertEquals(
-            $expectedUrl,
+        Assertion::assertContains(
             $currentUrl,
-            "Unexpected URL of the current site. Expected: '$expectedUrl'. Actual: '$currentUrl'."
+            $expectedUrl,
+            "Unexpected URL of the current site. Expected: '" . print_r( $expectedUrl, true ) ."'. Actual: '$currentUrl'."
         );
     }
 
