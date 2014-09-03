@@ -56,6 +56,7 @@ class CommonContext extends BehatContext implements KernelAwareInterface
 
         // add Given contexts sub contexts
         $this->getMainContext()->useContext( 'ObjectContentTypeGroup', new ObjectContext\ContentTypeGroup() );
+        $this->getMainContext()->useContext( 'ObjectUserGroup', new ObjectContext\UserGroup() );
 
         // add helpers
         $this->valueObjectHelper = new ValueObjectHelper();
