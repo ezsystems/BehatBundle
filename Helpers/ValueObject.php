@@ -9,7 +9,7 @@
 
 namespace EzSystems\BehatBundle\Helpers;
 
-use eZ\Publish\API\Repository\Values\ValueObject;
+use eZ\Publish\API\Repository\Values\ValueObject as ValueObjectInterface;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 
 /**
@@ -18,7 +18,7 @@ use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
  *  - set/get properties
  *  - serialize to array
  */
-class ValueObjectHelper
+trait ValueObject
 {
     /**
      * Gets $property from $object
@@ -30,7 +30,7 @@ class ValueObjectHelper
      *
      * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException If the property/field is not found
      */
-    public function getProperty( ValueObject $object, $property )
+    public function getValueObjectProperty( ValueObjectInterface $object, $property )
     {
         if ( property_exists( $object, $property ) )
         {
@@ -55,7 +55,7 @@ class ValueObjectHelper
      *
      * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException If the property/field is not found
      */
-    public function setProperty( ValueObject $object, $property, $value )
+    public function setValueObjectProperty( ValueObjectInterface $object, $property, $value )
     {
         if ( property_exists( $object, $property ) )
         {
@@ -77,7 +77,7 @@ class ValueObjectHelper
      * @param \eZ\Publish\API\Repository\Values\ValueObject $object Object to be updated
      * @param array $values Associative array with properties => values
      */
-    public function setProperties( ValueObject $object, array $values )
+    public function setValueObjectProperties( ValueObjectInterface $object, array $values )
     {
         foreach ( $values as $property => $value )
         {
@@ -94,7 +94,7 @@ class ValueObjectHelper
      *
      * @todo For ContentType the object will have several fields/properties with same name (for example 'names' that will exist in every FieldDefinition)
      */
-    public function convertObjectToArray( ValueObject $object )
+    public function convertValueObjectToArray( ValueObjectInterface $object )
     {
         // clone object to ReflectionClass
         $reflectionClass = new \ReflectionClass( $object );
