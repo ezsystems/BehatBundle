@@ -51,7 +51,7 @@ trait BrowserActions
     public function onPageSectionIClickAtButton( $button, $pageSection = null )
     {
         $base = $this->makeXpathForBlock( $pageSection );
-        $el = $this->findButtons( $button, $base );
+        $el = $this->xpath->findButtons( $button, $base );
         EzAssertion::assertSingleElemenet( $button, $el, $pageSection, 'button' );
         $el[0]->click();
     }
@@ -72,7 +72,7 @@ trait BrowserActions
     public function onPageSectionIClickAtLink( $link, $pageSection = null )
     {
         $base = $this->makeXpathForBlock( $pageSection );
-        $el = $this->findLinks( $link, $base );
+        $el = $this->xpath->findLinks( $link, $base );
         EzAssertion::assertSingleElemenet( $link, $el, $pageSection, 'link' );
         $el[0]->click();
     }
@@ -83,7 +83,7 @@ trait BrowserActions
      */
     public function checkOption( $option )
     {
-        $fieldElements = $this->findFields( $option );
+        $fieldElements = $this->xpath->findFields( $option );
         EzAssertion::assertSingleElemenet( $option, $fieldElements, null, 'checkbox' );
 
         // this is needed for the cases where are checkboxes and radio's
@@ -92,7 +92,7 @@ trait BrowserActions
         if ( strtolower( $fieldElements[0]->getAttribute( 'type' ) ) !== 'checkbox' )
         {
             $value = $fieldElements[0]->getAttribute( 'value' );
-            $fieldElements = $this->findXpath( "//input[@type='checkbox' and @value='$value']" );
+            $fieldElements = $this->xpath->findXpath( "//input[@type='checkbox' and @value='$value']" );
             EzAssertion::assertSingleElemenet( $value, $fieldElements, null, 'checkbox' );
         }
 
@@ -107,22 +107,34 @@ trait BrowserActions
      */
     public function iSelect( $option )
     {
-        $elements = $this->findXpath( "//select" );
-        EzAssertion::assertSingleElemenet( 'select fields', $elements );
-        $this->browserFillField( $elements[0], $option );
+        $elements = $this->xpath->findXpath( "//select" );
+        Assertion::assertNotEmpty( $elements, "Unable to find a select field" );
+        $elements[0]->selectOption( $option );
     }
 
     /**
-     * Given I selected "<label>" radio button
-     * When I select "<abel>" radio button
+     * @Given I selected :label radio button
+     * @When  I select :label radio button
      */
     public function iSelectRadioButton( $label )
     {
         $el = $this->getSession()->getPage()->findField( $label );
-
         Assertion::assertNotNull( $el, "Couldn't find a radio input with '$label'" );
+        $el->check();
+    }
 
-        $this->browserFillField( $el, true );
+     /**
+     * @Given I filled form with:
+     * @ When  I fill form with:
+     */
+    public function iFillFormWith( TableNode $table )
+    {
+        foreach ( $this->convertTableToArrayOfData( $table ) as $field => $value )
+        {
+            $elements = $this->xpath->findFields( $field );
+            Assertion::assertNotEmpty( $elements, "Unable to find '{$field}' field" );
+            $elements[0]->setValue( $value );
+        }
     }
 
     /**
@@ -149,7 +161,7 @@ trait BrowserActions
         foreach ( $rows as $row )
         {
             $link = $row[0];
-            $el = $this->findLinks( $link, $this->makeXpathForBlock( $pageSection ) );
+            $el = $this->xpath->findLinks( $link, $this->makeXpathForBlock( $pageSection ) );
 
             Assertion::assertNotEmpty( $el, "Unexpected link found" );
         }
@@ -176,7 +188,7 @@ trait BrowserActions
         foreach ( $rows as $row )
         {
             $link = $row[0];
-            $el = $this->findLinks( $link, $this->makeXpathForBlock( $pageSection ) );
+            $el = $this->xpath->findLinks( $link, $this->makeXpathForBlock( $pageSection ) );
 
             Assertion::assertEmpty( $el, "Unexpected link found" );
         }
@@ -189,7 +201,7 @@ trait BrowserActions
     public function iSeeLinksInFollowingOrder( TableNode $table )
     {
         // get all links
-        $available = $this->findXpath( "//a[@href]" );
+        $available = $this->xpath->findXpath( "//a[@href]" );
 
         $rows = $table->getRows();
         array_shift( $rows );
@@ -228,7 +240,7 @@ trait BrowserActions
             // prepare XPath
             list( $link, $type ) = $row;
             $tags = $this->getTagsFor( $type );
-            $xpaths = explode( '|', $this->makeElementXpath( 'link', $link ) );
+            $xpaths = explode( '|', $this->xpath->makeElementXpath( 'link', $link ) );
             $xpath = implode(
                 '|',
                 array_map(
@@ -241,7 +253,7 @@ trait BrowserActions
             );
 
             // search and do assertions
-            $el = $this->findXpath( $xpath );
+            $el = $this->xpath->findXpath( $xpath );
             EzAssertion::assertSingleElemenet( $link, $el, $type, 'link' );
         }
     }
@@ -251,7 +263,7 @@ trait BrowserActions
      */
     public function iSeeTitle( $title )
     {
-        $literal = $this->literal( $title );
+        $literal = $this->xpath->literal( $title );
         $tags = $this->getTagsFor( "title" );
         $innerXpath = "[text() = {$literal} or .//*[text() = {$literal}]]";
         $xpathOptions = array_map(
@@ -264,7 +276,7 @@ trait BrowserActions
 
         $xpath = implode( '|', $xpathOptions );
 
-        $el = $this->findXpath( $xpath );
+        $el = $this->xpath->findXpath( $xpath );
 
         // assert that message was found
         EzAssertion::assertSingleElemenet( $title, $el, null, 'title' );
@@ -297,7 +309,7 @@ trait BrowserActions
             $maxFound = count( $foundRows );
             for ( $i = 0; $i < $maxFound && !$found; $i++ )
             {
-                if ( $this->assertTableRow( $foundRows[$i], $row, $headers ) )
+                if ( $this->existTableRow( $foundRows[$i], $row, $headers ) )
                 {
                     $found = true;
                 }
@@ -323,13 +335,13 @@ trait BrowserActions
     {
         // first find the text
         $base = $this->makeXpathForBlock( $pageSection );
-        $el = $this->findXpath( "$base//*[contains( text(), {$this->literal( $text )} )]" );
+        $el = $this->xpath->findXpath( "$base//*[contains( text(), {$this->xpath->literal( $text )} )]" );
 
         EzAssertion::assertSingleElemenet( $text, $el, $pageSection, 'emphasized text' );
 
         // finally verify if it has custom characteristics
         Assertion::assertTrue(
-            $this->assertElementEmphasized( $el[0] ),
+            $this->isElementEmphasized( $el[0] ),
             "The text '$text' isn't emphasized"
         );
     }
@@ -339,9 +351,9 @@ trait BrowserActions
      */
     public function iSeeWarning( $warning )
     {
-        $el = $this->findXpath(
+        $el = $this->xpath->findXpath(
             "//*[contains( @class, 'warning' ) or contains( @class, 'error' )]"
-            . "//*[text() = {$this->literal( $warning )}]"
+            . "//*[text() = {$this->xpath->literal( $warning )}]"
         );
 
         Assertion::assertNotNull( $el, "Couldn't find error/warning message '{$warning}'" );
@@ -362,8 +374,8 @@ trait BrowserActions
     {
         $base = $this->makeXpathForBlock( $pageSection );
 
-        $literal = $this->literal( $text );
-        $el = $this->findXpath( "$base//*[contains( text(), $literal )]" );
+        $literal = $this->xpath->literal( $text );
+        $el = $this->xpath->findXpath( "$base//*[contains( text(), $literal )]" );
 
         Assertion::assertNotNull( $el, "Couldn't find '$text' text" );
         Assertion::assertEquals( trim( $el->getText() ), $text, "Couldn't find '$text' text" );

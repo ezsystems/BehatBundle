@@ -17,7 +17,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class ContentTypeGroup extends Base
 {
-
     /**
      * Get instance
      *

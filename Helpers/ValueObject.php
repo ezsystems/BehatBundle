@@ -18,7 +18,7 @@ use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
  *  - set/get properties
  *  - serialize to array
  */
-trait ValueObject
+class ValueObject
 {
     /**
      * Gets $property from $object
@@ -30,7 +30,7 @@ trait ValueObject
      *
      * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException If the property/field is not found
      */
-    public function getValueObjectProperty( ValueObjectInterface $object, $property )
+    static function getProperty( ValueObjectInterface $object, $property )
     {
         if ( property_exists( $object, $property ) )
         {
@@ -55,7 +55,7 @@ trait ValueObject
      *
      * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException If the property/field is not found
      */
-    public function setValueObjectProperty( ValueObjectInterface $object, $property, $value )
+    static function setProperty( ValueObjectInterface $object, $property, $value )
     {
         if ( property_exists( $object, $property ) )
         {
@@ -77,7 +77,7 @@ trait ValueObject
      * @param \eZ\Publish\API\Repository\Values\ValueObject $object Object to be updated
      * @param array $values Associative array with properties => values
      */
-    public function setValueObjectProperties( ValueObjectInterface $object, array $values )
+    static function setProperties( ValueObjectInterface $object, array $values )
     {
         foreach ( $values as $property => $value )
         {
@@ -94,7 +94,7 @@ trait ValueObject
      *
      * @todo For ContentType the object will have several fields/properties with same name (for example 'names' that will exist in every FieldDefinition)
      */
-    public function convertValueObjectToArray( ValueObjectInterface $object )
+    static function tooArray( ValueObjectInterface $object )
     {
         // clone object to ReflectionClass
         $reflectionClass = new \ReflectionClass( $object );

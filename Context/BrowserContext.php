@@ -10,28 +10,22 @@
 namespace EzSystems\BehatBundle\Context;
 
 use EzSystems\BehatBundle\Context\BrowserSubContexts;
-use EzSystems\BehatBundle\Helpers;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use EzSystems\BehatBundle\Helpers\Xpath;
 use Behat\Mink\Element\NodeElement;
-use Behat\Mink\Selector\NamedSelector;
 use Behat\MinkExtension\Context\MinkContext;
-use Behat\Symfony2Extension\Context\KernelAwareContext;
-use Symfony\Component\HttpKernel\KernelInterface;
 use PHPUnit_Framework_Assert as Assertion;
 
-class BrowserContext extends MinkContext implements KernelAwareContext
+/**
+ * BrowserContext has wide (generic) browser helper methods and classes
+ */
+class BrowserContext extends MinkContext
 {
-    use CommonContext;
     use BrowserSubContexts\BrowserActions;
-    use BrowserSubContexts\Authentication;
-    use Helpers\Xpath;
-
-    const DEFAULT_SITEACCESS_NAME = 'behat_site';
 
     /**
-     * @var \Symfony\Component\HttpKernel\KernelInterface
+     * @var \EzSystems\BehatBundle\Helpers\Xpath
      */
-    private $kernel;
+    protected $xpath;
 
     /**
      * @var array Array to map identifier to urls, should be set by child classes.
@@ -63,85 +57,12 @@ class BrowserContext extends MinkContext implements KernelAwareContext
     protected $mainAttributes = array();
 
     /**
-     * Initialize with generic information
-     */
-    public function __construct()
-    {
-        // add home to the page identifiers
-        $this->pageIdentifierMap += array(
-            'home'   => '/',
-            'login'  => '/login',
-            'logout' => '/logout'
-        );
-    }
-
-    /**
-     * Sets HttpKernel instance.
-     * This method will be automatically called by Symfony2Extension ContextInitializer.
-     *
-     * @param KernelInterface $kernel
-     *
-     * @return void
-     */
-    public function setKernel( KernelInterface $kernel )
-    {
-        $this->kernel = $kernel;
-    }
-
-    /**
-     * Get kenel
-     *
-     * @return \Symfony\Component\HttpKernel\KernelInterface
-     */
-    public function getKernel()
-    {
-        if ( empty( $this->kernel ) )
-        {
-            throw new \Exception( 'Kernel is not loaded yet.' );
-        }
-
-        return $this->kernel;
-    }
-
-    /**
-     * Get repository
-     *
-     * @return \eZ\Publish\API\Repository\Repository
-     */
-    public function getRepository()
-    {
-        return $this->getKernel()->getContainer()->get( 'ezpublish.api.repository' );
-    }
-
-    /**
      * @BeforeScenario
-     *
-     * @param \Behat\Behat\Event\ScenarioEvent|\Behat\Behat\Event\OutlineExampleEvent $event
-     *
-     * @return void
      */
-    public function prepareFeature( $event )
+    public function prepareHelpers()
     {
-        // Inject a properly generated siteaccess if the kernel is booted, and thus container is available.
-        $this->getKernel()->getContainer()->set( 'ezpublish.siteaccess', $this->generateSiteAccess() );
-    }
-
-    /**
-     * Generates the siteaccess
-     *
-     * @return \eZ\Publish\Core\MVC\Symfony\SiteAccess
-     *
-     * @return void
-     */
-    protected function generateSiteAccess()
-    {
-        $siteAccessName = getenv( 'EZPUBLISH_SITEACCESS' );
-        if ( !$siteAccessName )
-        {
-            $siteAccessName = static::DEFAULT_SITEACCESS_NAME;
-        }
-
-        return new SiteAccess( $siteAccessName, 'cli' );
+        // initialize Helpers
+        $this->xpath = new Xpath( $this->getSession() );
     }
 
     /**
@@ -149,7 +70,7 @@ class BrowserContext extends MinkContext implements KernelAwareContext
      *
      * @param string $pageIdentifier
      *
-     * @return string
+     * @return string URL path
      *
      * @throws \RuntimeException If $pageIdentifier is not set
      */
@@ -171,7 +92,7 @@ class BrowserContext extends MinkContext implements KernelAwareContext
      * @param array  $tags  Array of tags strings (ex: array( "a", "p", "h3", "table" ) )
      * @param string $xpath String to be concatenated to each tag
      *
-     * @return string
+     * @return string Final xpath
      */
     public function concatTagsWithXpath( array $tags, $xpath = null )
     {
@@ -192,7 +113,7 @@ class BrowserContext extends MinkContext implements KernelAwareContext
      * With this function we get a centralized way to define what are the possible
      * tags for a type of data
      *
-     * @param  string $type Type of text (ie: if header/title, or list element, ...)
+     * @param string $type Type of text (ie: if header/title, or list element, ...)
      *
      * @return array With element tag names
      *
@@ -220,7 +141,7 @@ class BrowserContext extends MinkContext implements KernelAwareContext
      *
      * @param string $url
      *
-     * @return string
+     * @return string Complete url without the query string
      */
     public function getUrlWithoutQueryString( $url )
     {
@@ -238,10 +159,13 @@ class BrowserContext extends MinkContext implements KernelAwareContext
      *  correct. It only checks order, not if there should be anything in
      *  between them
      *
-     * @param array         $links
-     * @param NodeElement[] $available
+     * @param array $links Array with link text/title
+     * @param Behat\Mink\Element\NodeElement[] $available
+     * @param boolean $checkOrder Boolean to verify (or not) the link order
      *
      * @return void
+     *
+     * @throws \PHPUnit_Framework_AssertionFailedError
      */
     protected function checkLinksExistence( array $links, array $available, $checkOrder = false )
     {
@@ -287,34 +211,34 @@ class BrowserContext extends MinkContext implements KernelAwareContext
     }
 
     /**
-     * Parameter given trough the BDD may come in so many ways like:
-     * "Column 1"
-     * "column1"
-     * "Column 1 Row 2"
-     * So it is needed a way to effectively get the number it's pretended for a
-     * more accurate search through xpath
+     * Fetchs the first integer in the string
      *
-     * @param string $string
+     * @param string $string Text 
      *
-     * @return string
+     * @return int Integer found on text 
+     *
+     * @throws \PHPUnit_Framework_AssertionFailedError
      */
     public function getNumberFromString( $string )
     {
-        preg_match( '/\d+/', $string, $result );
-        return $result[0];
+        preg_match( '/(?P<digit>\d+)/', $string, $result );
+        Assertion::assertNotEmpty( $result['digit'], "Expected to find a number in '$string' found none" );
+        return (int)$result['digit'];
     }
 
     /**
      * Verifies if a row as the expected columns, position of columns can be added
      * for a more accurated assertion
      *
-     * @param \Behat\Mink\Element\NodeElement  $row              Table row node element
-     * @param string[]                         $columns          Column text to assert
-     * @param string[]|int[]                   $columnsPositions Columns positions in int or string (number must be in string)
+     * @param \Behat\Mink\Element\NodeElement $row Table row node element
+     * @param string[] $columns Column text to assert
+     * @param string[]|int[] $columnsPositions Columns positions in int or string (number must be in string)
      *
      * @return boolean
+     *
+     * @throws \PHPUnit_Framework_AssertionFailedError
      */
-    public function assertTableRow( NodeElement $row, array $columns, array $columnsPositions = null )
+    public function existTableRow( NodeElement $row, array $columns, array $columnsPositions = null )
     {
         // find which kind of column is in this row
         $elType = $row->find( 'xpath', "/th" );
@@ -372,8 +296,8 @@ class BrowserContext extends MinkContext implements KernelAwareContext
 
         // get all possible elements
         $elements = array_merge(
-            $this->findXpath( "$tableXpath//tr/th$columnNumber" ),
-            $this->findXpath( "$tableXpath//tr/td$columnNumber" )
+            $this->xpath->findXpath( "$tableXpath//tr/th$columnNumber" ),
+            $this->xpath->findXpath( "$tableXpath//tr/td$columnNumber" )
         );
 
         $foundXpath = array();
@@ -400,6 +324,8 @@ class BrowserContext extends MinkContext implements KernelAwareContext
      * @param \Behat\Mink\Element\Element $element The element in the intended row
      *
      * @return \Behat\Mink\Element\Element The <tr> element node
+     *
+     * @throws \PHPUnit_Framework_AssertionFailedError
      */
     public function findRow( Element $element )
     {
@@ -438,7 +364,7 @@ class BrowserContext extends MinkContext implements KernelAwareContext
      * @param string $firstXpath
      * @param string $secondXpath
      *
-     * @return \Behat\Mink\Element\Element if found
+     * @return \Behat\Mink\Element\Element|null Element if found null otherwise
      */
     public function findElementAfterElement( array $elements, $firstXpath, $secondXpath )
     {
@@ -455,7 +381,7 @@ class BrowserContext extends MinkContext implements KernelAwareContext
                 $xpath = $secondXpath;
             }
 
-            $foundElement = $element->find( "xpath", $xpath );
+            $foundElement = $element->xpath->findXpath( $xpath );
 
             // element found, if first start to look for the second one
             // if second, than return this one
@@ -472,19 +398,19 @@ class BrowserContext extends MinkContext implements KernelAwareContext
             }
         }
 
-        Assertion::assertNotNull( null, "Couldn't find an element with '$secondXpath' xpath after '$firstXpath' xpath" );
+        return null;
     }
 
     /**
      * Verifies if the element has 'special' configuration on a attribute (default -> style)
      *
-     * @param \Behat\Mink\Element\NodeElement  $el              The element that we want to test
-     * @param string                           $characteristic  Verify a specific characteristic from attribute
-     * @param string                           $attribute       Verify a specific attribute
+     * @param \Behat\Mink\Element\NodeElement $el The element that we want to test
+     * @param string $characteristic Verify a specific characteristic from attribute
+     * @param string $attribute Verify a specific attribute
      *
      * @return boolean
      */
-    public function assertElementEmphasized( NodeElement $el, $characteristic = null, $attribute = "style" )
+    public function isElementEmphasized( NodeElement $el, $characteristic = null, $attribute = "style" )
     {
         // verify it has the attribute we're looking for
         if ( !$el->hasAttribute( $attribute ) )
@@ -503,5 +429,83 @@ class BrowserContext extends MinkContext implements KernelAwareContext
 
         // if we're here it is emphasized
         return true;
+    }
+
+    /**
+     * This method works is a complement to the $mainAttributes var
+     *
+     * @param  string $block This should be an identifier for the block to use
+     *
+     * @return null|string XPath for the 
+     *
+     * @see $this->mainAttributes
+     */
+    public function makeXpathForBlock( $block = null )
+    {
+        if ( empty( $block ) )
+        {
+            return null;
+        }
+
+        $parameter = ( isset( $this->mainAttributes[strtolower( $block )] ) ) ?
+            $this->mainAttributes[strtolower( $block )] :
+            NULL;
+
+        Assertion::assertNotNull( $parameter, "Element {$block} is not defined" );
+
+        $xpath = $this->mainAttributes[strtolower( $block )];
+        // check if value is a composed array
+        if ( is_array( $xpath ) )
+        {
+            // if there is an xpath defined look no more!
+            if ( isset( $xpath['xpath'] ) )
+            {
+                return $xpath['xpath'];
+            }
+
+            $nuXpath = "";
+            // verify if there is a tag
+            if ( isset( $xpath['tag'] ) )
+            {
+                if ( strpos( $xpath['tag'], "/" ) === 0 || strpos( $xpath['tag'], "(" ) === 0 )
+                {
+                    $nuXpath = $xpath['tag'];
+                }
+                else
+                {
+                    $nuXpath = "//" . $xpath['tag'];
+                }
+
+                unset( $xpath['tag'] );
+            }
+            else
+            {
+                $nuXpath = "//*";
+            }
+
+            foreach ( $xpath as $key => $value )
+            {
+                switch ( $key )
+                {
+                    case "text":
+                        $att = "text()";
+                        break;
+                    default:
+                        $att = "@$key";
+                }
+                $nuXpath .= "[contains($att, {$this->xpath->literal( $value )})]";
+            }
+
+            return $nuXpath;
+        }
+
+        //  if the string is an Xpath
+        if ( strpos( $xpath, "/" ) === 0 || strpos( $xpath, "(" ) === 0 )
+        {
+            return $xpath;
+        }
+
+        // if xpath is an simple tag
+        return "//$xpath";
     }
 }

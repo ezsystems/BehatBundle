@@ -2,19 +2,35 @@
 
 namespace EzSystems\BehatBundle\Helpers;
 
+use Behat\Mink\Session;
 use PHPUnit_Framework_Assert as Assertion;
 
-trait Xpath
+class Xpath
 {
+    /**
+     * @var \Behat\MinkExtension\Context\MinkContext
+     */
+    public $mink;
+
+    /**
+     * Initialize class
+     *
+     * @param \Behat\Mink\Session $session Behat session
+     */
+    public function __construct( Session $session )
+    {
+        $this->session = $session;
+    }
+
      /**
      * This is a simple shortcut for
-     * $this->getSession()->getPage()->getSelectorsHandler()->xpathLiteral()
+     * $this->session->getPage()->getSelectorsHandler()->xpathLiteral()
      *
      * @param string $text
      */
     public function literal( $text )
     {
-        return $this->getSession()->getSelectorsHandler()->xpathLiteral( $text );
+        return $this->session->getSelectorsHandler()->xpathLiteral( $text );
     }
 
     /**
@@ -24,9 +40,9 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that match
      */
-    protected function findXpath( $xpath )
+    public function findXpath( $xpath )
     {
-        return $this->getSession()->getPage()->findAll( 'xpath', $xpath );
+        return $this->session->getPage()->findAll( 'xpath', $xpath );
     }
 
     /**
@@ -37,9 +53,9 @@ trait Xpath
      *
      * @return string XPath for the element/object
      */
-    protected function makeElementXpath( $element, $search )
+    public function makeElementXpath( $element, $search )
     {
-        $selectorsHandler = $this->getSession()->getSelectorsHandler();
+        $selectorsHandler = $this->session->getSelectorsHandler();
         $literal = $selectorsHandler->xpathLiteral( $search );
 
         return $selectorsHandler
@@ -56,7 +72,7 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that match
      */
-    protected function findObjects( $element, $search, $prefix = null )
+    public function findObjects( $element, $search, $prefix = null )
     {
         $xpath = $this->mergePrefixToXpath(
             $prefix,
@@ -74,7 +90,7 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that matched
      */
-    protected function findLinks( $search, $prefix = null )
+    public function findLinks( $search, $prefix = null )
     {
         return $this->findObjects( 'link', $search, $prefix );
     }
@@ -87,7 +103,7 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that matched
      */
-    protected function findButtons( $search, $prefix = null )
+    public function findButtons( $search, $prefix = null )
     {
         return $this->findObjects( 'button', $search, $prefix );
     }
@@ -100,7 +116,7 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that matched
      */
-    protected function findFieldsetss( $search, $prefix = null )
+    public function findFieldsetss( $search, $prefix = null )
     {
         return $this->findObjects( 'fieldset', $search, $prefix );
     }
@@ -113,7 +129,7 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that matched
      */
-    protected function findFields( $search, $prefix = null )
+    public function findFields( $search, $prefix = null )
     {
         return $this->findObjects( 'field', $search, $prefix );
     }
@@ -126,7 +142,7 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that matched
      */
-    protected function findContents( $search, $prefix = null )
+    public function findContents( $search, $prefix = null )
     {
         return $this->findObjects( 'content', $search, $prefix );
     }
@@ -139,7 +155,7 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that matched
      */
-    protected function findSelects( $search, $prefix = null )
+    public function findSelects( $search, $prefix = null )
     {
         return $this->findObjects( 'select', $search, $prefix );
     }
@@ -152,7 +168,7 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that matched
      */
-    protected function findCheckboxs( $search, $prefix = null )
+    public function findCheckboxs( $search, $prefix = null )
     {
         return $this->findObjects( 'checkbox', $search, $prefix );
     }
@@ -165,7 +181,7 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that matched
      */
-    protected function findRadios( $search, $prefix = null )
+    public function findRadios( $search, $prefix = null )
     {
         return $this->findObjects( 'radio', $search, $prefix );
     }
@@ -178,7 +194,7 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that matched
      */
-    protected function findFiles( $search, $prefix = null )
+    public function findFiles( $search, $prefix = null )
     {
         return $this->findObjects( 'file', $search, $prefix );
     }
@@ -191,7 +207,7 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that matched
      */
-    protected function findOptions( $search, $prefix = null )
+    public function findOptions( $search, $prefix = null )
     {
         return $this->findObjects( 'option', $search, $prefix );
     }
@@ -204,7 +220,7 @@ trait Xpath
      *
      * @return \Behat\Mink\Element\NodeElement[] Array with NodeEelments that matched
      */
-    protected function findTables( $search, $prefix = null )
+    public function findTables( $search, $prefix = null )
     {
         return $this->findObjects( 'table', $search, $prefix );
     }
@@ -222,7 +238,7 @@ trait Xpath
      *
      * @return string XPath with prefixes (or original if no prefix passed)
      */
-    protected function mergePrefixToXpath( $prefix, $xpath )
+    public function mergePrefixToXpath( $prefix, $xpath )
     {
         if ( empty( $prefix ) )
         {
@@ -235,83 +251,5 @@ trait Xpath
         }
 
         return $prefix . implode( "| $prefix", explode( '|', $xpath ) );
-    }
-
-    /**
-     * This method works is a complement to the $mainAttributes var
-     *
-     * @param  string $block This should be an identifier for the block to use
-     *
-     * @return null|string XPath for the 
-     *
-     * @see $this->mainAttributes
-     */
-    public function makeXpathForBlock( $block = null )
-    {
-        if ( empty( $block ) )
-        {
-            return null;
-        }
-
-        $parameter = ( isset( $this->mainAttributes[strtolower( $block )] ) ) ?
-            $this->mainAttributes[strtolower( $block )] :
-            NULL;
-
-        Assertion::assertNotNull( $parameter, "Element {$block} is not defined" );
-
-        $xpath = $this->mainAttributes[strtolower( $block )];
-        // check if value is a composed array
-        if ( is_array( $xpath ) )
-        {
-            // if there is an xpath defined look no more!
-            if ( isset( $xpath['xpath'] ) )
-            {
-                return $xpath['xpath'];
-            }
-
-            $nuXpath = "";
-            // verify if there is a tag
-            if ( isset( $xpath['tag'] ) )
-            {
-                if ( strpos( $xpath['tag'], "/" ) === 0 || strpos( $xpath['tag'], "(" ) === 0 )
-                {
-                    $nuXpath = $xpath['tag'];
-                }
-                else
-                {
-                    $nuXpath = "//" . $xpath['tag'];
-                }
-
-                unset( $xpath['tag'] );
-            }
-            else
-            {
-                $nuXpath = "//*";
-            }
-
-            foreach ( $xpath as $key => $value )
-            {
-                switch ( $key )
-                {
-                    case "text":
-                        $att = "text()";
-                        break;
-                    default:
-                        $att = "@$key";
-                }
-                $nuXpath .= "[contains($att, {$this->literal( $value )})]";
-            }
-
-            return $nuXpath;
-        }
-
-        //  if the string is an Xpath
-        if ( strpos( $xpath, "/" ) === 0 || strpos( $xpath, "(" ) === 0 )
-        {
-            return $xpath;
-        }
-
-        // if xpath is an simple tag
-        return "//$xpath";
     }
 }
