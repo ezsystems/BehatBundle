@@ -761,9 +761,9 @@ class BrowserContext extends MinkContext implements BrowserSentences
         {
             $value = $fieldElement->getAttribute( 'value' );
             $fieldElement = $page->find( "xpath", "//input[@type='checkbox' and @value='$value']" );
-        }
 
-        Assertion::assertNotNull( $fieldElement, "Couldn't find a checkbox with '$value' value" );
+            Assertion::assertNotNull( $fieldElement, "Couldn't find a checkbox with '$value' value" );
+        }
 
         $this->browserFillField( $fieldElement, true );
     }
