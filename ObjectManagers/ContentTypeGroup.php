@@ -18,28 +18,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class ContentTypeGroup extends Base
 {
     /**
-     * Get instance
-     *
-     * These objects should be singletons, so Object::instance() should take care of returning
-     * the instance and create it when it's not created
-     *
-     * @param \Symfony\Component\HttpKernel\KernelInterface
-     *
-     * @return \EzSystems\BehatBundle\ObjectManagers\Base
-     */
-    static public function instance( KernelInterface $kernel )
-    {
-        static $instance = null;
-        if ( $instance === null )
-        {
-            $instance = new ContentTypeGroup();
-            $instance->setKernel( $kernel );
-        }
-
-        return $instance;
-    }
-
-    /**
      * Assure ContentTypeGroup exist
      *
      * @param string $identifier

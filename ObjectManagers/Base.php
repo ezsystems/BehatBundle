@@ -39,6 +39,29 @@ abstract class Base implements ObjectManagerInterface
     }
 
     /**
+     * Get instance
+     *
+     * These objects should be singletons, so Object::instance() should take care of returning
+     * the instance and create it when it's not created
+     *
+     * @param \Symfony\Component\HttpKernel\KernelInterface
+     *
+     * @return \EzSystems\BehatBundle\ObjectManager\Base
+     */
+    static public function instance( KernelInterface $kernel )
+    {
+        static $instance = null;
+        if ( $instance === null )
+        {
+            $class = get_called_class();
+            $instance = new $class();
+            $instance->setKernel( $kernel );
+        }
+
+        return $instance;
+    }
+
+    /**
      * Set kernel
      *
      * @param \Symfony\Component\HttpKernel\KernelInterface $kernel
