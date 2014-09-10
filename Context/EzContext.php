@@ -9,18 +9,26 @@
 
 namespace EzSystems\BehatBundle\Context;
 
-use EzSystems\BehatBundle\Helpers;
-use EzSystems\BehatBundle\Context\CommonTraits;
-use EzSystems\BehatBundle\Context\ObjectContexts;
-use Behat\Gherkin\Node\TableNode;
+use EzSystems\BehatBundle\Helper;
+use EzSystems\BehatBundle\Context\Object;
+use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Behat\Symfony2Extension\Context\KernelAwareContext;
 
 /**
  * CommonContext contains needed methods and implementations for both
  * API's and browser contexts
  */
-trait CommonContext
+class EzContext implements KernelAwareContext
 {
-    use ObjectContexts\ContentTypeGroup;
+    use Object\ContentTypeGroup;
+
+    const DEFAULT_SITEACCESS_NAME = 'behat_site';
+
+    /**
+     * @var \Symfony\Component\HttpKernel\KernelInterface
+     */
+    private $kernel;
 
     /**
      * @var array Assossiative array
@@ -37,7 +45,78 @@ trait CommonContext
     private $keyMap = array();
 
     /**
+     * Sets HttpKernel instance.
+     * This method will be automatically called by Symfony2Extension ContextInitializer.
+     *
+     * @param KernelInterface $kernel
+     */
+    public function setKernel( KernelInterface $kernel )
+    {
+        $this->kernel = $kernel;
+    }
+
+    /**
+     * Get kenel
+     *
+     * @return \Symfony\Component\HttpKernel\KernelInterface
+     */
+    public function getKernel()
+    {
+        if ( empty( $this->kernel ) )
+        {
+            throw new \Exception( 'Kernel is not loaded yet.' );
+        }
+
+        return $this->kernel;
+    }
+
+    /**
+     * Get repository
+     *
+     * @return \eZ\Publish\API\Repository\Repository
+     */
+    public function getRepository()
+    {
+        return $this->getKernel()->getContainer()->get( 'ezpublish.api.repository' );
+    }
+
+    /**
+     * Generates the siteaccess
+     *
+     * @return \eZ\Publish\Core\MVC\Symfony\SiteAccess
+     */
+    protected function generateSiteAccess()
+    {
+        $siteAccessName = getenv( 'EZPUBLISH_SITEACCESS' );
+        if ( !$siteAccessName )
+        {
+            $siteAccessName = static::DEFAULT_SITEACCESS_NAME;
+        }
+
+        return new SiteAccess( $siteAccessName, 'cli' );
+    }
+
+    /**
      * @BeforeScenario
+     *
+     * @param \Behat\Behat\Event\ScenarioEvent|\Behat\Behat\Event\OutlineExampleEvent $event
+     */
+    public function prepareKernel( $event )
+    {
+        // Inject a properly generated siteaccess if the kernel is booted, and thus container is available.
+        $this->getKernel()->getContainer()->set( 'ezpublish.siteaccess', $this->generateSiteAccess() );
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function clearKeyMap()
+    {
+        $this->keyMap = array();
+    }
+
+    /**
+     * @AfterScenario
      */
     public function cleanTestObjects()
     {
@@ -52,13 +131,13 @@ trait CommonContext
      *
      * @param string $object Name of the object manager
      *
-     * @return \EzSystems\BehatBundle\ObjectManagers\ObjectManagerInterface
+     * @return \EzSystems\BehatBundle\ObjectManager\ObjectManagerInterface
      *
-     * @throws \Exception $object isn't found or doesn't implement \EzSystems\BehatBundle\ObjectManagers\ObjectManagerInterface
+     * @throws \Exception $object isn't found or doesn't implement \EzSystems\BehatBundle\ObjectManager\ObjectManagerInterface
      */
     protected function getObjectManager( $object )
     {
-        $namespace = '\\EzSystems\\BehatBundle\\ObjectManagers\\';
+        $namespace = '\\EzSystems\\BehatBundle\\ObjectManager\\';
         if ( empty( $this->objectManagers[$object] ) )
         {
             $class = $namespace . $object;
@@ -90,6 +169,11 @@ trait CommonContext
         if ( empty( $key ) )
         {
             throw new InvalidArgumentException( 'key', "can't be empty" );
+        }
+
+        if ( ! empty( $this->keyMap[$key] ) )
+        {
+            throw new InvalidArgumentException( 'key', 'key exists' );
         }
 
         $this->keyMap[$key] = $values;

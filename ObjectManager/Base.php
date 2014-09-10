@@ -7,9 +7,9 @@
  * @version //autogentag//
  */
 
-namespace EzSystems\BehatBundle\ObjectManagers;
+namespace EzSystems\BehatBundle\ObjectManager;
 
-use EzSystems\BehatBundle\ObjectManagers\ObjectManagerInterface;
+use EzSystems\BehatBundle\ObjectManager\ObjectManagerInterface;
 use Behat\Behat\Context\BehatContext;
 use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
@@ -39,6 +39,16 @@ abstract class Base implements ObjectManagerInterface
     }
 
     /**
+     * Set kernel
+     *
+     * @param \Symfony\Component\HttpKernel\KernelInterface $kernel
+     */
+    protected function setKernel( KernelInterface $kernel )
+    {
+        $this->kernel = $kernel;
+    }
+
+    /**
      * Get instance
      *
      * These objects should be singletons, so Object::instance() should take care of returning
@@ -59,16 +69,6 @@ abstract class Base implements ObjectManagerInterface
         }
 
         return $instance;
-    }
-
-    /**
-     * Set kernel
-     *
-     * @param \Symfony\Component\HttpKernel\KernelInterface $kernel
-     */
-    protected function setKernel( KernelInterface $kernel )
-    {
-        $this->kernel = $kernel;
     }
 
     /**

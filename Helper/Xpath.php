@@ -1,17 +1,12 @@
 <?php
 
-namespace EzSystems\BehatBundle\Helpers;
+namespace EzSystems\BehatBundle\Helper;
 
 use Behat\Mink\Session;
 use PHPUnit_Framework_Assert as Assertion;
 
 class Xpath
 {
-    /**
-     * @var \Behat\MinkExtension\Context\MinkContext
-     */
-    public $mink;
-
     /**
      * Initialize class
      *

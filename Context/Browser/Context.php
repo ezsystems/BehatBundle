@@ -7,23 +7,25 @@
  * @version //autogentag//
  */
 
-namespace EzSystems\BehatBundle\Context;
+namespace EzSystems\BehatBundle\Context\Browser;
 
-use EzSystems\BehatBundle\Context\BrowserSubContexts;
-use EzSystems\BehatBundle\Helpers\Xpath;
+use EzSystems\BehatBundle\Context\Browser\SubContext;
+use EzSystems\BehatBundle\Helper\Xpath;
 use Behat\Mink\Element\NodeElement;
-use Behat\MinkExtension\Context\MinkContext;
+use Behat\MinkExtension\Context\MinkAwareContext;
 use PHPUnit_Framework_Assert as Assertion;
 
 /**
  * BrowserContext has wide (generic) browser helper methods and classes
  */
-class BrowserContext extends MinkContext
+class Context extends EzContext implements MinkAwareContext
 {
-    use BrowserSubContexts\BrowserActions;
+    use MinkTrait;
+    use SubContext\CommonActions;
+    use SubContext\Authentication;
 
     /**
-     * @var \EzSystems\BehatBundle\Helpers\Xpath
+     * @var \EzSystems\BehatBundle\Helper\Xpath
      */
     protected $xpath;
 
@@ -63,6 +65,19 @@ class BrowserContext extends MinkContext
     {
         // initialize Helpers
         $this->xpath = new Xpath( $this->getSession() );
+    }
+
+    /**
+     * Initialize with generic information
+     */
+    public function __construct()
+    {
+        // add home to the page identifiers
+        $this->pageIdentifierMap += array(
+            'home'   => '/',
+            'login'  => '/login',
+            'logout' => '/logout'
+        );
     }
 
     /**

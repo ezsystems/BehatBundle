@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\BehatBundle\Helpers;
+namespace EzSystems\BehatBundle\Helper;
 
 use PHPUnit_Framework_Assert as Assertion;
 

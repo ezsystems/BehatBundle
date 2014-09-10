@@ -7,7 +7,7 @@
  * @version //autogentag//
  */
 
-namespace EzSystems\BehatBundle\Helpers;
+namespace EzSystems\BehatBundle\Helper;
 
 use eZ\Publish\API\Repository\Values\ValueObject as ValueObjectInterface;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;

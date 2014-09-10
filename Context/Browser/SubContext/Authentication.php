@@ -7,7 +7,7 @@
  * @version //autogentag//
  */
 
-namespace EzSystems\BehatBundle\Context\BrowserSubContexts;
+namespace EzSystems\BehatBundle\Context\Browser\SubContext;
 
 trait Authentication
 {

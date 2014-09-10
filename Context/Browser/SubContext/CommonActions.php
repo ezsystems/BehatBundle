@@ -1,14 +1,24 @@
 <?php
 
-namespace EzSystems\BehatBundle\Context\BrowserSubContexts;
+namespace EzSystems\BehatBundle\Context\Browser\SubContext;
 
-use EzSystems\BehatBundle\Helpers\EzAssertion;
+use EzSystems\BehatBundle\Helper\EzAssertion;
+use EzSystems\BehatBundle\Helper\Gherkin as GherkinHelper;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\NodeElement;
 use PHPUnit_Framework_Assert as Assertion;
 
-trait BrowserActions
+trait CommonActions
 {
+    /**
+     * @Given I am on :path
+     * @When  I go to :path
+     */
+    public function visit( $path )
+    {
+        $this->getSession()->visit( $this->locatePath( $path ) );
+    }
+
     /**
      * @Given I am on/at (the) :page page
      * @When  I go to (the) :page page
@@ -129,7 +139,7 @@ trait BrowserActions
      */
     public function iFillFormWith( TableNode $table )
     {
-        foreach ( $this->convertTableToArrayOfData( $table ) as $field => $value )
+        foreach ( GherkinHelper::convertTableToArrayOfData( $table ) as $field => $value )
         {
             $elements = $this->xpath->findFields( $field );
             Assertion::assertNotEmpty( $elements, "Unable to find '{$field}' field" );

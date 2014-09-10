@@ -7,7 +7,7 @@
  * @version //autogentag//
  */
 
-namespace EzSystems\BehatBundle\ObjectManagers;
+namespace EzSystems\BehatBundle\ObjectManager;
 
 use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\API\Repository\Exceptions as ApiExceptions;

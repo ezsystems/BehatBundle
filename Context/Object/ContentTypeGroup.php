@@ -1,8 +1,7 @@
 <?php
 
-namespace EzSystems\BehatBundle\Context\ObjectContexts;
+namespace EzSystems\BehatBundle\Context\Object;
 
-use EzSystems\BehatBundle\Helpers\KeyMapping;
 use Behat\Gherkin\Node\TableNode;
 use PHPUnit_Framework_Assert as Assertion;
 
