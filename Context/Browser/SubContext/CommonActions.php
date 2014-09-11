@@ -1,4 +1,11 @@
 <?php
+/**
+ * File containing the Common Actions for Browser contexts
+ *
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ * @version //autogentag//
+ */
 
 namespace EzSystems\BehatBundle\Context\Browser\SubContext;
 
@@ -6,8 +13,12 @@ use EzSystems\BehatBundle\Helper\EzAssertion;
 use EzSystems\BehatBundle\Helper\Gherkin as GherkinHelper;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 use PHPUnit_Framework_Assert as Assertion;
 
+/**
+ * Class with the simple actions you can do in a browser
+ */
 trait CommonActions
 {
     /**
@@ -28,12 +39,28 @@ trait CommonActions
     }
 
     /**
+     * @Given I am on/at the homepage
      * @Given I am on/at (the) :page page
      * @When  I go to (the) :page page
      */
-    public function iAmOnPage( $page )
+    public function iAmOnPage( $page = 'home' )
     {
         $this->visit( $this->getPathByPageIdentifier( $page ) );
+        try
+        {
+            $statusCode = $this->getSession()->getStatusCode();
+            $valid = false;
+            if ( $statusCode >= 200 && $statusCode < 400 )
+            {
+                $valid = true;
+            }
+            Assertion::assertTrue( $valid, "Invalid response status code '{$statusCode}'" );
+        }
+        // several mink drivers do not support getStatusCode()
+        catch ( UnsupportedDriverActionException $e )
+        {
+            // do nothing
+        }
     }
 
     /**
@@ -347,7 +374,7 @@ trait CommonActions
     }
 
     /**
-     * @Then on :pageSection I see the :text text emphasized
+     * @Then on :pageSection I (should) see the :text text emphasized
      */
     public function onPageSectionISeeTextEmphasized( $text, $pageSection = null )
     {
@@ -365,7 +392,7 @@ trait CommonActions
     }
 
     /**
-     * @Then I see :warning warning/error
+     * @Then I (should) see :warning warning/error
      */
     public function iSeeWarning( $warning )
     {
@@ -378,7 +405,7 @@ trait CommonActions
     }
 
     /**
-     * @Then I see the exact :text: message/text
+     * @Then I (should) see the exact :text: message/text
      */
     public function iSeeText( $text )
     {
@@ -386,7 +413,7 @@ trait CommonActions
     }
 
     /**
-     * @Then on :pageSection I see the exact :text message/text
+     * @Then on :pageSection I (should) see the exact :text message/text
      */
     public function onPageSectionISeeText( $text, $pageSection = null )
     {
@@ -400,7 +427,7 @@ trait CommonActions
     }
 
     /**
-     * @Then I see :message message/text
+     * @Then I (should) see :message message/text
      */
     public function iSeeMessage( $text )
     {
