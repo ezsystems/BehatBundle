@@ -9,6 +9,9 @@
 
 namespace EzSystems\BehatBundle\Context\Browser\SubContext;
 
+/**
+ * Authentication methods
+ */
 trait Authentication
 {
     /**
@@ -27,8 +30,8 @@ trait Authentication
     public function iAmLoggedInAsWithPassword( $user, $password )
     {
         $this->iAmOnPage( 'login' );
-        $this->fillField( 'Username', $user );
-        $this->fillField( 'Password', $password );
+        $this->fillFieldWithValue( 'Username', $user );
+        $this->fillFieldWithValue( 'Password', $password );
         $this->iClickAtButton( 'Login' );
         $this->iShouldBeOnPage( 'home' );
     }

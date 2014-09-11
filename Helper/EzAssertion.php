@@ -1,9 +1,19 @@
 <?php
+/**
+ * File containing the EzAssertions for BehatBundle
+ *
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ * @version //autogentag//
+ */
 
 namespace EzSystems\BehatBundle\Helper;
 
 use PHPUnit_Framework_Assert as Assertion;
 
+/**
+ * eZ specific assertions
+ */
 class EzAssertion
 {
     /**

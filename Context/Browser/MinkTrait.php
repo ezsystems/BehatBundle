@@ -1,9 +1,19 @@
 <?php
+/**
+ * File containing the MinkTrait
+ *
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ * @version //autogentag//
+ */
 
 namespace EzSystems\BehatBundle\Context\Browser;
 
 use Behat\Mink\Mink;
 
+/**
+ * This makes possible for (mink) contexts to extend other classes than (Raw)MinkContext
+ */
 trait MinkTrait
 {
     /**

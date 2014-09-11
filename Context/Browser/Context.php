@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the BrowserContext class for BehatBundle.
+ * File containing the main context class for Browser.
  *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -17,7 +17,7 @@ use Behat\MinkExtension\Context\MinkAwareContext;
 use PHPUnit_Framework_Assert as Assertion;
 
 /**
- * BrowserContext has wide (generic) browser helper methods and classes
+ * Context has wide (generic) browser helper methods and classes
  */
 class Context extends EzContext implements MinkAwareContext
 {

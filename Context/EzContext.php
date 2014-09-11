@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the CommonContext class for BehatBundle.
+ * File containing the master class for BehatBundle.
  *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -16,8 +16,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 
 /**
- * CommonContext contains needed methods and implementations for both
- * API's and browser contexts
+ * EzContext has all the needed methods and helpers that are globaly used in contexts
  */
 class EzContext implements KernelAwareContext
 {

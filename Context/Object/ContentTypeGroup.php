@@ -1,10 +1,20 @@
 <?php
+/**
+ * File containing the ContentTypeGroup context
+ *
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ * @version //autogentag//
+ */
 
 namespace EzSystems\BehatBundle\Context\Object;
 
 use Behat\Gherkin\Node\TableNode;
 use PHPUnit_Framework_Assert as Assertion;
 
+/**
+ * Sentences for ContentTypeGroups
+ */
 trait ContentTypeGroup
 {
     /**

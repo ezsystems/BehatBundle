@@ -1,10 +1,21 @@
 <?php
+/**
+ * File containing the Xpath helper for BehatBundle
+ *
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ * @version //autogentag//
+ */
 
 namespace EzSystems\BehatBundle\Helper;
 
 use Behat\Mink\Session;
 use PHPUnit_Framework_Assert as Assertion;
 
+/**
+ * This class eases the xpath creation and handling also has methods to easy search for certain 
+ * content
+ */
 class Xpath
 {
     /**

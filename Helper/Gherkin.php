@@ -1,9 +1,19 @@
 <?php
+/**
+ * File containing the Gherkin helper for BehatBundle
+ *
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ * @version //autogentag//
+ */
 
 namespace EzSystems\BehatBundle\Helper;
 
 use Behat\Gherkin\Node\TableNode;
 
+/**
+ * Gherkin helper methods to manipulate Node's
+ */
 class Gherkin
 {
     /**
