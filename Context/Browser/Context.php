@@ -9,6 +9,7 @@
 
 namespace EzSystems\BehatBundle\Context\Browser;
 
+use EzSystems\BehatBundle\Context\EzContext;
 use EzSystems\BehatBundle\Context\Browser\SubContext;
 use EzSystems\BehatBundle\Helper\Xpath;
 use Behat\Mink\Element\NodeElement;
@@ -27,7 +28,7 @@ class Context extends EzContext implements MinkAwareContext
     /**
      * @var \EzSystems\BehatBundle\Helper\Xpath
      */
-    protected $xpath;
+    private $xpath;
 
     /**
      * @var array Array to map identifier to urls, should be set by child classes.
@@ -78,6 +79,16 @@ class Context extends EzContext implements MinkAwareContext
             'login'  => '/login',
             'logout' => '/logout'
         );
+    }
+
+    /**
+     * Getter for Xpath
+     *
+     * @return \EzSystems\BehatBundle\Helper\Xpath
+     */
+    public function getXpath()
+    {
+        return $this->xpath;
     }
 
     /**
@@ -311,8 +322,8 @@ class Context extends EzContext implements MinkAwareContext
 
         // get all possible elements
         $elements = array_merge(
-            $this->xpath->findXpath( "$tableXpath//tr/th$columnNumber" ),
-            $this->xpath->findXpath( "$tableXpath//tr/td$columnNumber" )
+            $this->getXpath()->findXpath( "$tableXpath//tr/th$columnNumber" ),
+            $this->getXpath()->findXpath( "$tableXpath//tr/td$columnNumber" )
         );
 
         $foundXpath = array();
@@ -336,13 +347,13 @@ class Context extends EzContext implements MinkAwareContext
      * This is useful when you intend to know if another element is in the same
      * row
      *
-     * @param \Behat\Mink\Element\Element $element The element in the intended row
+     * @param \Behat\Mink\Element\NodeElement $element The element in the intended row
      *
-     * @return \Behat\Mink\Element\Element The <tr> element node
+     * @return \Behat\Mink\Element\NodeElement The <tr> element node
      *
      * @throws \PHPUnit_Framework_AssertionFailedError
      */
-    public function findRow( Element $element )
+    public function findRow( NodeElement $element )
     {
         $initialTag = $element->getTagName();
 
@@ -379,7 +390,7 @@ class Context extends EzContext implements MinkAwareContext
      * @param string $firstXpath
      * @param string $secondXpath
      *
-     * @return \Behat\Mink\Element\Element|null Element if found null otherwise
+     * @return \Behat\Mink\Element\NodeElement|null Element if found null otherwise
      */
     public function findElementAfterElement( array $elements, $firstXpath, $secondXpath )
     {
@@ -387,7 +398,7 @@ class Context extends EzContext implements MinkAwareContext
         foreach ( $elements as $element )
         {
             // choose what xpath to use
-            if ( !$foundFirstXpath )
+            if ( ! $foundFirstXpath )
             {
                 $xpath = $firstXpath;
             }
@@ -396,7 +407,7 @@ class Context extends EzContext implements MinkAwareContext
                 $xpath = $secondXpath;
             }
 
-            $foundElement = $element->xpath->findXpath( $xpath );
+            $foundElement = $element->find( "xpath", $xpath );
 
             // element found, if first start to look for the second one
             // if second, than return this one
@@ -508,7 +519,7 @@ class Context extends EzContext implements MinkAwareContext
                     default:
                         $att = "@$key";
                 }
-                $nuXpath .= "[contains($att, {$this->xpath->literal( $value )})]";
+                $nuXpath .= "[contains($att, {$this->getXpath()->literal( $value )})]";
             }
 
             return $nuXpath;

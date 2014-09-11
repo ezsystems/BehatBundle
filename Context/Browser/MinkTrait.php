@@ -2,12 +2,18 @@
 
 namespace EzSystems\BehatBundle\Context\Browser;
 
-use Behat\Behat\Context\Context;
 use Behat\Mink\Mink;
 
 trait MinkTrait
 {
+    /**
+     * @var \Behat\Mink\Mink
+     */
     private $mink;
+
+    /**
+     * @var array
+     */
     private $minkParameters;
 
     /**
@@ -129,14 +135,4 @@ trait MinkTrait
         $filepath = $filepath ? $filepath : ( ini_get( 'upload_tmp_dir' ) ? ini_get( 'upload_tmp_dir' ) : sys_get_temp_dir() );
         file_put_contents( $filepath . '/' . $filename, $this->getSession()->getScreenshot() );
     }
-
-
-
-
-
-
-
-
-
-
 }

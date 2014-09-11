@@ -11,6 +11,14 @@ use PHPUnit_Framework_Assert as Assertion;
 trait CommonActions
 {
     /**
+     * @When I fill in :field with :value
+     */
+    public function fillFieldWithValue( $field, $value )
+    {
+        $this->getSession()->getPage()->fillField( $field, $value );
+    }
+
+    /**
      * @Given I am on :path
      * @When  I go to :path
      */
@@ -61,8 +69,8 @@ trait CommonActions
     public function onPageSectionIClickAtButton( $button, $pageSection = null )
     {
         $base = $this->makeXpathForBlock( $pageSection );
-        $el = $this->xpath->findButtons( $button, $base );
-        EzAssertion::assertSingleElemenet( $button, $el, $pageSection, 'button' );
+        $el = $this->getXpath()->findButtons( $button, $base );
+        EzAssertion::assertElementFound( $button, $el, $pageSection, 'button' );
         $el[0]->click();
     }
 
@@ -82,8 +90,8 @@ trait CommonActions
     public function onPageSectionIClickAtLink( $link, $pageSection = null )
     {
         $base = $this->makeXpathForBlock( $pageSection );
-        $el = $this->xpath->findLinks( $link, $base );
-        EzAssertion::assertSingleElemenet( $link, $el, $pageSection, 'link' );
+        $el = $this->getXpath()->findLinks( $link, $base );
+        EzAssertion::assertElementFound( $link, $el, $pageSection, 'link' );
         $el[0]->click();
     }
 
@@ -93,8 +101,8 @@ trait CommonActions
      */
     public function checkOption( $option )
     {
-        $fieldElements = $this->xpath->findFields( $option );
-        EzAssertion::assertSingleElemenet( $option, $fieldElements, null, 'checkbox' );
+        $fieldElements = $this->getXpath()->findFields( $option );
+        EzAssertion::assertElementFound( $option, $fieldElements, null, 'checkbox' );
 
         // this is needed for the cases where are checkboxes and radio's
         // side by side, for main option the radio and the extra being the
@@ -102,8 +110,8 @@ trait CommonActions
         if ( strtolower( $fieldElements[0]->getAttribute( 'type' ) ) !== 'checkbox' )
         {
             $value = $fieldElements[0]->getAttribute( 'value' );
-            $fieldElements = $this->xpath->findXpath( "//input[@type='checkbox' and @value='$value']" );
-            EzAssertion::assertSingleElemenet( $value, $fieldElements, null, 'checkbox' );
+            $fieldElements = $this->getXpath()->findXpath( "//input[@type='checkbox' and @value='$value']" );
+            EzAssertion::assertElementFound( $value, $fieldElements, null, 'checkbox' );
         }
 
         $fieldElements[0]->check();
@@ -117,7 +125,7 @@ trait CommonActions
      */
     public function iSelect( $option )
     {
-        $elements = $this->xpath->findXpath( "//select" );
+        $elements = $this->getXpath()->findXpath( "//select" );
         Assertion::assertNotEmpty( $elements, "Unable to find a select field" );
         $elements[0]->selectOption( $option );
     }
@@ -135,13 +143,13 @@ trait CommonActions
 
      /**
      * @Given I filled form with:
-     * @ When  I fill form with:
+     * @When  I fill form with:
      */
     public function iFillFormWith( TableNode $table )
     {
         foreach ( GherkinHelper::convertTableToArrayOfData( $table ) as $field => $value )
         {
-            $elements = $this->xpath->findFields( $field );
+            $elements = $this->getXpath()->findFields( $field );
             Assertion::assertNotEmpty( $elements, "Unable to find '{$field}' field" );
             $elements[0]->setValue( $value );
         }
@@ -171,7 +179,7 @@ trait CommonActions
         foreach ( $rows as $row )
         {
             $link = $row[0];
-            $el = $this->xpath->findLinks( $link, $this->makeXpathForBlock( $pageSection ) );
+            $el = $this->getXpath()->findLinks( $link, $this->makeXpathForBlock( $pageSection ) );
 
             Assertion::assertNotEmpty( $el, "Unexpected link found" );
         }
@@ -198,7 +206,7 @@ trait CommonActions
         foreach ( $rows as $row )
         {
             $link = $row[0];
-            $el = $this->xpath->findLinks( $link, $this->makeXpathForBlock( $pageSection ) );
+            $el = $this->getXpath()->findLinks( $link, $this->makeXpathForBlock( $pageSection ) );
 
             Assertion::assertEmpty( $el, "Unexpected link found" );
         }
@@ -211,7 +219,7 @@ trait CommonActions
     public function iSeeLinksInFollowingOrder( TableNode $table )
     {
         // get all links
-        $available = $this->xpath->findXpath( "//a[@href]" );
+        $available = $this->getXpath()->findXpath( "//a[@href]" );
 
         $rows = $table->getRows();
         array_shift( $rows );
@@ -250,7 +258,7 @@ trait CommonActions
             // prepare XPath
             list( $link, $type ) = $row;
             $tags = $this->getTagsFor( $type );
-            $xpaths = explode( '|', $this->xpath->makeElementXpath( 'link', $link ) );
+            $xpaths = explode( '|', $this->getXpath()->makeElementXpath( 'link', $link ) );
             $xpath = implode(
                 '|',
                 array_map(
@@ -263,7 +271,7 @@ trait CommonActions
             );
 
             // search and do assertions
-            $el = $this->xpath->findXpath( $xpath );
+            $el = $this->getXpath()->findXpath( $xpath );
             EzAssertion::assertSingleElemenet( $link, $el, $type, 'link' );
         }
     }
@@ -273,7 +281,7 @@ trait CommonActions
      */
     public function iSeeTitle( $title )
     {
-        $literal = $this->xpath->literal( $title );
+        $literal = $this->getXpath()->literal( $title );
         $tags = $this->getTagsFor( "title" );
         $innerXpath = "[text() = {$literal} or .//*[text() = {$literal}]]";
         $xpathOptions = array_map(
@@ -286,7 +294,7 @@ trait CommonActions
 
         $xpath = implode( '|', $xpathOptions );
 
-        $el = $this->xpath->findXpath( $xpath );
+        $el = $this->getXpath()->findXpath( $xpath );
 
         // assert that message was found
         EzAssertion::assertSingleElemenet( $title, $el, null, 'title' );
@@ -345,7 +353,7 @@ trait CommonActions
     {
         // first find the text
         $base = $this->makeXpathForBlock( $pageSection );
-        $el = $this->xpath->findXpath( "$base//*[contains( text(), {$this->xpath->literal( $text )} )]" );
+        $el = $this->getXpath()->findXpath( "$base//*[contains( text(), {$this->getXpath()->literal( $text )} )]" );
 
         EzAssertion::assertSingleElemenet( $text, $el, $pageSection, 'emphasized text' );
 
@@ -361,9 +369,9 @@ trait CommonActions
      */
     public function iSeeWarning( $warning )
     {
-        $el = $this->xpath->findXpath(
+        $el = $this->getXpath()->findXpath(
             "//*[contains( @class, 'warning' ) or contains( @class, 'error' )]"
-            . "//*[text() = {$this->xpath->literal( $warning )}]"
+            . "//*[text() = {$this->getXpath()->literal( $warning )}]"
         );
 
         Assertion::assertNotNull( $el, "Couldn't find error/warning message '{$warning}'" );
@@ -384,8 +392,8 @@ trait CommonActions
     {
         $base = $this->makeXpathForBlock( $pageSection );
 
-        $literal = $this->xpath->literal( $text );
-        $el = $this->xpath->findXpath( "$base//*[contains( text(), $literal )]" );
+        $literal = $this->getXpath()->literal( $text );
+        $el = $this->getXpath()->findXpath( "$base//*[contains( text(), $literal )]" );
 
         Assertion::assertNotNull( $el, "Couldn't find '$text' text" );
         Assertion::assertEquals( trim( $el->getText() ), $text, "Couldn't find '$text' text" );
@@ -396,7 +404,7 @@ trait CommonActions
      */
     public function iSeeMessage( $text )
     {
-        $this->assertPageContainsText( $text );
+        $this->assertSession()->pageTextContains( $text );
     }
 
     /**
@@ -404,6 +412,6 @@ trait CommonActions
      */
     public function iDonTSeeMessage( $text )
     {
-        $this->assertPageNotContainsText( $text );
+        $this->assertSession()->pageTextNotContains( $text );
     }
 }
