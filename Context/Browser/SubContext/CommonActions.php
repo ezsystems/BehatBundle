@@ -41,6 +41,7 @@ trait CommonActions
     /**
      * @Given I am on/at the homepage
      * @Given I am on/at (the) :page page
+     * @When I go to the the homepage
      * @When  I go to (the) :page page
      */
     public function iAmOnPage( $page = 'home' )
