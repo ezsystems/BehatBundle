@@ -51,9 +51,7 @@ interface ObjectManagerInterface
     function addObjectToList( ValueObject $object );
 
     /**
-     * This method is used to delete each created object from this manager
-     *
-     * @param \eZ\Publish\API\Repository\Values\ValueObject $object Object that should be destroyed/removed
+     * Destroy/remove/delete all created objects (from given steps)
      */
-    function destroy( ValueObject $object );
+    public function clean();
 }

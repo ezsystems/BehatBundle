@@ -118,4 +118,11 @@ abstract class Base implements ObjectManagerInterface
 
         $this->createdObjects = array();
     }
+
+    /**
+     * This method is used to delete each created object from this manager
+     *
+     * @param \eZ\Publish\API\Repository\Values\ValueObject $object Object that should be destroyed/removed
+     */
+    abstract protected function destroy( ValueObject $object );
 }
