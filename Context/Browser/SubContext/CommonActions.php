@@ -299,7 +299,7 @@ trait CommonActions
 
             // search and do assertions
             $el = $this->getXpath()->findXpath( $xpath );
-            EzAssertion::assertSingleElemenet( $link, $el, $type, 'link' );
+            EzAssertion::assertSingleElement( $link, $el, $type, 'link' );
         }
     }
 
@@ -324,7 +324,7 @@ trait CommonActions
         $el = $this->getXpath()->findXpath( $xpath );
 
         // assert that message was found
-        EzAssertion::assertSingleElemenet( $title, $el, null, 'title' );
+        EzAssertion::assertSingleElement( $title, $el, null, 'title' );
     }
 
     /**
@@ -382,7 +382,7 @@ trait CommonActions
         $base = $this->makeXpathForBlock( $pageSection );
         $el = $this->getXpath()->findXpath( "$base//*[contains( text(), {$this->getXpath()->literal( $text )} )]" );
 
-        EzAssertion::assertSingleElemenet( $text, $el, $pageSection, 'emphasized text' );
+        EzAssertion::assertSingleElement( $text, $el, $pageSection, 'emphasized text' );
 
         // finally verify if it has custom characteristics
         Assertion::assertTrue(

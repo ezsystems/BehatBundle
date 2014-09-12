@@ -26,7 +26,7 @@ class EzAssertion
      * 
      * @return void
      */
-    static function assertSingleElemenet( $search, $element, $pageSection = null, $type = 'element' )
+    static function assertSingleElement( $search, $element, $pageSection = null, $type = 'element' )
     {
         $section = ( $pageSection === null ) ? "" : " in '$pageSection' page section";
         Assertion::assertNotEmpty( $element, "Couldn't find '$search' $type" . $section );
