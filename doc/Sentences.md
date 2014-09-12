@@ -1,3 +1,3 @@
 ## BDD Sentences
 
-This needs do be document.
+This needs do be documented.
