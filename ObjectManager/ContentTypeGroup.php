@@ -18,13 +18,13 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class ContentTypeGroup extends Base
 {
     /**
-     * Assure ContentTypeGroup exist
+     * Ensure ContentTypeGroup exists
      *
      * @param string $identifier
      *
      * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup
      */
-    public function assureContentTypeGroupExist( $identifier )
+    public function ensureContentTypeGroupExists( $identifier )
     {
         /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = $this->getRepository();
@@ -54,7 +54,7 @@ class ContentTypeGroup extends Base
             }
         );
 
-        if ( ! $result['found'] )
+        if ( !$result['found'] )
         {
             $this->addObjectToList( $result['contentTypeGroup'] );
         }
@@ -123,11 +123,11 @@ class ContentTypeGroup extends Base
     }
 
     /**
-     * Assure that the no ContentTypeGroup with $identifier exist
+     * Ensure that no ContentTypeGroup with $identifier exists
      *
      * @param string $identifier Identifier of the ContentTypeGroup
      */
-    public function assureContentTypeGroupDoesntExist( $identifier )
+    public function ensureContentTypeGroupDoesntExist( $identifier )
     {
         /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = $this->getRepository();

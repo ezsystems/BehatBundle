@@ -22,33 +22,33 @@ trait ContentTypeGroup
      *
      * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup
      */
-    public function assureContentTypeGroupExist( $identifier )
+    public function ensureContentTypeGroupExists( $identifier )
     {
-        return $this->getContentTypeGroupManager()->assureContentTypeGroupExist( $identifier );
+        return $this->getContentTypeGroupManager()->ensureContentTypeGroupExists( $identifier );
     }
 
     /**
      * @Given there isn't a Content Type Group with identifier :identifier
      */
-    public function assureContentTypeGroupDontExist( $identifier )
+    public function ensureContentTypeGroupDoesntExist( $identifier )
     {
-        $this->getContentTypeGroupManager()->assureContentTypeGroupDoesntExist( $identifier );
+        $this->getContentTypeGroupManager()->ensureContentTypeGroupDoesntExist( $identifier );
     }
 
     /**
      * @Given there is Content Type Group with id :id
      */
-    public function assureContentTypeGroupWithIdExist( $id )
+    public function ensureContentTypeGroupWithIdExists( $id )
     {
         $identifier = $this->findNonExistingContentTypeGroupIdentifier();
 
-        $this->assureContentTypeGroupWithIdAndIdentifierExist( $id, $identifier );
+        $this->ensureContentTypeGroupWithIdAndIdentifierExists( $id, $identifier );
     }
 
     /**
      * @Given there isn't a Content Type Group with id :id
      */
-    public function assureContentTypeGroupWithIdDontExist( $id )
+    public function ensureContentTypeGroupWithIdDoesntExist( $id )
     {
         $randomId = $this->findNonExistingContentTypeGroupId();
 
@@ -58,9 +58,9 @@ trait ContentTypeGroup
     /**
      * @Given there is a Content Type Group with id :id and identifier :identifier
      */
-    public function assureContentTypeGroupWithIdAndIdentifierExist( $id, $identifier )
+    public function ensureContentTypeGroupWithIdAndIdentifierExists( $id, $identifier )
     {
-        $contentTypeGroup = $this->assureContentTypeGroupExist( $identifier );
+        $contentTypeGroup = $this->ensureContentTypeGroupExists( $identifier );
 
         $this->addValuesToKeyMap( $id, $contentTypeGroup->id );
     }
@@ -68,14 +68,14 @@ trait ContentTypeGroup
     /**
      * @Given there are the following Content Type Groups:
      */
-    public function assureContentTypeGroupsExist( TableNode $table )
+    public function ensureContentTypeGroupsExists( TableNode $table )
     {
         $contentTypeGroups = $table->getTable();
 
         array_shift( $contentTypeGroups );
         foreach ( $contentTypeGroups as $contentTypeGroup )
         {
-            $this->assureContentTypeGroupExist( $contentTypeGroup[0] );
+            $this->ensureContentTypeGroupExists( $contentTypeGroup[0] );
         }
     }
 
@@ -84,7 +84,7 @@ trait ContentTypeGroup
      * @Then Content Type Group with identifier :identifier was created
      * @Then Content Type Group with identifier :identifier wasn't deleted
      */
-    public function assertContentTypeGroupWithIdentifierExist( $identifier )
+    public function assertContentTypeGroupWithIdentifierExists( $identifier )
     {
         Assertion::assertTrue(
             $this->getContentTypeGroupManager()->checkContentTypeGroupExistenceByIdentifier( $identifier ),
@@ -93,7 +93,7 @@ trait ContentTypeGroup
     }
 
     /**
-     * @Then Content Type Group with identifier :identifier doesn't exists (anymore)
+     * @Then Content Type Group with identifier :identifier doesn't exist (anymore)
      * @Then Content Type Group with identifier :identifier wasn't created
      * @Then Content Type Group with identifier :identifier was deleted
      */
