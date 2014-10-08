@@ -1,0 +1,14 @@
+default:
+    extensions:
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: ezpublish/autoload.php
+                path: ezpublish/EzPublishKernel.php
+                class: EzPublishKernel
+                env: behat
+                debug: true
+
+    suites:
+        behat:
+            paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features ]
+            contexts: [ EzSystems\BehatBundle\Context\EzContext ]
