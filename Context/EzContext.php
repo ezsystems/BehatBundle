@@ -21,6 +21,7 @@ use Behat\Symfony2Extension\Context\KernelAwareContext;
 class EzContext implements KernelAwareContext
 {
     use Object\ContentTypeGroup;
+    use Object\UserGroup;
 
     const DEFAULT_SITEACCESS_NAME = 'behat_site';
 
@@ -204,7 +205,7 @@ class EzContext implements KernelAwareContext
      *      'another'   => 'test',
      *      '{extraId}' => 321
      *  );
-     *   URL: 
+     *   URL:
      *      before: '/some/url/with/another/and/{id}'
      *      after:  '/some/url/with/test/and/123'
      *
