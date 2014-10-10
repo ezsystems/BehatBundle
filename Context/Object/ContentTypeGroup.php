@@ -80,6 +80,18 @@ trait ContentTypeGroup
     }
 
     /**
+     * @Then Content Type Group with id :id exists
+     */
+    public function assertContentTypeGroupExists( $id )
+    {
+        $realId = $this->getValuesFromKeyMap( $id );
+        Assertion::assertTrue(
+            $this->getContentTypeGroupManager()->checkContentTypeGroupExistence( $realId ),
+            "Couldn't find ContentTypeGroup with id $id"
+        );
+    }
+
+    /**
      * @Then Content Type Group with identifier :identifier exists
      * @Then Content Type Group with identifier :identifier was created
      * @Then Content Type Group with identifier :identifier wasn't deleted
@@ -89,6 +101,18 @@ trait ContentTypeGroup
         Assertion::assertTrue(
             $this->getContentTypeGroupManager()->checkContentTypeGroupExistenceByIdentifier( $identifier ),
             "Couldn't find ContentTypeGroup with identifier '$identifier'"
+        );
+    }
+
+    /**
+     * @Then Content Type Group with id :id doesn't exist
+     */
+    public function assertContentTypeGroupDoesntExist( $id )
+    {
+        $realId = $this->getValuesFromKeyMap( $id );
+        Assertion::assertFalse(
+            $this->getContentTypeGroupManager()->checkContentTypeGroupExistence( $realId ),
+            "Unexpected ContentTypeGroup with id $id found."
         );
     }
 
