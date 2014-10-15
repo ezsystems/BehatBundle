@@ -6,13 +6,17 @@ php:
 
 # list of paths/bundle to execute
 env:
-    # run setup wizard to install Demo+Content and then test demo with content
-  - INSTALL="demoContentNonUniqueDB" PROFILE="demo" TEST="content"
-    # test Legacy
-  - INSTALL="demoCleanNonUniqueDB" PROFILE="legacyAdmin" TEST="full"
-    # test REST
-  - INSTALL="demoCleanNonUniqueDB" PROFILE="rest" TEST="fullJson"
-  - INSTALL="demoCleanNonUniqueDB" PROFILE="rest" TEST="fullXml"
+  global:
+    - CONFIG="behat.yml"
+  matrix:
+    - CONFIG="vendor/ezsystems/behatbundle/EzSystems/BehatBundle/behat.yml" INSTALL="demoContentNonUniqueDB" PROFILE="default" TEST="behat"
+      # run setup wizard to install Demo+Content and then test demo with content
+    - INSTALL="demoContentNonUniqueDB" PROFILE="demo" TEST="content"
+      # test Legacy
+    - INSTALL="demoCleanNonUniqueDB" PROFILE="legacyAdmin" TEST="full"
+      # test REST
+    - INSTALL="demoCleanNonUniqueDB" PROFILE="rest" TEST="fullJson"
+    - INSTALL="demoCleanNonUniqueDB" PROFILE="rest" TEST="fullXml"
 
 # test only master (+ Pull requests)
 branches:
@@ -28,7 +32,6 @@ before_install:
   - cd ezpublish-community
   - ./bin/.travis/prepare_system.sh
   - ./bin/.travis/prepare_sahi.sh
-#  - ./bin/.travis/prepare_selenium2.sh
 
 # setup requirements for running tests, move our bundle in & run last requirements script
 before_script:
@@ -39,7 +42,7 @@ before_script:
 
 # execute behat as the script command
 script:
-  - php bin/behat --profile $PROFILE --suite $TEST
+  - php bin/behat --config $CONFIG --profile $PROFILE --suite $TEST
 
 # disable mail notifications
 notification:

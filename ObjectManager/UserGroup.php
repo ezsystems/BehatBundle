@@ -73,7 +73,13 @@ class UserGroup extends Base
         }
         $query = new Query();
         $query->filter = new Criterion\LogicalAnd( $criterionArray );
-        $result = $searchService->findContent( $query, array(), false );
+
+        $result = $repository->sudo(
+            function() use( $query, $searchService )
+            {
+                return $searchService->findContent( $query, array(), false );
+            }
+        );
         return $result->searchHits;
     }
 
@@ -216,7 +222,7 @@ class UserGroup extends Base
     {
         /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = $this->getRepository();
-        $userService = $repository->getContentTypeService();
+        $userService = $repository->getUserService();
 
         return $repository->sudo(
             function() use( $id, $userService )
