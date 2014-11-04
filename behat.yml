@@ -1,4 +1,3 @@
-
 # This file is for manual testing only, corresponding file in ezpublish-community is used for travis testing
 default:
     extensions:
