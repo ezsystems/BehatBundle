@@ -10,7 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4.4",
         "ezsystems/ezpublish-kernel": "*",
         "phpunit/phpunit": "~4.0"
     },
