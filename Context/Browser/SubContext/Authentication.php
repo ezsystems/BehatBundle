@@ -20,8 +20,15 @@ trait Authentication
      */
     public function iAmLoggedInAsAn( $role )
     {
-        $credentials = $this->getCredentialsFor( 'administrator' );
-        $this->iAmLoggedInAsWithPassword( $credentials['login'], $credentials['password'] );
+        if ( $role == 'Anonymous' )
+        {
+            $this->iAmNotLoggedIn();
+        }
+        else
+        {
+            $credentials = $this->getCredentialsFor( $role );
+            $this->iAmLoggedInAsWithPassword( $credentials['login'], $credentials['password'] );
+        }
     }
 
     /**
