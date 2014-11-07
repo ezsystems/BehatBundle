@@ -151,7 +151,7 @@ class EzContext implements KernelAwareContext
                 throw new \Exception( "Class '{$object}' not found or it doesn't implement '{$namespace}ObjectManagerInterface'" );
             }
 
-            $this->objectManagers[$object] = $class::instance( $this->getKernel() );
+            $this->objectManagers[$object] = $class::instance( $this );
         }
 
         return $this->objectManagers[$object];
