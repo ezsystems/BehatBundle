@@ -40,18 +40,33 @@ class User extends Base
      */
     protected function loadUserGroup( $id )
     {
-        /** @var \eZ\Publish\API\Repository\Repository $repository */
-        $repository = $this->getRepository();
-        $userService = $repository->getUserService();
+        return $this->getContext()->getUserGroupManager()->loadUserGroup( $id );
+    }
 
-        $userGroup = $repository->sudo(
-            function() use( $id, $userService )
-            {
-                return $userService->loadUserGroup( $id );
-            }
-        );
+    /**
+     * Search User Groups with given name
+     *
+     * @param string $name name of User Group to search for
+     * @param string $parentLocationId (optional) parent location id to search in
+     *
+     * @return search results
+     */
+    public function searchUserGroups( $name, $parentLocationId = null )
+    {
+        return $this->getContext()->getUserGroupManager()->searchUserGroups( $name, $parentLocationId );
+    }
 
-        return $userGroup;
+    /**
+     * Create new User Group inside existing parent User Group
+     *
+     * @param string $name  User Group name
+     * @param \eZ\Publish\API\Repository\Values\User\UserGroup $parentGroup  (optional) parent user group, defaults to UserGroup "/Users"
+     *
+     * @return \eZ\Publish\API\Repository\Values\User\UserGroup
+     */
+    public function createUserGroup( $name, $parentGroup = null )
+    {
+        return $this->getContext()->getUserGroupManager()->createUserGroup( $name, $parentGroup );
     }
 
     /**
@@ -61,7 +76,7 @@ class User extends Base
      *
      * @return \eZ\Publish\API\Repository\Values\User\User
      */
-    protected function loadUser( $id )
+    public function loadUser( $id )
     {
         /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = $this->getRepository();
@@ -84,7 +99,7 @@ class User extends Base
      *
      * @return \eZ\Publish\API\Repository\Values\User\User
      */
-    protected function loadUserByLogin( $login )
+    public function loadUserByLogin( $login )
     {
         /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = $this->getRepository();
@@ -101,41 +116,6 @@ class User extends Base
     }
 
     /**
-     * Search User Groups with given name
-     *
-     * @param string $name name of User Group to search for
-     * @param string $parentLocationId (optional) parent location id to search in
-     *
-     * @return search results
-     */
-    protected function searchUserGroups( $name, $parentLocationId = null )
-    {
-        $repository = $this->getRepository();
-        $searchService = $repository->getSearchService();
-
-        $criterionArray = array(
-            new Criterion\Subtree( self::USERGROUP_ROOT_SUBTREE ),
-            new Criterion\ContentTypeIdentifier( self::USERGROUP_CONTENT_IDENTIFIER ),
-            new Criterion\Field( 'name', Criterion\Operator::EQ, $name ),
-        );
-        if ( $parentLocationId )
-        {
-            $criterionArray[] = new Criterion\ParentLocationId( $parentLocationId );
-        }
-        $query = new Query();
-        $query->filter = new Criterion\LogicalAnd( $criterionArray );
-
-        $result = $repository->sudo(
-            function() use( $query, $searchService )
-            {
-                return $searchService->findContent( $query, array(), false );
-            }
-        );
-
-        return $result->searchHits;
-    }
-
-    /**
      * Search User with given username, optionally at given location
      *
      * @param string $username  name of User to search for
@@ -143,7 +123,7 @@ class User extends Base
      *
      * @return User found
      */
-    protected function searchUserByLogin( $username, $parentGroupId = null )
+    public function searchUserByLogin( $username, $parentGroupId = null )
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -242,36 +222,6 @@ class User extends Base
         $userUpdateStruct = $userService->newUserUpdateStruct();
         $userUpdateStruct->setField( $fieldLabel, $fieldValue );
         $userService->updateUser( $user, $userUpdateStruct );
-    }
-
-    /**
-     * Create new User Group inside existing parent User Group
-     *
-     * @param string $name  User Group name
-     * @param \eZ\Publish\API\Repository\Values\User\UserGroup $parentGroup  (optional) parent user group, defaults to UserGroup "/Users"
-     *
-     * @return \eZ\Publish\API\Repository\Values\User\UserGroup
-     */
-    protected function createUserGroup( $name, $parentGroup = null )
-    {
-        $repository = $this->getRepository();
-        $userService = $repository->getUserService();
-
-        if ( !$parentGroup )
-        {
-            $parentGroup = $this->loadUserGroup( self::USERGROUP_ROOT_CONTENT_ID );
-        }
-
-        $userGroup = $repository->sudo(
-            function() use( $name, $parentGroup, $userService )
-            {
-                $userGroupCreateStruct = $userService->newUserGroupCreateStruct( 'eng-GB' );
-                $userGroupCreateStruct->setField( 'name', $name );
-                return $userService->createUserGroup( $userGroupCreateStruct, $parentGroup );
-            }
-        );
-        $this->addObjectToList( $userGroup );
-        return $userGroup;
     }
 
     /**
@@ -411,6 +361,7 @@ class User extends Base
         {
             // find parent group name
             $searchResults = $this->searchUserGroups( $parentGroupName );
+
             if ( empty( $searchResults ) )
             {
                 // group not found, so return immediately

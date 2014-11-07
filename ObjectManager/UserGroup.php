@@ -33,7 +33,7 @@ class UserGroup extends Base
      *
      * @return \eZ\Publish\API\Repository\Values\User\UserGroup
      */
-    protected function loadUserGroup( $id )
+    public function loadUserGroup( $id )
     {
         /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = $this->getRepository();
@@ -57,7 +57,7 @@ class UserGroup extends Base
      *
      * @return search results
      */
-    protected function searchUserGroups( $name, $parentLocationId = null )
+    public function searchUserGroups( $name, $parentLocationId = null )
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -91,7 +91,7 @@ class UserGroup extends Base
      *
      * @return \eZ\Publish\API\Repository\Values\User\UserGroup
      */
-    protected function createUserGroup( $name, $parentGroup = null )
+    public function createUserGroup( $name, $parentGroup = null )
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
