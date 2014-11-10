@@ -37,3 +37,14 @@ Feature: User Creation
         Then User with name "testuser" exists
         And User with name "testuser" exists in "Members" group
         And User with name "testuser" doesn't exist in "Some other group" group
+
+    Scenario:
+        Given there is a User with name "testuser1" with the following fields:
+            | Name          | value        |
+            | first_name    | Test         |
+            | last_name     | User         |
+        Then User with name "testuser1" exists
+        And User with name "testuser1" has the following fields:
+            | Name          | value        |
+            | first_name    | Test         |
+            | last_name     | User         |

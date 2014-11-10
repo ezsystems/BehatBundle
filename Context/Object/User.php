@@ -17,11 +17,6 @@ use PHPUnit_Framework_Assert as Assertion;
  */
 trait User
 {
-    protected $userFields = array(
-        'first_name',
-        'last_name'
-    );
-
     /**
      * @Given there is a User with name :username
      *
@@ -75,22 +70,19 @@ trait User
      */
     public function iHaveUserWithFields( $username, TableNode $table )
     {
-        $repository = $this->getRepository();
-        $userService = $repository->getUserService();
-        $thisUser = $this->getUserManager()->ensureUserExists( $username );
+        $email = $this->findNonExistingUserEmail();
+        $password = $username;
+        $user = $this->getUserManager()->ensureUserExists( $username, $email, $password );
 
-        // TODO: move following field setting code to ObjectManager/User
-
-        $userUpdateStruct = $userService->newUserUpdateStruct();
-
-        $fields = $table->getTable();
-        array_shift( $fieldsData );
-        foreach ( $fieldsData as $fieldData )
+        $fieldsTable = $table->getTable();
+        array_shift( $fieldsTable );
+        $updateFields = array();
+        foreach ( $fieldsTable as $fieldRow )
         {
-            #$this->setField( $thisUserUpdateStruct, $field[0], $field[1] );
-            $userUpdateStruct->contentUpdateStruct->setField( $fieldData[0], $fieldData[1] );
+            $updateFields[ $fieldRow[0] ] = $fieldRow[1];
         }
-        $userService->updateUser( $thisUser, $thisUserUpdateStruct );
+
+        $this->getUserManager()->updateUser( $user, $updateFields );
     }
 
     /**
@@ -159,7 +151,7 @@ trait User
     public function assertUserWithNameExists( $username )
     {
         Assertion::assertTrue(
-            $this->getUserManager()->checkUserExistenceByName( $username ),
+            $this->getUserManager()->checkUserExistenceByUsername( $username ),
             "Couldn't find User with name '$username'."
         );
     }
@@ -170,7 +162,7 @@ trait User
     public function assertUserWithNameDoesntExist( $username )
     {
         Assertion::assertFalse(
-            $this->getUserManager()->checkUserExistenceByName( $username ),
+            $this->getUserManager()->checkUserExistenceByUsername( $username ),
             "User with name '$username' was found."
         );
     }
@@ -182,7 +174,7 @@ trait User
     public function assertUserWithNameExistsInGroup( $username, $parentGroup )
     {
         Assertion::assertTrue(
-            $this->getUserManager()->checkUserExistenceByName( $username, $parentGroup ),
+            $this->getUserManager()->checkUserExistenceByUsername( $username, $parentGroup ),
             "Couldn't find User with name '$username' in parent group '$parentGroup'."
         );
     }
@@ -194,7 +186,7 @@ trait User
     public function assertUserWithNameDoesntExistInGroup( $username, $parentGroup )
     {
         Assertion::assertFalse(
-            $this->getUserManager()->checkUserExistenceByName( $username, $parentGroup ),
+            $this->getUserManager()->checkUserExistenceByUsername( $username, $parentGroup ),
             "User with name '$username' was found in parent group '$parentGroup'."
         );
     }
@@ -210,7 +202,7 @@ trait User
         {
             $parentGroupName = $group[0];
             Assertion::assertFalse(
-                $this->getUserManager()->checkUserExistenceByName( $username, $parentGroupName ),
+                $this->getUserManager()->checkUserExistenceByUsername( $username, $parentGroupName ),
                 "User with name '$username' was found in parent group '$parentGroupName'."
             );
         }
@@ -249,7 +241,7 @@ trait User
         for ( $i = 0; $i < 20; $i++ )
         {
             $username = 'User#' . rand( 1000, 9999 );
-            if ( !$this->getUserManager()->checkUserExistenceByName( $username ) )
+            if ( !$this->getUserManager()->checkUserExistenceByUsername( $username ) )
             {
                 return $username;
             }

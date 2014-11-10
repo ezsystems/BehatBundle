@@ -214,14 +214,28 @@ class User extends Base
      * @param $fieldLabel name of the field to update
      * @param $fieldValue value of the field to update to
      */
-    public function updateUser( $user, $fieldLabel, $fieldValue )
+    public function updateUser( $user, $fields = array() )
     {
         /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
         $userService = $repository->getUserService();
+
+        $contentUpdateStruct = $contentService->newContentUpdateStruct();
+        foreach ( $fields as $fieldName => $fieldValue )
+        {
+            $contentUpdateStruct->setField( $fieldName, $fieldValue, 'eng-GB' );
+        }
+
         $userUpdateStruct = $userService->newUserUpdateStruct();
-        $userUpdateStruct->setField( $fieldLabel, $fieldValue );
-        $userService->updateUser( $user, $userUpdateStruct );
+        $userUpdateStruct->contentUpdateStruct = $repository->getContentService()->newContentUpdateStruct();
+
+        $repository->sudo(
+            function() use( $user, $userUpdateStruct, $userService )
+            {
+                $userService->updateUser( $user, $userUpdateStruct );
+            }
+        );
     }
 
     /**
@@ -348,14 +362,14 @@ class User extends Base
 
 
     /**
-     * Checks if the User with name $name exists
+     * Checks if the User with username $username exists
      *
      * @param string $username User name
      * @param string $parentGroupName User group name to search inside
      *
      * @return boolean true if it exists, false if user or group don't exist
      */
-    public function checkUserExistenceByName( $username, $parentGroupName = null )
+    public function checkUserExistenceByUsername( $username, $parentGroupName = null )
     {
         if ( $parentGroupName )
         {
