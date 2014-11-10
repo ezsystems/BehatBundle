@@ -70,19 +70,22 @@ trait User
      */
     public function iHaveUserWithFields( $username, TableNode $table )
     {
-        $email = $this->findNonExistingUserEmail();
-        $password = $username;
-        $user = $this->getUserManager()->ensureUserExists( $username, $email, $password );
-
         $fieldsTable = $table->getTable();
         array_shift( $fieldsTable );
-        $updateFields = array();
+        $fields = array();
         foreach ( $fieldsTable as $fieldRow )
         {
-            $updateFields[ $fieldRow[0] ] = $fieldRow[1];
+            $fields[ $fieldRow[0] ] = $fieldRow[1];
         }
 
-        $this->getUserManager()->updateUser( $user, $updateFields );
+        $password = isset( $fields['password'] ) ? $fields['password'] : $username;
+        $email = isset( $fields['email'] ) ? $fields['email'] : $this->findNonExistingUserEmail();
+
+        // first, ensure the user exists
+        $user = $this->getUserManager()->ensureUserExists( $username, $email, $password );
+
+        // then, update with fields
+        $this->getUserManager()->updateUser( $user, $fields );
     }
 
     /**
@@ -209,6 +212,49 @@ trait User
     }
 
     /**
+     * @Then User with name :username has the following fields:
+     * @Then User with name :username exists with the following fields:
+     */
+    public function assertUserWithNameExistsWithFields( $username, TableNode $table )
+    {
+        Assertion::assertTrue(
+            $this->getUserManager()->checkUserExistenceByUsername( $username ),
+            "Couldn't find User with name '$username'."
+        );
+
+        $user = $this->getUserManager()->loadUserByLogin( $username );
+
+        $fieldsTable = $table->getTable();
+        array_shift( $fieldsTable );
+        $updateFields = array();
+        foreach ( $fieldsTable as $fieldRow )
+        {
+            $fieldName = $fieldRow[0];
+            $expectedValue = $fieldRow[1];
+
+            switch ( $fieldName )
+            {
+                case 'email':
+                    $fieldValue = $user->email;
+                    break;
+                case 'password':
+                    $fieldValue = $user->passwordHash;
+                    $expectedValue = $this->getUserManager()->createPasswordHash( $username, $expectedValue, $user->hashAlgorithm );
+                    break;
+                default:
+                    $fieldValue = $user->getFieldValue( $fieldName );
+            }
+            Assertion::assertEquals(
+                $expectedValue,
+                $fieldValue,
+                "Field '$fieldName' did not contain expected value '$expectedValue'."
+            );
+        }
+    }
+
+
+
+    /**
      * Find a non existing User email
      *
      * @return string A not used email
@@ -270,4 +316,5 @@ trait User
 
         throw new \Exception( 'Possible endless loop when attempting to find a new id for User.' );
     }
+
 }

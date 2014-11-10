@@ -1,7 +1,7 @@
 Feature: User Creation
     As a behat developer
     I need to run user scenarios
-    In order to test user creation functions
+    In order to test user creation/verification functions
 
     Scenario: Test that a user already exists
         Given there is a User with name "Anonymous"
@@ -39,12 +39,17 @@ Feature: User Creation
         And User with name "testuser" doesn't exist in "Some other group" group
 
     Scenario:
-        Given there is a User with name "testuser1" with the following fields:
-            | Name          | value        |
-            | first_name    | Test         |
-            | last_name     | User         |
-        Then User with name "testuser1" exists
-        And User with name "testuser1" has the following fields:
-            | Name          | value        |
-            | first_name    | Test         |
-            | last_name     | User         |
+        Given there isn't a User with name "testuser"
+        Given there is a User with name "testuser" with the following fields:
+            | Name          | value           |
+            | email         | testuser@ez.no  |
+            | password      | testuser        |
+            | first_name    | Test            |
+            | last_name     | User            |
+        Then User with name "testuser" exists
+        And User with name "testuser" has the following fields:
+            | Name          | value           |
+            | email         | testuser@ez.no  |
+            | password      | testuser        |
+            | first_name    | Test            |
+            | last_name     | User            |

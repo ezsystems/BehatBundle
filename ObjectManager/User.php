@@ -221,14 +221,24 @@ class User extends Base
         $contentService = $repository->getContentService();
         $userService = $repository->getUserService();
 
+        $userUpdateStruct = $userService->newUserUpdateStruct();
         $contentUpdateStruct = $contentService->newContentUpdateStruct();
         foreach ( $fields as $fieldName => $fieldValue )
         {
-            $contentUpdateStruct->setField( $fieldName, $fieldValue, 'eng-GB' );
+            switch ( $fieldName )
+            {
+                case 'password':
+                    // TODO: throw, not impl.
+                    break;
+                case 'email':
+                    // TODO: throw, not impl.
+                    break;
+                default:
+                    $contentUpdateStruct->setField( $fieldName, $fieldValue, 'eng-GB' );
+                    break;
+            }
         }
-
-        $userUpdateStruct = $userService->newUserUpdateStruct();
-        $userUpdateStruct->contentUpdateStruct = $repository->getContentService()->newContentUpdateStruct();
+        $userUpdateStruct->contentUpdateStruct = $contentUpdateStruct;
 
         $repository->sudo(
             function() use( $user, $userUpdateStruct, $userService )
@@ -457,6 +467,27 @@ class User extends Base
                 }
             }
         );
+    }
+
+    public function createPasswordHash( $login, $password, $type )
+    {
+        switch ( $type )
+        {
+            case 2:
+                /* PASSWORD_HASH_MD5_USER */
+                return md5( "{$login}\n{$password}" );
+
+            case 3:
+                /* PASSWORD_HASH_MD5_SITE */
+                $site = null;
+                return md5( "{$login}\n{$password}\n{$site}" );
+
+            case 5:
+                /* PASSWORD_HASH_PLAINTEXT */
+                return $password;
+        }
+        /* PASSWORD_HASH_MD5_PASSWORD (1) */
+        return md5( $password );
     }
 
     protected function destroy( ValueObject $object )
