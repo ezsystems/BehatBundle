@@ -24,7 +24,7 @@ trait User
      */
     public function iHaveUser( $username )
     {
-        $email = $this->findNonExistingUserEmail();
+        $email = $this->findNonExistingUserEmail( $username );
         $password = $username;
         $user = $this->getUserManager()->ensureUserExists( $username, $email, $password );
         $this->addValuesToKeyMap( $email, $user->email );
@@ -47,7 +47,7 @@ trait User
      */
     public function iHaveUserInGroup( $username, $parentGroupName )
     {
-        $email = $this->findNonExistingUserEmail();
+        $email = $this->findNonExistingUserEmail( $username );
         $password = $username;
         $user = $this->getUserManager()->ensureUserExists( $username, $email, $password, $parentGroupName );
         $this->addValuesToKeyMap( $email, $user->email );
@@ -79,7 +79,7 @@ trait User
         }
 
         $password = isset( $fields['password'] ) ? $fields['password'] : $username;
-        $email = isset( $fields['email'] ) ? $fields['email'] : $this->findNonExistingUserEmail();
+        $email = isset( $fields['email'] ) ? $fields['email'] : $this->findNonExistingUserEmail( $username );
 
         // first, ensure the user exists
         $user = $this->getUserManager()->ensureUserExists( $username, $email, $password );
@@ -252,8 +252,6 @@ trait User
         }
     }
 
-
-
     /**
      * Find a non existing User email
      *
@@ -261,8 +259,14 @@ trait User
      *
      * @throws \Exception Possible endless loop
      */
-    private function findNonExistingUserEmail()
+    private function findNonExistingUserEmail( $username = 'User' )
     {
+        $email = "${username}@ez.no";
+        if ( $this->getUserManager()->checkUserExistenceByEmail( $email ) )
+        {
+            return $email;
+        }
+
         for ( $i = 0; $i < 20; $i++ )
         {
             $email = 'User#' . rand( 1000, 9999 ) . "@ez.no";
@@ -275,7 +279,7 @@ trait User
         throw new \Exception( 'Possible endless loop when attempting to find a new email for User.' );
     }
 
-        /**
+    /**
      * Find a non existing User name
      *
      * @return string A not used name
