@@ -11,7 +11,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.4.4",
-        "ezsystems/ezpublish-kernel": "~5.3@beta",
+        "ezsystems/ezpublish-kernel": "~5.4@rc",
         "phpunit/phpunit": "~4.0"
     },
     "autoload": {
