@@ -21,15 +21,15 @@ use Behat\Gherkin\Node\TableNode;
 
 class User extends Base
 {
+    const DEFAULT_LANGUAGE              = 'eng-GB';
+
     /**
      * These values are set by the default eZ Publish installation.
      */
+    const USER_IDENTIFIER               = 'user';
+
     const USERGROUP_ROOT_CONTENT_ID     = 4;
     const USERGROUP_ROOT_LOCATION       = 5;
-    const USERGROUP_ROOT_SUBTREE        = "/1/5/";
-    const USERGROUP_CONTENT_IDENTIFIER  = "user_group";
-
-    const USER_IDENTIFIER               = 'user';
 
     /**
      * Load a User Group by id
@@ -93,7 +93,7 @@ class User extends Base
     }
 
     /**
-     * Load a User by id
+     * Load a User by login
      *
      * @param int $id User content identifier
      *
@@ -118,13 +118,14 @@ class User extends Base
     /**
      * Search User with given username, optionally at given location
      *
-     * @param string $username  name of User to search for
+     * @param string $username name of User to search for
      * @param string $parentGroupLocationId where to search, in User Group tree
      *
      * @return User found
      */
     public function searchUserByLogin( $username, $parentGroupId = null )
     {
+        /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
 
@@ -176,7 +177,7 @@ class User extends Base
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
 
-        $userCreateStruct = $userService->newUserCreateStruct( $username, $email, $password, 'eng-GB' );
+        $userCreateStruct = $userService->newUserCreateStruct( $username, $email, $password, self::DEFAULT_LANGUAGE );
         $userCreateStruct->setField( 'first_name', $username );
         $userCreateStruct->setField( 'last_name', $username );
         foreach ( $fields as $fieldName => $fieldValue )
@@ -476,12 +477,10 @@ class User extends Base
             case 2:
                 /* PASSWORD_HASH_MD5_USER */
                 return md5( "{$login}\n{$password}" );
-
             case 3:
                 /* PASSWORD_HASH_MD5_SITE */
                 $site = null;
                 return md5( "{$login}\n{$password}\n{$site}" );
-
             case 5:
                 /* PASSWORD_HASH_PLAINTEXT */
                 return $password;
