@@ -17,6 +17,8 @@ trait Authentication
     /**
      * @Given I am logged (in) as a(n) :role
      * @Given I have :role permissions
+     *
+     * Logs in a (new) user with the role identified by ':role' assigned.
      */
     public function iAmLoggedInAsAn( $role )
     {
@@ -26,6 +28,9 @@ trait Authentication
 
     /**
      * @Given I am logged in as :user with password :password
+     *
+     * Performs the login action with username ':user' and password ':password'.
+     * Checks that the resulting page is the homepage.
      */
     public function iAmLoggedInAsWithPassword( $user, $password )
     {
@@ -39,6 +44,8 @@ trait Authentication
     /**
      * @Given I am not logged in
      * @Given I don't have permissions
+     *
+     * Perform the logout action, checks that the resulting page is the homepage.
      */
     public function iAmNotLoggedIn()
     {
