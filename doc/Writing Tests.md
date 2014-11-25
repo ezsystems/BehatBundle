@@ -58,6 +58,15 @@ BehatBundle provides the following sentences for the Browser Context:
         Then I (should) see :message message/text
         Then I don't see :text message/text
 
+
+In order to see all the available steps/sentences defined on a particular context (including all it's traits and parent contexts),
+you can use the `--definitions` behat option with either the `l` (list) or `i` (info) parameter:
+
+ * `$ php bin/behat --profile <profile> -dl`
+
+It is also possible to search for steps using `-d 'search phrase'`, which will display extended info for any matching steps.
+
+
 ### Extending
 
 [EzContext](Context/EzContext.php) is the base class for all [eZ Publish](http://ez.no/Products/The-eZ-Publish-Platform) BDD testing, which provides access to the kernel and all the available methods/sentences to manipulate and verify objects (see already available at [Object contexts](https://github.com/ezsystems/BehatBundle/tree/master/Context/Object)).
