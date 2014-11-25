@@ -20,6 +20,8 @@ trait ContentTypeGroup
     /**
      * @Given there is a Content Type Group with identifier :identifier
      *
+     * Ensures a content type group exists, creating a new one if it doesn't.
+     *
      * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup
      */
     public function ensureContentTypeGroupExists( $identifier )
@@ -29,6 +31,8 @@ trait ContentTypeGroup
 
     /**
      * @Given there isn't a Content Type Group with identifier :identifier
+     *
+     * Ensures a content type group does not exist, removing it if necessary.
      */
     public function ensureContentTypeGroupDoesntExist( $identifier )
     {
@@ -37,6 +41,8 @@ trait ContentTypeGroup
 
     /**
      * @Given there is Content Type Group with id :id
+     *
+     * Creates a new content type group with a non-existent identifier, and maps it's id to ':id'
      */
     public function ensureContentTypeGroupWithIdExists( $id )
     {
@@ -47,6 +53,8 @@ trait ContentTypeGroup
 
     /**
      * @Given there isn't a Content Type Group with id :id
+     *
+     * Maps id ':id' to a non-existent content type group.
      */
     public function ensureContentTypeGroupWithIdDoesntExist( $id )
     {
@@ -57,6 +65,8 @@ trait ContentTypeGroup
 
     /**
      * @Given there is a Content Type Group with id :id and identifier :identifier
+     *
+     * nsures a content type group exists with identifier ':identifier', and maps it's id to ':id'
      */
     public function ensureContentTypeGroupWithIdAndIdentifierExists( $id, $identifier )
     {
@@ -67,6 +77,12 @@ trait ContentTypeGroup
 
     /**
      * @Given there are the following Content Type Groups:
+     *
+     * Make sure that content type groups in the provided table exist, by identifier. Example:
+     *      | group                 |
+     *      | testContentTypeGroup1 |
+     *      | testContentTypeGroup2 |
+     *      | testContentTypeGroup3 |
      */
     public function ensureContentTypeGroupsExists( TableNode $table )
     {
@@ -81,6 +97,8 @@ trait ContentTypeGroup
 
     /**
      * @Then Content Type Group with id :id exists
+     *
+     * Checks that content type group with (mapped) id ':id' exists
      */
     public function assertContentTypeGroupExists( $id )
     {
@@ -95,6 +113,8 @@ trait ContentTypeGroup
      * @Then Content Type Group with identifier :identifier exists
      * @Then Content Type Group with identifier :identifier was created
      * @Then Content Type Group with identifier :identifier wasn't deleted
+     *
+     * Checks that content type group with identifier ':identifier' exists
      */
     public function assertContentTypeGroupWithIdentifierExists( $identifier )
     {
@@ -106,6 +126,8 @@ trait ContentTypeGroup
 
     /**
      * @Then Content Type Group with id :id doesn't exist
+     *
+     *  Checks that content type group with (mapped) id ':id' does not exist
      */
     public function assertContentTypeGroupDoesntExist( $id )
     {
@@ -120,6 +142,8 @@ trait ContentTypeGroup
      * @Then Content Type Group with identifier :identifier doesn't exist (anymore)
      * @Then Content Type Group with identifier :identifier wasn't created
      * @Then Content Type Group with identifier :identifier was deleted
+     *
+     * Checks that content type group with identifier ':identifier' does not exist
      */
     public function assertContentTypeGroupWithIdentifierDoesntExist( $identifier )
     {
@@ -130,7 +154,10 @@ trait ContentTypeGroup
     }
 
     /**
-     * @Then only :total Content Type Group(s) with identifier :identifier exists
+     * @Then (only) :total Content Type Group(s) with identifier :identifier exists
+     * @Then (only) :total Content Type Group(s) exists with identifier :identifier
+     *
+     * Checks that there are exactly ':total' content type groups with identifier ':identifier'
      */
     public function assertTotalContentTypeGroups( $total, $identifier )
     {
