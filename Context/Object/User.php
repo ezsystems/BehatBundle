@@ -20,6 +20,8 @@ trait User
     /**
      * @Given there is a User with name :username
      *
+     * Ensures a user with username ':username' exists, creating a new one if necessary.
+     *
      * @return \eZ\Publish\API\Repository\Values\User\User
      */
     public function iHaveUser( $username )
@@ -33,6 +35,8 @@ trait User
     /**
      * @Given there is a User with name :username, email :email and password :password
      *
+     * Ensures a user exists with given username/email/password, creating a new one if necessary.
+     *
      * @return \eZ\Publish\API\Repository\Values\User\User
      */
     public function iHaveUserWithUsernameEmailAndPassword( $username, $email, $password )
@@ -42,6 +46,8 @@ trait User
 
     /**
      * @Given there is a User with name :username in :parentGroup group
+     *
+     * Ensures a user with username ':username' exists as a child of ':parentGroup' user group, can create either one.
      *
      * @return \eZ\Publish\API\Repository\Values\User\User
      */
@@ -56,6 +62,8 @@ trait User
     /**
      * @Given there is a User with name :username, email :email and password :password in :parentGroup group
      *
+     * Ensures a user with given username/email/password as a child of ':parentGroup' user group, can create either one.
+     *
      * @return \eZ\Publish\API\Repository\Values\User\User
      */
     public function iHaveUserWithUsernameEmailAndPasswordInGroup( $username, $email, $password, $parentGroupName )
@@ -65,6 +73,13 @@ trait User
 
     /**
      * @Given there is a User with name :username with the following fields:
+     *
+     * Ensures a user exists with the values provided in the fields/value table. example:
+     *       | Name          | value           |
+     *       | email         | testuser@ez.no  |
+     *       | password      | testuser        |
+     *       | first_name    | Test            |
+     *       | last_name     | User            |
      *
      * @return \eZ\Publish\API\Repository\Values\User\User
      */
@@ -90,6 +105,8 @@ trait User
 
     /**
      * @Given there isn't a User with name :username
+     *
+     * Makes sure a user with username ':username' doesn't exist, removing it if necessary
      */
     public function iDontHaveUser( $username )
     {
@@ -98,6 +115,8 @@ trait User
 
     /**
      * @Given there isn't a User with name :username in :parentGroup group
+     *
+     * Makes sure a user with username ':username' doesn't exist as a chield of group ':parentGroup', removing it if necessary.
      */
     public function iDontHaveUserInGroup( $username, $parentGroup )
     {
@@ -106,6 +125,8 @@ trait User
 
     /**
      * @Given there is a User with id :id
+     *
+     * Makes user a user with (mapped) id ':id' exists
      */
     public function iHaveUserWithId( $id )
     {
@@ -116,6 +137,8 @@ trait User
 
     /**
      * @Given there isn't a User with id :id
+     *
+     *Makes user a user with (mapped) id ':id' does not exist
      */
     public function iDontHaveUserWithId( $id )
     {
@@ -125,6 +148,8 @@ trait User
 
     /**
      * @Given there is a User with name :username with id :id in :parentGroup group
+     *
+     * Ensures a user with username ':username' and id ':id' exists as a child of ':parentGroup' user group, can create either one.
      */
     public function iHaveUserWithIdInGroup( $username, $id, $parentGroup )
     {
@@ -134,6 +159,12 @@ trait User
 
     /**
      * @Given there are the following Users:
+     *
+     * Make sure that users in the provided table exist in their respective parent group. Example:
+     *      | username        | parentGroup      |
+     *      | testUser1       | Members          |
+     *      | testUser2       | Editors          |
+     *      | testUser3       | NewParent        | # Both user and group should be created
      */
     public function iHaveTheFollowingUsers( TableNode $table )
     {
@@ -150,6 +181,8 @@ trait User
     /**
      * @Given a User with name :username already exists
      * @Then User with name :username exists
+     *
+     * Checks that user ':username' exists
      */
     public function assertUserWithNameExists( $username )
     {
@@ -161,6 +194,8 @@ trait User
 
     /**
      * @Then User with name :username doesn't exist
+     *
+     * * Checks that user ':username' does not exist
      */
     public function assertUserWithNameDoesntExist( $username )
     {
@@ -173,6 +208,8 @@ trait User
     /**
      * @Then User with name :username exists in group :parentGroup
      * @Then User with name :username exists in :parentGroup group
+     *
+     * Checks that user ':username' exists as a child of group ':parentGroup'
      */
     public function assertUserWithNameExistsInGroup( $username, $parentGroup )
     {
@@ -185,6 +222,8 @@ trait User
     /**
      * @Then User with name :username doesn't exist in group :parentGroup
      * @Then User with name :username doesn't exist in :parentGroup group
+     *
+     * Checks that user ':username' does not exist as a child of group ':parentGroup'
      */
     public function assertUserWithNameDoesntExistInGroup( $username, $parentGroup )
     {
@@ -196,6 +235,13 @@ trait User
 
     /**
      * @Then User with name :username doesn't exist in the following groups:
+     *
+     * Checks that user ':username' does not exist in any of the provided groups. Example:
+     *      | parentGroup           |
+     *      | Partners              |
+     *      | Anonymous Users       |
+     *      | Editors               |
+     *      | Administrator users   |
      */
     public function assertUserWithNameDoesntExistInGroups( $username, TableNode $table )
     {
@@ -214,6 +260,13 @@ trait User
     /**
      * @Then User with name :username has the following fields:
      * @Then User with name :username exists with the following fields:
+     *
+     * Checks that user ':username' exists with the values provided in the field/value table. example:
+     *       | Name          | value           |
+     *       | email         | testuser@ez.no  |
+     *       | password      | testuser        |
+     *       | first_name    | Test            |
+     *       | last_name     | User            |
      */
     public function assertUserWithNameExistsWithFields( $username, TableNode $table )
     {
