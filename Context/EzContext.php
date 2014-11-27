@@ -22,6 +22,7 @@ class EzContext implements KernelAwareContext
 {
     use Object\ContentTypeGroup;
     use Object\UserGroup;
+    use Object\User;
 
     const DEFAULT_SITEACCESS_NAME = 'behat_site';
 
@@ -103,8 +104,17 @@ class EzContext implements KernelAwareContext
      */
     public function prepareKernel( $event )
     {
+        $container = $this->getKernel()->getContainer();
+
         // Inject a properly generated siteaccess if the kernel is booted, and thus container is available.
-        $this->getKernel()->getContainer()->set( 'ezpublish.siteaccess', $this->generateSiteAccess() );
+        $container->set( 'ezpublish.siteaccess', $this->generateSiteAccess() );
+
+        // Replacing legacy kernel handler web by the CLI one
+        // @todo: this should be somewhat done in the legacy bundle
+        $legacyHandlerCLI = $container->get( 'ezpublish_legacy.kernel_handler.cli' );
+        $container->set( 'ezpublish_legacy.kernel.lazy', null );
+        $container->set( 'ezpublish_legacy.kernel_handler', $legacyHandlerCLI );
+        $container->set( 'ezpublish_legacy.kernel_handler.web', $legacyHandlerCLI );
     }
 
     /**
@@ -150,7 +160,7 @@ class EzContext implements KernelAwareContext
                 throw new \Exception( "Class '{$object}' not found or it doesn't implement '{$namespace}ObjectManagerInterface'" );
             }
 
-            $this->objectManagers[$object] = $class::instance( $this->getKernel() );
+            $this->objectManagers[$object] = $class::instance( $this );
         }
 
         return $this->objectManagers[$object];

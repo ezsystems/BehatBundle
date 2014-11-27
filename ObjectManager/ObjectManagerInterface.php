@@ -10,7 +10,7 @@
 namespace EzSystems\BehatBundle\ObjectManager;
 
 use eZ\Publish\API\Repository\Values\ValueObject;
-use Symfony\Component\HttpKernel\KernelInterface;
+use Behat\Symfony2Extension\Context\KernelAwareContext;
 
 /**
  * Base interface for the object managers
@@ -27,28 +27,28 @@ interface ObjectManagerInterface
      *
      * @return \EzSystems\BehatBundle\ObjectManager\ObjectManagerInterface
      */
-    static function instance( KernelInterface $kernel );
+    static public function instance( KernelAwareContext $context );
 
     /**
      * Get kenel
      *
      * @return \Symfony\Component\HttpKernel\KernelInterface
      */
-    function getKernel();
+    public function getKernel();
 
     /**
      * Get repository
      *
      * @return \eZ\Publish\API\Repository\Repository
      */
-    function getRepository();
+    public function getRepository();
 
     /**
      * Add created test object to list
      *
      * @param \eZ\Publish\API\Repository\Values\ValueObject $object
      */
-    function addObjectToList( ValueObject $object );
+    public function addObjectToList( ValueObject $object );
 
     /**
      * Destroy/remove/delete all created objects (from given steps)

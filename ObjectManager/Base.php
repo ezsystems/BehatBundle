@@ -14,7 +14,6 @@ use Behat\Behat\Context\BehatContext;
 use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 abstract class Base implements ObjectManagerInterface
 {
@@ -43,9 +42,10 @@ abstract class Base implements ObjectManagerInterface
      *
      * @param \Symfony\Component\HttpKernel\KernelInterface $kernel
      */
-    protected function setKernel( KernelInterface $kernel )
+    protected function setContext( KernelAwareContext $context )
     {
-        $this->kernel = $kernel;
+        $this->context = $context;
+        $this->kernel = $context->getKernel();
     }
 
     /**
@@ -58,21 +58,31 @@ abstract class Base implements ObjectManagerInterface
      *
      * @return \EzSystems\BehatBundle\ObjectManager\Base
      */
-    static public function instance( KernelInterface $kernel )
+    static public function instance( KernelAwareContext $context )
     {
         static $instance = null;
         if ( $instance === null )
         {
             $class = get_called_class();
             $instance = new $class();
-            $instance->setKernel( $kernel );
+            $instance->setContext( $context );
         }
 
         return $instance;
     }
 
     /**
-     * Get kenel
+     * Get Context
+     *
+     * @return \Behat\Symfony2Extension\Context\KernelAwareContext
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * Get Kernel
      *
      * @return \Symfony\Component\HttpKernel\KernelInterface
      */
