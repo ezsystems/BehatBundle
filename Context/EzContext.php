@@ -20,9 +20,10 @@ use Behat\Symfony2Extension\Context\KernelAwareContext;
  */
 class EzContext implements KernelAwareContext
 {
-    use Object\ContentTypeGroup;
-    use Object\UserGroup;
     use Object\User;
+    use Object\UserGroup;
+    use Object\Content;
+    use Object\ContentTypeGroup;
 
     const DEFAULT_SITEACCESS_NAME = 'behat_site';
 
@@ -178,10 +179,10 @@ class EzContext implements KernelAwareContext
     {
         if ( empty( $key ) )
         {
-            throw new InvalidArgumentException( 'key', "can't be empty" );
+            throw new InvalidArgumentException( 'key', 'cannot be empty' );
         }
 
-        if ( ! empty( $this->keyMap[$key] ) )
+        if ( array_key_exists( $key, $this->keyMap ) )
         {
             throw new InvalidArgumentException( 'key', 'key exists' );
         }
@@ -192,18 +193,32 @@ class EzContext implements KernelAwareContext
     /**
      * Fetches values needed for testing stored on mapping
      *
-     * @param string $key (Unique) Identifier key on the array
+     * @param string $key (Unique) identifier key on the array
      *
-     * @return mixed|null Mapped value or null if not found
+     * @return mixed|null Mapped value, or null if not found
      */
     protected function getValuesFromKeyMap( $key )
     {
-        if ( empty( $key ) || empty( $this->keyMap[$key] ) )
+        if ( empty( $key ) )
+        {
+            throw new InvalidArgumentException( 'key', 'cannot be empty' );
+        }
+
+        if ( !isset( $this->keyMap[$key] ) )
         {
             return null;
         }
 
         return $this->keyMap[$key];
+    }
+
+    protected function unsetOnKeyMap( $key )
+    {
+        if ( empty( $key ) )
+        {
+            throw new InvalidArgumentException( 'key', 'cannot be empty' );
+        }
+        unset( $this->keyMap[$key] );
     }
 
     /**

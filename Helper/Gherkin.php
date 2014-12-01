@@ -10,12 +10,57 @@
 namespace EzSystems\BehatBundle\Helper;
 
 use Behat\Gherkin\Node\TableNode;
+use Behat\Gherkin\Node\PyStringNode;
 
 /**
  * Gherkin helper methods to manipulate Node's
  */
 class Gherkin
 {
+
+    /**
+     * Returns multi-line (PyString) data in the following format as a key => value array:
+     *
+     *      """
+     *      field
+     *      =====
+     *      Field Content
+     *
+     *      some xml field
+     *      ============
+     *      <?xml version="1.0" encoding="utf-8"?>
+     *      <node>
+     *          <paragraph>This is a paragraph.</paragraph>
+     *      </node>
+     *
+     *      other fields...
+     *      ===============
+     *      some content
+     *          === more content
+     *      """
+     *
+     * @return array [description]
+     */
+    public static function getMultilineTable( PyStringNode $textNode )
+    {
+        // following regex expects a new-line at the end of the last
+        $content = $textNode->getRaw() . "\n";
+        preg_match_all(
+            '/(^(?<name>.*)\\n={3,}\\n(?<content>(.*\\n(?!.*\\n={3,}))+))/m',
+            $content,
+            $pregMatches,
+            PREG_SET_ORDER
+        );
+
+        $result = array();
+        foreach ( $pregMatches as $matches )
+        {
+            $result[ $matches['name'] ] = rtrim( $matches['content'], "\n" );
+        }
+
+        return $result;
+    }
+
     /**
      * This function will convert Gherkin tables into structure array of data
      *
