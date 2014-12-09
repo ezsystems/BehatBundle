@@ -243,26 +243,45 @@ class EzContext implements KernelAwareContext
     /**
      * Get credentials for a specific role
      *
+     * @uses \EzSystems\BehatBundle\Context\Object\User
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     *
      * @param string $role Role intended for testing
      *
      * @return array Associative with 'login' and 'password'
      */
-    protected function getCredentialsFor( $role )
+    protected function getCredentialsFor( $roleIdentifier )
     {
-        switch( strtolower( $role ) )
-        {
-            case 'administrator':
-                $user = 'admin';
-                $password = 'publish';
-                break;
+        $roleService = $this->getRepository()->getRoleService();
 
-            default:
-                throw new PendingException( "Login with '$role' role not implemented yet" );
-        }
+        // First try to load role, throws exception if not found.
+        $role = $this->getRepository()->sudo(
+            function() use ( $roleService, $roleIdentifier )
+            {
+                return $roleService->loadRoleByIdentifier( $roleIdentifier );
+            }
+        );
+
+        // create a new user, uses 'User' trait
+        $username = $this->findNonExistingUserName();
+        $password = $username;
+        $email = "${username}@ez.no";
+        $user = $this->getUserManager()->ensureUserExists( $username, $email, $password );
+
+        // Assign role to created user (without limitation)
+        $this->getRepository()->sudo(
+            function() use ( $roleService, $role, $user )
+            {
+                return $roleService->assignRoleToUser(
+                    $role,
+                    $user
+                );
+            }
+        );
 
         return array(
-            'login'     => $user,
-            'password'  => $password
+            'login'     => $username,
+            'password'  => $password,
         );
     }
 
