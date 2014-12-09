@@ -20,6 +20,8 @@ trait UserGroup
     /**
      * @Given there is a User Group with name :name
      *
+     * Ensures a user group exists with name ':name', creating a new one if necessary.
+     *
      * @return \eZ\Publish\API\Repository\Values\User\UserGroup
      */
     public function iHaveUserGroup( $name )
@@ -29,6 +31,8 @@ trait UserGroup
 
     /**
      * @Given there isn't a User Group with name :name
+     *
+     * Ensures a user group with name ':name' does not exist, removing it if necessary.
      */
     public function iDontHaveUserGroup( $name )
     {
@@ -37,6 +41,9 @@ trait UserGroup
 
     /**
      * @Given there is a User Group with name :childGroupName in :parentGroup group
+     *
+     * Ensures a user group with name ':childGroupName' exists as a child of group ':parentGroup'.
+     * If parent group is not found, it is also created.
      *
      * @return \eZ\Publish\API\Repository\Values\User\UserGroup
      */
@@ -47,6 +54,9 @@ trait UserGroup
 
     /**
      * @Given there isn't a User Group with name :childGroupName in :parentGroup group
+     *
+     * Ensures a user group with name ':childGroupName' does not exist as a child of group ':parentGroup'.
+     * If parent group is not found, an exception is thrown
      */
     public function iDonTHaveUserGroupInGroup( $childGroupName, $parentGroup )
     {
@@ -55,6 +65,8 @@ trait UserGroup
 
     /**
      * @Given there is a User Group with id :id
+     *
+     * Creates a new user group with a non-existent name, and maps it's id to ':id'
      */
     public function iHaveUserGroupWithId( $id )
     {
@@ -66,6 +78,8 @@ trait UserGroup
 
     /**
      * @Given there isn't a User Group with id :id
+     *
+     * Maps id ':id' to a non-existent user group.
      */
     public function iDontHaveUserGroupWithId( $id )
     {
@@ -76,6 +90,8 @@ trait UserGroup
 
     /**
      * @Given there is a User Group with name :name with id :id in :parentGroup group
+     *
+     * Ensures a user group with name ':name' exists as a child of group ':parentGroup', mapping it's id to ':id'
      */
     public function iHaveUserGroupWithIdInGroup( $name, $id, $parentGroup )
     {
@@ -85,6 +101,13 @@ trait UserGroup
 
     /**
      * @Given there are the following User Groups:
+     *
+     * Make sure that user groups in the provided table exist in their respective parent group. Example:
+     *       | childGroup      | parentGroup      |
+     *       | testUserGroup1  | Members          | # should create.
+     *       | testUserGroup1  | Editors          | # should create.
+     *       | testUserGroup3  | Test Parent      | # parent and child should be created.
+     *       | innerGroup3-1   | testUserGroup3   | # should be created inside previous.
      */
     public function iHaveTheFollowingUserGroups( TableNode $table )
     {
@@ -100,6 +123,8 @@ trait UserGroup
     /**
      * @Given a User Group with name :name already exists
      * @Then User Group with name :name exists
+     *
+     * Checks that a user group with name ':name' exists
      */
     public function assertUserGroupWithNameExists( $name )
     {
@@ -111,6 +136,8 @@ trait UserGroup
 
     /**
      * @Then User Group with name :name doesn't exist
+     *
+     * Checks that a user group with name ':name' does not exist
      */
     public function assertUserGroupWithNameDoesntExist( $name )
     {
@@ -123,6 +150,8 @@ trait UserGroup
     /**
      * @Then User Group with name :name exists in group :parentGroup
      * @Then User Group with name :name exists in :parentGroup group
+     *
+     * Checks that a user group with name ':name' exists as a child of ':parentGroup'
      */
     public function assertUserGroupWithNameExistsInGroup( $name, $parentGroup )
     {
@@ -135,6 +164,8 @@ trait UserGroup
     /**
      * @Then User Group with name :name doesn't exist in group :parentGroup
      * @Then User Group with name :name doesn't exist in :parentGroup group
+     *
+     * Checks that a user group with name ':name' does not exist as a child of ':parentGroup'
      */
     public function assertUserGroupWithNameDoesntExistInGroup( $name, $parentGroup )
     {

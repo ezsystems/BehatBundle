@@ -22,16 +22,10 @@ use PHPUnit_Framework_Assert as Assertion;
 trait CommonActions
 {
     /**
-     * @When I fill in :field with :value
-     */
-    public function fillFieldWithValue( $field, $value )
-    {
-        $this->getSession()->getPage()->fillField( $field, $value );
-    }
-
-    /**
      * @Given I am on :path
      * @When  I go to :path
+     *
+     * Visits the path ':path', relative to the configured 'base_url' parameter
      */
     public function visit( $path )
     {
@@ -43,6 +37,9 @@ trait CommonActions
      * @Given I am on/at (the) :page page
      * @When I go to the homepage
      * @When  I go to (the) :page page
+     *
+     * Visits the page identified by ':page', or the homepage.
+     * Asserts that http response status code is not >= 400
      */
     public function iAmOnPage( $page = 'home' )
     {
@@ -65,8 +62,20 @@ trait CommonActions
     }
 
     /**
+     * @When I fill in :field with :value
+     *
+     * Fill field identified by ':field' with ':value'
+     */
+    public function fillFieldWithValue( $field, $value )
+    {
+        $this->getSession()->getPage()->fillField( $field, $value );
+    }
+
+    /**
      * @Then I should be at/on (the) homepage
      * @Then I should be at/on (the) :page page
+     *
+     * Asserts that the current page is the one identified by ':page', or the homepage.
      */
     public function iShouldBeOnPage( $pageIdentifier = 'home' )
     {
@@ -84,6 +93,8 @@ trait CommonActions
     /**
      * @Given I clicked on/at (the) :button button
      * @When I click on/at (the) :button button
+     *
+     * Clicks the button identified by ':button'
      */
     public function iClickAtButton( $button )
     {
@@ -93,6 +104,8 @@ trait CommonActions
     /**
      * @Given on :pageSection I clicked at/on :button button
      * @When  on :pageSection I click at/on :button button
+     *
+     * Clicks the button identified by ':button', located in section ':section'
      */
     public function onPageSectionIClickAtButton( $button, $pageSection = null )
     {
@@ -105,6 +118,8 @@ trait CommonActions
     /**
      * @Given I clicked on/at (the) :link link
      * @When  I click on/at (the) :link link
+     *
+     * Click a link with text ':link'
      */
     public function iClickAtLink( $link )
     {
@@ -114,6 +129,9 @@ trait CommonActions
     /**
      * @Given on :pageSection I clicked on/at link link
      * @When  on :pageSection I click on/at :link link
+     *
+     * Click a link with text ':link' on page section ':pageSection'
+     * Asserts that at least one link element is found.
      */
     public function onPageSectionIClickAtLink( $link, $pageSection = null )
     {
@@ -126,6 +144,8 @@ trait CommonActions
     /**
      * @Given I checked :label checkbox
      * @When  I check :label checkbox
+     *
+     * Toggles the value for the checkbox with name ':label'
      */
     public function checkOption( $option )
     {
@@ -148,8 +168,8 @@ trait CommonActions
     /**
      * @When I select :option
      *
-     * IMPORTANT:
-     *  This will thrown an error if it find's more than 1 select/dropdown on page
+     * Selects option with value ':value'
+     * IMPORTANT: Will thrown an error if more than 1 select/dropdown is found on page
      */
     public function iSelect( $option )
     {
@@ -161,6 +181,8 @@ trait CommonActions
     /**
      * @Given I selected :label radio button
      * @When  I select :label radio button
+     *
+     * Selects the radio button with label ':label'
      */
     public function iSelectRadioButton( $label )
     {
@@ -172,6 +194,11 @@ trait CommonActions
      /**
      * @Given I filled form with:
      * @When  I fill form with:
+     *
+     * Fills a form with the provided field/value pairs:
+     *      | field         | value                  |
+     *      | Title         | A title text           |
+     *      | Content       | Some content           |
      */
     public function iFillFormWith( TableNode $table )
     {
@@ -185,11 +212,12 @@ trait CommonActions
 
     /**
      * @Then I (should) see (the) (following) links:
+     *
+     * Asserts that links with the provided text can be found on the page.
      *      | link          |
      *      | some link     |
-     *      | another link  |
      *      ...
-     *      | the link      |
+     *      | another link  |
      */
     public function iSeeLinks( TableNode $table )
     {
@@ -198,6 +226,7 @@ trait CommonActions
 
     /**
      * @Then on :pageSection I (should) see (the) (following) links:
+     *
      */
     public function onPageSectionISeeLinks( TableNode $table, $pageSection = null )
     {
@@ -216,6 +245,8 @@ trait CommonActions
     /**
      * @Then I shouldn't see (the) (following) links:
      * @Then I don't see (the) (following) links:
+     *
+     * Asserts that none of the links with the provided text can be found.
      */
     public function iDonTSeeLinks( TableNode $table )
     {
@@ -243,6 +274,8 @@ trait CommonActions
     /**
      * @Then I (should) see (the) links in the following order:
      * @Then I (should) see (the) links in this order:
+     *
+     * Checks if links exist, and appear in the specified order
      */
     public function iSeeLinksInFollowingOrder( TableNode $table )
     {
@@ -261,18 +294,16 @@ trait CommonActions
 
         // and finaly verify their existence
         $this->checkLinksExistence( $links, $available );
-
     }
 
     /**
      * @Then I (should) see (the) (following) links in:
+     *
+     * Example: this is used to see in tag cloud which tags have more results
      *      | link  | tag   |
      *      | link1 | title |
      *      | link2 | list  |
      *      | link3 | text  |
-     *
-     * Example: this is used to see in tag cloud which tags have more results
-     *
      */
     public function iSeeFollowingLinksIn( TableNode $table )
     {
@@ -306,6 +337,8 @@ trait CommonActions
 
     /**
      * @Then I (should) see :title title/topic
+     *
+     * Asserts that a (single) title element exists with the text ':title'
      */
     public function iSeeTitle( $title )
     {
@@ -330,14 +363,15 @@ trait CommonActions
 
     /**
      * @Then I (should) see table with:
+     *
+     * Asserts that a table exists with specified values.
+     * The table header needs to have the number of the column to which the values belong,
+     * all the other text is optional, normaly using 'Column' for easier understanding:
+     *
      *      | Column 1 | Column 2 | Column 4 |
      *      | Value A  | Value B  | Value D  |
      *      ...
      *      | Value I  | Value J  | Value L  |
-     *
-     * The table header needs to have the number of the column which column
-     * values belong, all the other text is optional, normaly using 'Column' for
-     * easier understanding
      */
     public function iSeeTableWith( TableNode $table )
     {
@@ -368,6 +402,8 @@ trait CommonActions
 
     /**
      * @Then I (should) see :text text emphasized
+     *
+     * Checks that an element exists on the page with text ':text' emphasized.
      */
     public function iSeeTextEmphasized( $text )
     {
@@ -393,20 +429,24 @@ trait CommonActions
     }
 
     /**
-     * @Then I (should) see :warning warning/error
+     * @Then I (should) see :message warning/error
+     *
+     * Checks that an element with the class 'warning' or 'error' exists with text ':message'
      */
-    public function iSeeWarning( $warning )
+    public function iSeeWarning( $message )
     {
         $el = $this->getXpath()->findXpath(
             "//*[contains( @class, 'warning' ) or contains( @class, 'error' )]"
-            . "//*[text() = {$this->getXpath()->literal( $warning )}]"
+            . "//*[text() = {$this->getXpath()->literal( $message )}]"
         );
 
-        Assertion::assertNotNull( $el, "Couldn't find error/warning message '{$warning}'" );
+        Assertion::assertNotNull( $el, "Couldn't find error/warning message '{$message}'" );
     }
 
     /**
      * @Then I (should) see the exact :text: message/text
+     *
+     * Checks that an element on the page contains the exact text ':text'
      */
     public function iSeeText( $text )
     {
@@ -429,6 +469,8 @@ trait CommonActions
 
     /**
      * @Then I (should) see :message message/text
+     *
+     * Checks that current page contains text.
      */
     public function iSeeMessage( $text )
     {
@@ -437,6 +479,8 @@ trait CommonActions
 
     /**
      * @Then I don't see :text message/text
+     *
+     * Checks that current page does not contain text.
      */
     public function iDonTSeeMessage( $text )
     {
