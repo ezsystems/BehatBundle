@@ -191,7 +191,7 @@ trait CommonActions
         $el->check();
     }
 
-     /**
+    /**
      * @Given I filled form with:
      * @When  I fill form with:
      *

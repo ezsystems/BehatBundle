@@ -312,7 +312,7 @@ trait User
      *
      * @throws \Exception Possible endless loop
      */
-    private function findNonExistingUserEmail( $username = 'User' )
+    public function findNonExistingUserEmail( $username = 'User' )
     {
         $email = "${username}@ez.no";
         if ( $this->getUserManager()->checkUserExistenceByEmail( $email ) )
@@ -339,7 +339,7 @@ trait User
      *
      * @throws \Exception Possible endless loop
      */
-    private function findNonExistingUserName()
+    public function findNonExistingUserName()
     {
         for ( $i = 0; $i < 20; $i++ )
         {
@@ -360,7 +360,7 @@ trait User
      *
      * @throws \Exception Possible endless loop
      */
-    private function findNonExistingUserId()
+    public function findNonExistingUserId()
     {
         for ( $i = 0; $i < 20; $i++ )
         {
