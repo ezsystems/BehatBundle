@@ -22,7 +22,7 @@ trait Authentication
      */
     public function iAmLoggedInAsAn( $role )
     {
-        if ( $role == 'Anonymous' )
+        if ( strtolower( $role ) == 'anonymous' )
         {
             $this->iAmNotLoggedIn();
         }
