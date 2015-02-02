@@ -1,5 +1,8 @@
 # This file is for manual testing only, corresponding file in ezpublish-community is used for travis testing
 default:
+    # default autoload path for 'FeatureContext' class is 'features/bootstrap'
+    autoload: %paths.base%/Features/bootstrap
+
     extensions:
         Behat\Symfony2Extension:
             kernel:
@@ -10,6 +13,19 @@ default:
                 debug: true
 
     suites:
+        # all features, use default 'FeatureContext class'
         behat:
-            paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features ]
-            contexts: [ EzSystems\BehatBundle\Context\EzContext ]
+            paths:      [ %paths.base%/Features ]
+
+        User:
+            paths:      [ %paths.base%/Features/User ]
+            contexts:   [ User ]
+        UserGroup:
+            paths:      [ %paths.base%/Features/UserGroup ]
+            contexts:   [ UserGroup ]
+        Content:
+            paths:      [ %paths.base%/Features/Content ]
+            contexts:   [ Content ]
+        ContentTypeGroup:
+            paths:      [ %paths.base%/Features/ContentTypeGroup ]
+            contexts:   [ ContentTypeGroup ]
