@@ -18,8 +18,7 @@ use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
 
 class Content extends Base
 {
-    const DEFAULT_LANGUAGE              = 'eng-GB';
-
+    const DEFAULT_LANGUAGE = 'eng-GB';
     /**
      * Load a content by it's id
      *
@@ -28,7 +27,7 @@ class Content extends Base
      *
      * @return eZ\Publish\API\Repository\Values\Content\Content
      */
-    private function loadContent( $contentId, $throwIfNotFound = true )
+    public function loadContent( $contentId, $throwIfNotFound = true )
     {
         $repository = $this->getRepository();
 
@@ -50,7 +49,7 @@ class Content extends Base
 
         if ( !$content && $throwIfNotFound )
         {
-            throw new Exception( "Could not load content with id '${contentId}'" );
+            throw new \Exception( "Could not load content with id '${contentId}'" );
         }
 
         return $content;
@@ -65,7 +64,7 @@ class Content extends Base
      *
      * @return eZ\Publish\API\Repository\Values\Content\ContentInfo
      */
-    private function loadContentInfo( $contentId, $throwIfNotFound = true )
+    public function loadContentInfo( $contentId, $throwIfNotFound = true )
     {
         $repository = $this->getRepository();
 
@@ -87,7 +86,7 @@ class Content extends Base
 
         if ( !$contentInfo && $throwIfNotFound )
         {
-            throw new Exception( "Could not load content with id '${contentId}'" );
+            throw new \Exception( "Could not load content with id '${contentId}'" );
         }
 
         return $contentInfo;
@@ -347,6 +346,31 @@ class Content extends Base
                 }
             }
         );
+    }
+
+    /**
+     * Load a content by its location id
+     *
+     * @param  int $locationId  the location id for a content
+     *
+     * @return \eZ\Publish\API\Repository\Values\Content\Content
+     */
+    public function loadContentWithLocationId( $locationId )
+    {
+        /** @var \eZ\Publish\API\Repository\Repository $repository */
+        $repository = $this->getRepository();
+
+        $content = $repository->sudo(
+            function() use( $repository, $locationId )
+            {
+                    $locationService = $repository->getLocationService();
+                    $contentService = $repository->getContentService();
+                    $location = $locationService->loadLocation( $locationId );
+
+                    return $contentService->loadContentByContentInfo( $location->contentInfo );
+            }
+        );
+        return $content;
     }
 
     /**

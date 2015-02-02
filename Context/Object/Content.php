@@ -57,6 +57,28 @@ trait Content
     }
 
     /**
+     * @Given there is :number contents of (content) type :contentType at (location) :location with (the) (following) fields:
+     *
+     * Makes sure a content of type 'contentType' exists at/under parent location ':location' with the provided fields.
+     * If it does not exist, a new one is created. 'name' is mapped to this content for the current scenario.
+     */
+    public function givenThereIsNumberContentAtLocationWithFields( $number, $contentType, $locationPath, PyStringNode $fieldData )
+    {
+        $number = intval( $number );
+        for ( $i = 0; $i < $number; $i++ )
+        {
+            $name = "internalName$i";
+            $locationId = $this->getContentManager()->loadLocationByPathString( $locationPath );
+
+            $contentType = strtolower( $contentType );
+            $fields = Gherkin::getMultilineTable( $fieldData );
+
+            $content = $this->getContentManager()->createAndPublishContent( $contentType, $fields, $locationId );
+            $this->addValuesToKeyMap( $name, $content );
+        }
+    }
+
+    /**
      * @Given there is a(n) content :name of (content) type :contentType under/in :parentName with (the) (following) fields:
      * @Given there is a(n) :name content of (content) type :contentType under/in :parentName with (the) (following) fields:
      *
@@ -69,7 +91,6 @@ trait Content
         $parentContent = $this->getContentByNameMap( $parentName );
         $parentLocationId = $parentContent->contentInfo->mainLocationId;
 
-
         $identifier = strtolower( $contentType );
         $fields = Gherkin::getMultilineTable( $fieldData );
 
@@ -77,7 +98,6 @@ trait Content
 
         $this->addValuesToKeyMap( $name, $content );
     }
-
 
     /**
      * @Given (a) content with location :location doesnt (already) exist
@@ -143,7 +163,7 @@ trait Content
      *
      * Tests that content mapped by 'name' exists.
      */
-    public function thenContentExists( $name, $locationPath )
+    public function thenContentExists( $name )
     {
         $content = $this->getContentByNameMap( $name );
 
