@@ -26,7 +26,7 @@ before_install:
   - export OLD_TRAVIS_BUILD_DIR="$TRAVIS_BUILD_DIR"
   - export TRAVIS_BUILD_DIR="$HOME/build/ezpublish-community"
   - cd "$HOME/build"
-  - git clone --depth 1 https://github.com/ezsystems/ezpublish-community.git
+  - git clone --single-branch --depth 1 https://github.com/ezsystems/ezpublish-community.git
   - cd ezpublish-community
   - ./bin/.travis/prepare_system.sh
   - ./bin/.travis/prepare_sahi.sh
@@ -39,7 +39,7 @@ before_script:
 
 # execute behat as the script command
 script:
-  - php bin/behat -v --config $CONFIG --profile $PROFILE --suite $TEST
+  - php bin/behat -vv --config $CONFIG --profile $PROFILE --suite $TEST
 
 # disable mail notifications
 notification:
