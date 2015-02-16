@@ -9,14 +9,13 @@ env:
   global:
     - CONFIG="behat.yml"
   matrix:
+      # test behat bundle with demo content
     - CONFIG="vendor/ezsystems/behatbundle/EzSystems/BehatBundle/behat.yml" INSTALL="demoContentNonUniqueDB" PROFILE="default" TEST="behat"
-      # run setup wizard to install Demo+Content and then test demo with content
+      # test demo with demo content
     - INSTALL="demoContentNonUniqueDB" PROFILE="demo" TEST="content"
-      # test Legacy
-    - INSTALL="demoCleanNonUniqueDB" PROFILE="legacyAdmin" TEST="full"
       # test REST
-    - INSTALL="demoCleanNonUniqueDB" PROFILE="rest" TEST="fullJson"
-    - INSTALL="demoCleanNonUniqueDB" PROFILE="rest" TEST="fullXml"
+    - PROFILE="rest" TEST="fullJson"
+    - PROFILE="rest" TEST="fullXml"
 
 # test only master (+ Pull requests)
 branches:
@@ -28,8 +27,11 @@ before_install:
   - export OLD_TRAVIS_BUILD_DIR="$TRAVIS_BUILD_DIR"
   - export TRAVIS_BUILD_DIR="$HOME/build/ezpublish-community"
   - cd "$HOME/build"
-  - git clone --depth 1 https://github.com/ezsystems/ezpublish-community.git
+
+  # Change the branch and/or remote to use a different ezpublish-community branch
+  - git clone --depth 1 --single-branch --branch master https://github.com/ezsystems/ezpublish-community.git
   - cd ezpublish-community
+
   - ./bin/.travis/prepare_system.sh
   - ./bin/.travis/prepare_sahi.sh
 
@@ -38,11 +40,10 @@ before_script:
   - ./bin/.travis/prepare_ezpublish.sh
   - rm -fR vendor/ezsystems/behatbundle/EzSystems/BehatBundle
   - mv "$OLD_TRAVIS_BUILD_DIR" vendor/ezsystems/behatbundle/EzSystems
-  - php bin/behat --profile setupWizard --suite $INSTALL
 
 # execute behat as the script command
 script:
-  - php bin/behat --config $CONFIG --profile $PROFILE --suite $TEST
+  - php bin/behat -vv --config $CONFIG --profile $PROFILE --suite $TEST
 
 # disable mail notifications
 notification:
