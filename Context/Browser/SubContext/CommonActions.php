@@ -504,4 +504,43 @@ trait CommonActions
     {
         $this->assertSession()->pageTextNotContains( $text );
     }
+
+    /**
+     * @Then I should see :label checkbox checked
+     */
+    public function isCheckedOption( $option )
+    {
+        $isChecked = $this->getCheckboxChecked( $option );
+        Assertion::assertTrue( $isChecked, "Checkbox $option is not checked" );
+    }
+
+    /**
+     * @Then I should not see :label checkbox checked
+     */
+    public function isNotCheckedOption( $option )
+    {
+        $isChecked = $this->getCheckboxChecked( $option );
+        Assertion::assertFalse( $isChecked, "Checkbox $option is checked" );
+    }
+
+    /**
+     * Helper for checkbox
+     */
+    private function getCheckboxChecked( $option )
+    {
+        $fieldElements = $this->getXpath()->findFields( $option );
+        EzAssertion::assertElementFound( $option, $fieldElements, null, 'checkbox' );
+
+        // this is needed for the cases where are checkboxes and radio's
+        // side by side, for main option the radio and the extra being the
+        // checkboxes values
+        if ( strtolower( $fieldElements[0]->getAttribute( 'type' ) ) !== 'checkbox' )
+        {
+            $value = $fieldElements[0]->getAttribute( 'value' );
+            $fieldElements = $this->getXpath()->findXpath( "//input[@type='checkbox' and @value='$value']" );
+            EzAssertion::assertElementFound( $value, $fieldElements, null, 'checkbox' );
+        }
+
+        return $isChecked = ( $fieldElements[0]->getAttribute( 'checked' ) ) === 'true';
+    }
 }
