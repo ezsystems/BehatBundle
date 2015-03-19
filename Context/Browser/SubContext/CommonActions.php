@@ -211,6 +211,24 @@ trait CommonActions
     }
 
     /**
+     * @Then I see field with value:
+     *
+     * Checks a form for the provided field/value pairs:
+     *      | field         | value                  |
+     *      | Title         | A title text           |
+     *      | Content       | Some content           |
+     */
+    public function formHasValue( TableNode $table )
+    {
+        foreach ( GherkinHelper::convertTableToArrayOfData( $table ) as $field => $value )
+        {
+            $elements = $this->getXpath()->findFields( $field );
+            Assertion::assertNotEmpty( $elements, "Unable to find '{$field}' field" );
+            Assertion::assertEquals( $value, $elements[0]->getValue(), "Field values don't match" );
+        }
+    }
+
+    /**
      * @Then I (should) see (the) (following) links:
      *
      * Asserts that links with the provided text can be found on the page.
