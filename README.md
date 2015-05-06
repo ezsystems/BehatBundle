@@ -71,4 +71,4 @@ _Notice_:
 
 ## Known issues
 
-* [SetupWizard](https://github.com/ezsystems/ezpublish-kernel/blob/master/eZ/Bundle/EzPublishLegacyBundle/Features/Context/SetupWizard/Context.php) profile needs _PROD_ enviroment defined (otherwise it will find duplicate html elements)
+* [SetupWizard](https://github.com/ezsystems/ezpublish-kernel/blob/master/eZ/Bundle/EzPublishLegacyBundle/Features/Context/SetupWizard/Context.php) profile needs _PROD_ environment defined (otherwise it will find duplicate html elements)
