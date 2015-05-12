@@ -57,17 +57,17 @@ class FieldType extends Base
      *
      * @param    string  $fieldType
      */
-    public function createField( $fieldType )
+    public function createField( $fieldType, $name = null )
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
         $fieldPosition = $this->getActualFieldPosition();
-        $fieldTypeName = $fieldType . "Test";
+        $name = ( $name == null ? $fieldType : $name );
         $fieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct(
-            $fieldTypeName,
+            $name,
             $this->fieldTypeInternalIdentifier[ $fieldType ]
         );
-        $fieldCreateStruct->names = array( self::DEFAULT_LANGUAGE => $fieldTypeName );
+        $fieldCreateStruct->names = array( self::DEFAULT_LANGUAGE => $name );
         $fieldCreateStruct->position = $fieldPosition;
         $this->fieldConstructionObject[ 'fieldType' ] = $fieldCreateStruct;
         $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_CREATED;
@@ -81,8 +81,9 @@ class FieldType extends Base
         }
         if ( $this->fieldConstructionObject[ 'objectState' ] == self::FIELD_CREATED )
         {
-            $field = 'Bacalhau';
-            $this->createContentType( $field );
+            $name = $this->fieldConstructionObject[ 'fieldType' ]->identifier;
+            $name .= "#" . rand( 1000, 9000 );
+            $this->createContentType( $name );
         }
         if ( $this->fieldConstructionObject[ 'objectState' ] == self::FIELD_NOT_ASSOCIATED )
         {
@@ -150,16 +151,15 @@ class FieldType extends Base
      *
      * @param   string  $fieldType
      */
-    private function createContentType( $fieldType )
+    private function createContentType( $name )
     {
         $repository = $this->getRepository();
 
         $contentTypeService = $repository->getContentTypeService();
-        $contentTypeName = $fieldType . "ContentTypeTest";
-        $contentTypeIdentifier = strtolower( $contentTypeName );
-        $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct( $contentTypeIdentifier );
+        $identifier = strtolower( $name );
+        $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct( $identifier );
         $contentTypeCreateStruct->mainLanguageCode = self::DEFAULT_LANGUAGE;
-        $contentTypeCreateStruct->names = array( self::DEFAULT_LANGUAGE => $contentTypeName );
+        $contentTypeCreateStruct->names = array( self::DEFAULT_LANGUAGE => $name );
         $this->fieldConstructionObject[ 'contentType' ] = $contentTypeCreateStruct;
         $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_NOT_ASSOCIATED;
     }

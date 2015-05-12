@@ -19,12 +19,13 @@ trait FieldType
 {
     /**
      * @Given a Content Type with an :fieldType Field exists
+     * @Given a Content Type with an :fieldType Field with Name :name exists
      *
      * Creates a ContentType with only the desired FieldType
      */
-    public function createContentTypeWithFieldType( $fieldType )
+    public function createContentTypeWithFieldType( $fieldType, $name = null )
     {
-        return $this->getFieldTypeManager()->createField( $fieldType );
+        return $this->getFieldTypeManager()->createField( $fieldType, $name );
     }
 
     /**
