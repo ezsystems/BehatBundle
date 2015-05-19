@@ -18,12 +18,13 @@ class FieldType extends Base
     /**
      * Defines the state of the Construction object, if it's not published, partialy or completely published
      */
-    const NO_FIELD_CREATED = -1;
+    const FIELD_NOT_CREATED = -1;
     const FIELD_CREATED = 0;
-    const FIELD_NOT_ASSOCIATED = 1;
-    const FIELD_ASSOCIATED = 2;
-    const CONTENT_TYPE_PUBLISHED = 3;
-    const CONTENT_PUBLISHED = 4;
+    const CONTENT_TYPE_CREATED = 1;
+    const FIELD_NOT_ASSOCIATED = 2;
+    const FIELD_ASSOCIATED = 3;
+    const CONTENT_TYPE_PUBLISHED = 4;
+    const CONTENT_PUBLISHED = 5;
 
     /**
      * @var stores the values needed to build the contentType with the desired fieldTypes, used to postpone until object is ready for publishing
@@ -32,14 +33,21 @@ class FieldType extends Base
         "contentType" => null,
         "fieldType" => null,
         "content" => null,
-        "objectState" => self::NO_FIELD_CREATED
+        "objectState" => self::FIELD_NOT_CREATED
     );
 
     /**
-     * @var stores internal mapping of the fieldType names
+     * @var array stores internal mapping of the fieldType names
      */
     private $fieldTypeInternalIdentifier = array(
         "integer" => "ezinteger"
+    );
+
+    /**
+     * @var array maps the validator of the fieldtypes
+     */
+    private $validatorMappings = array(
+        "integer" => "IntegerValue"
     );
 
     /**
@@ -48,16 +56,40 @@ class FieldType extends Base
      */
     public function __construct( KernelAwareContext $context )
     {
-        $this->priority = 1;    //TODOI
+        $this->priority = 1;    // MOST LIKELY NOT NEEDED FOR THIS CONTEXT
         parent::__construct( $context );
     }
 
     /**
-     * DOC TO BE DONE
+     * Getter method for fieldtype internal identifier
      *
-     * @param    string  $fieldType
+     * @param   string      $identifier     identifier of the field
+     * @return  string      internal identifier of the field
      */
-    public function createField( $fieldType, $name = null )
+    public function getFieldTypeInternalIdentifier( $identifier )
+    {
+        return $this->fieldTypeInternalIdentifier[ $identifier ];
+    }
+
+    /**
+     * Getter method for the validator mappings
+     *
+     * @param   string      $field  field name
+     * @return  string      field validator name
+     */
+    public function getFieldValidator( $field )
+    {
+        return $this->validatorMappings[ $field ];
+    }
+
+    /**
+     * Creates a fieldtype ans stores it for later use
+     *
+     * @param   string      $fieldType      type of the field
+     * @param   string      $name           name of the field, optional, if not specified $fieldType is used
+     * @param   boolean     $required       is the field required, optional
+     */
+    public function createField( $fieldType, $name = null, $required = false )
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -69,47 +101,122 @@ class FieldType extends Base
         );
         $fieldCreateStruct->names = array( self::DEFAULT_LANGUAGE => $name );
         $fieldCreateStruct->position = $fieldPosition;
+        $fieldCreateStruct->isRequired = $required;
         $this->fieldConstructionObject[ 'fieldType' ] = $fieldCreateStruct;
         $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_CREATED;
     }
 
-    public function executeDelayedOperations()
+    /**
+     * Adds a validator to the stored field
+     *
+     * @param   string      $fieldType      type of the field
+     * @param   string      $value          value of the constraint
+     * @param   string      $constraint     constraint name
+     */
+    public function addValueConstraint( $fieldType, $value, $constraint )
     {
-        if ( $this->fieldConstructionObject[ 'objectState' ] == self::NO_FIELD_CREATED )
+        $validatorName = $this->getFieldValidator( $fieldType );
+        $validatorParent = $validatorName . "Validator";
+        if ( $this->fieldConstructionObject[ 'fieldType' ]->validatorConfiguration == null )
         {
-            throw new \Exception( 'A field type must be declared before anything else' );
+            $this->fieldConstructionObject[ 'fieldType' ]->validatorConfiguration = array(
+                $validatorParent => array()
+            );
         }
-        if ( $this->fieldConstructionObject[ 'objectState' ] == self::FIELD_CREATED )
+        if ( is_numeric( $value ) )
         {
-            $name = $this->fieldConstructionObject[ 'fieldType' ]->identifier;
-            $name .= "#" . rand( 1000, 9000 );
-            $this->createContentType( $name );
+            //changes string into numeric int or float
+            $value = $value + 0;
         }
-        if ( $this->fieldConstructionObject[ 'objectState' ] == self::FIELD_NOT_ASSOCIATED )
+        $this->fieldConstructionObject[ 'fieldType' ]->validatorConfiguration[ $validatorParent ][ $constraint . $validatorName ] = $value;
+    }
+
+    /**
+     * Creates a content and publishes it
+     *
+     * @param   string      $field      name of the field
+     * @param   mixed       $value      value of the field
+     */
+    public function createContent( $field, $value )
+    {
+        $this->executeDelayedOperations( self::CONTENT_PUBLISHED, $field, $value );
+    }
+
+    /**
+     * Executes necessary operations to guarantee a given state, recursive function that calls it self to make sure prerequisites are met
+     *
+     * @param   int         $stateFlag      desired state, only predefined constants accepted
+     * @param   string      $field          name of the field, optional
+     * @param   mixed       $value          value of the field, optional
+     */
+    public function executeDelayedOperations( $stateFlag, $field = null, $value = null )
+    {
+        if ( $stateFlag == self::FIELD_CREATED )
         {
-            $this->associateFieldToCotentType();
+            if ( $this->fieldConstructionObject[ 'objectState' ] == self::FIELD_NOT_CREATED )
+            {
+                throw new \Exception( 'A field type must be declared before anything else' );
+            }
         }
-        if ( $this->fieldConstructionObject[ 'objectState' ] == self::FIELD_ASSOCIATED )
+        else if ( $stateFlag == self::CONTENT_TYPE_CREATED )
         {
-            $this->publishContentType();
+            if ( $this->fieldConstructionObject[ 'objectState' ] <= self::FIELD_NOT_ASSOCIATED )
+            {
+                $this->executeDelayedOperations( self::FIELD_CREATED );
+                $this->instantiateContentType();
+            }
         }
-        if ( $this->fieldConstructionObject[ 'objectState' ] == self::CONTENT_TYPE_PUBLISHED )
+        else if ( $stateFlag == self::FIELD_ASSOCIATED )
         {
-            $this->publishContent();
+            if ( $this->fieldConstructionObject[ 'objectState' ] <= self::CONTENT_TYPE_CREATED )
+            {
+                $this->executeDelayedOperations( self::CONTENT_TYPE_CREATED );
+                $this->associateFieldToCotentType();
+            }
+        }
+        else if ( $stateFlag == self::CONTENT_TYPE_PUBLISHED )
+        {
+            if ( $this->fieldConstructionObject[ 'objectState' ] <= self::FIELD_ASSOCIATED )
+            {
+                $this->executeDelayedOperations( self::FIELD_ASSOCIATED );
+                $this->publishContentType();
+            }
+        }
+        else if ( $stateFlag == self::CONTENT_PUBLISHED )
+        {
+            if ( $this->fieldConstructionObject[ 'objectState' ] <= self::CONTENT_TYPE_PUBLISHED )
+            {
+                $this->executeDelayedOperations( self::CONTENT_TYPE_PUBLISHED );
+                $this->publishContent( $field, $value );
+            }
         }
     }
 
-    private function publishContent()
+    /**
+     * Publishes the content
+     *
+     * @param   string      the field name
+     * @param   mixed       the field value
+     */
+    private function publishContent( $field, $value )
     {
         $repository = $this->getRepository();
         $languageCode = self::DEFAULT_LANGUAGE;
         $content = $repository->sudo(
-            function() use( $repository, $languageCode )
+            function() use( $repository, $languageCode, $field, $value )
             {
                 $contentService = $repository->getcontentService();
                 $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct( '2' );
                 $contentType = $this->fieldConstructionObject[ 'contentType' ];
                 $contentCreateStruct = $contentService->newContentCreateStruct( $contentType, $languageCode );
+                if ( $field != null && $value != null && $value != 'empty' )
+                {
+                    if ( is_numeric( $value ) )
+                    {
+                        $value = $value + 0;
+                    }
+                    $contentCreateStruct->setField( $field, $value );
+                }
                 $draft = $contentService->createContent( $contentCreateStruct, array( $locationCreateStruct ) );
                 $content = $contentService->publishVersion( $draft->versionInfo );
 
@@ -120,6 +227,9 @@ class FieldType extends Base
         $this->fieldConstructionObject[ 'objectState' ] = self::CONTENT_PUBLISHED;
     }
 
+    /**
+     * Associates the stored fieldtype to the stored contenttype
+     */
     private function associateFieldToCotentType()
     {
         $fieldCreateStruct = $this->fieldConstructionObject[ 'fieldType' ];
@@ -127,6 +237,9 @@ class FieldType extends Base
         $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_ASSOCIATED;
     }
 
+    /**
+     * Publishes the stored contenttype
+     */
     private function publishContentType()
     {
         $repository = $this->getRepository();
@@ -147,23 +260,59 @@ class FieldType extends Base
     }
 
     /**
-     * DOC TO BE DONE
+     * Getter method for the name of the stored contenttype
      *
-     * @param   string  $fieldType
+     * @param   string      $language   language of the name
+     * @return  string      name of the contenttype
      */
-    private function createContentType( $name )
+    public function getThisContentTypeName( $language )
+    {
+        return $this->fieldConstructionObject[ 'contentType' ]->names[ $language ];
+    }
+
+    /**
+     * Getter method for the name of the stored content
+     *
+     * @param   string      $language   language of the name
+     * @return  string      name of the contenttype
+     */
+    public function getThisContentName( $language )
+    {
+        return $this->fieldConstructionObject[ 'content' ]->versionInfo->names[ $language ];
+    }
+
+    /**
+     * Getter method for the name of the stored fieldtype
+     *
+     * @param   string      $language   language of the name
+     * @return  string      name of the fieldtype
+     */
+    public function getThisFieldTypeName( $language )
+    {
+        return $this->fieldConstructionObject[ 'fieldType' ]->names[ $language ];
+    }
+
+    /**
+     * Creates an instance of a contenttype and stores it for later publishing
+     */
+    private function instantiateContentType()
     {
         $repository = $this->getRepository();
-
         $contentTypeService = $repository->getContentTypeService();
+        $name = $this->fieldConstructionObject[ 'fieldType' ]->identifier;
+        $name .= "#" . rand( 1000, 9000 );
         $identifier = strtolower( $name );
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct( $identifier );
         $contentTypeCreateStruct->mainLanguageCode = self::DEFAULT_LANGUAGE;
         $contentTypeCreateStruct->names = array( self::DEFAULT_LANGUAGE => $name );
+        $contentTypeCreateStruct->nameSchema = $name;
         $this->fieldConstructionObject[ 'contentType' ] = $contentTypeCreateStruct;
         $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_NOT_ASSOCIATED;
     }
 
+    /**
+     * Getter method for the position of the field, relative to other possible fields
+     */
     private function getActualFieldPosition()
     {
         if ( $this->fieldConstructionObject[ 'fieldType' ] == null )
@@ -176,6 +325,9 @@ class FieldType extends Base
         }
     }
 
+    /**
+     * NOT USED FOR NOW
+     */
     protected function destroy( ValueObject $object )
     {
     }

@@ -29,14 +29,49 @@ trait FieldType
     }
 
     /**
-     * @Given I create a content of this Content Type
+     * @Given a Content Type with a required :fieldType Field exists
+     * @Given a Content Type with a required :fieldType Field with Name :name exists
+     *
+     * Creates a ContentType with only the desired FieldType
+     */
+    public function createContentTypeWithRequiredFieldType( $fieldType, $name = null )
+    {
+        return $this->getFieldTypeManager()->createField( $fieldType, $name, true );
+    }
+
+    /**
+     * @Given a Content of this type exists
+     * @Given a Content of this type exists with :field Field Value set to :value
+     * @And a Content of this type exists
+     * @And a Content of this type exists with :field Field Value set to :value
      *
      * Creates a Content with the previously defined ContentType
      */
-    public function createContentOfThisType()
+    public function createContentOfThisType( $field = null, $value = null )
     {
-        return $this->getFieldTypeManager()->executeDelayedOperations();
+        return $this->getFieldTypeManager()->createContent( $field, $value );
     }
+
+    /**
+     * @Given a Content Type with an :fieldType Field exists with Properties:
+     * @Given a Content Type with an :fieldType Field with Name :name exists with Properties:
+     */
+    public function createContentOfThisTypeWithProperties( $fieldType, TableNode $properties, $name = null )
+    {
+        $this->getFieldTypeManager()->createField( $fieldType, $name );
+        foreach ( $properties as $property )
+        {
+            if ( $property[ 'Validator' ] == 'maximum value validator' )
+            {
+                $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "max" );
+            }
+            else if ( $property[ 'Validator' ] == 'minimum value validator' )
+            {
+                $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "min" );
+            }
+        }
+    }
+
     /**
      * @Then I should have an "integer" field
      *
@@ -44,6 +79,6 @@ trait FieldType
      */
     public function verifyContentOfType()
     {
-//        return $this->getFieldTypeManager()->createContent( $fieldType );
+       // return $this->getFieldTypeManager()->executeDelayedOperations();
     }
 }
