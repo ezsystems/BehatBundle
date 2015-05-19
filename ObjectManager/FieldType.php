@@ -27,6 +27,11 @@ class FieldType extends Base
     const CONTENT_PUBLISHED = 5;
 
     /**
+     * Default language
+     */
+    const DEFAULT_LANGUAGE = 'eng-GB';
+
+    /**
      * @var stores the values needed to build the contentType with the desired fieldTypes, used to postpone until object is ready for publishing
      */
     private $fieldConstructionObject = array(
@@ -55,15 +60,6 @@ class FieldType extends Base
     private $defaultValues = array(
         "integer" => 0
     );
-    /**
-     *
-     * @param KernelAwareContext $context
-     */
-    public function __construct( KernelAwareContext $context )
-    {
-        $this->priority = 1;    // MOST LIKELY NOT NEEDED FOR THIS CONTEXT
-        parent::__construct( $context );
-    }
 
     /**
      * Getter method for fieldtype internal identifier
