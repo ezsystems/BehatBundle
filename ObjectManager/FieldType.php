@@ -44,12 +44,17 @@ class FieldType extends Base
     );
 
     /**
-     * @var array maps the validator of the fieldtypes
+     * @var array   maps the validator of the fieldtypes
      */
     private $validatorMappings = array(
         "integer" => "IntegerValue"
     );
-
+    /**
+     * @var array   maps the default values of the fieldtypes
+     */
+    private $defaultValues = array(
+        "integer" => 0
+    );
     /**
      *
      * @param KernelAwareContext $context
@@ -102,6 +107,7 @@ class FieldType extends Base
         $fieldCreateStruct->names = array( self::DEFAULT_LANGUAGE => $name );
         $fieldCreateStruct->position = $fieldPosition;
         $fieldCreateStruct->isRequired = $required;
+        $fieldCreateStruct->defaultValue = $this->defaultValues[ $fieldType ];
         $this->fieldConstructionObject[ 'fieldType' ] = $fieldCreateStruct;
         $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_CREATED;
     }
@@ -123,11 +129,8 @@ class FieldType extends Base
                 $validatorParent => array()
             );
         }
-        if ( is_numeric( $value ) )
-        {
-            //changes string into numeric int or float
-            $value = $value + 0;
-        }
+        $value = is_numeric( $value ) ? $value + 0 : $value;
+
         $this->fieldConstructionObject[ 'fieldType' ]->validatorConfiguration[ $validatorParent ][ $constraint . $validatorName ] = $value;
     }
 
@@ -202,6 +205,7 @@ class FieldType extends Base
     {
         $repository = $this->getRepository();
         $languageCode = self::DEFAULT_LANGUAGE;
+
         $content = $repository->sudo(
             function() use( $repository, $languageCode, $field, $value )
             {
@@ -211,10 +215,7 @@ class FieldType extends Base
                 $contentCreateStruct = $contentService->newContentCreateStruct( $contentType, $languageCode );
                 if ( $field != null && $value != null && $value != 'empty' )
                 {
-                    if ( is_numeric( $value ) )
-                    {
-                        $value = $value + 0;
-                    }
+                    $value = is_numeric( $value ) ? $value + 0 : $value;
                     $contentCreateStruct->setField( $field, $value );
                 }
                 $draft = $contentService->createContent( $contentCreateStruct, array( $locationCreateStruct ) );
