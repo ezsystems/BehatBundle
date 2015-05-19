@@ -58,7 +58,7 @@ class FieldType extends Base
      * @var array   maps the default values of the fieldtypes
      */
     private $defaultValues = array(
-        "integer" => 0
+        "integer" => 1
     );
 
     /**
@@ -209,8 +209,9 @@ class FieldType extends Base
                 $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct( '2' );
                 $contentType = $this->fieldConstructionObject[ 'contentType' ];
                 $contentCreateStruct = $contentService->newContentCreateStruct( $contentType, $languageCode );
-                if ( $field != null && $value != null && $value != 'empty' )
+                if ( $field != null && $value != null )
                 {
+                    $value = ( $value == 'empty'  ) ? null : $value;
                     $value = is_numeric( $value ) ? $value + 0 : $value;
                     $contentCreateStruct->setField( $field, $value );
                 }
