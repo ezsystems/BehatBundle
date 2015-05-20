@@ -20,8 +20,8 @@ class FieldType extends Base
      */
     const FIELD_NOT_CREATED = -1;
     const FIELD_CREATED = 0;
-    const CONTENT_TYPE_CREATED = 1;
-    const FIELD_NOT_ASSOCIATED = 2;
+    const CONTENT_TYPE_NOT_CREATED = 1;
+    const CONTENT_TYPE_CREATED = 2;
     const FIELD_ASSOCIATED = 3;
     const CONTENT_TYPE_PUBLISHED = 4;
     const CONTENT_PUBLISHED = 5;
@@ -32,7 +32,7 @@ class FieldType extends Base
     const DEFAULT_LANGUAGE = 'eng-GB';
 
     /**
-     * @var stores the values needed to build the contentType with the desired fieldTypes, used to postpone until object is ready for publishing
+     * @var array   stores the values needed to build the contentType with the desired fieldTypes, used to postpone until object is ready for publishing
      */
     private $fieldConstructionObject = array(
         "contentType" => null,
@@ -42,7 +42,7 @@ class FieldType extends Base
     );
 
     /**
-     * @var array stores internal mapping of the fieldType names
+     * @var array   stores internal mapping of the fieldType names
      */
     private $fieldTypeInternalIdentifier = array(
         "integer" => "ezinteger"
@@ -54,6 +54,7 @@ class FieldType extends Base
     private $validatorMappings = array(
         "integer" => "IntegerValue"
     );
+
     /**
      * @var array   maps the default values of the fieldtypes
      */
@@ -138,7 +139,7 @@ class FieldType extends Base
      */
     public function createContent( $field, $value )
     {
-        $this->executeDelayedOperations( self::CONTENT_PUBLISHED, $field, $value );
+        $this->setFieldContentState( self::CONTENT_PUBLISHED, $field, $value );
     }
 
     /**
@@ -148,46 +149,32 @@ class FieldType extends Base
      * @param   string      $field          name of the field, optional
      * @param   mixed       $value          value of the field, optional
      */
-    public function executeDelayedOperations( $stateFlag, $field = null, $value = null )
+    public function setFieldContentState( $stateFlag, $field = null, $value = null )
     {
-        if ( $stateFlag == self::FIELD_CREATED )
+        if ( $stateFlag <= $this->fieldConstructionObject[ 'objectState' ] || $stateFlag < self::FIELD_NOT_CREATED )
         {
-            if ( $this->fieldConstructionObject[ 'objectState' ] == self::FIELD_NOT_CREATED )
-            {
+            return;
+        }
+
+        $this->setFieldContentState( $stateFlag - 1, $field, $value );
+
+        switch( $stateFlag )
+        {
+            case self::FIELD_NOT_CREATED:
                 throw new \Exception( 'A field type must be declared before anything else' );
-            }
-        }
-        else if ( $stateFlag == self::CONTENT_TYPE_CREATED )
-        {
-            if ( $this->fieldConstructionObject[ 'objectState' ] <= self::FIELD_NOT_ASSOCIATED )
-            {
-                $this->executeDelayedOperations( self::FIELD_CREATED );
+                break;
+            case self::CONTENT_TYPE_CREATED:
                 $this->instantiateContentType();
-            }
-        }
-        else if ( $stateFlag == self::FIELD_ASSOCIATED )
-        {
-            if ( $this->fieldConstructionObject[ 'objectState' ] <= self::CONTENT_TYPE_CREATED )
-            {
-                $this->executeDelayedOperations( self::CONTENT_TYPE_CREATED );
+                break;
+            case self::FIELD_ASSOCIATED:
                 $this->associateFieldToCotentType();
-            }
-        }
-        else if ( $stateFlag == self::CONTENT_TYPE_PUBLISHED )
-        {
-            if ( $this->fieldConstructionObject[ 'objectState' ] <= self::FIELD_ASSOCIATED )
-            {
-                $this->executeDelayedOperations( self::FIELD_ASSOCIATED );
+                break;
+            case self::CONTENT_TYPE_PUBLISHED:
                 $this->publishContentType();
-            }
-        }
-        else if ( $stateFlag == self::CONTENT_PUBLISHED )
-        {
-            if ( $this->fieldConstructionObject[ 'objectState' ] <= self::CONTENT_TYPE_PUBLISHED )
-            {
-                $this->executeDelayedOperations( self::CONTENT_TYPE_PUBLISHED );
+                break;
+            case self::CONTENT_PUBLISHED:
                 $this->publishContent( $field, $value );
-            }
+                break;
         }
     }
 
@@ -305,7 +292,7 @@ class FieldType extends Base
         $contentTypeCreateStruct->names = array( self::DEFAULT_LANGUAGE => $name );
         $contentTypeCreateStruct->nameSchema = $name;
         $this->fieldConstructionObject[ 'contentType' ] = $contentTypeCreateStruct;
-        $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_NOT_ASSOCIATED;
+        $this->fieldConstructionObject[ 'objectState' ] = self::CONTENT_TYPE_CREATED;
     }
 
     /**
