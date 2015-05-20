@@ -165,7 +165,7 @@ class FieldType extends Base
                 throw new \Exception( 'A field type must be declared before anything else' );
                 break;
             case self::CONTENT_TYPE_CREATED:
-                $this->instantiateContentType();
+                $this->createContentType();
                 break;
             case self::FIELD_TYPE_ASSOCIATED:
                 $this->associateFieldToCotentType();
@@ -281,7 +281,7 @@ class FieldType extends Base
     /**
      * Creates an instance of a contenttype and stores it for later publishing
      */
-    private function instantiateContentType()
+    private function createContentType()
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
