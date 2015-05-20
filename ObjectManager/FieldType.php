@@ -143,7 +143,8 @@ class FieldType extends Base
     }
 
     /**
-     * Executes necessary operations to guarantee a given state, recursive function that calls it self to make sure prerequisites are met
+     * Executes necessary operations to guarantee a given state, recursive
+     * function that calls it self to make sure prerequisites are met
      *
      * @param   int         $stateFlag      desired state, only predefined constants accepted
      * @param   string      $field          name of the field, optional
