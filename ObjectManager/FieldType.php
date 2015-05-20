@@ -18,11 +18,11 @@ class FieldType extends Base
     /**
      * Defines the state of the Construction object, if it's not published, partialy or completely published
      */
-    const FIELD_NOT_CREATED = -1;
-    const FIELD_CREATED = 0;
+    const FIELD_TYPE_NOT_CREATED = -1;
+    const FIELD_TYPE_CREATED = 0;
     const CONTENT_TYPE_NOT_CREATED = 1;
     const CONTENT_TYPE_CREATED = 2;
-    const FIELD_ASSOCIATED = 3;
+    const FIELD_TYPE_ASSOCIATED = 3;
     const CONTENT_TYPE_PUBLISHED = 4;
     const CONTENT_PUBLISHED = 5;
 
@@ -38,7 +38,7 @@ class FieldType extends Base
         "contentType" => null,
         "fieldType" => null,
         "content" => null,
-        "objectState" => self::FIELD_NOT_CREATED
+        "objectState" => self::FIELD_TYPE_NOT_CREATED
     );
 
     /**
@@ -106,7 +106,7 @@ class FieldType extends Base
         $fieldCreateStruct->isRequired = $required;
         $fieldCreateStruct->defaultValue = $this->defaultValues[ $fieldType ];
         $this->fieldConstructionObject[ 'fieldType' ] = $fieldCreateStruct;
-        $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_CREATED;
+        $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_TYPE_CREATED;
     }
 
     /**
@@ -151,7 +151,7 @@ class FieldType extends Base
      */
     public function setFieldContentState( $stateFlag, $field = null, $value = null )
     {
-        if ( $stateFlag <= $this->fieldConstructionObject[ 'objectState' ] || $stateFlag < self::FIELD_NOT_CREATED )
+        if ( $stateFlag <= $this->fieldConstructionObject[ 'objectState' ] || $stateFlag < self::FIELD_TYPE_NOT_CREATED )
         {
             return;
         }
@@ -160,13 +160,13 @@ class FieldType extends Base
 
         switch( $stateFlag )
         {
-            case self::FIELD_NOT_CREATED:
+            case self::FIELD_TYPE_NOT_CREATED:
                 throw new \Exception( 'A field type must be declared before anything else' );
                 break;
             case self::CONTENT_TYPE_CREATED:
                 $this->instantiateContentType();
                 break;
-            case self::FIELD_ASSOCIATED:
+            case self::FIELD_TYPE_ASSOCIATED:
                 $this->associateFieldToCotentType();
                 break;
             case self::CONTENT_TYPE_PUBLISHED:
@@ -219,7 +219,7 @@ class FieldType extends Base
     {
         $fieldCreateStruct = $this->fieldConstructionObject[ 'fieldType' ];
         $this->fieldConstructionObject[ 'contentType' ]->addFieldDefinition( $fieldCreateStruct );
-        $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_ASSOCIATED;
+        $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_TYPE_ASSOCIATED;
     }
 
     /**
