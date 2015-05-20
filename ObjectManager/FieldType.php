@@ -174,6 +174,7 @@ class FieldType extends Base
                 break;
             case self::CONTENT_PUBLISHED:
                 $this->publishContent( $field, $value );
+                break;
         }
     }
 
