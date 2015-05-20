@@ -20,11 +20,10 @@ class FieldType extends Base
      */
     const FIELD_TYPE_NOT_CREATED = -1;
     const FIELD_TYPE_CREATED = 0;
-    const CONTENT_TYPE_NOT_CREATED = 1;
-    const CONTENT_TYPE_CREATED = 2;
-    const FIELD_TYPE_ASSOCIATED = 3;
-    const CONTENT_TYPE_PUBLISHED = 4;
-    const CONTENT_PUBLISHED = 5;
+    const CONTENT_TYPE_CREATED = 1;
+    const FIELD_TYPE_ASSOCIATED = 2;
+    const CONTENT_TYPE_PUBLISHED = 3;
+    const CONTENT_PUBLISHED = 4;
 
     /**
      * Default language
@@ -175,7 +174,6 @@ class FieldType extends Base
                 break;
             case self::CONTENT_PUBLISHED:
                 $this->publishContent( $field, $value );
-                break;
         }
     }
 
