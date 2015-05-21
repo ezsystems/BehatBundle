@@ -71,14 +71,4 @@ trait FieldType
             }
         }
     }
-
-    /**
-     * @Then I should have an "integer" field
-     *
-     * Creates a Content with the previously defined ContentType
-     */
-    public function verifyContentOfType()
-    {
-       // return $this->getFieldTypeManager()->executeDelayedOperations();
-    }
 }
