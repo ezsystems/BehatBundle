@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the ContentTypeGroup context class.
+ * This file is part of the BehatBundle package.
  *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -31,7 +31,7 @@ class FieldType extends Base
     const DEFAULT_LANGUAGE = 'eng-GB';
 
     /**
-     * @var array   stores the values needed to build the contentType with the desired fieldTypes, used to postpone until object is ready for publishing
+     * @var array Stores the values needed to build the contentType with the desired fieldTypes, used to postpone until object is ready for publishing
      */
     private $fieldConstructionObject = array(
         "contentType" => null,
@@ -41,21 +41,21 @@ class FieldType extends Base
     );
 
     /**
-     * @var array   stores internal mapping of the fieldType names
+     * @var array Stores Internal mapping of the fieldType names
      */
     private $fieldTypeInternalIdentifier = array(
         "integer" => "ezinteger"
     );
 
     /**
-     * @var array   maps the validator of the fieldtypes
+     * @var array Maps the validator of the fieldtypes
      */
     private $validatorMappings = array(
         "integer" => "IntegerValue"
     );
 
     /**
-     * @var array   maps the default values of the fieldtypes
+     * @var array Maps the default values of the fieldtypes
      */
     private $defaultValues = array(
         "integer" => 1
@@ -64,8 +64,8 @@ class FieldType extends Base
     /**
      * Getter method for fieldtype internal identifier
      *
-     * @param   string      $identifier     identifier of the field
-     * @return  string      internal identifier of the field
+     * @param string $identifier Identifier of the field
+     * @return string internal Identifier of the field
      */
     public function getFieldTypeInternalIdentifier( $identifier )
     {
@@ -75,8 +75,8 @@ class FieldType extends Base
     /**
      * Getter method for the validator mappings
      *
-     * @param   string      $field  field name
-     * @return  string      field validator name
+     * @param string $field Field name
+     * @return string field Validator name
      */
     public function getFieldValidator( $field )
     {
@@ -86,9 +86,9 @@ class FieldType extends Base
     /**
      * Creates a fieldtype ans stores it for later use
      *
-     * @param   string      $fieldType      type of the field
-     * @param   string      $name           name of the field, optional, if not specified $fieldType is used
-     * @param   boolean     $required       is the field required, optional
+     * @param string $fieldType Type of the field
+     * @param string $name Name of the field, optional, if not specified $fieldType is used
+     * @param boolean $required True if the is the field required, optional
      */
     public function createField( $fieldType, $name = null, $required = false )
     {
@@ -111,9 +111,9 @@ class FieldType extends Base
     /**
      * Adds a validator to the stored field
      *
-     * @param   string      $fieldType      type of the field
-     * @param   string      $value          value of the constraint
-     * @param   string      $constraint     constraint name
+     * @param string $fieldType Type of the field
+     * @param string $value Value of the constraint
+     * @param string $constraint Constraint name
      */
     public function addValueConstraint( $fieldType, $value, $constraint )
     {
@@ -133,8 +133,8 @@ class FieldType extends Base
     /**
      * Creates a content and publishes it
      *
-     * @param   string      $field      name of the field
-     * @param   mixed       $value      value of the field
+     * @param string $field Name of the field
+     * @param mixed $value Value of the field
      */
     public function createContent( $field, $value )
     {
@@ -145,9 +145,9 @@ class FieldType extends Base
      * Executes necessary operations to guarantee a given state, recursive
      * function that calls it self to make sure prerequisites are met
      *
-     * @param   int         $stateFlag      desired state, only predefined constants accepted
-     * @param   string      $field          name of the field, optional
-     * @param   mixed       $value          value of the field, optional
+     * @param int $stateFlag Desired state, only predefined constants accepted
+     * @param string $field Name of the field, optional
+     * @param mixed $value Value of the field, optional
      */
     public function setFieldContentState( $stateFlag, $field = null, $value = null )
     {
@@ -181,8 +181,8 @@ class FieldType extends Base
     /**
      * Publishes the content
      *
-     * @param   string      the field name
-     * @param   mixed       the field value
+     * @param string The field name
+     * @param mixed The field value
      */
     private function publishContent( $field, $value )
     {
@@ -247,8 +247,8 @@ class FieldType extends Base
     /**
      * Getter method for the name of the stored contenttype
      *
-     * @param   string      $language   language of the name
-     * @return  string      name of the contenttype
+     * @param string $language Language of the name
+     * @return string Name of the contenttype
      */
     public function getThisContentTypeName( $language )
     {
@@ -258,8 +258,8 @@ class FieldType extends Base
     /**
      * Getter method for the name of the stored content
      *
-     * @param   string      $language   language of the name
-     * @return  string      name of the contenttype
+     * @param string $language Language of the name
+     * @return string Name of the contenttype
      */
     public function getThisContentName( $language )
     {
@@ -269,8 +269,8 @@ class FieldType extends Base
     /**
      * Getter method for the name of the stored fieldtype
      *
-     * @param   string      $language   language of the name
-     * @return  string      name of the fieldtype
+     * @param string $language Language of the name
+     * @return string Name of the fieldtype
      */
     public function getThisFieldTypeName( $language )
     {
@@ -315,5 +315,7 @@ class FieldType extends Base
      */
     protected function destroy( ValueObject $object )
     {
+    // do nothing for now, to be implemented later when decided waht to do with the created objects
+    // must be empty because this method allways runs
     }
 }
