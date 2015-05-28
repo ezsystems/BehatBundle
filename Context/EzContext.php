@@ -23,6 +23,7 @@ class EzContext implements KernelAwareContext
     use Object\ContentTypeGroup;
     use Object\UserGroup;
     use Object\User;
+    use Object\FieldType;
 
     const DEFAULT_SITEACCESS_NAME = 'behat_site';
 
