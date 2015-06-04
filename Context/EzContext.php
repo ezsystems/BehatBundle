@@ -9,6 +9,7 @@
 
 namespace EzSystems\BehatBundle\Context;
 
+use Behat\MinkExtension\Context\MinkContext;
 use EzSystems\BehatBundle\Helper;
 use EzSystems\BehatBundle\Context\Object;
 use eZ\Publish\Core\MVC\Symfony\SiteAccess;
@@ -18,7 +19,7 @@ use Behat\Symfony2Extension\Context\KernelAwareContext;
 /**
  * EzContext has all the needed methods and helpers that are globaly used in contexts
  */
-class EzContext implements KernelAwareContext
+class EzContext extends MinkContext implements KernelAwareContext
 {
     use Object\ContentTypeGroup;
     use Object\UserGroup;
