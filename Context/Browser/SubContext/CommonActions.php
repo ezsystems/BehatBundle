@@ -506,21 +506,21 @@ trait CommonActions
     }
 
     /**
-     * @Then I should see :label checkbox checked
+     * @Then the checkbox :label should be checked
      */
-    public function isCheckedOption( $option )
+    public function isCheckedOption( $label )
     {
-        $isChecked = $this->getCheckboxChecked( $option );
-        Assertion::assertTrue( $isChecked, "Checkbox $option is not checked" );
+        $isChecked = $this->getCheckboxChecked( $label );
+        Assertion::assertTrue( $isChecked, "Checkbox $label is not checked" );
     }
 
     /**
-     * @Then I should not see :label checkbox checked
+     * @Then the checkbox :label should not be checked
      */
-    public function isNotCheckedOption( $option )
+    public function isNotCheckedOption( $label )
     {
-        $isChecked = $this->getCheckboxChecked( $option );
-        Assertion::assertFalse( $isChecked, "Checkbox $option is checked" );
+        $isChecked = $this->getCheckboxChecked( $label );
+        Assertion::assertFalse( $isChecked, "Checkbox $label is checked" );
     }
 
     /**
