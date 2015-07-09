@@ -211,6 +211,24 @@ trait CommonActions
     }
 
     /**
+     * @Then I see field with value:
+     *
+     * Checks a form for the provided field/value pairs:
+     *      | field         | value                  |
+     *      | Title         | A title text           |
+     *      | Content       | Some content           |
+     */
+    public function formHasValue( TableNode $table )
+    {
+        foreach ( GherkinHelper::convertTableToArrayOfData( $table ) as $field => $value )
+        {
+            $elements = $this->getXpath()->findFields( $field );
+            Assertion::assertNotEmpty( $elements, "Unable to find '{$field}' field" );
+            Assertion::assertEquals( $value, $elements[0]->getValue(), "Field values don't match" );
+        }
+    }
+
+    /**
      * @Then I (should) see (the) (following) links:
      *
      * Asserts that links with the provided text can be found on the page.
@@ -485,5 +503,44 @@ trait CommonActions
     public function iDonTSeeMessage( $text )
     {
         $this->assertSession()->pageTextNotContains( $text );
+    }
+
+    /**
+     * @Then the checkbox :label should be checked
+     */
+    public function isCheckedOption( $label )
+    {
+        $isChecked = $this->getCheckboxChecked( $label );
+        Assertion::assertTrue( $isChecked, "Checkbox $label is not checked" );
+    }
+
+    /**
+     * @Then the checkbox :label should not be checked
+     */
+    public function isNotCheckedOption( $label )
+    {
+        $isChecked = $this->getCheckboxChecked( $label );
+        Assertion::assertFalse( $isChecked, "Checkbox $label is checked" );
+    }
+
+    /**
+     * Helper for checkbox
+     */
+    private function getCheckboxChecked( $option )
+    {
+        $fieldElements = $this->getXpath()->findFields( $option );
+        EzAssertion::assertElementFound( $option, $fieldElements, null, 'checkbox' );
+
+        // this is needed for the cases where are checkboxes and radio's
+        // side by side, for main option the radio and the extra being the
+        // checkboxes values
+        if ( strtolower( $fieldElements[0]->getAttribute( 'type' ) ) !== 'checkbox' )
+        {
+            $value = $fieldElements[0]->getAttribute( 'value' );
+            $fieldElements = $this->getXpath()->findXpath( "//input[@type='checkbox' and @value='$value']" );
+            EzAssertion::assertElementFound( $value, $fieldElements, null, 'checkbox' );
+        }
+
+        return $isChecked = ( $fieldElements[0]->getAttribute( 'checked' ) ) === 'true';
     }
 }
