@@ -76,6 +76,7 @@ class BasicContent extends Base
             }
         }
         $location = $this->createContent( $contentType, $name, $location );
+        $this->mapContentPath( $path );
 
         return $location;
     }
