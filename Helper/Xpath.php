@@ -65,7 +65,7 @@ class Xpath
         $literal = $selectorsHandler->xpathLiteral( $search );
 
         return $selectorsHandler
-            ->getSelector( 'named' )
+            ->getSelector( 'named_partial' )
             ->translateToXPath( array( $element, $literal ) );
     }
 
