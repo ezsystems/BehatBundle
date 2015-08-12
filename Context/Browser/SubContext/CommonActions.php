@@ -33,6 +33,29 @@ trait CommonActions
     }
 
     /**
+     * @Given I see :id (link/button/form)
+     * @When  I can see :id (link/button/form)
+     *
+     * A "spin function" sentence to wait for a given element to appear.
+     * Waits maximum 3 seconds, tries every half second.
+     *
+     * @link http://docs.behat.org/en/v2.5/cookbook/using_spin_functions.html
+     */
+    public function iCanSee( $id )
+    {
+        $element = null;
+        for ($i = 0; $i < 6; $i++) {
+            if ($element = $this->getSession()->getPage()->findById($id)) {
+                break;
+            }
+
+            usleep(500000);// 1 million microseconds is 1 second
+        }
+
+        Assertion::assertTrue( $element !== null, "Item '{$id}' did not appear on the page within 3 seconds" );
+    }
+
+    /**
      * @Given I am on/at the homepage
      * @Given I am on/at (the) :page page
      * @When I go to the homepage
