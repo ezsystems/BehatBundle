@@ -19,10 +19,24 @@ trait BasicContent
 {
     /**
      * @Given a/an :path folder exists
-     *
      */
-    public function createBasicContent( $path )
+    public function createBasicFolder( $path )
     {
-        return $this->getBasicContentManager()->createContentwithPath( $path, 'folder' );
+        $names = explode( '/', $path );
+        $name = end( $names );
+        $fields = array( 'name' => $name );
+        return $this->getBasicContentManager()->createContentwithPath( $path, $fields, 'folder' );
+    }
+
+    /**
+     * @Given a/an :path article exists
+     */
+    public function createBasicArticle( $path )
+    {
+        $names = explode( '/', $path );
+        $title = end( $names );
+        $intro = '<?xml version="1.0" encoding="utf-8"?><section xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"><paragraph>This is a paragraph.</paragraph></section>';
+        $fields = array( 'title' => $title, 'intro' => $intro );
+        return $this->getBasicContentManager()->createContentwithPath( $path, $fields, 'article' );
     }
 }

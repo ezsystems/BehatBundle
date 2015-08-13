@@ -30,13 +30,13 @@ class BasicContent extends Base
      * @param string The field name
      * @param mixed The field value
      */
-    public function createContent( $contentType, $name, $location )
+    public function createContent( $contentType, $fields, $location )
     {
         $repository = $this->getRepository();
         $languageCode = self::DEFAULT_LANGUAGE;
 
         $content = $repository->sudo(
-            function() use( $repository, $languageCode, $contentType, $name, $location )
+            function() use( $repository, $languageCode, $contentType, $fields, $location )
             {
                 $contentService = $repository->getcontentService();
                 $contentTypeService = $repository->getContentTypeService();
@@ -44,8 +44,10 @@ class BasicContent extends Base
 
                 $contentType = $contentTypeService->loadContentTypeByIdentifier( $contentType );
                 $contentCreateStruct = $contentService->newContentCreateStruct( $contentType, $languageCode );
-                $contentCreateStruct->setField( 'name', $name );
-
+                foreach ( array_keys( $fields ) as $key )
+                {
+                    $contentCreateStruct->setField( $key, $fields[$key] );
+                }
                 $draft = $contentService->createContent( $contentCreateStruct, array( $locationCreateStruct ) );
                 $content = $contentService->publishVersion( $draft->versionInfo );
 
@@ -63,20 +65,26 @@ class BasicContent extends Base
      * @param string $path The content path
      * @param mixed $contentType The content type identifier
      */
-    public function createContentWithPath( $path, $contentType )
+    public function createContentWithPath( $path, $fields, $contentType )
     {
         $contentsName = explode( '/', $path );
+        $currentPath = '';
         $location = '2';
 
         foreach ( $contentsName as $name )
         {
             if ( $name != end( $contentsName ) )
             {
-                $location = $this->createContent( 'folder', $name, $location );
+                $location = $this->createContent( 'folder', [ 'name' => $name ], $location );
             }
+            if ( $currentPath != '' )
+            {
+                $currentPath .= '/';
+            }
+            $currentPath .=  $name;
+            $this->mapContentPath( $currentPath );
         }
-        $location = $this->createContent( $contentType, $name, $location );
-        $this->mapContentPath( $path );
+        $location = $this->createContent( $contentType, $fields, $location );
 
         return $location;
     }
@@ -104,6 +112,5 @@ class BasicContent extends Base
     protected function destroy( ValueObject $object )
     {
     // do nothing for now, to be implemented later when decided waht to do with the created objects
-    // must be empty because this method allways called from above
     }
 }
