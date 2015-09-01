@@ -22,6 +22,7 @@ trait BasicContent
      */
     public function createBasicFolder( $path )
     {
+        $path = rtrim( $path, '/' );
         $names = explode( '/', $path );
         $name = end( $names );
         $fields = array( 'name' => $name );
@@ -33,6 +34,7 @@ trait BasicContent
      */
     public function createBasicArticle( $path )
     {
+        $path = rtrim( $path, '/' );
         $names = explode( '/', $path );
         $title = end( $names );
         $intro = '<?xml version="1.0" encoding="utf-8"?><section xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"><paragraph>This is a paragraph.</paragraph></section>';
