@@ -55,6 +55,7 @@ class BasicContent extends Base
             }
         );
 
+        $this->addObjectToList( $content );
         return $content->contentInfo->mainLocationId;
     }
 
@@ -107,10 +108,28 @@ class BasicContent extends Base
     }
 
     /**
-     * NOT USED FOR NOW
+     * Deletes the content object provided
+     * used to clean after testing
      */
     protected function destroy( ValueObject $object )
     {
-    // do nothing for now, to be implemented later when decided waht to do with the created objects
+         /** @var \eZ\Publish\API\Repository\Repository $repository */
+        $repository = $this->getRepository();
+        $contentId = $object->id;
+        $repository->sudo(
+            function() use( $repository, $contentId )
+            {
+                try
+                {
+                    $contentService = $repository->getContentService();
+                    $contentInfo = $contentService->loadContentInfo( $contentId );
+                    $contentService->deleteContent( $contentInfo );
+                }
+                catch ( ApiExceptions\NotFoundException $e )
+                {
+                    // Nothing to do
+                }
+            }
+        );
     }
 }
