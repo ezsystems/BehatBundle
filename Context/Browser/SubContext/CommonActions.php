@@ -87,10 +87,11 @@ trait CommonActions
 
     /**
      * @When I fill in :field with :value
+     * @When I set :field as empty
      *
      * Fill field identified by ':field' with ':value'
      */
-    public function fillFieldWithValue( $field, $value )
+    public function fillFieldWithValue( $field, $value = '' )
     {
         $this->getSession()->getPage()->fillField( $field, $value );
     }
