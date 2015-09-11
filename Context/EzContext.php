@@ -26,8 +26,6 @@ class EzContext implements KernelAwareContext
     use Object\FieldType;
     use Object\BasicContent;
 
-    const DEFAULT_SITEACCESS_NAME = 'behat_site';
-
     /**
      * @var \Symfony\Component\HttpKernel\KernelInterface
      */
@@ -90,13 +88,10 @@ class EzContext implements KernelAwareContext
      */
     protected function generateSiteAccess()
     {
-        $siteAccessName = getenv( 'EZPUBLISH_SITEACCESS' );
-        if ( !$siteAccessName )
-        {
-            $siteAccessName = static::DEFAULT_SITEACCESS_NAME;
-        }
-
-        return new SiteAccess( $siteAccessName, 'cli' );
+        return new SiteAccess(
+            getenv( 'EZPUBLISH_SITEACCESS' ) ?: $this->getKernel()->getContainer()->getParameter('ezpublish.siteaccess.default'),
+            'cli'
+        );
     }
 
     /**
