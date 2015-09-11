@@ -45,6 +45,15 @@ trait Role
     }
 
     /**
+     * @Given :name do not have any assigned policies
+     * @Given :name do not have any assigned Users and groups
+     */
+    public function noGroupsAndPolicies($name)
+    {
+        //nothing needs to be done, because roles are created without policies and groups
+    }
+
+    /**
      * @Then I see that a/an :name role does not exists
      *
      * Verifies that a role with $name exists.
