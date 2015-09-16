@@ -64,9 +64,12 @@ class Xpath
         $selectorsHandler = $this->session->getSelectorsHandler();
         $literal = $selectorsHandler->xpathLiteral( $search );
 
-        return $selectorsHandler
-            ->getSelector( 'named_partial' )
-            ->translateToXPath( array( $element, $literal ) );
+        // To be able to work on mink 1.6 (ezplatform) & mink 1.5 (5.4+ezpublish-community) w/o deprecation exceptions
+        $selector = $selectorsHandler->isSelectorRegistered( 'named_partial' ) ?
+            $selectorsHandler->getSelector( 'named_partial' ) :
+            $selectorsHandler->getSelector( 'named' );
+
+        return $selector->translateToXPath( array( $element, $literal ) );
     }
 
     /**
