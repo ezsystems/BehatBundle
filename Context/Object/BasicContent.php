@@ -14,6 +14,8 @@ use PHPUnit_Framework_Assert as Assertion;
 
 /**
  * Sentences for Fields
+ *
+ * @method \EzSystems\BehatBundle\ObjectManager\BasicContent getBasicContentManager
  */
 trait BasicContent
 {
@@ -22,10 +24,7 @@ trait BasicContent
      */
     public function createBasicFolder( $path )
     {
-        $path = rtrim( $path, '/' );
-        $names = explode( '/', $path );
-        $name = end( $names );
-        $fields = array( 'name' => $name );
+        $fields = array( 'name' => $this->getTitleFromPath( $path ) );
         return $this->getBasicContentManager()->createContentwithPath( $path, $fields, 'folder' );
     }
 
@@ -34,11 +33,36 @@ trait BasicContent
      */
     public function createBasicArticle( $path )
     {
-        $path = rtrim( $path, '/' );
-        $names = explode( '/', $path );
-        $title = end( $names );
-        $intro = '<?xml version="1.0" encoding="utf-8"?><section xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"><paragraph>This is a paragraph.</paragraph></section>';
-        $fields = array( 'title' => $title, 'intro' => $intro );
+        $fields = array(
+            'title' => $this->getTitleFromPath( $path ),
+            'intro' => $this->getDummyXmlText()
+        );
         return $this->getBasicContentManager()->createContentwithPath( $path, $fields, 'article' );
+    }
+
+    /**
+     * @Given a/an :path article draft exists
+     */
+    public function createArticleDraft( $path )
+    {
+        $fields = array(
+            'title' => $this->getTitleFromPath( $path ),
+            'intro' => $this->getDummyXmlText()
+        );
+        return $this->getBasicContentManager()->createContentDraft( 2, 'article', $fields );
+    }
+
+    private function getTitleFromPath( $path )
+    {
+        $parts = explode( '/', rtrim( $path, '/' ) );
+        return end( $parts );
+    }
+
+    /**
+     * @return string
+     */
+    private function getDummyXmlText()
+    {
+        return '<?xml version="1.0" encoding="utf-8"?><section xmlns:custom="http://ez.no/namespaces/ezpublish3/custom/" xmlns:image="http://ez.no/namespaces/ezpublish3/image/" xmlns:xhtml="http://ez.no/namespaces/ezpublish3/xhtml/"><paragraph>This is a paragraph.</paragraph></section>';
     }
 }

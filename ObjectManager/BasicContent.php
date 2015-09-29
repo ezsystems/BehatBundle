@@ -9,6 +9,9 @@
 
 namespace EzSystems\BehatBundle\ObjectManager;
 
+use eZ\Publish\API\Repository\Repository;
+use eZ\Publish\API\Repository\Values\Content\Content;
+use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
@@ -19,52 +22,92 @@ class BasicContent extends Base
      * Default language
      */
     const DEFAULT_LANGUAGE = 'eng-GB';
+
     /**
      * Content path mapping
      */
     private $contentPaths = array();
 
     /**
-     * Publishes the content
+     * Creates and publishes a Content.
      *
-     * @param string The field name
-     * @param mixed The field value
+     * @param string $contentType
+     * @param array $fields
+     * @param mixxed $parentLocationId
+     *
+     * @return mixed The content's main location id
      */
-    public function createContent( $contentType, $fields, $location )
+    public function createContent( $contentType, $fields, $parentLocationId )
     {
         $repository = $this->getRepository();
         $languageCode = self::DEFAULT_LANGUAGE;
 
-        $content = $repository->sudo(
-            function() use( $repository, $languageCode, $contentType, $fields, $location )
-            {
-                $contentService = $repository->getcontentService();
-                $contentTypeService = $repository->getContentTypeService();
-                $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct( $location );
+        $content = $this->createContentDraft($parentLocationId, $contentType, $languageCode, $fields);
+        $content = $repository->getContentService()->publishVersion($content->versionInfo);
 
-                $contentType = $contentTypeService->loadContentTypeByIdentifier( $contentType );
-                $contentCreateStruct = $contentService->newContentCreateStruct( $contentType, $languageCode );
-                foreach ( array_keys( $fields ) as $key )
-                {
-                    $contentCreateStruct->setField( $key, $fields[$key] );
-                }
-                $draft = $contentService->createContent( $contentCreateStruct, array( $locationCreateStruct ) );
-                $content = $contentService->publishVersion( $draft->versionInfo );
-
-                return $content;
-            }
-        );
-
-        $this->addObjectToList( $content );
         return $content->contentInfo->mainLocationId;
     }
 
     /**
-     * Creates and publishes a content in a given path
-     * the container are assumed to be folders
+     * Publishes a content draft.
+     *
+     * @param Content $content
+     */
+    public function publishDraft( Content $content )
+    {
+        $this->getRepository()->sudo(
+            function(Repository $repository) use ( $content )
+            {
+                $repository->getContentService()->publishVersion($content->versionInfo->id);
+            }
+        );
+    }
+
+    /**
+     * Creates a content draft using sudo().
+     *
+     * @param Location $parentLocationId
+     * @param string $contentTypeIdentifier
+     * @param string $languageCode
+     * @param array $fields Fields, as primitives understood by setField
+     *
+     *@return Content an unpublished Content draft
+     */
+    function createContentDraft($parentLocationId, $contentTypeIdentifier, $fields, $languageCode = null )
+    {
+        $languageCode = $languageCode ?: self::DEFAULT_LANGUAGE;
+
+        $repository = $this->getRepository();
+        $content = $repository->sudo(
+            function() use( $repository, $languageCode, $contentTypeIdentifier, $fields, $parentLocationId )
+            {
+                $contentService = $repository->getcontentService();
+                $contentTypeService = $repository->getContentTypeService();
+                $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct( $parentLocationId );
+
+                $contentTypeIdentifier = $contentTypeService->loadContentTypeByIdentifier( $contentTypeIdentifier );
+                $contentCreateStruct = $contentService->newContentCreateStruct( $contentTypeIdentifier, $languageCode );
+                foreach ( array_keys( $fields ) as $key ) {
+                    $contentCreateStruct->setField( $key, $fields[$key] );
+                }
+                return $contentService->createContent( $contentCreateStruct, array( $locationCreateStruct ) );
+            }
+        );
+
+        $this->addObjectToList( $content );
+
+        return $content;
+    }
+
+    /**
+     * Creates and publishes a content at a given path.
+     * Non-existing path items are created as folders named after the path element.
      *
      * @param string $path The content path
+     * @param array $fields
      * @param mixed $contentType The content type identifier
+     *
+     * @return mixed|string
      */
     public function createContentWithPath( $path, $fields, $contentType )
     {
