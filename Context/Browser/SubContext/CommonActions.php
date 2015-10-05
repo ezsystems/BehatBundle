@@ -18,6 +18,8 @@ use PHPUnit_Framework_Assert as Assertion;
 
 /**
  * Class with the simple actions you can do in a browser
+ *
+ * @method \Behat\Mink\Session getSession
  */
 trait CommonActions
 {
@@ -68,20 +70,33 @@ trait CommonActions
     public function iAmOnPage( $page = 'home' )
     {
         $this->visit( $this->getPathByPageIdentifier( $page ) );
-        try
-        {
-            $statusCode = $this->getSession()->getStatusCode();
-            $valid = false;
-            if ( $statusCode >= 200 && $statusCode < 400 )
-            {
-                $valid = true;
+        $this->checkForExceptions();
+    }
+
+    /**
+     * Checks the output of the latest session page for Symfony exceptions.
+     *
+     * If one is found, a failed assertion is executed, with the exception details + formatted stacktrace.
+     */
+    protected function checkForExceptions()
+    {
+        $exceptionElements = $this->getXpath()->findXpath("//div[@class='text-exception']/h1");
+        $exceptionStackTraceItems = $this->getXpath()->findXpath("//ol[@id='traces-0']/li");
+        if (count($exceptionElements) > 0) {
+            $exceptionElement = $exceptionElements[0];
+            $exceptionLines = [$exceptionElement->getText(), ''];
+
+            foreach ($exceptionStackTraceItems as $stackTraceItem) {
+                $html = $stackTraceItem->getHtml();
+                $html = substr($html, 0, strpos($html, '<a href', 1));
+                $html = htmlspecialchars_decode(strip_tags($html));
+                $html = preg_replace('/\s+/', ' ', $html);
+                $html = str_replace('  (', '(', $html);
+                $html = str_replace(' ->', '->', $html);
+                $exceptionLines[] = trim($html);
             }
-            Assertion::assertTrue( $valid, "Invalid response status code '{$statusCode}'" );
-        }
-        // several mink drivers do not support getStatusCode()
-        catch ( UnsupportedDriverActionException $e )
-        {
-            // do nothing
+            $message = 'An exception occured during rendering:' . implode("\n", $exceptionLines);
+            Assertion::assertTrue(false, $message);
         }
     }
 
@@ -517,6 +532,7 @@ trait CommonActions
      */
     public function iSeeMessage( $text )
     {
+        $this->checkForExceptions();
         $this->assertSession()->pageTextContains( $text );
     }
 
