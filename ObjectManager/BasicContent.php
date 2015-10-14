@@ -42,8 +42,13 @@ class BasicContent extends Base
         $repository = $this->getRepository();
         $languageCode = self::DEFAULT_LANGUAGE;
 
-        $content = $this->createContentDraft($parentLocationId, $contentType, $languageCode, $fields);
-        $content = $repository->getContentService()->publishVersion($content->versionInfo);
+        $content = $this->getRepository()->sudo(
+            function(Repository $repository) use ( $parentLocationId, $contentType, $fields, $languageCode )
+            {
+                $content = $this->createContentDraft($parentLocationId, $contentType, $fields, $languageCode);
+                return $content = $repository->getContentService()->publishVersion($content->versionInfo);
+            }
+        );
 
         return $content->contentInfo->mainLocationId;
     }
