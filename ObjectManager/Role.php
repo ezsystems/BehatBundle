@@ -43,7 +43,9 @@ class Role extends Base
                 catch ( ApiExceptions\NotFoundException $e )
                 {
                     $roleCreateStruct = $roleService->newRoleCreateStruct( $name );
-                    $role = $roleService->createRole( $roleCreateStruct );
+                    $roleDraft = $roleService->createRole( $roleCreateStruct );
+                    $roleService->publishRoleDraft($roleDraft);
+                    $role = $roleService->loadRole($roleDraft->id);
                     $that->addObjectToList( $role );
                 }
 
