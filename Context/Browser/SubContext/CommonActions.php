@@ -101,6 +101,16 @@ trait CommonActions
     }
 
     /**
+     * @Then I should see a :label input field
+     */
+    public function seeInputField($label)
+    {
+        $field = $this->getSession()->getPage()->findField($label);
+        if (!$field) {
+            throw new \Exception("Field '$label' not found");
+        }
+    }
+    /**
      * @When I fill in :field with :value
      * @When I set :field as empty
      *
