@@ -29,10 +29,10 @@ Feature: User group Creation
     Scenario: test creation of user groups from table
         Given there are the following User Groups:
             | childGroup      | parentGroup      |
-            | testUserGroup1  | Members          | # should create.
-            | testUserGroup1  | Editors          | # should create.
-            | testUserGroup3  | Test Parent      | # parent and child should be created.
-            | innerGroup3-1   | testUserGroup3   | # should be created inside previous.
+            | testUserGroup1  | Members          |
+            | testUserGroup1  | Editors          |
+            | testUserGroup3  | Test Parent      |
+            | innerGroup3-1   | testUserGroup3   |
         Then User Group with name "testUserGroup1 exists
         And User Group with name "testUserGroup1" exists in group "Members"
         And User Group with name "testUserGroup1" exists in group "Editors"
