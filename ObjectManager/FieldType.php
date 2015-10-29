@@ -156,6 +156,7 @@ class FieldType extends Base
             return;
         }
 
+        // recursively set previous states if necessary
         $this->setFieldContentState( $stateFlag - 1, $field, $value );
 
         switch( $stateFlag )
@@ -167,7 +168,7 @@ class FieldType extends Base
                 $this->createContentType();
                 break;
             case self::FIELD_TYPE_ASSOCIATED:
-                $this->associateFieldToCotentType();
+                $this->associateFieldToContentType();
                 break;
             case self::CONTENT_TYPE_PUBLISHED:
                 $this->publishContentType();
@@ -176,6 +177,11 @@ class FieldType extends Base
                 $this->publishContent( $field, $value );
                 break;
         }
+    }
+
+    public function getFieldContentState()
+    {
+        return $this->fieldConstructionObject[ 'objectState' ];
     }
 
     /**
@@ -215,7 +221,7 @@ class FieldType extends Base
     /**
      * Associates the stored fieldtype to the stored contenttype
      */
-    private function associateFieldToCotentType()
+    private function associateFieldToContentType()
     {
         $fieldCreateStruct = $this->fieldConstructionObject[ 'fieldType' ];
         $this->fieldConstructionObject[ 'contentType' ]->addFieldDefinition( $fieldCreateStruct );
@@ -250,7 +256,7 @@ class FieldType extends Base
      * @param string $language Language of the name
      * @return string Name of the contenttype
      */
-    public function getThisContentTypeName( $language )
+    public function getThisContentTypeName( $language = self::DEFAULT_LANGUAGE )
     {
         return $this->fieldConstructionObject[ 'contentType' ]->names[ $language ];
     }
@@ -261,7 +267,7 @@ class FieldType extends Base
      * @param string $language Language of the name
      * @return string Name of the contenttype
      */
-    public function getThisContentName( $language )
+    public function getThisContentName( $language = self::DEFAULT_LANGUAGE )
     {
         return $this->fieldConstructionObject[ 'content' ]->versionInfo->names[ $language ];
     }
@@ -272,10 +278,31 @@ class FieldType extends Base
      * @param string $language Language of the name
      * @return string Name of the fieldtype
      */
-    public function getThisFieldTypeName( $language )
+    public function getThisFieldTypeName( $language = self::DEFAULT_LANGUAGE )
     {
         return $this->fieldConstructionObject[ 'fieldType' ]->names[ $language ];
     }
+
+    /**
+     * Getter method for the identifier of the stored fieldtype
+     *
+     * @return string idenfier of the fieldtype
+     */
+    public function getThisFieldTypeIdentifier()
+    {
+        return $this->fieldConstructionObject[ 'fieldType' ]->identifier;
+    }
+
+    /**
+     * Get the content id for the published content
+     *
+     * @return int
+     */
+    public function getThisContentId()
+    {
+        return $this->fieldConstructionObject[ 'content' ]->id;
+    }
+
 
     /**
      * Creates an instance of a contenttype and stores it for later publishing
