@@ -44,7 +44,31 @@ class FieldType extends Base
      * @var array Stores Internal mapping of the fieldType names
      */
     private $fieldTypeInternalIdentifier = array(
-        "integer" => "ezinteger"
+        "authors" => "ezauthor",
+        "author" => "ezauthor",
+        "checkbox" => "ezboolean",
+        "integer" => "ezinteger",
+        "country" => "ezcountry",
+        "date" => "ezdate",
+        "date and time" => "ezdatetime",
+        "e-mail address" => "ezemail",
+        "file" => "ezbinaryfile",
+        "float" => "ezfloat",
+        "isbn" => "ezisbn",
+        "image" => "ezimage",
+        "keyword" => "ezkeyword",
+        "layout" => "ezpage",
+        "map location" => "ezgmaplocation",
+        "media" => "ezmedia",
+        "rating" => "ezsrrating",
+        "rich text" => "ezrichtext",
+        "selection" => "ezselection",
+        "text block" => "eztext",
+        "text line" => "ezstring",
+        "time" => "eztime",
+        "url" => "ezurl",
+        "user account" => "ezuser",
+        "xml block" => "ezxmltext"
     );
 
     /**
@@ -69,6 +93,7 @@ class FieldType extends Base
      */
     public function getFieldTypeInternalIdentifier( $identifier )
     {
+        $identifier = strtolower( $identifier );
         return $this->fieldTypeInternalIdentifier[ $identifier ];
     }
 
