@@ -75,14 +75,16 @@ class FieldType extends Base
      * @var array Maps the validator of the fieldtypes
      */
     private $validatorMappings = array(
-        "integer" => "IntegerValue"
+        "integer" => "IntegerValue",
+        "text line" => "StringLength"
     );
 
     /**
      * @var array Maps the default values of the fieldtypes
      */
     private $defaultValues = array(
-        "integer" => 1
+        "integer" => 1,
+        "text line" => '1234'
     );
 
     /**
@@ -105,7 +107,19 @@ class FieldType extends Base
      */
     public function getFieldValidator( $field )
     {
+        $field= strtolower( $field );
         return $this->validatorMappings[ $field ];
+    }
+
+    /**
+     * Getter method for fieldtype default value
+     * @param string $identifier Identifier of the field
+     * @return string default value
+     */
+    public function getDefaultValue( $identifier )
+    {
+        $identifier = strtolower( $identifier );
+        return $this->defaultValues[ $identifier ];
     }
 
     /**
@@ -123,12 +137,12 @@ class FieldType extends Base
         $name = ( $name == null ? $fieldType : $name );
         $fieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct(
             $name,
-            $this->fieldTypeInternalIdentifier[ $fieldType ]
+            $this->getFieldTypeInternalIdentifier( $fieldType )
         );
         $fieldCreateStruct->names = array( self::DEFAULT_LANGUAGE => $name );
         $fieldCreateStruct->position = $fieldPosition;
         $fieldCreateStruct->isRequired = $required;
-        $fieldCreateStruct->defaultValue = $this->defaultValues[ $fieldType ];
+        $fieldCreateStruct->defaultValue = $this->getDefaultValue( $fieldType );
         $this->fieldConstructionObject[ 'fieldType' ] = $fieldCreateStruct;
         $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_TYPE_CREATED;
     }

@@ -18,8 +18,8 @@ use PHPUnit_Framework_Assert as Assertion;
 trait FieldType
 {
     /**
-     * @Given a Content Type with an :fieldType field exists
-     * @Given a Content Type with an :fieldType with field definition name :name exists
+     * @Given a Content Type with a/an :fieldType field exists
+     * @Given a Content Type with a/an :fieldType with field definition name :name exists
      *
      * Creates a ContentType with only the desired FieldType
      */
@@ -29,8 +29,8 @@ trait FieldType
     }
 
     /**
-     * @Given a Content Type with a required :fieldType field exists
-     * @Given a Content Type with a required :fieldType with field definition name :name exists
+     * @Given a Content Type with a/an required :fieldType field exists
+     * @Given a Content Type with a/an required :fieldType with field definition name :name exists
      *
      * Creates a ContentType with only the desired FieldType
      */
@@ -53,21 +53,24 @@ trait FieldType
     }
 
     /**
-     * @Given a Content Type with an :fieldType field exists with Properties:
-     * @Given a Content Type with an :fieldType field with name :name exists with Properties:
+     * @Given a Content Type with a/an :fieldType field exists with Properties:
+     * @Given a Content Type with a/an :fieldType field with name :name exists with Properties:
      */
     public function createContentOfThisTypeWithProperties( $fieldType, TableNode $properties, $name = null )
     {
         $this->getFieldTypeManager()->createField( $fieldType, $name );
         foreach ( $properties as $property )
         {
-            if ( $property[ 'Validator' ] == 'maximum value validator' )
-            {
-                $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "max" );
-            }
-            else if ( $property[ 'Validator' ] == 'minimum value validator' )
-            {
-                $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "min" );
+            switch($property[ 'Validator' ]) {
+                case 'maximum value validator':
+                case 'maximum length validator':
+                    $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "max" );
+                    break;
+                case 'minimum value validator':
+                case 'minimum length validator':
+                    $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "min" );
+                    break;
+
             }
         }
     }
