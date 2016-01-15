@@ -9,10 +9,8 @@ env:
   global:
     - CONFIG="behat.yml"
   matrix:
-      # test behat bundle with demo content
-    - CONFIG="vendor/ezsystems/behatbundle/EzSystems/BehatBundle/behat.yml" INSTALL="demoContentNonUniqueDB" PROFILE="default" TEST="behat"
-      # test demo with demo content
-    - INSTALL="demoContentNonUniqueDB" PROFILE="demo" TEST="content"
+      # test behat default
+    - PROFILE="behat" TEST=""
       # test REST
     - PROFILE="rest" TEST="fullJson"
     - PROFILE="rest" TEST="fullXml"
