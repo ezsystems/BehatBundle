@@ -10,7 +10,7 @@ env:
     - CONFIG="behat.yml"
   matrix:
       # test behat default
-    - PROFILE="behat" TEST=""
+    - PROFILE="behat" TEST="default"
       # test REST
     - PROFILE="rest" TEST="fullJson"
     - PROFILE="rest" TEST="fullXml"

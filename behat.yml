@@ -1,15 +1,6 @@
 # This file is for manual testing only, corresponding file in ezpublish-community is used for travis testing
-default:
-    extensions:
-        Behat\Symfony2Extension:
-            kernel:
-                bootstrap: ezpublish/autoload.php
-                path: ezpublish/EzPublishKernel.php
-                class: EzPublishKernel
-                env: behat
-                debug: true
-
+behat:
     suites:
-        behat:
+        default:
             paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features ]
             contexts: [ EzSystems\BehatBundle\Context\EzContext ]
