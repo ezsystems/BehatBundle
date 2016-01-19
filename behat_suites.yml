@@ -1,4 +1,4 @@
-# This file is for manual testing only, corresponding file in ezpublish-community is used for travis testing
+# This file is for manual testing only, corresponding file in ezplatform is used for travis testing
 behat:
     suites:
         default:
