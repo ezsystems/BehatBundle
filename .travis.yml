@@ -1,13 +1,10 @@
 language: php
 
-# run tests on php 5.4 only and let unit / integration tests deal with php differences
 php:
-  - 5.4
+  - 5.5
 
 # list of paths/bundle to execute
 env:
-  global:
-    - CONFIG="behat.yml"
   matrix:
       # test behat default
     - ARGS="--profile=behat --suite=default"
@@ -37,7 +34,7 @@ before_script:
 
 # execute behat as the script command
 script:
-  - php bin/behat -vc --config $CONFIG$ ARGS --tags='~@broken'
+  - php bin/behat -vc behat.yml.dist $ARGS --tags='~@broken'
 
 # disable mail notifications
 notification:
