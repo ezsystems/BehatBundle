@@ -1,0 +1,5 @@
+services:
+    behatbundle.context_argument_resolver:
+        class: EzSystems\BehatBundle\Context\Resolver\AnnotationArgumentResolver
+        tags:
+            -  { name: context.argument_resolver }

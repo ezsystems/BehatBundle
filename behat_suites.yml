@@ -4,3 +4,6 @@ behat:
         default:
             paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features ]
             contexts: [ EzSystems\BehatBundle\Context\EzContext ]
+        test:
+            paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/test.feature ]
+            contexts: [ EzSystems\BehatBundle\Context\ExampleContext ]
