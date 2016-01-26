@@ -78,6 +78,22 @@ For REST interaction there is [REST context](https://github.com/ezsystems/ezpubl
 
 For a completely clean context you don't need anything but Behat/Mink and implement [KernelAwareContext](https://github.com/Behat/Symfony2Extension/blob/master/src/Behat/Symfony2Extension/Context/KernelAwareContext.php) if you need access to kernel (take a look at how it's done in [EzContext](Context/EzContext.php).
 
+##### Accessing eZ Platform / Kernel services
+In order to easily access container services (such as ContentService, SearchService, etc), [EzBehatExtension](ServiceContainer/EzBehatExtension.php) 
+can parse annotations in Behat Contexts and inject the defined services into any method(s), using the following syntax:
+
+``` php
+/**
+ * @EzService ezpublish.api.cool.service
+ * @EzService ezpublish.api.evencooler.service
+ */
+ public function initialize(CoolService $service1, CoolerService $service2)
+ {
+    ...
+ }
+```
+
+
 
 ### Structure
 

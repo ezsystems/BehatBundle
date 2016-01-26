@@ -1,0 +1,7 @@
+services:
+  behatbundle.context_initializer:
+    class: EzSystems\BehatBundle\ServiceContainer\Initializer\EzBehatInitializer
+    arguments:
+        kernel: @symfony2_extension.kernel
+    tags:
+      -  { name: context.initializer }
