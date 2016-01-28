@@ -15,6 +15,7 @@ Feature: User group Creation
         Given there is a User Group with name "newUserGroup"
         Then User Group with name "newUserGroup" exists
 
+    @broken
     Scenario: test creation of user group in existing parent group
         Given a User Group with name "Members" already exists
         And there is a User Group with name "testUserGroup" in "Members" group

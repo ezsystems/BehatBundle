@@ -20,7 +20,6 @@ use Behat\Symfony2Extension\Context\KernelAwareContext;
  */
 class EzContext implements KernelAwareContext
 {
-    use Object\ContentTypeGroup;
     use Object\UserGroup;
     use Object\User;
     use Object\Role;
