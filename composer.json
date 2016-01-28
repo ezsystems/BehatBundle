@@ -17,10 +17,5 @@
     "autoload": {
         "psr-0": {"EzSystems\\BehatBundle": ""}
     },
-    "target-dir": "EzSystems/BehatBundle",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "6.1.x-dev"
-        }
-    }
+    "target-dir": "EzSystems/BehatBundle"
 }
