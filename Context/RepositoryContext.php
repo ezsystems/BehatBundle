@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the Base Context class for EzBehatBundle.
+ * File containing the Repository Context class for EzBehatBundle.
  *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -9,24 +9,18 @@
 
 namespace EzSystems\BehatBundle\Context;
 
-use Behat\Behat\Context\Context as BehatContext;
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\Repository\Values\User\UserReference;
 
 /**
- * EzBehat Base Context
+ * Repository Context Trait
  */
-class Context implements BehatContext
+trait RepositoryContext
 {
     /**
      * Default Administrator user id
      */
-    const ADMIN_USER_ID = 14;
-
-    /**
-     * Default language code
-     */
-    const DEFAULT_LANGUAGE = 'eng-GB';
+    private $adminUserId = 14;
 
     /**
      * @var Repository
@@ -34,9 +28,9 @@ class Context implements BehatContext
     protected $repository;
 
     /**
-     * @injectService $repository @ezpublish.api.repository
+     * @param Repository $repository
      */
-    public function __construct(Repository $repository)
+    public function setRepository(Repository $repository)
     {
         $this->repository = $repository;
     }
@@ -46,6 +40,6 @@ class Context implements BehatContext
      */
     public function loginAdmin($event)
     {
-        $this->repository->setCurrentUser(new UserReference(self::ADMIN_USER_ID));
+        $this->repository->setCurrentUser(new UserReference($this->adminUserId));
     }
 }

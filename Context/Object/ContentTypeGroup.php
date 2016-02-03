@@ -9,7 +9,8 @@
 
 namespace EzSystems\BehatBundle\Context\Object;
 
-use EzSystems\BehatBundle\Context\Context;
+use Behat\Behat\Context\Context;
+use EzSystems\BehatBundle\Context\RepositoryContext;
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
@@ -20,8 +21,9 @@ use PHPUnit_Framework_Assert as Assertion;
 /**
  * Sentences for ContentTypeGroups
  */
-class ContentTypeGroup extends Context
+class ContentTypeGroup implements Context
 {
+    use RepositoryContext;
 
     /** @var \eZ\Publish\API\Repository\ContentTypeService */
     protected $contentTypeService;
@@ -32,7 +34,7 @@ class ContentTypeGroup extends Context
      */
     public function __construct(Repository $repository, ContentTypeService $contentTypeService)
     {
-        parent::__construct($repository);
+        $this->setRepository($repository);
         $this->contentTypeService = $contentTypeService;
     }
 

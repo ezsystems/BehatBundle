@@ -10,7 +10,8 @@
 namespace EzSystems\BehatBundle\Context\Object;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use EzSystems\BehatBundle\Context\Context;
+use Behat\Behat\Context\Context;
+use EzSystems\BehatBundle\Context\RepositoryContext;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
 use eZ\Publish\API\Repository\Repository;
@@ -20,9 +21,19 @@ use PHPUnit_Framework_Assert as Assertion;
 /**
  * Sentences for Content Types
  */
-class ContentType extends Context
+class ContentType implements Context
 {
+    use RepositoryContext;
+
+    /**
+     * Default ContentTypeGroup
+     */
     const DEFAULT_GROUP = 'Content';
+
+    /**
+     * Default language code
+     */
+    const DEFAULT_LANGUAGE = 'eng-GB';
 
     /** @var \eZ\Publish\API\Repository\ContentTypeService */
     protected $contentTypeService;
@@ -36,7 +47,7 @@ class ContentType extends Context
      */
     public function __construct(Repository $repository, ContentTypeService $contentTypeService)
     {
-        parent::__construct($repository);
+        $this->setRepository($repository);
         $this->contentTypeService = $contentTypeService;
     }
 
