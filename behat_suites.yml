@@ -2,8 +2,13 @@
 behat:
     suites:
         default:
-            paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features ]
+            paths:
+                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/user.feature
+                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/user_group.feature
             contexts: [ EzSystems\BehatBundle\Context\EzContext ]
-        test:
-            paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/test.feature ]
-            contexts: [ EzSystems\BehatBundle\Context\ExampleContext ]
+        contenttype_group:
+            paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/contenttype_group.feature ]
+            contexts: [ EzSystems\BehatBundle\Context\Object\ContentTypeGroup ]
+        contenttype:
+            paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/contenttype.feature ]
+            contexts: [EzSystems\BehatBundle\Context\Object\ContentType ]
