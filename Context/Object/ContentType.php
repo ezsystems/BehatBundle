@@ -9,13 +9,15 @@
 
 namespace EzSystems\BehatBundle\Context\Object;
 
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Behat\Context\Context;
-use EzSystems\BehatBundle\Context\RepositoryContext;
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
-use eZ\Publish\API\Repository\Repository;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use EzSystems\BehatBundle\Helper\EnvironmentCleaner;
+use EzSystems\BehatBundle\Context\RepositoryContext;
+use EzSystems\PlatformInstallerBundle\Installer\DbBasedInstaller as Installer;
+use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
+use eZ\Publish\API\Repository\ContentTypeService;
+use eZ\Publish\API\Repository\Repository;
 use PHPUnit_Framework_Assert as Assertion;
 
 /**
@@ -43,12 +45,14 @@ class ContentType implements Context
 
     /**
      * @injectService $repository @ezpublish.api.repository
+     * @injectService $installer @ezplatform.installer.clean_installer
      * @injectService $contentTypeService @ezpublish.api.service.content_type
      */
-    public function __construct(Repository $repository, ContentTypeService $contentTypeService)
+    public function __construct(Repository $repository, Installer $installer, ContentTypeService $contentTypeService)
     {
         $this->setRepository($repository);
         $this->contentTypeService = $contentTypeService;
+        EnvironmentCleaner::cleanEnvironment($installer);
     }
 
     /**
