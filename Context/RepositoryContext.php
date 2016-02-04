@@ -11,6 +11,7 @@ namespace EzSystems\BehatBundle\Context;
 
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\Repository\Values\User\UserReference;
+use EzSystems\PlatformInstallerBundle\Installer\DbBasedInstaller as Installer;
 
 /**
  * Repository Context Trait
@@ -23,16 +24,30 @@ trait RepositoryContext
     private $adminUserId = 14;
 
     /**
-     * @var Repository
+     * @var eZ\Publish\API\Repository\Repository
      */
     protected $repository;
 
     /**
-     * @param Repository $repository
+     * @var EzSystems\PlatformInstallerBundle\Installer\DbBasedInstaller
+     */
+    protected $installer;
+
+    /**
+     * @param eZ\Publish\API\Repository\Repository $repository
      */
     public function setRepository(Repository $repository)
     {
         $this->repository = $repository;
+    }
+
+    /**
+     * @param EzSystems\PlatformInstallerBundle\Installer\DbBasedInstaller $installer
+     */
+    public function setInstaller(Installer $installer)
+    {
+        $this->installer = $installer;
+        $this->installer->setOutput(new NullOutput());
     }
 
     /**
@@ -41,5 +56,15 @@ trait RepositoryContext
     public function loginAdmin($event)
     {
         $this->repository->setCurrentUser(new UserReference($this->adminUserId));
+    }
+
+    /**
+     * @Given the environment is clean
+     */
+    public function cleanEnvironment()
+    {
+        $this->installer->importSchema();
+        $this->installer->importData();
+        $this->installer->importBinaries();
     }
 }

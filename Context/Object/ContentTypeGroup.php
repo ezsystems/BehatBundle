@@ -37,8 +37,8 @@ class ContentTypeGroup implements Context
     public function __construct(Repository $repository, Installer $installer, ContentTypeService $contentTypeService)
     {
         $this->setRepository($repository);
+        $this->setInstaller($installer);
         $this->contentTypeService = $contentTypeService;
-        EnvironmentCleaner::cleanEnvironment($installer);
     }
 
     /**
