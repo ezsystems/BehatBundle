@@ -21,3 +21,6 @@ behat:
         basiccontent:
             paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/basiccontent.feature ]
             contexts: [ EzSystems\BehatBundle\Context\Object\BasicContent ]
+        fieldtypes:
+            paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/fieldtypes.feature ]
+            contexts: [ EzSystems\BehatBundle\Context\Object\FieldType ]

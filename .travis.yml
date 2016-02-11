@@ -13,6 +13,7 @@ env:
     - ARGS="--profile=behat --suite=user"
     - ARGS="--profile=behat --suite=usergroup"
     - ARGS="--profile=behat --suite=basiccontent"
+    - ARGS="--profile=behat --suite=fieldtypes"
       # test REST
     - ARGS="--profile=rest --suite=fullJson"
     - ARGS="--profile=rest --suite=fullXml"
