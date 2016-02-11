@@ -15,3 +15,6 @@ behat:
             contexts:
               - EzSystems\BehatBundle\Context\Object\User
               - EzSystems\BehatBundle\Context\Object\UserGroup
+        usergroup:
+            paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/user_group.feature ]
+            contexts: [ EzSystems\BehatBundle\Context\Object\UserGroup ]
