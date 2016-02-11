@@ -3,9 +3,10 @@ Feature: User group Creation
     I need to run user group scenarios
     In order to test user group creation functions
 
+    @broken
     Scenario: Test that a group already exists
-        Given a User Group with name "Members" already exists
-        Then User Group with name "Members" exists
+        Given a User Group with name "Editors" already exists
+        Then User Group with name "Editors" exists
 
     Scenario: Test that a group does not exist
         Given there isn't a User Group with name "testUserGroup"
@@ -17,10 +18,10 @@ Feature: User group Creation
 
     @broken
     Scenario: test creation of user group in existing parent group
-        Given a User Group with name "Members" already exists
-        And there is a User Group with name "testUserGroup" in "Members" group
+        Given a User Group with name "Editors" already exists
+        And there is a User Group with name "testUserGroup" in "Editors" group
         Then User Group with name "testUserGroup" exists
-        And User Group with name "testUserGroup" exists in "Members" group
+        And User Group with name "testUserGroup" exists in "Editors" group
 
     Scenario: test creation of user group in new parent group
         Given there is a User Group with name "test Child Group" in "Test Parent Group" group

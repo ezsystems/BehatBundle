@@ -9,24 +9,54 @@
 
 namespace EzSystems\BehatBundle\Context\Object;
 
-use Behat\Gherkin\Node\TableNode;
+use Behat\Behat\Context\Context;
+use EzSystems\BehatBundle\Context\RepositoryContext;
+use eZ\Publish\API\Repository\RoleService;
+use eZ\Publish\API\Repository\Repository;
+use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
 use PHPUnit_Framework_Assert as Assertion;
 
 /**
  * Sentences for Roles
  */
-trait Role
+class Role implements Context
 {
+    use RepositoryContext;
+
+    /** @var \eZ\Publish\API\Repository\RoleService */
+    private $roleService;
+
+    /**
+     * @injectService $repository @ezpublish.api.repository
+     * @injectService $roleService @ezpublish.api.service.role
+     */
+    public function __construct(Repository $repository, RoleService $roleService)
+    {
+        $this->setRepository($repository);
+        $this->roleService = $roleService;
+    }
+
     /**
      * @Given a/an :name role exists
      *
-     * Ensures a role exists with name ':name', creating a new one if necessary.
+     * Ensures a role exists with name $name, creating a new one if necessary.
      *
+     * @param string $name Role identifier
      * @return \eZ\Publish\API\Repository\Values\User\Role
      */
-    public function iHaveRole( $name )
+    public function ensureRoleExists($name)
     {
-        return $this->getRoleManager()->ensureRoleExists( $name );
+        $role = null;
+        try {
+            $role = $this->roleService->loadRoleByIdentifier($name);
+        } catch (ApiExceptions\NotFoundException $e) {
+            $roleCreateStruct = $this->roleService->newRoleCreateStruct($name);
+            $roleDraft = $this->roleService->createRole($roleCreateStruct);
+            $this->roleService->publishRoleDraft($roleDraft);
+            $role = $this->roleService->loadRole($roleDraft->id);
+        }
+
+        return $role;
     }
 
     /**
@@ -34,10 +64,11 @@ trait Role
      *
      * Verifies that a role with $name exists.
      *
+     * @param string $name name of the role
      */
-    public function iSeeRole( $name )
+    public function iSeeRole($name)
     {
-        $role = $this->getRoleManager()->getRole( $name );
+        $role = $this->getRole($name);
         Assertion::assertNotNull(
             $role,
             "Couldn't find Role with name $name"
@@ -47,6 +78,8 @@ trait Role
     /**
      * @Given :name do not have any assigned policies
      * @Given :name do not have any assigned Users and groups
+     *
+     * @param string $name name of the role
      */
     public function noGroupsAndPolicies($name)
     {
@@ -59,12 +92,31 @@ trait Role
      * Verifies that a role with $name exists.
      *
      */
-    public function iDontSeeRole( $name )
+    public function iDontSeeRole($name)
     {
-        $role = $this->getRoleManager()->getRole( $name );
+        $role = $this->getRole($name);
         Assertion::assertNull(
             $role,
             "Found Role with name $name"
         );
+    }
+
+    /**
+     * Fetches the role with identifier
+     *
+     * @param string $identifier Role identifier
+     *
+     * @return \eZ\Publish\API\Repository\Values\User\Role
+     */
+    public function getRole($identifier)
+    {
+        $role = null;
+        try {
+            $role = $this->roleService->loadRoleByIdentifier($identifier);
+        } catch (ApiExceptions\NotFoundException $e) {
+            // Role not found, do nothing, returns null
+        }
+
+        return $role;
     }
 }
