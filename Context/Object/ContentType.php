@@ -9,13 +9,12 @@
 
 namespace EzSystems\BehatBundle\Context\Object;
 
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\TableNode;
 use EzSystems\BehatBundle\Context\RepositoryContext;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
 use eZ\Publish\API\Repository\Repository;
-use Behat\Gherkin\Node\TableNode;
 use PHPUnit_Framework_Assert as Assertion;
 
 /**
@@ -37,9 +36,6 @@ class ContentType implements Context
 
     /** @var \eZ\Publish\API\Repository\ContentTypeService */
     protected $contentTypeService;
-
-    /** @var \EzSystems\BehatBundle\Context\Object\ContentTypeGroup */
-    protected $contentTypeGroupContext;
 
     /**
      * @injectService $repository @ezpublish.api.repository

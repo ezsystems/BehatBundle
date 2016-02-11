@@ -6,8 +6,9 @@ php:
 # list of paths/bundle to execute
 env:
   matrix:
-      # test behat default
-    - ARGS="--profile=behat --suite=default"
+      # test behat suites
+    - ARGS="--profile=behat --suite=contenttype_group"
+    - ARGS="--profile=behat --suite=contenttype"
       # test REST
     - ARGS="--profile=rest --suite=fullJson"
     - ARGS="--profile=rest --suite=fullXml"
