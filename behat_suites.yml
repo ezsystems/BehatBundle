@@ -10,3 +10,8 @@ behat:
         role:
             paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/role.feature ]
             contexts: [ EzSystems\BehatBundle\Context\Object\Role ]
+        user:
+            paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/user.feature ]
+            contexts:
+              - EzSystems\BehatBundle\Context\Object\User
+              - EzSystems\BehatBundle\Context\Object\UserGroup
