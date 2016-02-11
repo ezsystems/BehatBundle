@@ -9,6 +9,7 @@ env:
       # test behat suites
     - ARGS="--profile=behat --suite=contenttype_group"
     - ARGS="--profile=behat --suite=contenttype"
+    - ARGS="--profile=behat --suite=role"
       # test REST
     - ARGS="--profile=rest --suite=fullJson"
     - ARGS="--profile=rest --suite=fullXml"
