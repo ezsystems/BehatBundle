@@ -18,3 +18,6 @@ behat:
         usergroup:
             paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/user_group.feature ]
             contexts: [ EzSystems\BehatBundle\Context\Object\UserGroup ]
+        basiccontent:
+            paths: [ vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/basiccontent.feature ]
+            contexts: [ EzSystems\BehatBundle\Context\Object\BasicContent ]
