@@ -63,7 +63,7 @@ class BasicContent extends Base
         $this->getRepository()->sudo(
             function(Repository $repository) use ( $content )
             {
-                $repository->getContentService()->publishVersion($content->versionInfo->id);
+                $repository->getContentService()->publishVersion($content->versionInfo);
             }
         );
     }
@@ -99,9 +99,20 @@ class BasicContent extends Base
             }
         );
 
-        $this->addObjectToList( $content );
-
         return $content;
+    }
+
+    public function createContentDraftForContent($contentId)
+    {
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+        $draft = $repository->sudo(function() use($contentService, $contentId) {
+            return $contentService->createContentDraft($contentService->loadContentInfo($contentId));
+        });
+
+        $this->addObjectToList($draft);
+
+        return $draft;
     }
 
     /**
@@ -153,6 +164,26 @@ class BasicContent extends Base
     {
         $contentNames = explode( '/', $path );
         $this->contentPaths[ end( $contentNames ) ] = $path;
+    }
+
+    public function updateDraft(Content $draft, $fields)
+    {
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+
+        $updateStruct = $contentService->newContentUpdateStruct();
+        foreach ($fields as $fieldDefIdentifier => $fieldValueUpdate) {
+            $updateStruct->setField($fieldDefIdentifier, $fieldValueUpdate);
+        }
+
+        $updatedDraft = $repository->sudo(function() use($contentService, $draft, $updateStruct) {
+            return $contentService->updateContent(
+                $draft->versionInfo,
+                $updateStruct
+            );
+        });
+
+        return $updatedDraft;
     }
 
     /**

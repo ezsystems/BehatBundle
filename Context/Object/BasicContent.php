@@ -10,6 +10,7 @@
 namespace EzSystems\BehatBundle\Context\Object;
 
 use Behat\Gherkin\Node\TableNode;
+use eZ\Publish\API\Repository\Values\Content\Content;
 use PHPUnit_Framework_Assert as Assertion;
 
 /**
@@ -37,7 +38,13 @@ trait BasicContent
             'title' => $this->getTitleFromPath( $path ),
             'intro' => $this->getDummyXmlText()
         );
-        return $this->getBasicContentManager()->createContentwithPath( $path, $fields, 'article' );
+
+        $mainLocationId = $this->getBasicContentManager()->createContentWithPath( $path, $fields, 'article' );
+
+        $repository = $this->getRepository();
+        $contentInfo = $repository->getLocationService()->loadLocation($mainLocationId)->contentInfo;
+
+        return $repository->getContentService()->loadContentByContentInfo($contentInfo);
     }
 
     /**

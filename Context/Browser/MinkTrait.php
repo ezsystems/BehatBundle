@@ -10,6 +10,7 @@
 namespace EzSystems\BehatBundle\Context\Browser;
 
 use Behat\Mink\Mink;
+use Behat\Mink\WebAssert;
 
 /**
  * This makes possible for (mink) contexts to extend other classes than (Raw)MinkContext
