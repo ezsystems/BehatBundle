@@ -149,6 +149,7 @@ trait CommonActions
     public function iClickAtButton( $button )
     {
         $this->onPageSectionIClickAtButton( $button );
+        $this->waitWhileLoading();
     }
 
     /**
