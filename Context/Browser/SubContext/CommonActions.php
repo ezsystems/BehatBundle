@@ -42,9 +42,14 @@ trait CommonActions
      * Waits maximum 3 seconds, tries every 200ms
      *
      * @link http://docs.behat.org/en/v2.5/cookbook/using_spin_functions.html
+     * @deprecated deprecated since version 7.0.0
      */
     public function iCanSee( $id )
     {
+        trigger_error(
+            "iCanSee is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
         $element = null;
         $session = $this->getSession();
         for ($i = 0; $i < 15; $i++) {
@@ -156,9 +161,15 @@ trait CommonActions
      * @When  on :pageSection I click at/on :button button
      *
      * Clicks the button identified by ':button', located in section ':section'
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function onPageSectionIClickAtButton( $button, $pageSection = null )
     {
+        trigger_error(
+            "onPageSectionIClickAtButton is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
         $base = $this->makeXpathForBlock( $pageSection );
         $el = $this->getXpath()->findButtons( $button, $base );
         EzAssertion::assertElementFound( $button, $el, $pageSection, 'button' );
@@ -182,9 +193,15 @@ trait CommonActions
      *
      * Click a link with text ':link' on page section ':pageSection'
      * Asserts that at least one link element is found.
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function onPageSectionIClickAtLink( $link, $pageSection = null )
     {
+        trigger_error(
+            "onPageSectionIClickAtLink is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
         $base = $this->makeXpathForBlock( $pageSection );
         $el = $this->getXpath()->findLinks( $link, $base );
         EzAssertion::assertElementFound( $link, $el, $pageSection, 'link' );
@@ -249,9 +266,16 @@ trait CommonActions
      *      | field         | value                  |
      *      | Title         | A title text           |
      *      | Content       | Some content           |
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function iFillFormWith( TableNode $table )
     {
+        trigger_error(
+            "onPageSectionIClickAtLink is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
+
         foreach ( GherkinHelper::convertTableToArrayOfData( $table ) as $field => $value )
         {
             $elements = $this->getXpath()->findFields( $field );
@@ -267,9 +291,16 @@ trait CommonActions
      *      | field         | value                  |
      *      | Title         | A title text           |
      *      | Content       | Some content           |
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function formHasValue( TableNode $table )
     {
+        trigger_error(
+            "onPageSectionIClickAtLink is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
+
         foreach ( GherkinHelper::convertTableToArrayOfData( $table ) as $field => $value )
         {
             $elements = $this->getXpath()->findFields( $field );
@@ -295,9 +326,15 @@ trait CommonActions
     /**
      * @Then on :pageSection I (should) see (the) (following) links:
      *
+     * @deprecated deprecated since version 7.0.0
      */
     public function onPageSectionISeeLinks( TableNode $table, $pageSection = null )
     {
+        trigger_error(
+            "iSeeLinks is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
+
         $rows = $table->getRows();
         array_shift( $rows );
 
@@ -315,18 +352,31 @@ trait CommonActions
      * @Then I don't see (the) (following) links:
      *
      * Asserts that none of the links with the provided text can be found.
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function iDonTSeeLinks( TableNode $table )
     {
+        trigger_error(
+            "iDonTSeeLinks is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
         $this->onPageSectionIDonTSeeLinks( 'main', $table );
     }
 
     /**
      * @Then on :pageSection I shouldn't see (the) (following) links:
      * @Then on :pageSection I don't see (the) (following) links:
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function onPageSectionIDonTSeeLinks( TableNode $table, $pageSection = null )
     {
+        trigger_error(
+            "onPageSectionIDonTSeeLinks is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
+
         $rows = $table->getRows();
         array_shift( $rows );
 
@@ -344,9 +394,16 @@ trait CommonActions
      * @Then I (should) see (the) links in this order:
      *
      * Checks if links exist, and appear in the specified order
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function iSeeLinksInFollowingOrder( TableNode $table )
     {
+        trigger_error(
+            "iSeeLinksInFollowingOrder is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
+
         // get all links
         $available = $this->getXpath()->findXpath( "//a[@href]" );
 
@@ -372,9 +429,16 @@ trait CommonActions
      *      | link1 | title |
      *      | link2 | list  |
      *      | link3 | text  |
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function iSeeFollowingLinksIn( TableNode $table )
     {
+        trigger_error(
+            "iSeeFollowingLinksIn is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
+
         $session = $this->getSession();
         $rows = $table->getRows();
         array_shift( $rows );
@@ -407,9 +471,15 @@ trait CommonActions
      * @Then I (should) see :title title/topic
      *
      * Asserts that a (single) title element exists with the text ':title'
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function iSeeTitle( $title )
     {
+        trigger_error(
+            "iSeeTitle is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
         $literal = $this->getXpath()->literal( $title );
         $tags = $this->getTagsFor( "title" );
         $innerXpath = "[text() = {$literal} or .//*[text() = {$literal}]]";
@@ -440,9 +510,15 @@ trait CommonActions
      *      | Value A  | Value B  | Value D  |
      *      ...
      *      | Value I  | Value J  | Value L  |
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function iSeeTableWith( TableNode $table )
     {
+        trigger_error(
+            "iSeeTableWith is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
         $rows = $table->getRows();
         $headers = array_shift( $rows );
 
@@ -472,17 +548,29 @@ trait CommonActions
      * @Then I (should) see :text text emphasized
      *
      * Checks that an element exists on the page with text ':text' emphasized.
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function iSeeTextEmphasized( $text )
     {
+        trigger_error(
+            "iSeeTextEmphasized is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
         $this->onPageSectionISeeTextEmphasized( $text );
     }
 
     /**
      * @Then on :pageSection I (should) see the :text text emphasized
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function onPageSectionISeeTextEmphasized( $text, $pageSection = null )
     {
+        trigger_error(
+            "onPageSectionISeeTextEmphasized is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
         // first find the text
         $base = $this->makeXpathForBlock( $pageSection );
         $el = $this->getXpath()->findXpath( "$base//*[contains( text(), {$this->getXpath()->literal( $text )} )]" );
@@ -500,9 +588,15 @@ trait CommonActions
      * @Then I (should) see :message warning/error
      *
      * Checks that an element with the class 'warning' or 'error' exists with text ':message'
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function iSeeWarning( $message )
     {
+        trigger_error(
+            "iSeeWarning is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
         $el = $this->getXpath()->findXpath(
             "//*[contains( @class, 'warning' ) or contains( @class, 'error' )]"
             . "//*[text() = {$this->getXpath()->literal( $message )}]"
@@ -515,17 +609,30 @@ trait CommonActions
      * @Then I (should) see the exact :text: message/text
      *
      * Checks that an element on the page contains the exact text ':text'
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function iSeeText( $text )
     {
+        trigger_error(
+            "iSeeText is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
         $this->onPageSectionISeeText( $text );
     }
 
     /**
      * @Then on :pageSection I (should) see the exact :text message/text
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function onPageSectionISeeText( $text, $pageSection = null )
     {
+        trigger_error(
+            "onPageSectionISeeText is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
+
         $base = $this->makeXpathForBlock( $pageSection );
 
         $literal = $this->getXpath()->literal( $text );
@@ -539,9 +646,15 @@ trait CommonActions
      * @Then I (should) see :message message/text
      *
      * Checks that current page contains text.
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function iSeeMessage( $text )
     {
+        trigger_error(
+            "iSeeMessage is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
         $this->checkForExceptions();
         $this->assertSession()->pageTextContains( $text );
     }
@@ -550,9 +663,16 @@ trait CommonActions
      * @Then I don't see :text message/text
      *
      * Checks that current page does not contain text.
+     *
+     * @deprecated deprecated since version 7.0.0
      */
     public function iDonTSeeMessage( $text )
     {
+        trigger_error(
+            "iDonTSeeMessage is deprecated since v7.0.0 and will be removed in the future",
+            E_USER_DEPRECATED
+        );
+
         $this->assertSession()->pageTextNotContains( $text );
     }
 
