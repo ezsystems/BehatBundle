@@ -42,9 +42,14 @@ trait CommonActions
      * Waits maximum 3 seconds, tries every 200ms
      *
      * @link http://docs.behat.org/en/v2.5/cookbook/using_spin_functions.html
+     * @deprecated deprecated since version 6.3.0
      */
     public function iCanSee( $id )
     {
+        trigger_error(
+            "iCanSee is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
         $element = null;
         $session = $this->getSession();
         for ($i = 0; $i < 15; $i++) {
@@ -102,9 +107,15 @@ trait CommonActions
 
     /**
      * @Then I should see a :label input field
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function seeInputField($label)
     {
+        trigger_error(
+            "seeInputField is deprecated since v6.3.0, use PlatformUI Context seeInputField instead",
+            E_USER_DEPRECATED
+        );
         $field = $this->getSession()->getPage()->findField($label);
         if (!$field) {
             throw new \Exception("Field '$label' not found");
@@ -115,9 +126,15 @@ trait CommonActions
      * @When I set :field as empty
      *
      * Fill field identified by ':field' with ':value'
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function fillFieldWithValue( $field, $value = '' )
     {
+        trigger_error(
+            "fillFieldWithValue is deprecated since v6.3.0, use PlatformUI Context fillFieldWithValue instead",
+            E_USER_DEPRECATED
+        );
         $this->getSession()->getPage()->fillField( $field, $value );
     }
 
@@ -145,9 +162,15 @@ trait CommonActions
      * @When I click on/at (the) :button button
      *
      * Clicks the button identified by ':button'
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iClickAtButton( $button )
     {
+        trigger_error(
+            "iClickAtButton is deprecated since v6.3.0, use PlatformUI Context iClickAtButton instead",
+            E_USER_DEPRECATED
+        );
         $this->onPageSectionIClickAtButton( $button );
     }
 
@@ -156,9 +179,15 @@ trait CommonActions
      * @When  on :pageSection I click at/on :button button
      *
      * Clicks the button identified by ':button', located in section ':section'
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function onPageSectionIClickAtButton( $button, $pageSection = null )
     {
+        trigger_error(
+            "onPageSectionIClickAtButton is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
         $base = $this->makeXpathForBlock( $pageSection );
         $el = $this->getXpath()->findButtons( $button, $base );
         EzAssertion::assertElementFound( $button, $el, $pageSection, 'button' );
@@ -170,9 +199,15 @@ trait CommonActions
      * @When  I click on/at (the) :link link
      *
      * Click a link with text ':link'
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iClickAtLink( $link )
     {
+        trigger_error(
+            "iClickAtLink is deprecated since v6.3.0, use PlatformUI Context iClickAtLink instead",
+            E_USER_DEPRECATED
+        );
         $this->onPageSectionIClickAtLink( $link );
     }
 
@@ -182,9 +217,15 @@ trait CommonActions
      *
      * Click a link with text ':link' on page section ':pageSection'
      * Asserts that at least one link element is found.
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function onPageSectionIClickAtLink( $link, $pageSection = null )
     {
+        trigger_error(
+            "onPageSectionIClickAtLink is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
         $base = $this->makeXpathForBlock( $pageSection );
         $el = $this->getXpath()->findLinks( $link, $base );
         EzAssertion::assertElementFound( $link, $el, $pageSection, 'link' );
@@ -196,9 +237,15 @@ trait CommonActions
      * @When  I check :label checkbox
      *
      * Toggles the value for the checkbox with name ':label'
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function checkOption( $option )
     {
+        trigger_error(
+            "checkOption is deprecated since v6.3.0, use PlatformUI Context checkOption instead",
+            E_USER_DEPRECATED
+        );
         $fieldElements = $this->getXpath()->findFields( $option );
         EzAssertion::assertElementFound( $option, $fieldElements, null, 'checkbox' );
 
@@ -220,9 +267,15 @@ trait CommonActions
      *
      * Selects option with value ':value'
      * IMPORTANT: Will thrown an error if more than 1 select/dropdown is found on page
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iSelect( $option )
     {
+        trigger_error(
+            "iSelect is deprecated since v6.3.0, use PlatformUI Context iSelect instead",
+            E_USER_DEPRECATED
+        );
         $elements = $this->getXpath()->findXpath( "//select" );
         Assertion::assertNotEmpty( $elements, "Unable to find a select field" );
         $elements[0]->selectOption( $option );
@@ -233,9 +286,15 @@ trait CommonActions
      * @When  I select :label radio button
      *
      * Selects the radio button with label ':label'
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iSelectRadioButton( $label )
     {
+        trigger_error(
+            "iSelectRadioButton is deprecated since v6.3.0, use PlatformUI Context iSelectRadioButton instead",
+            E_USER_DEPRECATED
+        );
         $el = $this->getSession()->getPage()->findField( $label );
         Assertion::assertNotNull( $el, "Couldn't find a radio input with '$label'" );
         $el->check();
@@ -249,9 +308,16 @@ trait CommonActions
      *      | field         | value                  |
      *      | Title         | A title text           |
      *      | Content       | Some content           |
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iFillFormWith( TableNode $table )
     {
+        trigger_error(
+            "onPageSectionIClickAtLink is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
+
         foreach ( GherkinHelper::convertTableToArrayOfData( $table ) as $field => $value )
         {
             $elements = $this->getXpath()->findFields( $field );
@@ -267,9 +333,16 @@ trait CommonActions
      *      | field         | value                  |
      *      | Title         | A title text           |
      *      | Content       | Some content           |
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function formHasValue( TableNode $table )
     {
+        trigger_error(
+            "onPageSectionIClickAtLink is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
+
         foreach ( GherkinHelper::convertTableToArrayOfData( $table ) as $field => $value )
         {
             $elements = $this->getXpath()->findFields( $field );
@@ -286,18 +359,30 @@ trait CommonActions
      *      | some link     |
      *      ...
      *      | another link  |
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iSeeLinks( TableNode $table )
     {
+        trigger_error(
+            "iSeeLinks is deprecated since v6.3.0, use PlatformUI Context iSeeLinks instead",
+            E_USER_DEPRECATED
+        );
         $this->onPageSectionISeeLinks( $table );
     }
 
     /**
      * @Then on :pageSection I (should) see (the) (following) links:
      *
+     * @deprecated deprecated since version 6.3.0
      */
     public function onPageSectionISeeLinks( TableNode $table, $pageSection = null )
     {
+        trigger_error(
+            "iSeeLinks is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
+
         $rows = $table->getRows();
         array_shift( $rows );
 
@@ -315,18 +400,31 @@ trait CommonActions
      * @Then I don't see (the) (following) links:
      *
      * Asserts that none of the links with the provided text can be found.
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iDonTSeeLinks( TableNode $table )
     {
+        trigger_error(
+            "iDonTSeeLinks is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
         $this->onPageSectionIDonTSeeLinks( 'main', $table );
     }
 
     /**
      * @Then on :pageSection I shouldn't see (the) (following) links:
      * @Then on :pageSection I don't see (the) (following) links:
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function onPageSectionIDonTSeeLinks( TableNode $table, $pageSection = null )
     {
+        trigger_error(
+            "onPageSectionIDonTSeeLinks is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
+
         $rows = $table->getRows();
         array_shift( $rows );
 
@@ -344,9 +442,16 @@ trait CommonActions
      * @Then I (should) see (the) links in this order:
      *
      * Checks if links exist, and appear in the specified order
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iSeeLinksInFollowingOrder( TableNode $table )
     {
+        trigger_error(
+            "iSeeLinksInFollowingOrder is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
+
         // get all links
         $available = $this->getXpath()->findXpath( "//a[@href]" );
 
@@ -372,9 +477,16 @@ trait CommonActions
      *      | link1 | title |
      *      | link2 | list  |
      *      | link3 | text  |
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iSeeFollowingLinksIn( TableNode $table )
     {
+        trigger_error(
+            "iSeeFollowingLinksIn is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
+
         $session = $this->getSession();
         $rows = $table->getRows();
         array_shift( $rows );
@@ -407,9 +519,15 @@ trait CommonActions
      * @Then I (should) see :title title/topic
      *
      * Asserts that a (single) title element exists with the text ':title'
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iSeeTitle( $title )
     {
+        trigger_error(
+            "iSeeTitle is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
         $literal = $this->getXpath()->literal( $title );
         $tags = $this->getTagsFor( "title" );
         $innerXpath = "[text() = {$literal} or .//*[text() = {$literal}]]";
@@ -440,9 +558,15 @@ trait CommonActions
      *      | Value A  | Value B  | Value D  |
      *      ...
      *      | Value I  | Value J  | Value L  |
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iSeeTableWith( TableNode $table )
     {
+        trigger_error(
+            "iSeeTableWith is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
         $rows = $table->getRows();
         $headers = array_shift( $rows );
 
@@ -472,17 +596,29 @@ trait CommonActions
      * @Then I (should) see :text text emphasized
      *
      * Checks that an element exists on the page with text ':text' emphasized.
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iSeeTextEmphasized( $text )
     {
+        trigger_error(
+            "iSeeTextEmphasized is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
         $this->onPageSectionISeeTextEmphasized( $text );
     }
 
     /**
      * @Then on :pageSection I (should) see the :text text emphasized
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function onPageSectionISeeTextEmphasized( $text, $pageSection = null )
     {
+        trigger_error(
+            "onPageSectionISeeTextEmphasized is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
         // first find the text
         $base = $this->makeXpathForBlock( $pageSection );
         $el = $this->getXpath()->findXpath( "$base//*[contains( text(), {$this->getXpath()->literal( $text )} )]" );
@@ -500,9 +636,15 @@ trait CommonActions
      * @Then I (should) see :message warning/error
      *
      * Checks that an element with the class 'warning' or 'error' exists with text ':message'
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iSeeWarning( $message )
     {
+        trigger_error(
+            "iSeeWarning is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
         $el = $this->getXpath()->findXpath(
             "//*[contains( @class, 'warning' ) or contains( @class, 'error' )]"
             . "//*[text() = {$this->getXpath()->literal( $message )}]"
@@ -515,17 +657,30 @@ trait CommonActions
      * @Then I (should) see the exact :text: message/text
      *
      * Checks that an element on the page contains the exact text ':text'
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iSeeText( $text )
     {
+        trigger_error(
+            "iSeeText is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
         $this->onPageSectionISeeText( $text );
     }
 
     /**
      * @Then on :pageSection I (should) see the exact :text message/text
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function onPageSectionISeeText( $text, $pageSection = null )
     {
+        trigger_error(
+            "onPageSectionISeeText is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
+
         $base = $this->makeXpathForBlock( $pageSection );
 
         $literal = $this->getXpath()->literal( $text );
@@ -539,9 +694,15 @@ trait CommonActions
      * @Then I (should) see :message message/text
      *
      * Checks that current page contains text.
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iSeeMessage( $text )
     {
+        trigger_error(
+            "iSeeMessage is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
         $this->checkForExceptions();
         $this->assertSession()->pageTextContains( $text );
     }
@@ -550,26 +711,45 @@ trait CommonActions
      * @Then I don't see :text message/text
      *
      * Checks that current page does not contain text.
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function iDonTSeeMessage( $text )
     {
+        trigger_error(
+            "iDonTSeeMessage is deprecated since v6.3.0 and will be removed in v7.0.0",
+            E_USER_DEPRECATED
+        );
+
         $this->assertSession()->pageTextNotContains( $text );
     }
 
     /**
      * @Then the checkbox :label should be checked
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function isCheckedOption( $label )
     {
+        trigger_error(
+            "isCheckedOption is deprecated since v6.3.0, use PlatformUI Context isCheckedOption instead",
+            E_USER_DEPRECATED
+        );
         $isChecked = $this->getCheckboxChecked( $label );
         Assertion::assertTrue( $isChecked, "Checkbox $label is not checked" );
     }
 
     /**
      * @Then the checkbox :label should not be checked
+     *
+     * @deprecated deprecated since version 6.3.0
      */
     public function isNotCheckedOption( $label )
     {
+        trigger_error(
+            "isNotCheckedOption is deprecated since v6.3.0, use PlatformUI Context isNotCheckedOption instead",
+            E_USER_DEPRECATED
+        );
         $isChecked = $this->getCheckboxChecked( $label );
         Assertion::assertFalse( $isChecked, "Checkbox $label is checked" );
     }
