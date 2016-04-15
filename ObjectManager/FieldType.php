@@ -112,6 +112,17 @@ class FieldType extends Base
     }
 
     /**
+     * Adds a setting to the stored field
+     *
+     * @param string $setting Setting name
+     * @param string $value Settign value
+     */
+    public function addFieldSetting( $setting, $value )
+    {
+        $this->fieldConstructionObject[ 'fieldType' ]->fieldSettings = [ $setting => $value ];
+    }
+
+    /**
      * Adds a validator to the stored field
      *
      * @param string $fieldType Type of the field

@@ -80,6 +80,10 @@ trait FieldType
                 case 'minimum length validator':
                     $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "min" );
                     break;
+                case 'multiple setting':
+                    $value = $property[ 'Value' ] === 'true';
+                    $this->getFieldTypeManager()->addFieldSetting( 'isMultiple', $value );
+                    break;
             }
         }
     }
