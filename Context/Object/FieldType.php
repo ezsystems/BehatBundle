@@ -56,7 +56,7 @@ trait FieldType
      * @Given a Content Type with an required :fieldType field exists with Properties:
      * @Given a Content Type with an required :fieldType field with name :name exists with Properties:
      */
-    public function createRequireddContentOfThisTypeWithProperties( $fieldType, TableNode $properties, $name = null )
+    public function createRequiredContentOfThisTypeWithProperties( $fieldType, TableNode $properties, $name = null )
     {
         $this->createContentOfThisTypeWithProperties( $fieldType, $properties, $name, true );
     }
