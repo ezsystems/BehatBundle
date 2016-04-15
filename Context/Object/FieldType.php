@@ -53,12 +53,21 @@ trait FieldType
     }
 
     /**
+     * @Given a Content Type with an required :fieldType field exists with Properties:
+     * @Given a Content Type with an required :fieldType field with name :name exists with Properties:
+     */
+    public function createRequireddContentOfThisTypeWithProperties( $fieldType, TableNode $properties, $name = null )
+    {
+        $this->createContentOfThisTypeWithProperties( $fieldType, $properties, $name, true );
+    }
+
+    /**
      * @Given a Content Type with an :fieldType field exists with Properties:
      * @Given a Content Type with an :fieldType field with name :name exists with Properties:
      */
-    public function createContentOfThisTypeWithProperties( $fieldType, TableNode $properties, $name = null )
+    public function createContentOfThisTypeWithProperties( $fieldType, TableNode $properties, $name = null, $required = false)
     {
-        $this->getFieldTypeManager()->createField( $fieldType, $name );
+        $this->getFieldTypeManager()->createField( $fieldType, $name, $required );
         foreach ( $properties as $property )
         {
             switch( $property[ 'Validator' ] )
