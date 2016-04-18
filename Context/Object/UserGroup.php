@@ -184,9 +184,10 @@ trait UserGroup
      */
     private function findNonExistingUserGroupId()
     {
+        $userGoupManager = $this->getUserGroupManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $id = rand( 1000, 9999 );
+            $id = $userGoupManager->generateUniquedentifier();
             if ( !$this->getUserGroupManager()->checkUserGroupExistence( $id ) )
             {
                 return $id;
@@ -205,10 +206,11 @@ trait UserGroup
      */
     private function findNonExistingUserGroupName()
     {
+        $userGoupManager = $this->getUserGroupManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $name = 'UserGroup#' . rand( 1000, 9999 );
-            if ( !$this->getUserGroupManager()->checkUserGroupExistenceByName( $name ) )
+            $name = $userGoupManager->generateUniquedentifier( 'UserGroup#' );
+            if ( !$userGoupManager->checkUserGroupExistenceByName( $name ) )
             {
                 return $name;
             }

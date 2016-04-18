@@ -320,9 +320,10 @@ trait User
             return $email;
         }
 
+        $userManager = $this->getUserManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $email = 'User#' . rand( 1000, 9999 ) . "@ez.no";
+            $email = $userManager->generateUniqueIdentifier( 'User#', "@ez.no" );
             if ( !$this->getUserManager()->checkUserExistenceByEmail( $email ) )
             {
                 return $email;
@@ -341,10 +342,11 @@ trait User
      */
     private function findNonExistingUserName()
     {
+        $userManager = $this->getUserManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $username = 'User#' . rand( 1000, 9999 );
-            if ( !$this->getUserManager()->checkUserExistenceByUsername( $username ) )
+            $username = $userManager->generateUniqueIdentifier( 'User#' );
+            if ( !$userManager->checkUserExistenceByUsername( $username ) )
             {
                 return $username;
             }
@@ -362,9 +364,10 @@ trait User
      */
     private function findNonExistingUserId()
     {
+        $userManager = $this->getUserManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $id = rand( 1000, 9999 );
+            $id = $userManager->generateUniqueIdentifier();
             if ( !$this->getUserManager()->checkUserExistenceById( $id ) )
             {
                 return $id;
