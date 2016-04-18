@@ -146,6 +146,6 @@ abstract class Base implements ObjectManagerInterface
      */
     public function generateUniqueIdentifier( $prefix = '', $postfix = '' )
     {
-        return $prefix . str_replace( ['.', ' '], '', microtime() ) . $postfix;
+        return uniqid($prefix) . $postfix;
     }
 }
