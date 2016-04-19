@@ -236,11 +236,32 @@ trait CommonActions
      * @Given I checked :label checkbox
      * @When  I check :label checkbox
      *
-     * Toggles the value for the checkbox with name ':label'
+     * Check the value for the checkbox with name ':label'
      *
      * @deprecated deprecated since version 6.3.0
      */
     public function checkOption( $option )
+    {
+        $this->getCheckBox( $option )->check();
+    }
+
+    /**
+     * @Given I unchecked :label checkbox
+     * @When  I uncheck :label checkbox
+     *
+     * Uncheck the value for the checkbox with name ':label'
+     *
+     * @deprecated deprecated since version 6.3.0
+     */
+    public function uncheckOption( $option )
+    {
+        $this->getCheckBox( $option )->uncheck();
+    }
+
+    /**
+     * Fetches checkbox element
+     */
+    private function getCheckBox( $option )
     {
         trigger_error(
             "checkOption is deprecated since v6.3.0, use PlatformUI Context checkOption instead",
@@ -259,7 +280,7 @@ trait CommonActions
             EzAssertion::assertElementFound( $value, $fieldElements, null, 'checkbox' );
         }
 
-        $fieldElements[0]->check();
+        return $fieldElements[0];
     }
 
     /**
