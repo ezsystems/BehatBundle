@@ -18,8 +18,8 @@ use PHPUnit_Framework_Assert as Assertion;
 trait FieldType
 {
     /**
-     * @Given a Content Type with an :fieldType field exists
-     * @Given a Content Type with an :fieldType with field definition name :name exists
+     * @Given a Content Type with an/a :fieldType field exists
+     * @Given a Content Type with an/a :fieldType with field definition name :name exists
      *
      * Creates a ContentType with only the desired FieldType
      */
@@ -53,8 +53,8 @@ trait FieldType
     }
 
     /**
-     * @Given a Content Type with an :fieldType field exists with Properties:
-     * @Given a Content Type with an :fieldType field with name :name exists with Properties:
+     * @Given a Content Type with an/a :fieldType field exists with Properties:
+     * @Given a Content Type with an/a :fieldType field with name :name exists with Properties:
      */
     public function createContentOfThisTypeWithProperties( $fieldType, TableNode $properties, $name = null )
     {
