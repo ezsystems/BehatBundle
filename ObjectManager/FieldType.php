@@ -45,7 +45,8 @@ class FieldType extends Base
      */
     private $fieldTypeInternalIdentifier = array(
         "integer" => "ezinteger",
-        "checkbox" => "ezboolean"
+        "checkbox" => "ezboolean",
+        "e-mail address" => "ezemail"
     );
 
     /**
@@ -53,7 +54,8 @@ class FieldType extends Base
      */
     private $validatorMappings = array(
         "integer" => "IntegerValue",
-        "checkbox" => ""
+        "checkbox" => "",
+        "e-mail address" => ""
     );
 
     /**
@@ -61,7 +63,8 @@ class FieldType extends Base
      */
     private $defaultValues = array(
         "integer" => 1,
-        "checkbox" => false
+        "checkbox" => false,
+        "e-mail address" => "test@at.com"
     );
 
     /**
