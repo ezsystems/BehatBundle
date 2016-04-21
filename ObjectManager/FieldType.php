@@ -44,21 +44,24 @@ class FieldType extends Base
      * @var array Stores Internal mapping of the fieldType names
      */
     private $fieldTypeInternalIdentifier = array(
-        "integer" => "ezinteger"
+        "integer" => "ezinteger",
+        "keywords" => "ezkeyword"
     );
 
     /**
      * @var array Maps the validator of the fieldtypes
      */
     private $validatorMappings = array(
-        "integer" => "IntegerValue"
+        "integer" => "IntegerValue",
+        "keywords" => ""
     );
 
     /**
      * @var array Maps the default values of the fieldtypes
      */
     private $defaultValues = array(
-        "integer" => 1
+        "integer" => 1,
+        "keywords" => "keywordTest"
     );
 
     /**
