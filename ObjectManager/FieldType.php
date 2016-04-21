@@ -46,6 +46,7 @@ class FieldType extends Base
     private $fieldTypeInternalIdentifier = array(
         "integer" => "ezinteger",
         "text line" => "ezstring",
+        "e-mail address" => "ezemail"
     );
 
     /**
@@ -54,6 +55,7 @@ class FieldType extends Base
     private $validatorMappings = array(
         "integer" => "IntegerValue",
         "text line" => "StringLength",
+        "e-mail address" => ""
     );
 
     /**
@@ -62,6 +64,7 @@ class FieldType extends Base
     private $defaultValues = array(
         "integer" => 1,
         "text line" => "test",
+        "e-mail address" => "test@at.com"
     );
 
     /**
