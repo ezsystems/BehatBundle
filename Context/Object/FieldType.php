@@ -61,13 +61,16 @@ trait FieldType
         $this->getFieldTypeManager()->createField( $fieldType, $name );
         foreach ( $properties as $property )
         {
-            if ( $property[ 'Validator' ] == 'maximum value validator' )
+            switch( $property[ 'Validator' ] )
             {
-                $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "max" );
-            }
-            else if ( $property[ 'Validator' ] == 'minimum value validator' )
-            {
-                $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "min" );
+                case 'maximum value validator':
+                case 'maximum length validator':
+                    $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "max" );
+                    break;
+                case 'minimum value validator':
+                case 'minimum length validator':
+                    $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "min" );
+                    break;
             }
         }
     }
