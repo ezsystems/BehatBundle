@@ -187,8 +187,8 @@ trait UserGroup
         $userGoupManager = $this->getUserGroupManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $id = $userGoupManager->generateUniquedentifier();
-            if ( !$this->getUserGroupManager()->checkUserGroupExistence( $id ) )
+            $id = uniqid();
+            if ( !$userGroupManager()->checkUserGroupExistence( $id ) )
             {
                 return $id;
             }
@@ -209,7 +209,7 @@ trait UserGroup
         $userGoupManager = $this->getUserGroupManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $name = $userGoupManager->generateUniquedentifier( 'UserGroup#' );
+            $name = 'UserGroup#'. uniqid();
             if ( !$userGoupManager->checkUserGroupExistenceByName( $name ) )
             {
                 return $name;

@@ -314,17 +314,17 @@ trait User
      */
     private function findNonExistingUserEmail( $username = 'User' )
     {
+        $userManager = $this->getUserManager();
         $email = "${username}@ez.no";
-        if ( $this->getUserManager()->checkUserExistenceByEmail( $email ) )
+        if ( $userManager->checkUserExistenceByEmail( $email ) )
         {
             return $email;
         }
 
-        $userManager = $this->getUserManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $email = $userManager->generateUniqueIdentifier( 'User#', "@ez.no" );
-            if ( !$this->getUserManager()->checkUserExistenceByEmail( $email ) )
+            $email = 'User#'. uniqid() . '@ez.no';
+            if ( !$userManager->checkUserExistenceByEmail( $email ) )
             {
                 return $email;
             }
@@ -345,7 +345,7 @@ trait User
         $userManager = $this->getUserManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $username = $userManager->generateUniqueIdentifier( 'User#' );
+            $username = 'User#'. uniqid();
             if ( !$userManager->checkUserExistenceByUsername( $username ) )
             {
                 return $username;
@@ -367,8 +367,8 @@ trait User
         $userManager = $this->getUserManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $id = $userManager->generateUniqueIdentifier();
-            if ( !$this->getUserManager()->checkUserExistenceById( $id ) )
+            $id = uniqid();
+            if ( !$userManager()->checkUserExistenceById( $id ) )
             {
                 return $id;
             }

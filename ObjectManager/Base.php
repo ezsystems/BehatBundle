@@ -135,17 +135,4 @@ abstract class Base implements ObjectManagerInterface
      * @param \eZ\Publish\API\Repository\Values\ValueObject $object Object that should be destroyed/removed
      */
     abstract protected function destroy( ValueObject $object );
-
-    /**
-     * Generates a random name based on prefix and postfix, if one or both are are given
-     *
-     * @param string $prefix
-     * @param string $postfix
-     *
-     * @return string
-     */
-    public function generateUniqueIdentifier( $prefix = '', $postfix = '' )
-    {
-        return uniqid($prefix) . $postfix;
-    }
 }
