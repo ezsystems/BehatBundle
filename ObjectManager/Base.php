@@ -113,7 +113,7 @@ abstract class Base implements ObjectManagerInterface
      */
     public function addObjectToList( ValueObject $object )
     {
-        $this->createdObjects[] = $object;
+        // $this->createdObjects[] = $object;
     }
 
     /**
