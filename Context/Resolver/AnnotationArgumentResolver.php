@@ -8,6 +8,9 @@ use Exception;
 
 /**
  * Behat Context Argument Resolver
+ *
+ * @deprecated deprecated since 6.4, will be removed in 7.0.
+ * Use instead EzSystems\PlatformBehatBundle\Context\Argument\AnnotationArgumentResolver
  */
 class AnnotationArgumentResolver implements ArgumentResolver
 {

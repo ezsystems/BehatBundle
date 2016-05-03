@@ -14,6 +14,9 @@ use eZ\Publish\Core\Repository\Values\User\UserReference;
 
 /**
  * Repository Context Trait
+ *
+ * @deprecated deprecated since 6.4, will be removed in 7.0.
+ * Use instead EzSystems\PlatformBehatBundle\Context\RepositoryContext
  */
 trait RepositoryContext
 {
