@@ -12,6 +12,9 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * EzBehatExtension loads extension specific services
+ *
+ * @deprecated deprecated since 6.4, will be removed in 7.0.
+ * Use instead EzSystems\PlatformBehatBundle\ServiceContainer\EzBehatExtension
  */
 class EzBehatExtension implements Extension
 {
