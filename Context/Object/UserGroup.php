@@ -77,18 +77,6 @@ trait UserGroup
     }
 
     /**
-     * @Given there isn't a User Group with id :id
-     *
-     * Maps id ':id' to a non-existent user group.
-     */
-    public function iDontHaveUserGroupWithId( $id )
-    {
-        $randomId = $this->findNonExistingUserGroupId();
-
-        $this->addValuesToKeyMap( $id, $randomId );
-    }
-
-    /**
      * @Given there is a User Group with name :name with id :id in :parentGroup group
      *
      * Ensures a user group with name ':name' exists as a child of group ':parentGroup', mapping it's id to ':id'
@@ -195,27 +183,5 @@ trait UserGroup
         }
 
         throw new \Exception( 'Possible endless loop when attempting to find a new id for UserGroup.' );
-    }
-
-    /**
-     * Find a non existing UserGroup name
-     *
-     * @return string A not used name
-     *
-     * @throws \Exception Possible endless loop
-     */
-    private function findNonExistingUserGroupName()
-    {
-        $userGoupManager = $this->getUserGroupManager();
-        for ( $i = 0; $i < 20; $i++ )
-        {
-            $name = 'UserGroup#'. uniqid();
-            if ( !$userGoupManager->checkUserGroupExistenceByName( $name ) )
-            {
-                return $name;
-            }
-        }
-
-        throw new \Exception( 'Possible endless loop when attempting to find a new name for UserGroup.' );
     }
 }

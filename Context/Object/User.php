@@ -136,17 +136,6 @@ trait User
     }
 
     /**
-     * @Given there isn't a User with id :id
-     *
-     *Makes user a user with (mapped) id ':id' does not exist
-     */
-    public function iDontHaveUserWithId( $id )
-    {
-        $randomId = $this->findNonExistingUserId();
-        $this->addValuesToKeyMap( $id, $randomId );
-    }
-
-    /**
      * @Given there is a User with name :username with id :id in :parentGroup group
      *
      * Ensures a user with username ':username' and id ':id' exists as a child of ':parentGroup' user group, can create either one.
@@ -354,27 +343,4 @@ trait User
 
         throw new \Exception( 'Possible endless loop when attempting to find a new name for User.' );
     }
-
-    /**
-     * Find an non existent User id
-     *
-     * @return int Non existing id
-     *
-     * @throws \Exception Possible endless loop
-     */
-    private function findNonExistingUserId()
-    {
-        $userManager = $this->getUserManager();
-        for ( $i = 0; $i < 20; $i++ )
-        {
-            $id = uniqid();
-            if ( !$userManager()->checkUserExistenceById( $id ) )
-            {
-                return $id;
-            }
-        }
-
-        throw new \Exception( 'Possible endless loop when attempting to find a new id for User.' );
-    }
-
 }
