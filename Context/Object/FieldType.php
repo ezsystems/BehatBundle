@@ -53,12 +53,21 @@ trait FieldType
     }
 
     /**
+     * @Given a Content Type with an required :fieldType field exists with Properties:
+     * @Given a Content Type with an required :fieldType field with name :name exists with Properties:
+     */
+    public function createRequiredContentOfThisTypeWithProperties( $fieldType, TableNode $properties, $name = null )
+    {
+        $this->createContentOfThisTypeWithProperties( $fieldType, $properties, $name, true );
+    }
+
+    /**
      * @Given a Content Type with an :fieldType field exists with Properties:
      * @Given a Content Type with an :fieldType field with name :name exists with Properties:
      */
-    public function createContentOfThisTypeWithProperties( $fieldType, TableNode $properties, $name = null )
+    public function createContentOfThisTypeWithProperties( $fieldType, TableNode $properties, $name = null, $required = false)
     {
-        $this->getFieldTypeManager()->createField( $fieldType, $name );
+        $this->getFieldTypeManager()->createField( $fieldType, $name, $required );
         foreach ( $properties as $property )
         {
             switch( $property[ 'Validator' ] )
@@ -70,6 +79,10 @@ trait FieldType
                 case 'minimum value validator':
                 case 'minimum length validator':
                     $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "min" );
+                    break;
+                case 'multiple setting':
+                    $value = $property[ 'Value' ] === 'true';
+                    $this->getFieldTypeManager()->addFieldSetting( 'isMultiple', $value );
                     break;
             }
         }

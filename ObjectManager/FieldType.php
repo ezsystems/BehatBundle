@@ -9,6 +9,7 @@
 
 namespace EzSystems\BehatBundle\ObjectManager;
 
+use eZ\Publish\Core\FieldType\Country;
 use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
@@ -46,6 +47,7 @@ class FieldType extends Base
     private $fieldTypeInternalIdentifier = array(
         "integer" => "ezinteger",
         "text line" => "ezstring",
+        "country" => "ezcountry",
     );
 
     /**
@@ -54,6 +56,7 @@ class FieldType extends Base
     private $validatorMappings = array(
         "integer" => "IntegerValue",
         "text line" => "StringLength",
+        "country" => "isMultiple",
     );
 
     /**
@@ -63,6 +66,22 @@ class FieldType extends Base
         "integer" => 1,
         "text line" => "test",
     );
+
+    protected function __construct()
+    {
+        parent::__construct();
+        // country default value must be instantiated in contructor
+        $this->defaultValues["country"] = new Country\Value(
+            array(
+                "PT" => array(
+                    "Name" => "Portugal",
+                    "Alpha2" => "PT",
+                    "Alpha3" => "PRT",
+                    "IDC" => 351
+                )
+            )
+        );
+    }
 
     /**
      * Getter method for fieldtype internal identifier
@@ -109,6 +128,17 @@ class FieldType extends Base
         $fieldCreateStruct->defaultValue = $this->defaultValues[ $fieldType ];
         $this->fieldConstructionObject[ 'fieldType' ] = $fieldCreateStruct;
         $this->fieldConstructionObject[ 'objectState' ] = self::FIELD_TYPE_CREATED;
+    }
+
+    /**
+     * Adds a setting to the stored field
+     *
+     * @param string $setting Setting name
+     * @param string $value Settign value
+     */
+    public function addFieldSetting( $setting, $value )
+    {
+        $this->fieldConstructionObject[ 'fieldType' ]->fieldSettings = [ $setting => $value ];
     }
 
     /**
