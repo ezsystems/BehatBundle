@@ -306,7 +306,6 @@ class FieldType extends Base
         return $this->fieldConstructionObject[ 'content' ]->id;
     }
 
-
     /**
      * Creates an instance of a contenttype and stores it for later publishing
      */
@@ -315,7 +314,7 @@ class FieldType extends Base
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
         $name = $this->fieldConstructionObject[ 'fieldType' ]->identifier;
-        $name .= "#" . rand( 1000, 9000 );
+        $name = $name . '#' . uniqid();
         $identifier = strtolower( $name );
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct( $identifier );
         $contentTypeCreateStruct->mainLanguageCode = self::DEFAULT_LANGUAGE;

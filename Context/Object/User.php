@@ -136,17 +136,6 @@ trait User
     }
 
     /**
-     * @Given there isn't a User with id :id
-     *
-     *Makes user a user with (mapped) id ':id' does not exist
-     */
-    public function iDontHaveUserWithId( $id )
-    {
-        $randomId = $this->findNonExistingUserId();
-        $this->addValuesToKeyMap( $id, $randomId );
-    }
-
-    /**
      * @Given there is a User with name :username with id :id in :parentGroup group
      *
      * Ensures a user with username ':username' and id ':id' exists as a child of ':parentGroup' user group, can create either one.
@@ -314,16 +303,17 @@ trait User
      */
     private function findNonExistingUserEmail( $username = 'User' )
     {
+        $userManager = $this->getUserManager();
         $email = "${username}@ez.no";
-        if ( $this->getUserManager()->checkUserExistenceByEmail( $email ) )
+        if ( $userManager->checkUserExistenceByEmail( $email ) )
         {
             return $email;
         }
 
         for ( $i = 0; $i < 20; $i++ )
         {
-            $email = 'User#' . rand( 1000, 9999 ) . "@ez.no";
-            if ( !$this->getUserManager()->checkUserExistenceByEmail( $email ) )
+            $email = 'User#'. uniqid() . '@ez.no';
+            if ( !$userManager->checkUserExistenceByEmail( $email ) )
             {
                 return $email;
             }
@@ -341,10 +331,11 @@ trait User
      */
     private function findNonExistingUserName()
     {
+        $userManager = $this->getUserManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $username = 'User#' . rand( 1000, 9999 );
-            if ( !$this->getUserManager()->checkUserExistenceByUsername( $username ) )
+            $username = 'User#'. uniqid();
+            if ( !$userManager->checkUserExistenceByUsername( $username ) )
             {
                 return $username;
             }
@@ -352,26 +343,4 @@ trait User
 
         throw new \Exception( 'Possible endless loop when attempting to find a new name for User.' );
     }
-
-    /**
-     * Find an non existent User id
-     *
-     * @return int Non existing id
-     *
-     * @throws \Exception Possible endless loop
-     */
-    private function findNonExistingUserId()
-    {
-        for ( $i = 0; $i < 20; $i++ )
-        {
-            $id = rand( 1000, 9999 );
-            if ( !$this->getUserManager()->checkUserExistenceById( $id ) )
-            {
-                return $id;
-            }
-        }
-
-        throw new \Exception( 'Possible endless loop when attempting to find a new id for User.' );
-    }
-
 }
