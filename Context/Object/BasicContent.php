@@ -10,22 +10,170 @@
 namespace EzSystems\BehatBundle\Context\Object;
 
 use Behat\Gherkin\Node\TableNode;
-use PHPUnit_Framework_Assert as Assertion;
+use Behat\Behat\Context\Context;
+use EzSystems\PlatformBehatBundle\Context\RepositoryContext;
+use eZ\Publish\API\Repository\ContentTypeService;
+use eZ\Publish\API\Repository\ContentService;
+use eZ\Publish\API\Repository\Repository;
 
 /**
- * Sentences for Fields
+ * Sentences for simple Contents creation
  *
- * @method \EzSystems\BehatBundle\ObjectManager\BasicContent getBasicContentManager
  */
-trait BasicContent
+class BasicContent implements Context
 {
+    use RepositoryContext;
+
+    /**
+     * Default language
+     */
+    const DEFAULT_LANGUAGE = 'eng-GB';
+
+    /**
+     * Content path mapping
+     */
+    private $contentPaths = array();
+
+    /**
+     * @var eZ\Publish\B\Repository\ContentTypeService
+     */
+    private $contentTypeService;
+
+    /**
+     * @var eZ\Publish\B\Repository\ContentService
+     */
+    private $contentService;
+
+    /**
+     * @injectService $repository @ezpublish.api.repository
+     * @injectService $contentTypeService @ezpublish.api.service.content_type
+     * @injectService $contentService @ezpublish.api.service.content
+     */
+    public function __construct(
+        Repository $repository,
+        ContentTypeService $contentTypeService,
+        ContentService $contentService )
+    {
+        $this->setRepository( $repository );
+        $this->contentTypeService = $contentTypeService;
+        $this->contentService = $contentService;
+    }
+
+    /**
+     * Creates and publishes a Content.
+     *
+     * @param string $contentType
+     * @param array $fields
+     * @param mixed $parentLocationId
+     *
+     * @return mixed The content's main location id
+     */
+    public function createContent( $contentType, $fields, $parentLocationId )
+    {
+        $repository = $this->getRepository();
+        $languageCode = self::DEFAULT_LANGUAGE;
+
+        $content = $this->createContentDraft( $parentLocationId, $contentType, $fields, $languageCode );
+        $content = $this->contentService->publishVersion( $content->versionInfo );
+
+        return $content->contentInfo->mainLocationId;
+    }
+
+    /**
+     * Publishes a content draft.
+     *
+     * @param Content $content
+     */
+    public function publishDraft( Content $content )
+    {
+        $this->contentService->publishVersion( $content->versionInfo->id );
+    }
+
+    /**
+     * Creates a content draft using sudo().
+     *
+     * @param Location $parentLocationId
+     * @param string $contentTypeIdentifier
+     * @param string $languageCode
+     * @param array $fields Fields, as primitives understood by setField
+     *
+     *@return Content an unpublished Content draft
+     */
+    function createContentDraft($parentLocationId, $contentTypeIdentifier, $fields, $languageCode = null )
+    {
+        $languageCode = $languageCode ?: self::DEFAULT_LANGUAGE;
+
+        $repository = $this->getRepository();
+        $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct( $parentLocationId );
+
+        $contentTypeIdentifier = $this->contentTypeService->loadContentTypeByIdentifier( $contentTypeIdentifier );
+        $contentCreateStruct = $this->contentService->newContentCreateStruct( $contentTypeIdentifier, $languageCode );
+        foreach ( array_keys( $fields ) as $key )
+        {
+            $contentCreateStruct->setField( $key, $fields[$key] );
+        }
+
+        return $this->contentService->createContent( $contentCreateStruct, array( $locationCreateStruct ) );
+    }
+
+    /**
+     * Creates and publishes a content at a given path.
+     * Non-existing path items are created as folders named after the path element.
+     *
+     * @param string $path The content path
+     * @param array $fields
+     * @param mixed $contentType The content type identifier
+     *
+     * @return mixed|string
+     */
+    public function createContentWithPath( $path, $fields, $contentType )
+    {
+        $contentsName = explode( '/', $path );
+        $currentPath = '';
+        $location = '2';
+
+        foreach ( $contentsName as $name )
+        {
+            if ( $name != end( $contentsName ) )
+            {
+                $location = $this->createContent( 'folder', [ 'name' => $name ], $location );
+            }
+            if ( $currentPath != '' )
+            {
+                $currentPath .= '/';
+            }
+            $currentPath .= $name;
+            $this->mapContentPath( $currentPath );
+        }
+        $location = $this->createContent( $contentType, $fields, $location );
+
+        return $location;
+    }
+
+    /**
+     * Getter for $contentPaths
+     */
+    public function getContentPath( $name )
+    {
+        return $this->contentPaths[$name];
+    }
+
+    /**
+     * Maps the path of the content to it's name for later use
+     */
+    private function mapContentPath( $path )
+    {
+        $contentNames = explode( '/', $path );
+        $this->contentPaths[ end( $contentNames ) ] = $path;
+    }
+
     /**
      * @Given a/an :path folder exists
      */
     public function createBasicFolder( $path )
     {
         $fields = array( 'name' => $this->getTitleFromPath( $path ) );
-        return $this->getBasicContentManager()->createContentwithPath( $path, $fields, 'folder' );
+        return $this->createContentwithPath( $path, $fields, 'folder' );
     }
 
     /**
@@ -37,7 +185,8 @@ trait BasicContent
             'title' => $this->getTitleFromPath( $path ),
             'intro' => $this->getDummyXmlText()
         );
-        return $this->getBasicContentManager()->createContentwithPath( $path, $fields, 'article' );
+
+        return $this->createContentwithPath( $path, $fields, 'article' );
     }
 
     /**
@@ -49,7 +198,7 @@ trait BasicContent
             'title' => $this->getTitleFromPath( $path ),
             'intro' => $this->getDummyXmlText()
         );
-        return $this->getBasicContentManager()->createContentDraft( 2, 'article', $fields );
+        return $this->createContentDraft( 2, 'article', $fields );
     }
 
     private function getTitleFromPath( $path )
