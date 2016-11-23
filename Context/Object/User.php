@@ -329,7 +329,7 @@ trait User
      *
      * @throws \Exception Possible endless loop
      */
-    private function findNonExistingUserName()
+    public function findNonExistingUserName()
     {
         $userManager = $this->getUserManager();
         for ( $i = 0; $i < 20; $i++ )
