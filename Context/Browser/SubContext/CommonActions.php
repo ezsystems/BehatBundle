@@ -172,6 +172,7 @@ trait CommonActions
             E_USER_DEPRECATED
         );
         $this->onPageSectionIClickAtButton( $button );
+        $this->waitWhileLoading();
     }
 
     /**
