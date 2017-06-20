@@ -1,16 +1,26 @@
+dist: trusty
+sudo: required
+
 language: php
 
-php:
-  - 5.5
+cache:
+  directories:
+    - $HOME/.composer/cache/files
 
-# list of paths/bundle to execute
 env:
-  matrix:
-      # test behat default
-    - ARGS="--profile=behat --suite=default"
-      # test REST
-    - ARGS="--profile=rest --suite=fullJson"
-    - ARGS="--profile=rest --suite=fullXml"
+  global:
+    - COMPOSE_FILE="doc/docker-compose/base-dev.yml:doc/docker-compose/selenium.yml"
+    - RUN_INSTALL=1
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 7.0
+      env: BEHAT_OPTS="--profile=behat --suite=default --tags='~@broken'"
+    - php: 7.0
+      env: BEHAT_OPTS="--profile=rest --suite=fullJson --tags='~@broken'"
+    - php: 7.0
+      env: BEHAT_OPTS="--profile=rest --suite=fullXml --tags='~@broken'"
 
 # test only master (+ Pull requests)
 branches:
@@ -20,7 +30,7 @@ branches:
 # Setup system for behat testing
 before_script:
   # Change local git repo to be a full one as we will reuse current checkout for composer install below
-  - git fetch --unshallow && git checkout -b tmp_travis_branch
+  - git fetch --unshallow && git checkout -b tmp_ci_branch
   - export BRANCH_BUILD_DIR=$TRAVIS_BUILD_DIR
   - export TRAVIS_BUILD_DIR="$HOME/build/ezplatform"
   - cd "$HOME/build"
@@ -30,11 +40,11 @@ before_script:
   - cd ezplatform
 
   # Install everything needed for behat testing, using our local branch of this repo
-  - ./bin/.travis/setup_from_external_repo.sh $BRANCH_BUILD_DIR "ezsystems/behatbundle:dev-tmp_travis_branch"
+  - ./bin/.travis/trusty/setup_from_external_repo.sh $BRANCH_BUILD_DIR "ezsystems/behatbundle:dev-tmp_ci_branch"
 
 # execute behat as the script command
 script:
-  - php bin/behat -c behat.yml.dist $ARGS --tags='~@broken'
+  - cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/behat $BEHAT_OPTS"
 
 # disable mail notifications
 notification:
