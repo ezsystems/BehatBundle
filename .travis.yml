@@ -24,6 +24,7 @@ env:
   global:
     - COMPOSE_FILE="doc/docker-compose/base-dev.yml:doc/docker-compose/selenium.yml"
     - RUN_INSTALL=1
+    - SYMFONY_ENV=behat
 
 matrix:
   fast_finish: true
