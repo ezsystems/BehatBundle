@@ -33,8 +33,8 @@ matrix:
       env: BEHAT_OPTS="--profile=behat --suite=default --tags='~@broken'"
     - php: 7.0
       env: BEHAT_OPTS="--profile=rest --suite=fullJson --tags='~@broken'"
-    - php: 7.0
-      env: BEHAT_OPTS="--profile=rest --suite=fullXml --tags='~@broken'"
+    - php: 5.6
+      env: BEHAT_OPTS="--profile=rest --suite=fullXml --tags='~@broken'" PHP_IMAGE=ezsystems/php:5.6-v1 PHP_IMAGE_DEV=ezsystems/php:5.6-v1-dev
 
 # test only master (+ Pull requests)
 branches:
