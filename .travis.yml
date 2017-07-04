@@ -3,6 +3,19 @@ sudo: required
 
 language: php
 
+# Make sure these are running as we need them (mysql is temprary needed as we do first part of instal using local setup)
+services:
+  - mysql
+  - docker
+
+# Mysql isn't installed on trusty (only client is), so we need to specifically install it
+addons:
+  apt:
+    packages:
+    - mysql-server-5.6
+    - mysql-client-core-5.6
+    - mysql-client-5.6
+
 cache:
   directories:
     - $HOME/.composer/cache/files
@@ -11,6 +24,7 @@ env:
   global:
     - COMPOSE_FILE="doc/docker-compose/base-dev.yml:doc/docker-compose/selenium.yml"
     - RUN_INSTALL=1
+    - SYMFONY_ENV=behat
 
 matrix:
   fast_finish: true
