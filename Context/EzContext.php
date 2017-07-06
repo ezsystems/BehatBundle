@@ -101,6 +101,8 @@ class EzContext implements KernelAwareContext
      */
     public function prepareKernel( $event )
     {
+        // temporary class alias
+        // for PHPUnit v6 adoption time
         if (!class_exists('PHPUnit_Framework_Assert')) {
             class_alias('PHPUnit\Framework\Assert', 'PHPUnit_Framework_Assert');
         }
