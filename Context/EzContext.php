@@ -101,6 +101,10 @@ class EzContext implements KernelAwareContext
      */
     public function prepareKernel( $event )
     {
+        if (!class_exists('PHPUnit_Framework_Assert')) {
+            class_alias('PHPUnit\Framework\Assert', 'PHPUnit_Framework_Assert');
+        }
+
         $container = $this->getKernel()->getContainer();
 
         // Inject a properly generated siteaccess if the kernel is booted, and thus container is available.
