@@ -38,11 +38,13 @@ class Role extends Base
                 $roleService = $repository->getRoleService();
                 try
                 {
-                    $role = $roleService->loadRoleByIdentifier( $name );
+                    // make sure role name starts with uppercase as this is what default setup provides
+                    $role = $roleService->loadRoleByIdentifier(ucfirst($name));
                 }
                 catch ( ApiExceptions\NotFoundException $e )
                 {
-                    $roleCreateStruct = $roleService->newRoleCreateStruct( $name );
+                    // make sure role name starts with uppercase as this is what default setup provides
+                    $roleCreateStruct = $roleService->newRoleCreateStruct(ucfirst($name));
                     $roleDraft = $roleService->createRole( $roleCreateStruct );
                     $roleService->publishRoleDraft($roleDraft);
                     $role = $roleService->loadRole($roleDraft->id);
@@ -74,7 +76,8 @@ class Role extends Base
                 $roleService = $repository->getRoleService();
                 try
                 {
-                    $role = $roleService->loadRoleByIdentifier( $identifier );
+                    // make sure role name starts with uppercase as this is what default setup provides
+                    $role = $roleService->loadRoleByIdentifier(ucfirst($identifier));
                 }
                 catch ( ApiExceptions\NotFoundException $e )
                 {

@@ -254,7 +254,8 @@ class EzContext implements KernelAwareContext
         $role = $this->getRepository()->sudo(
             function() use ( $roleService, $roleIdentifier )
             {
-                return $roleService->loadRoleByIdentifier( $roleIdentifier );
+                // make sure role name starts with uppercase as this is what default setup provides
+                return $roleService->loadRoleByIdentifier(ucfirst($roleIdentifier));
             }
         );
 
