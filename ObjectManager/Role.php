@@ -36,14 +36,21 @@ class Role extends Base
             {
                 $role = null;
                 $roleService = $repository->getRoleService();
+
+                // make sure role name starts with uppercase as this is what default setup provides
+                if ($name !== ucfirst($name)) {
+                    @trigger_error(
+                        "'{$name}' role name should start with uppercase letter",
+                        E_USER_DEPRECATED
+                    );
+                }
+
                 try
                 {
-                    // make sure role name starts with uppercase as this is what default setup provides
                     $role = $roleService->loadRoleByIdentifier(ucfirst($name));
                 }
                 catch ( ApiExceptions\NotFoundException $e )
                 {
-                    // make sure role name starts with uppercase as this is what default setup provides
                     $roleCreateStruct = $roleService->newRoleCreateStruct(ucfirst($name));
                     $roleDraft = $roleService->createRole( $roleCreateStruct );
                     $roleService->publishRoleDraft($roleDraft);
@@ -77,6 +84,12 @@ class Role extends Base
                 try
                 {
                     // make sure role name starts with uppercase as this is what default setup provides
+                    if ($identifier !== ucfirst($identifier)) {
+                        @trigger_error(
+                            "'{$identifier}' role name should start with uppercase letter",
+                            E_USER_DEPRECATED
+                        );
+                    }
                     $role = $roleService->loadRoleByIdentifier(ucfirst($identifier));
                 }
                 catch ( ApiExceptions\NotFoundException $e )

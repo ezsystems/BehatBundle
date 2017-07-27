@@ -255,6 +255,13 @@ class EzContext implements KernelAwareContext
             function() use ( $roleService, $roleIdentifier )
             {
                 // make sure role name starts with uppercase as this is what default setup provides
+                if ($roleIdentifier !== ucfirst($roleIdentifier)) {
+                    @trigger_error(
+                        "'{$roleIdentifier}' role name should start with uppercase letter",
+                        E_USER_DEPRECATED
+                    );
+                }
+
                 return $roleService->loadRoleByIdentifier(ucfirst($roleIdentifier));
             }
         );
