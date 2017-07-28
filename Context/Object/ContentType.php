@@ -124,7 +124,7 @@ class ContentType implements Context
     {
         Assertion::assertTrue(
             $this->checkContentTypeExistenceByIdentifier($identifier, $groupIdentifier),
-            "Couldn't find Content Type with identifier '$identifier' on '$groupIdentifier."
+            "Couldn't find Content Type with identifier '$identifier' on '$groupIdentifier'."
         );
     }
 
@@ -240,6 +240,9 @@ class ContentType implements Context
      */
     protected function checkContentTypeExistenceByIdentifier($identifier, $groupIdentifier = null)
     {
+        // @see ensureContentTypeWithIdentifier
+        $identifier = strtolower($identifier);
+
         $contentType = $this->loadContentTypeByIdentifier($identifier, false);
         if ($contentType && $groupIdentifier) {
             $contentTypeGroups = $contentType->getContentTypeGroups();
