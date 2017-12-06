@@ -10,7 +10,7 @@
 namespace EzSystems\BehatBundle\Context;
 
 use EzSystems\BehatBundle\Helper;
-use EzSystems\BehatBundle\Context\Object\UserGroup;;
+use EzSystems\BehatBundle\Context\Object\UserGroup;
 use EzSystems\BehatBundle\Context\Object\User;
 use EzSystems\BehatBundle\Context\Object\Role;
 use EzSystems\BehatBundle\Context\Object\FieldType;
