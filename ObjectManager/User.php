@@ -470,6 +470,34 @@ class User extends Base
         );
     }
 
+    /**
+     * @param string $login
+     * @param string $password
+     * @param int $type
+     * @param string $passwordHash
+     *
+     * @return bool
+     */
+    public function verifyPasswordHash( $login, $password, $type, $passwordHash )
+    {
+        // If type is 6 or higher it uses PHP's builtin password_verify
+        if ($type >= 6) {
+            return password_verify($password, $passwordHash);
+        }
+
+        // If not fall back to old logic
+        return $this->createPasswordHash($login, $password, $type) === $passwordHash;
+    }
+
+    /**
+     * @deprecated Use verifyPasswordHash() instead to work with 1.12 and up.
+     *
+     * @param string $login
+     * @param string $password
+     * @param int $type
+     *
+     * @return string
+     */
     public function createPasswordHash( $login, $password, $type )
     {
         switch ( $type )

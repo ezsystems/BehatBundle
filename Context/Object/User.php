@@ -273,6 +273,7 @@ trait User
         {
             $fieldName = $fieldRow[0];
             $expectedValue = $fieldRow[1];
+            $assertErrorMsg = "Field '$fieldName' did not contain expected value '$expectedValue'.";
 
             switch ( $fieldName )
             {
@@ -280,8 +281,14 @@ trait User
                     $fieldValue = $user->email;
                     break;
                 case 'password':
-                    $fieldValue = $user->passwordHash;
-                    $expectedValue = $this->getUserManager()->createPasswordHash( $username, $expectedValue, $user->hashAlgorithm );
+                    $fieldValue = $this->getUserManager()->verifyPasswordHash(
+                        $username,
+                        $expectedValue,
+                        $user->hashAlgorithm,
+                        $user->passwordHash
+                    );
+                    $assertErrorMsg = "Field '$fieldName' password hash '{$user->passwordHash}' did not validate against provided password '$expectedValue'";
+                    $expectedValue = true;
                     break;
                 default:
                     $fieldValue = $user->getFieldValue( $fieldName );
@@ -289,7 +296,7 @@ trait User
             Assertion::assertEquals(
                 $expectedValue,
                 $fieldValue,
-                "Field '$fieldName' did not contain expected value '$expectedValue'."
+                $assertErrorMsg
             );
         }
     }
