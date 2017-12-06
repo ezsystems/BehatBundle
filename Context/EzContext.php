@@ -10,7 +10,11 @@
 namespace EzSystems\BehatBundle\Context;
 
 use EzSystems\BehatBundle\Helper;
-use EzSystems\BehatBundle\Context\Object;
+use EzSystems\BehatBundle\Context\Object\UserGroup;;
+use EzSystems\BehatBundle\Context\Object\User;
+use EzSystems\BehatBundle\Context\Object\Role;
+use EzSystems\BehatBundle\Context\Object\FieldType;
+use EzSystems\BehatBundle\Context\Object\BasicContent;
 use eZ\Publish\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
@@ -20,11 +24,11 @@ use Behat\Symfony2Extension\Context\KernelAwareContext;
  */
 class EzContext implements KernelAwareContext
 {
-    use Object\UserGroup;
-    use Object\User;
-    use Object\Role;
-    use Object\FieldType;
-    use Object\BasicContent;
+    use UserGroup;
+    use User;
+    use Role;
+    use FieldType;
+    use BasicContent;
 
     /**
      * @var \Symfony\Component\HttpKernel\KernelInterface
