@@ -25,16 +25,17 @@ env:
     - COMPOSE_FILE="doc/docker-compose/base-dev.yml:doc/docker-compose/selenium.yml"
     - RUN_INSTALL=1
     - SYMFONY_ENV=behat
+    - PLATFORM_BRANCH=master
 
 matrix:
   fast_finish: true
   include:
-    - php: 7.0
+    - php: 7.1
       env: BEHAT_OPTS="--profile=behat --suite=default --tags='~@broken'"
-    - php: 7.0
+    - php: 7.1
       env: BEHAT_OPTS="--profile=rest --suite=fullJson --tags='~@broken'"
     - php: 5.6
-      env: BEHAT_OPTS="--profile=rest --suite=fullXml --tags='~@broken'" PHP_IMAGE=ezsystems/php:5.6-v1 PHP_IMAGE_DEV=ezsystems/php:5.6-v1-dev
+      env: BEHAT_OPTS="--profile=rest --suite=fullXml --tags='~@broken'" PHP_IMAGE=ezsystems/php:5.6-v1 PHP_IMAGE_DEV=ezsystems/php:5.6-v1-dev PLATFORM_BRANCH=1.13
 
 # test only master (+ Pull requests)
 branches:
@@ -50,7 +51,7 @@ before_script:
   - cd "$HOME/build"
 
   # Checkout meta repo, change the branch and/or remote to use a different ezpublish branch/distro
-  - git clone --depth 1 --single-branch --branch master https://github.com/ezsystems/ezplatform.git
+  - git clone --depth 1 --single-branch --branch $PLATFORM_BRANCH https://github.com/ezsystems/ezplatform.git
   - cd ezplatform
 
   # Install everything needed for behat testing, using our local branch of this repo
