@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/ezsystems/BehatBundle.svg?style=flat-square)](https://travis-ci.org/ezsystems/BehatBundle)
 [![Downloads](https://img.shields.io/packagist/dt/ezsystems/behatbundle.svg?style=flat-square)](https://packagist.org/packages/ezsystems/behatbundle)
 [![Latest stable](https://img.shields.io/packagist/v/ezsystems/behatbundle.svg?style=flat-square)](https://packagist.org/packages/ezsystems/behatbundle)
-[![License](https://img.shields.io/packagist/l/ezsystems/behatbundle.svg?style=flat-square)](LICENSE)
+[![License](https://img.shields.io/github/license/ezsystems/BehatBundle.svg?style=flat-square)](LICENSE)
 
 Behat Bundle brings the Behavior Driven Development (as known as BDD) into
 the eZ Publish.
