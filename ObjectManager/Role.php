@@ -111,6 +111,10 @@ class Role extends Base
      */
     protected function destroy( ValueObject $object )
     {
+        // Ignore warnings about not empty cache directory. See: https://github.com/ezsystems/BehatBundle/pull/71
+        $currentErrorReportingLevel = error_reporting();
+        error_reporting($currentErrorReportingLevel & ~E_WARNING);
+
         /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = $this->getRepository();
         $repository->sudo(
@@ -128,5 +132,7 @@ class Role extends Base
                 }
             }
         );
+
+        error_reporting($currentErrorReportingLevel);
     }
 }
