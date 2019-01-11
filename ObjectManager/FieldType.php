@@ -314,7 +314,7 @@ class FieldType extends Base
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
         $name = $this->fieldConstructionObject[ 'fieldType' ]->identifier;
-        $name = $name . '#' . uniqid();
+        $name = uniqid($name . '#', true);
         $identifier = strtolower( $name );
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct( $identifier );
         $contentTypeCreateStruct->mainLanguageCode = self::DEFAULT_LANGUAGE;

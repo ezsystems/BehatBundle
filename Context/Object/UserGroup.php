@@ -175,7 +175,7 @@ trait UserGroup
         $userGoupManager = $this->getUserGroupManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $id = uniqid();
+            $id = uniqid('UserGroup#', true);
             if ( !$userGroupManager()->checkUserGroupExistence( $id ) )
             {
                 return $id;
