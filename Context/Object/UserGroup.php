@@ -172,7 +172,7 @@ trait UserGroup
      */
     private function findNonExistingUserGroupId()
     {
-        $userGoupManager = $this->getUserGroupManager();
+        $userGroupManager = $this->getUserGroupManager();
         for ( $i = 0; $i < 20; $i++ )
         {
             $id = uniqid('UserGroup#', true);
