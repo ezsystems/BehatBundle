@@ -319,7 +319,7 @@ trait User
 
         for ( $i = 0; $i < 20; $i++ )
         {
-            $email = 'User#'. uniqid() . '@ez.no';
+            $email = uniqid('User#', true) . '@ez.no';
             if ( !$userManager->checkUserExistenceByEmail( $email ) )
             {
                 return $email;
@@ -341,7 +341,7 @@ trait User
         $userManager = $this->getUserManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $username = 'User#'. uniqid();
+            $username = uniqid('User#', true);
             if ( !$userManager->checkUserExistenceByUsername( $username ) )
             {
                 return $username;
