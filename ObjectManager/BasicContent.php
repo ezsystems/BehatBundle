@@ -16,6 +16,9 @@ use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 
+/**
+ * @deprecated Use ApiFacade instead
+ */
 class BasicContent extends Base
 {
     /**

@@ -27,7 +27,7 @@ env:
     - RUN_INSTALL=1 
     - SYMFONY_ENV=behat 
     - SYMFONY_DEBUG=1
-    - SETUP_SCRIPT=./bin/.travis/prepare_behat_v2.sh
+    - SETUP_SCRIPT=./bin/.travis/prepare_behat.sh
 
 matrix:
   fast_finish: true
@@ -36,10 +36,6 @@ matrix:
       env: BEHAT_OPTS="--profile=behat --suite=default --tags='~@broken'" COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
     - php: 7.1
       env: BEHAT_OPTS="--profile=rest --suite=fullJson --tags='~@broken'" COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
-    - php: 5.6
-      env: BEHAT_OPTS="--profile=rest --suite=fullXml --tags='~@broken'" SETUP_SCRIPT=./bin/.travis/prepare_behat.sh PHP_IMAGE=ezsystems/php:5.6-v1 PHP_IMAGE_DEV=ezsystems/php:5.6-v1-dev EZPLATFORM_BRANCH=1.13
-    - php: 5.6
-      env: BEHAT_OPTS="--profile=rest --suite=fullJson --tags='~@broken'" SETUP_SCRIPT=./bin/.travis/prepare_behat.sh PHP_IMAGE=ezsystems/php:5.6-v1 PHP_IMAGE_DEV=ezsystems/php:5.6-v1-dev EZPLATFORM_BRANCH=1.13
 
 # test only master and pull requests
 branches:

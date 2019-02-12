@@ -18,7 +18,9 @@ use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Values\User\User as APIUser;
 use Behat\Gherkin\Node\TableNode;
 
-
+/**
+ * @deprecated Use ApiFacade instead
+ */
 class User extends Base
 {
     const DEFAULT_LANGUAGE              = 'eng-GB';

@@ -14,6 +14,7 @@ use Behat\Symfony2Extension\Context\KernelAwareContext;
 
 /**
  * Base interface for the object managers
+ * @deprecated
  */
 interface ObjectManagerInterface
 {

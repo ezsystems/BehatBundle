@@ -15,6 +15,10 @@ use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 
+
+/**
+ * @deprecated Use ApiFacade instead
+ */
 abstract class Base implements ObjectManagerInterface
 {
     /**

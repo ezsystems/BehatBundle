@@ -17,6 +17,9 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\Core\Base\Exceptions as CoreExceptions;
 use Behat\Gherkin\Node\TableNode;
 
+/**
+ * @deprecated Use ApiFacade instead
+ */
 class Role extends Base
 {
     /**
