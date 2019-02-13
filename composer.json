@@ -15,12 +15,10 @@
         "fzaninotto/faker": "^1.8"
     },
     "autoload": {
-        "psr-0": {"EzSystems\\BehatBundle": ""},
         "psr-4": {
-            "EzSystems\\BehatBundle\\": "src/lib/"
+            "EzSystems\\BehatBundle\\": ["src/lib/", "src/bundle/", ""]
         }
     },
-    "target-dir": "EzSystems/BehatBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "7.0.x-dev",
