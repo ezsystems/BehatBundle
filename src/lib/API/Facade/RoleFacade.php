@@ -5,7 +5,22 @@
  */
 namespace EzSystems\BehatBundle\API\Facade;
 
+use eZ\Publish\API\Repository\RoleService;
+
 class RoleFacade
 {
+    private $roleService;
 
+    public function __construct(RoleService $roleService)
+    {
+        $this->roleService = $roleService;
+    }
+
+    public function createRole($roleName)
+    {
+    }
+
+    public function addPolicyToRole($roleName, $policy)
+    {
+    }
 }

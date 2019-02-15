@@ -5,7 +5,26 @@
  */
 namespace EzSystems\BehatBundle\API\Facade;
 
+use eZ\Publish\API\Repository\UserService;
+
 class UserFacade
 {
+    private $userService;
 
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
+    public function createUserGroup()
+    {
+    }
+
+    public function createUser($userName, $userGroupName)
+    {
+    }
+
+    public function assignToRole($userName, $roleName)
+    {
+    }
 }

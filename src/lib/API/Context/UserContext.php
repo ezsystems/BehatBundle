@@ -5,7 +5,10 @@
  */
 namespace EzSystems\BehatBundle\API\Context;
 
-class UserContext
+use Behat\Behat\Context\Context;
+use EzSystems\BehatBundle\API\Facade\UserFacade;
+
+class UserContext implements Context
 {
     private $userFacade;
 
@@ -29,10 +32,11 @@ class UserContext
     }
 
     /**
-     * @Given I assign :userName to role :roleName
+     * @Given I assign user :name to role :roleName
+     * @Given I assign user group :name to role :roleName
      */
-    public function assignUserToRole(string $userName, string $roleName): void
+    public function assignUserToRole(string $name, string $roleName): void
     {
-        $this->userFacade->assignToRole($userName, $roleName);
+        $this->userFacade->assignToRole($name, $roleName);
     }
 }

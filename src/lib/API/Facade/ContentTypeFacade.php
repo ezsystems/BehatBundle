@@ -5,11 +5,18 @@
  */
 namespace EzSystems\BehatBundle\API\Facade;
 
+use eZ\Publish\API\Repository\ContentTypeService;
+
 class ContentTypeFacade
 {
-    public function createX()
+    private $contentTypeService;
+
+    public function __construct(ContentTypeService $contentTypeService)
     {
-        $contentTypeCreateStruct = $this->contentTypeContext->newContentTypeCreateStruct($contentTypeIdentifier);
-        $contentTypeCreateStruct->names = ['eng-GB' => $contentTypeName];
+        $this->contentTypeService = $contentTypeService;
+    }
+
+    public function createContentType($contentTypeName, $contentTypeIdentifier, $fieldDefinitions)
+    {
     }
 }

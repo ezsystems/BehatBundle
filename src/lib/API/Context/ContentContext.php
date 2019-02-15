@@ -11,6 +11,7 @@ use EzSystems\BehatBundle\API\Facade\ContentFacade;
 
 class ContentContext implements Context
 {
+    /** @var ContentFacade  */
     private $contentFacade;
 
     public function __construct(ContentFacade $contentFacade)
@@ -23,6 +24,8 @@ class ContentContext implements Context
      */
     public function createMultipleContentItems(string $numberOfItems, string $contentTypeIdentifier, string $parentPathString): void
     {
+        $this->contentFacade->setUser("admin");
+
         for ($i = 0; $i < $numberOfItems; $i++) {
             $contentItemData = $this->contentFacade->getRandomContentData($contentTypeIdentifier);
             $this->contentFacade->createContent($contentTypeIdentifier, $parentPathString, $contentItemData);
@@ -30,13 +33,15 @@ class ContentContext implements Context
     }
 
     /**
-     * @Given I create :contentTypeIdentifier Content items in :parentPathString
+     * @Given I create :contentTypeIdentifier Content items in :parentUrl
      */
-    public function createContentItems($contentTypeIdentifier, $parentPathString, TableNode $contentItemsData): void
+    public function createContentItems($contentTypeIdentifier, $parentUrl, TableNode $contentItemsData): void
     {
+        $this->contentFacade->setUser("admin");
+
         foreach ($contentItemsData as $contentItemData) {
             $parsedContentItemData = $this->parseData($contentItemData);
-            $this->contentFacade->createContent($contentTypeIdentifier, $parentPathString, $parsedContentItemData);
+            $this->contentFacade->createContent($contentTypeIdentifier, $parentUrl, $parsedContentItemData);
         }
     }
 
