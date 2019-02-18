@@ -36,11 +36,11 @@ class ContentDataCreator
 
         $fieldDefinitions = $contentType->getFieldDefinitions();
 
-        $faker = new Faker\Factory::create();
+        //$faker = new Faker\Factory::create();
 
         foreach ($fieldDefinitions as $field)
         {
-            $contentCreateStruct->setField($field->fieldTypeIdentifier, $faker->name);// todo: add strategy per fieldtypeidentifier
+            // $contentCreateStruct->setField($field->fieldTypeIdentifier, $faker->name);// todo: add strategy per fieldtypeidentifier
         }
 
     }
