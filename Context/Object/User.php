@@ -341,7 +341,7 @@ trait User
         $userManager = $this->getUserManager();
         for ( $i = 0; $i < 20; $i++ )
         {
-            $username = uniqid('User#', true);
+            $username = substr(uniqid('User#', true), 0, 15);
             if ( !$userManager->checkUserExistenceByUsername( $username ) )
             {
                 return $username;
