@@ -44,6 +44,16 @@ class User extends Base
     }
 
     /**
+     * Returns a default password that passes validation
+     *
+     * @return string
+     */
+    public function getDefaultPassword()
+    {
+        return 'PassWord42';
+    }
+
+    /**
      * Search User Groups with given name
      *
      * @param string $name name of User Group to search for

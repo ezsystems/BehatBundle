@@ -272,7 +272,7 @@ class EzContext implements KernelAwareContext
 
         // create a new user, uses 'User' trait
         $username = $this->findNonExistingUserName();
-        $password = $username;
+        $password = $this->getUserManager()->getDefaultPassword();
         $email = "${username}@ez.no";
         $user = $this->getUserManager()->ensureUserExists( $username, $email, $password );
 
