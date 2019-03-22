@@ -43,13 +43,13 @@ Feature: User Creation
         Given there is a User with name "testuser" with the following fields:
             | Name          | value           |
             | email         | testuser@ez.no  |
-            | password      | testuser        |
+            | password      | PassWord42      |
             | first_name    | Test            |
             | last_name     | User            |
         Then User with name "testuser" exists
         And User with name "testuser" has the following fields:
             | Name          | value           |
             | email         | testuser@ez.no  |
-            | password      | testuser        |
+            | password      | PassWord42      |
             | first_name    | Test            |
             | last_name     | User            |

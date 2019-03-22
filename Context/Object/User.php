@@ -27,7 +27,7 @@ trait User
     public function iHaveUser( $username )
     {
         $email = $this->findNonExistingUserEmail( $username );
-        $password = $username;
+        $password = $this->getUserManager()->getDefaultPassword();
         $user = $this->getUserManager()->ensureUserExists( $username, $email, $password );
         $this->addValuesToKeyMap( $email, $user->email );
     }
@@ -54,7 +54,7 @@ trait User
     public function iHaveUserInGroup( $username, $parentGroupName )
     {
         $email = $this->findNonExistingUserEmail( $username );
-        $password = $username;
+        $password = $this->getUserManager()->getDefaultPassword();
         $user = $this->getUserManager()->ensureUserExists( $username, $email, $password, $parentGroupName );
         $this->addValuesToKeyMap( $email, $user->email );
     }
