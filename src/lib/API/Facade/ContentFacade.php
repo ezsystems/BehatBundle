@@ -57,7 +57,7 @@ class ContentFacade
     }
 
 
-    public function createContent($contentTypeIdentifier, $parentUrl, $contentItemData = null)
+    public function createContent($contentTypeIdentifier, $parentUrl, $language, $contentItemData = null)
     {
         $parentUrlAlias = $this->urlAliasService->lookup($parentUrl);
         Assert::assertEquals(URLAlias::LOCATION,  $parentUrlAlias->type);
@@ -65,11 +65,8 @@ class ContentFacade
         $parentLocationId = $parentUrlAlias->destination;
         $locationCreateStruct = $this->locationService->newLocationCreateStruct($parentLocationId);
 
-        $contentType = $this->contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
-        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, 'eng-GB');
-
         $this->contentDataCreator->setContentTypeIdentifier($contentTypeIdentifier);
-        $contentCreateStruct = $contentItemData ? $this->contentDataCreator->fillWithData($contentItemData) : $this->contentDataCreator->getRandomContentData();
+        $contentCreateStruct = $contentItemData ? $this->contentDataCreator->getFilledContentDataStruct($contentItemData, $language) : $this->contentDataCreator->getRandomContentData($language);
 
         $draft = $this->contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
         $this->contentService->publishVersion($draft->versionInfo);

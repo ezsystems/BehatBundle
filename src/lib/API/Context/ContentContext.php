@@ -20,33 +20,44 @@ class ContentContext implements Context
     }
 
     /**
-     * @Given I create :number :contentTypeIdentifier Content items in :parentPathString
+     * @Given I create :number :contentTypeIdentifier Content items in :parentUrl in :language
      */
-    public function createMultipleContentItems(string $numberOfItems, string $contentTypeIdentifier, string $parentPathString): void
+    public function createMultipleContentItems(string $numberOfItems, string $contentTypeIdentifier, string $parentUrl, $language): void
     {
         $this->contentFacade->setUser("admin");
 
+        if ($parentUrl === 'root')
+        {
+            $parentUrl = '/';
+        }
+
         for ($i = 0; $i < $numberOfItems; $i++) {
-            $contentItemData = $this->contentFacade->getRandomContentData($contentTypeIdentifier);
-            $this->contentFacade->createContent($contentTypeIdentifier, $parentPathString, $contentItemData);
+            $this->contentFacade->createContent($contentTypeIdentifier, $parentUrl, $language);
         }
     }
 
     /**
-     * @Given I create :contentTypeIdentifier Content items in :parentUrl
+     * @Given I create :contentTypeIdentifier Content items in :parentUrl in :language
      */
-    public function createContentItems($contentTypeIdentifier, $parentUrl, TableNode $contentItemsData): void
+    public function createContentItems($contentTypeIdentifier, $parentUrl, $language, TableNode $contentItemsData): void
     {
         $this->contentFacade->setUser("admin");
 
-        foreach ($contentItemsData as $contentItemData) {
-            $parsedContentItemData = $this->parseData($contentItemData);
-            $this->contentFacade->createContent($contentTypeIdentifier, $parentUrl, $parsedContentItemData);
+        if ($parentUrl === 'root')
+        {
+            $parentUrl = '/';
+        }
+
+        $parsedContentItemData = $this->parseData($contentItemsData);
+
+        foreach ($parsedContentItemData as $contentItemData) {
+            $this->contentFacade->createContent($contentTypeIdentifier, $parentUrl, $language, $contentItemData);
         }
     }
 
-    private function parseData($contentItemData)
+    private function parseData(TableNode $contentItemData)
     {
-        return null;
+        // TODO: think of a way to handle arrays in the future, should happen in this layer
+        return $contentItemData->getHash();
     }
 }
