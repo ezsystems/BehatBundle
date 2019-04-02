@@ -39,11 +39,18 @@ class RoleFacade
         $this->roleService->publishRoleDraft($roleDraft);
     }
 
-    public function addPolicyToRole($roleName, $module, $function)
+    public function addPolicyToRole($roleName, $module, $function, $limitations = null)
     {
         $role = $this->roleService->loadRoleByIdentifier($roleName);
         $roleDraft = $this->roleService->createRoleDraft($role);
         $policyCreateStruct = $this->roleService->newPolicyCreateStruct($module, $function);
+
+        if ($limitations !== null)
+        {
+            foreach ($limitations as $limitation) {
+                $policyCreateStruct->addLimitation($limitation);
+            }
+        }
 
         $updatedRoleDraft = $this->roleService->addPolicyByRoleDraft($roleDraft, $policyCreateStruct);
 

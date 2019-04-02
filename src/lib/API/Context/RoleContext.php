@@ -7,6 +7,9 @@ namespace EzSystems\BehatBundle\API\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use eZ\Publish\API\Repository\Values\User\Limitation;
+use eZ\Publish\API\Repository\Values\User\Limitation\ContentTypeLimitation;
+use eZ\Publish\API\Repository\Values\User\Limitation\SubtreeLimitation;
 use EzSystems\BehatBundle\API\Facade\RoleFacade;
 
 class RoleContext implements Context
@@ -70,16 +73,38 @@ class RoleContext implements Context
     }
 
     /**
-     * @Given I add policy :policyName to :roleName with limitations
+     * @Given I add policy :module :function to :roleName with limitations
      */
-    public function addPolicyToRoleWithLimitation(string $policyName, $roleName, TableNode $limitations): void
+    public function addPolicyToRoleWithLimitation(string $module, string $function, $roleName, TableNode $limitations): void
     {
+        $this->roleFacade->setUser("admin");
+
         $parsedLimitations = $this->parseLimitations($limitations);
-        $this->roleFacade->addPolicyToRole($roleName, $policyName, $parsedLimitations);
+        $this->roleFacade->addPolicyToRole($roleName, $module, $function, $parsedLimitations);
     }
 
-    private function parseLimitations($limitations)
+    private function parseLimitations(TableNode $limitations)
     {
-        return null;
+        $parsedLimitations = [];
+
+        foreach ($limitations->getHash() as $row)
+        {
+            switch ($row['limitationType']) {
+                case Limitation::CONTENTTYPE:
+                    $parsedLimitations[] = new ContentTypeLimitation(
+                        ['limitationValues' => [1]] // contentTypeId
+                    );
+                    break;
+                case Limitation::SUBTREE:
+                    $parsedLimitations[] = new SubtreeLimitation(
+                        ['limitationValues' => ['/1/2/']] //pathstring
+                    );
+                    break;
+                default:
+                    throw new \Exception('Unsupported limitation');
+            }
+        }
+
+        return $parsedLimitations;
     }
 }
