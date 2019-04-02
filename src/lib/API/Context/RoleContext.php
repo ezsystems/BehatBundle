@@ -86,7 +86,7 @@ class RoleContext implements Context
     private function parseLimitations(TableNode $limitations)
     {
         $parsedLimitations = [];
-
+        // TODO: Refactor to strategies
         foreach ($limitations->getHash() as $row)
         {
             switch ($row['limitationType']) {

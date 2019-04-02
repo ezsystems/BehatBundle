@@ -5,26 +5,97 @@
  */
 namespace EzSystems\BehatBundle\API\Facade;
 
+use eZ\Publish\API\Repository\ContentTypeService;
+use eZ\Publish\API\Repository\LocationService;
+use eZ\Publish\API\Repository\PermissionResolver;
+use eZ\Publish\API\Repository\RoleService;
 use eZ\Publish\API\Repository\UserService;
+use eZ\Publish\API\Repository\Values\User\UserGroup;
 
 class UserFacade
 {
     private $userService;
+    private $permissionResolver;
+    private $contentTypeService;
+    private $locationService;
+    private $roleService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, PermissionResolver $permissionResolver, ContentTypeService $contentTypeService, LocationService $locationService, RoleService $roleService)
     {
         $this->userService = $userService;
+        $this->permissionResolver = $permissionResolver;
+        $this->contentTypeService = $contentTypeService;
+        $this->locationService = $locationService;
+        $this->roleService = $roleService;
     }
 
-    public function createUserGroup()
+    public function setUser(string $username)
     {
+        $user = $this->userService->loadUserByLogin($username);
+        $this->permissionResolver->setCurrentUserReference($user);
     }
 
-    public function createUser($userName, $userGroupName)
+    public function createUserGroup(string $groupName)
     {
+        $userGroupContentType = $this->contentTypeService->loadContentTypeByIdentifier('user_group');
+
+        $userGroupStruct = $this->userService->newUserGroupCreateStruct('eng-GB', $userGroupContentType);
+        $userGroupStruct->setField('name', $groupName);
+
+        $location = $this->locationService->loadLocation(5);
+        $parentGroup = $this->userService->loadUserGroup($location->contentId);
+
+        $this->userService->createUserGroup($userGroupStruct, $parentGroup);
     }
 
-    public function assignToRole($userName, $roleName)
+    public function createUser($userName, $userGroupName = null)
     {
+
+        if ($userGroupName !== null) {
+            $parentGroup = $this->loadUserGroupByName($userGroupName);
+        }
+        else {
+            $location = $this->locationService->loadLocation(5);
+            $parentGroup = $this->userService->loadUserGroup($location->contentId);
+        }
+
+        $userContentType = $this->contentTypeService->loadContentTypeByIdentifier('user');
+        // TODO: USE FAKER HERE
+        $userCreateStruct = $this->userService->newUserCreateStruct($userName, sprintf('%s@ez.no', $userName), 'Passw0rd-42', 'eng-GB', $userContentType);
+        $userCreateStruct->setField('first_name', $userName);
+        $userCreateStruct->setField('last_name', 'The first');
+        $this->userService->createUser($userCreateStruct, [$parentGroup]);
+    }
+
+    public function assignUserToRole($userName, $roleName)
+    {
+        $user = $this->userService->loadUserByLogin($userName);
+        $role = $this->roleService->loadRoleByIdentifier($roleName);
+
+        $this->roleService->assignRoleToUser($role, $user);
+    }
+
+    public function assignUserGroupToRole($userGroupName, $roleName)
+    {
+        $group = $this->loadUserGroupByName($userGroupName);
+        $role = $this->roleService->loadRoleByIdentifier($roleName);
+
+        $this->roleService->assignRoleToUserGroup($role, $group);
+    }
+
+    private function loadUserGroupByName(string $userGroupName): UserGroup
+    {
+        $location = $this->locationService->loadLocation(5);
+        $parentGroup = $this->userService->loadUserGroup($location->contentId);
+
+        $groups = $this->userService->loadSubUserGroups($parentGroup);
+
+        foreach ($groups as $group)
+        {
+            if ($group->getName() === $userGroupName)
+            {
+                return $group;
+            }
+        }
     }
 }

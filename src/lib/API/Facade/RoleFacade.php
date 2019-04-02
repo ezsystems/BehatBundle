@@ -9,7 +9,6 @@ use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\RoleService;
 use eZ\Publish\API\Repository\UserService;
-use eZ\Publish\API\Repository\Values\User\PolicyCreateStruct;
 
 class RoleFacade
 {

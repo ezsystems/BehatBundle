@@ -22,16 +22,17 @@ Feature: Test various steps
 #      | module      | function |
 #      | content     | read     |
 #      | content     | publish  |
-    And I add policy "content" "read" to "marekRole1" with limitations
-      | limitationType    | limitationValue |
-      | Subtree           | /Home           |
-      | Class             | Folder          |
-      | Class             | Article         |
+#    And I add policy "content" "read" to "marekRole1" with limitations
+#      | limitationType    | limitationValue |
+#      | Subtree           | /Home           |
+#      | Class             | Folder          |
+#      | Class             | Article         |
+#    And I create a user group "Nocon"
 #    And I create a user "Marek"
-#    And I create a user "Marek2" in group "Nocon"
-#    And I assign user group "Marek" to role "marekRole1"
-#    And I assign user group "Nocon" to role "marekRole2"
-#
+#    And I create a user "Marek3" in group "Nocon"
+    And I assign user "Marek" to role "marekRole1"
+    And I assign user group "Nocon" to role "marekRole2"
+
 
 
 

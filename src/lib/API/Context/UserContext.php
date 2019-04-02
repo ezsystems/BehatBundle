@@ -18,25 +18,39 @@ class UserContext implements Context
     }
 
     /**
+     * @Given I create a user group :userGroupName
+     */
+    public function createUseGroup(string $userGroupName): void
+    {
+        $this->userFacade->setUser("admin");
+        $this->userFacade->createUserGroup($userGroupName);
+    }
+
+    /**
      * @Given I create a user :userName
      * @Given I create a user :userName in group :userGroupName
      */
     public function createUserInGroup(string $userName, string $userGroupName = null): void
     {
-        if ($userGroupName === null)
-        {
-            $userGroupName = $this->userFacade->createUserGroup();
-        }
-
+        $this->userFacade->setUser("admin");
         $this->userFacade->createUser($userName, $userGroupName);
     }
 
     /**
-     * @Given I assign user :name to role :roleName
-     * @Given I assign user group :name to role :roleName
+     * @Given I assign user :userName to role :roleName
      */
-    public function assignUserToRole(string $name, string $roleName): void
+    public function assignUserToRole(string $userName, string $roleName): void
     {
-        $this->userFacade->assignToRole($name, $roleName);
+        $this->userFacade->setUser("admin");
+        $this->userFacade->assignUserToRole($userName, $roleName);
+    }
+
+    /**
+     * @Given I assign user group :groupName to role :roleName
+     */
+    public function assignUserGroupToRole(string $userGroupName, string $roleName): void
+    {
+        $this->userFacade->setUser("admin");
+        $this->userFacade->assignUserGroupToRole($userGroupName, $roleName);
     }
 }
