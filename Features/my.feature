@@ -1,18 +1,18 @@
 Feature: Test various steps
 
   Scenario:
-    # Given Language X exists
-    Given I create 5 "Folder" Content items in root in "pol-PL"
-    And I create "Folder" Content items in root in "eng-GB"
-       | name  | short_name |
-       | test1 | test1_sn   |
-       | test2 | test2_sn   |
-#    And I create a "Marek" Content Type with "marek" identifier
-#      | Field Type   | Name              | Identifier        | Required | Searchable | Translatable |
-#      | Text line	 | Name              | name	             | yes      | yes	     | yes          |
-#      | Text line	 | Short Description | short_description | yes      | yes	     | yes          |
-#      | Image	     | Photo	         | photo	         | yes      | no	     | no           |
-#      | RichText	 | Full Description	 | description       | yes      | yes	     | yes          |
+    # Given Language X with code "Y" exists #TODO
+#    Given I create 5 "Folder" Content items in root in "pol-PL"
+#    And I create "Folder" Content items in root in "eng-GB"
+#       | name  | short_name |
+#       | test1 | test1_sn   |
+#       | test2 | test2_sn   |
+    And I create a "Marek" Content Type in "Content" with "marek" identifier
+      | Field Type   | Name              | Identifier        | Required | Searchable | Translatable |
+      | Text line	 | Name              | name	             | yes      | yes	     | yes          |
+      | Text line	 | Short Description | short_description | yes      | yes	     | yes          |
+      | Image	     | Photo	         | photo	         | yes      | no	     | no           |
+      | RichText	 | Full Description	 | description       | yes      | yes	     | yes          |
 #    And I create a role "marekRole1"
 #    And I create a role "marekRole2" with policies
 #      | policyName      |
