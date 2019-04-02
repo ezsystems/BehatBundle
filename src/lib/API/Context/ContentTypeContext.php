@@ -29,12 +29,14 @@ class ContentTypeContext implements Context
     {
         $this->contentTypeFacade->setUser("admin");
 
-        $fieldDefinitions = $this->parseFieldDefinitions($fieldDetails);
-
-        if (!$this->contentTypeFacade->isContentTypePresent($contentTypeIdentifier))
+        if ($this->contentTypeFacade->isContentTypePresent($contentTypeIdentifier))
         {
-            $this->contentTypeFacade->createContentType($contentTypeName, $contentTypeIdentifier, $contentTypeGroupName, 'eng-GB', $fieldDefinitions);
+            return ;
         }
+
+        $fieldDefinitions = $this->parseFieldDefinitions($fieldDetails);
+        $this->contentTypeFacade->createContentType($contentTypeName, $contentTypeIdentifier, $contentTypeGroupName, 'eng-GB', $fieldDefinitions);
+
     }
 
     private function parseFieldDefinitions($fieldDetails): array

@@ -7,21 +7,21 @@ Feature: Test various steps
 #       | name  | short_name |
 #       | test1 | test1_sn   |
 #       | test2 | test2_sn   |
-    And I create a "Marek" Content Type in "Content" with "marek" identifier
-      | Field Type   | Name              | Identifier        | Required | Searchable | Translatable |
-      | Text line	 | Name              | name	             | yes      | yes	     | yes          |
-      | Text line	 | Short Description | short_description | yes      | yes	     | yes          |
-      | Image	     | Photo	         | photo	         | yes      | no	     | no           |
-      | RichText	 | Full Description	 | description       | yes      | yes	     | yes          |
+#    And I create a "Marek" Content Type in "Content" with "marek" identifier
+#      | Field Type   | Name              | Identifier        | Required | Searchable | Translatable |
+#      | Text line	 | Name              | name	             | yes      | yes	     | yes          |
+#      | Text line	 | Short Description | short_description | yes      | yes	     | yes          |
+#      | Image	     | Photo	         | photo	         | yes      | no	     | no           |
+#      | RichText	 | Full Description	 | description       | yes      | yes	     | yes          |
 #    And I create a role "marekRole1"
 #    And I create a role "marekRole2" with policies
-#      | policyName      |
-#      | content/read    |
-#      | content/publish |
+#      | module      | function |
+#      | content     | read     |
+#      | content     | publish  |
 #    And I add policies to "marekRole1"
-#       | policyName      |
-#       | content/read    |
-#       | content/publish |
+#      | module      | function |
+#      | content     | read     |
+#      | content     | publish  |
 #    And I add policy "content/read" to "marekRole1" with limitations
 #      | limitationType | limitationValue |
 #      | owner          | self            |
