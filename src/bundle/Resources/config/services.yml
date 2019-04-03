@@ -14,5 +14,5 @@ services:
     ezbehatbundle.api.facade.userfacade:
         class: EzSystems\BehatBundle\API\Facade\UserFacade
 
-    ezbehatbundle.api.contentdata.contentdatacretor:
-        class: EzSystems\BehatBundle\API\ContentData\ContentDataCreator
+    ezbehatbundle.api.facade.languagefacade:
+        class: EzSystems\BehatBundle\API\Facade\LanguageFacade

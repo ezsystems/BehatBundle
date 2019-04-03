@@ -1,4 +1,3 @@
-# This file is for manual testing only, corresponding file in ezplatform is used for travis testing
 behatbundle:
     suites:
         default:
@@ -13,19 +12,5 @@ behatbundle:
                   userFacade: '@ezbehatbundle.api.facade.userfacade'
               - EzSystems\BehatBundle\API\Context\RoleContext:
                   roleFacade: '@ezbehatbundle.api.facade.rolefacade'
-#
-#        user:
-#            paths:
-#                - vendor/ezsystems/behatbundle/Features/user.feature
-#                - vendor/ezsystems/behatbundle/Features/user_group.feature
-#            contexts: [ EzSystems\BehatBundle\Context\EzContext ]
-#        contenttype_group:
-#            paths: [ vendor/ezsystems/behatbundle/Features/contenttype_group.feature ]
-#            contexts: [ EzSystems\BehatBundle\Context\Object\ContentTypeGroup ]
-#        contenttype:
-#            paths: [ vendor/ezsystems/behatbundle/Features/contenttype.feature ]
-#            contexts: [EzSystems\BehatBundle\Context\Object\ContentType ]
-
-
-
-
+              - EzSystems\BehatBundle\API\Context\LanguageContext:
+                  languageFacade: '@ezbehatbundle.api.facade.languagefacade'

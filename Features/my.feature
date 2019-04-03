@@ -1,7 +1,7 @@
 Feature: Test various steps
 
   Scenario:
-    # Given Language X with code "Y" exists #TODO
+     Given Language "Polski" with code "pol-PL" exists
 #    Given I create 5 "Folder" Content items in root in "pol-PL"
 #    And I create "Folder" Content items in root in "eng-GB"
 #       | name  | short_name |
@@ -30,8 +30,8 @@ Feature: Test various steps
 #    And I create a user group "Nocon"
 #    And I create a user "Marek"
 #    And I create a user "Marek3" in group "Nocon"
-    And I assign user "Marek" to role "marekRole1"
-    And I assign user group "Nocon" to role "marekRole2"
+#    And I assign user "Marek" to role "marekRole1"
+#    And I assign user group "Nocon" to role "marekRole2"
 
 
 
