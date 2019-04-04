@@ -134,7 +134,7 @@ class ContentType implements Context
      * @param  string  $identifier       content type identifier
      * @param  boolean $throwIfNotFound  if true, throws an exception if it is not found.
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup|null
+     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentType|null
      */
     protected function loadContentTypeByIdentifier($identifier, $throwIfNotFound = true)
     {

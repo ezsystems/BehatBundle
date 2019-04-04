@@ -138,20 +138,6 @@ class ContentTypeGroup implements Context
     }
 
     /**
-     * @Then (only) :total Content Type Group(s) with identifier :identifier exists
-     * @Then (only) :total Content Type Group(s) exists with identifier :identifier
-     *
-     * Checks that there are exactly ':total' content type groups with identifier $identifier
-     */
-    public function assertTotalContentTypeGroups($total, $identifier)
-    {
-        Assertion::assertEquals(
-            $this->countContentTypeGroup($identifier),
-            $total
-        );
-    }
-
-    /**
      * Checks if the ContentTypeGroup with $identifier exists
      *
      * @param string $identifier Identifier of the possible content
@@ -170,25 +156,5 @@ class ContentTypeGroup implements Context
         } catch (ApiExceptions\NotFoundException $e) {
             return false;
         }
-    }
-
-    /**
-     * Find a non existing ContentTypeGroup identifier
-     *
-     * @return string A not used identifier
-     *
-     * @throws \Exception Possible endless loop
-     */
-    private function findNonExistingContentTypeGroupIdentifier()
-    {
-        $i = 0;
-        while ($i++ < 20) {
-            $identifier = 'ctg' . rand(10000, 99999);
-            if (!$this->checkContentTypeGroupExistenceByIdentifier($identifier)) {
-                return $identifier;
-            }
-        }
-
-        throw new \Exception('Possible endless loop when attempting to find a new identifier to ContentTypeGroups');
     }
 }

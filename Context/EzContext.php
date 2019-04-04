@@ -24,11 +24,6 @@ use Behat\Symfony2Extension\Context\KernelAwareContext;
  */
 class EzContext implements KernelAwareContext
 {
-    use UserGroup;
-    use User;
-    use Role;
-    use FieldType;
-    use BasicContent;
 
     /**
      * @var \Symfony\Component\HttpKernel\KernelInterface
@@ -307,5 +302,27 @@ class EzContext implements KernelAwareContext
         {
             throw new \Exception( "Method '$method' doesn't exist in '" . get_class( $this ) . "'" );
         }
+    }
+
+    /**
+     * Find a non existing User name
+     *
+     * @return string A not used name
+     *
+     * @throws \Exception Possible endless loop
+     */
+    private function findNonExistingUserName()
+    {
+        $userManager = $this->getUserManager();
+        for ( $i = 0; $i < 20; $i++ )
+        {
+            $username = uniqid('User#', true);
+            if ( !$userManager->checkUserExistenceByUsername( $username ) )
+            {
+                return $username;
+            }
+        }
+
+        throw new \Exception( 'Possible endless loop when attempting to find a new name for User.' );
     }
 }
