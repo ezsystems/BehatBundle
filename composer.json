@@ -5,7 +5,7 @@
     "authors": [
         {
             "name": "eZ Publish dev-team & eZ Community",
-            "homepage": "https://github.com/ezsystems/BehatBundle/graphs/contributors"
+            "homepage": "https://github.com/ezsystems/BehatBundle"
         }
     ],
     "require": {

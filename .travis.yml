@@ -1,6 +1,4 @@
-# Use trusty for better performance (and avoiding mysql/postgres/solr gone issues on precise and container infra)
-dist: trusty
-sudo: required
+dist: xenial
 
 language: php
 
@@ -23,32 +21,25 @@ env:
   global:
     # For functional tests
     - COMPOSE_FILE="doc/docker-compose/base-dev.yml:doc/docker-compose/selenium.yml"
-    - EZPLATFORM_BRANCH=master
-    - RUN_INSTALL=1 
-    - SYMFONY_ENV=behat 
+    - SYMFONY_ENV=behat
     - SYMFONY_DEBUG=1
-    - SETUP_SCRIPT=./bin/.travis/prepare_behat.sh
 
 matrix:
   fast_finish: true
   include:
     - php: 7.1
-      env: BEHAT_OPTS="--profile=behat --suite=default --tags='~@broken'" COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
+      env: BEHAT_OPTS="--profile=behat --suite=default --tags='~@broken'"
     - php: 7.1
-      env: BEHAT_OPTS="--profile=rest --suite=fullJson --tags='~@broken'" COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
+      env: BEHAT_OPTS="--profile=rest --suite=fullJson --tags='~@broken'"
 
 # test only master and pull requests
 branches:
   only:
     - master
 
-# setup requirements for running Behat tests
 before_install:
-  # Disable memory_limit for composer in PHP 5.6
-  - echo "memory_limit=-1" >> ~/.phpenv/versions/5.6/etc/conf.d/travis.ini
-  - eval $SETUP_SCRIPT
+  - ./bin/.travis/prepare_behat.sh
 
-# execute phpunit or behat as the script command
 script:
   - cd "$HOME/build/ezplatform";
   - docker-compose exec --user www-data app sh -c "bin/behat $BEHAT_OPTS"
@@ -56,6 +47,7 @@ script:
 # disable mail notifications		
 notification:		
   email: false
+  #todo - add slack
 
 # reduce depth (history) of git checkout
 git:
