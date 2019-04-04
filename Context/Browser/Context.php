@@ -23,7 +23,6 @@ class Context extends EzContext implements MinkAwareContext
 {
     use MinkTrait;
     use SubContext\CommonActions;
-    use SubContext\Authentication;
 
     /**
      * @var \EzSystems\BehatBundle\Helper\Xpath
