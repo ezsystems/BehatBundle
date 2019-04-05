@@ -7,20 +7,19 @@ namespace EzSystems\BehatBundle\API\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Symfony2Extension\Context\KernelDictionary;
 use eZ\Publish\API\Repository\Values\User\Limitation;
 use eZ\Publish\API\Repository\Values\User\Limitation\ContentTypeLimitation;
 use eZ\Publish\API\Repository\Values\User\Limitation\SubtreeLimitation;
+use EzSystems\BehatBundle\API\Context\LimitationParser\LimitationParserInterface;
 use EzSystems\BehatBundle\API\Facade\RoleFacade;
 
 class RoleContext implements Context
 {
+    use KernelDictionary;
+
     /** @var RoleFacade  */
     private $roleFacade;
-
-    public function __construct(RoleFacade $roleFacade)
-    {
-        $this->roleFacade = $roleFacade;
-    }
 
     /**
      * @Given I create a role :roleName
@@ -86,25 +85,27 @@ class RoleContext implements Context
     private function parseLimitations(TableNode $limitations)
     {
         $parsedLimitations = [];
-        // TODO: Refactor to strategies
-        foreach ($limitations->getHash() as $row)
+        $limitationParsers = $this->getLimitationParsers();
+
+        foreach ($limitations->getHash() as $rawLimitation)
         {
-            switch ($row['limitationType']) {
-                case Limitation::CONTENTTYPE:
-                    $parsedLimitations[] = new ContentTypeLimitation(
-                        ['limitationValues' => [1]] // contentTypeId
-                    );
-                    break;
-                case Limitation::SUBTREE:
-                    $parsedLimitations[] = new SubtreeLimitation(
-                        ['limitationValues' => ['/1/2/']] //pathstring
-                    );
-                    break;
-                default:
-                    throw new \Exception('Unsupported limitation');
+            foreach ($limitationParsers as $parser)
+            {
+                if ($parser->canWork($rawLimitation['limitationType']))
+                {
+                    $limitations[] = $parser->parse($rawLimitation['limitationValue']);
+                }
             }
         }
 
         return $parsedLimitations;
+    }
+
+    /**
+     * @return LimitationParserInterface[]
+     */
+    private function getLimitationParsers(): array
+    {
+        return $this->container->findTaggedServiceIds(LimitationParserInterface::SERVICE_TAG);
     }
 }

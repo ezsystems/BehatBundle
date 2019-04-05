@@ -24,7 +24,8 @@ Feature: Test various steps
       | content     | publish  |
     And I add policy "content" "read" to "marekRole1" with limitations
       | limitationType    | limitationValue |
-      | Subtree           | /Home           |
+      | Subtree           | /               |
+      | Subtree           | /Media          |
       | Class             | Folder          |
       | Class             | Article         |
     And I create a user group "Nocon"

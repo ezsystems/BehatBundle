@@ -26,10 +26,7 @@ class ContentContext implements Context
     {
         $this->contentFacade->setUser("admin");
 
-        if ($parentUrl === 'root')
-        {
-            $parentUrl = '/';
-        }
+
 
         for ($i = 0; $i < $numberOfItems; $i++) {
             $this->contentFacade->createContent($contentTypeIdentifier, $parentUrl, $language);
@@ -43,11 +40,7 @@ class ContentContext implements Context
     {
         $this->contentFacade->setUser("admin");
 
-        if ($parentUrl === 'root')
-        {
-            $parentUrl = '/';
-        }
-
+        $parentUrl = $this->parseUrl($parentUrl);
         $parsedContentItemData = $this->parseData($contentItemsData);
 
         foreach ($parsedContentItemData as $contentItemData) {
@@ -55,9 +48,13 @@ class ContentContext implements Context
         }
     }
 
+    private function parseUrl(string $url)
+    {
+        return $url === 'root' ? '/' : $url;
+    }
+
     private function parseData(TableNode $contentItemData)
     {
-        // TODO: think of a way to handle arrays in the future, should happen in this layer
         return $contentItemData->getHash();
     }
 }
