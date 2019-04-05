@@ -47,7 +47,12 @@ script:
 # disable mail notifications		
 notification:		
   email: false
-  #todo - add slack
+  slack:
+    rooms:
+      - secure: cfcRhrcOrE/aaY0R8uBR8PDvWOFXf6LUlpnWojy/gdgkHfGIgfqF3e+ROZgkXwe99eRNbFTrtkNfBJbOu41Jz9zy3xYEj+NX3JaKkUT7QgpcvU8a7AAehFMPabF/N5E37hoTDl33efDaXM9y2JDG2ygWnWlm5r1tAcaDpmP2tJI=
+    on_success: change
+    on_failure: always
+    on_pull_requests: false
 
 # reduce depth (history) of git checkout
 git:
