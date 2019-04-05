@@ -33,15 +33,11 @@ class ContentFacade
     /** @var UserService  */
     private $userService;
 
-    /** @var ContentTypeService  */
-    private $contentTypeService;
-
     /** @var ContentDataCreator */
     private $contentDataCreator;
 
-    public function __construct(ContentTypeService $contentTypeService, ContentService $contentService, LocationService $locationService, URLAliasService $urlAliasService, PermissionResolver $permissionResolver, UserService $userService, ContentDataCreator $contentDataCreator)
+    public function __construct(ContentService $contentService, LocationService $locationService, URLAliasService $urlAliasService, PermissionResolver $permissionResolver, UserService $userService, ContentDataCreator $contentDataCreator)
     {
-        $this->contentTypeService = $contentTypeService;
         $this->contentService = $contentService;
         $this->locationService = $locationService;
         $this->urlAliasService = $urlAliasService;

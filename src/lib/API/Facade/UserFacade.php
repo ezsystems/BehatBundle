@@ -97,5 +97,40 @@ class UserFacade
                 return $group;
             }
         }
+
+
+        /**
+         * Search User Groups with given name
+         *
+         * @param string $name name of User Group to search for
+         * @param string $parentLocationId (optional) parent location id to search in
+         *
+         * @return search results
+         */
+//        public function searchUserGroups( $name, $parentLocationId = null )
+//    {
+//        $repository = $this->getRepository();
+//        $searchService = $repository->getSearchService();
+//
+//        $criterionArray = array(
+//            new Criterion\Subtree( self::USERGROUP_ROOT_SUBTREE ),
+//            new Criterion\ContentTypeIdentifier( self::USERGROUP_CONTENT_IDENTIFIER ),
+//            new Criterion\Field( 'name', Criterion\Operator::EQ, $name ),
+//        );
+//        if ( $parentLocationId )
+//        {
+//            $criterionArray[] = new Criterion\ParentLocationId( $parentLocationId );
+//        }
+//        $query = new Query();
+//        $query->filter = new Criterion\LogicalAnd( $criterionArray );
+//
+//        $result = $repository->sudo(
+//            function() use( $query, $searchService )
+//            {
+//                return $searchService->findContent( $query, array(), false );
+//            }
+//        );
+//        return $result->searchHits;
+//    }
     }
 }

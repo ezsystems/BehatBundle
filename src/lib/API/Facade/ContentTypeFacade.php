@@ -31,7 +31,7 @@ class ContentTypeFacade
         $this->permissionResolver->setCurrentUserReference($user);
     }
 
-    public function createContentType($contentTypeName, $contentTypeIdentifier, $contentTypeGroupName, $mainLanguageCode, $fieldDefinitions)
+    public function createContentType(string $contentTypeName, string $contentTypeIdentifier, string $contentTypeGroupName, string $mainLanguageCode, array $fieldDefinitions)
     {
         $contentTypeCreateStruct = $this->contentTypeService->newContentTypeCreateStruct($contentTypeIdentifier);
         $contentTypeCreateStruct->names = [$mainLanguageCode => $contentTypeName];
@@ -47,7 +47,7 @@ class ContentTypeFacade
         $this->contentTypeService->publishContentTypeDraft($contentTypeDraft);
     }
 
-    public function isContentTypePresent($contentTypeIdentifier): bool
+    public function contentTypeExists(string $contentTypeIdentifier): bool
     {
         try {
             $this->contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
