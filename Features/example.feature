@@ -1,8 +1,11 @@
 Feature: Test various steps
 
+  Background:
+    Given I am using the API as admin
+
   Scenario:
-     Given Language "Polski" with code "pol-PL" exists
-    Given I create 5 "Folder" Content items in root in "pol-PL"
+    Given Language "Polski" with code "pol-PL" exists
+    And I create 5 "Folder" Content items in root in "pol-PL"
     And I create "Folder" Content items in root in "eng-GB"
        | name  | short_name |
        | test1 | test1_sn   |

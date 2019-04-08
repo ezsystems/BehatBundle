@@ -26,8 +26,6 @@ class RoleContext implements Context
      */
     public function createRole(string $roleName): void
     {
-        $this->roleFacade->setUser("admin");
-
         if ($this->roleFacade->doesRoleExist($roleName))
         {
             return;
@@ -41,11 +39,7 @@ class RoleContext implements Context
      */
     public function createRoleWithPolicies(string $roleName, TableNode $policies): void
     {
-        // TODO: Extract it somehow
-        $this->roleFacade->setUser("admin");
-
-        if ($this->roleFacade->doesRoleExist($roleName))
-        {
+        if ($this->roleFacade->doesRoleExist($roleName)) {
             return;
         }
 
@@ -63,8 +57,6 @@ class RoleContext implements Context
      */
     public function addPolicyToRole($roleName, TableNode $policies): void
     {
-        $this->roleFacade->setUser("admin");
-
         foreach ($policies as $policy)
         {
             $this->roleFacade->addPolicyToRole($roleName, $policy['module'], $policy['function']);
@@ -76,8 +68,6 @@ class RoleContext implements Context
      */
     public function addPolicyToRoleWithLimitation(string $module, string $function, $roleName, TableNode $limitations): void
     {
-        $this->roleFacade->setUser("admin");
-
         $parsedLimitations = $this->parseLimitations($limitations);
         $this->roleFacade->addPolicyToRole($roleName, $module, $function, $parsedLimitations);
     }

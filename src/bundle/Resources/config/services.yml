@@ -5,6 +5,9 @@ services:
     EzSystems\BehatBundle\API\Context\LimitationParser\LimitationParserInterface:
         tags: ['behat_limitation_parser']
 
+    EzSystems\BehatBundle\API\ContentData\FieldTypesData\FieldTypeDataProviderInterface:
+        tags: ['behat_fieldtype_data_provider']
+
     ezbehatbundle.api.facade.contentfacade:
         class: EzSystems\BehatBundle\API\Facade\ContentFacade
 

@@ -27,8 +27,6 @@ class ContentTypeContext implements Context
      */
     public function iCreateAContentTypeWithIdentifier($contentTypeName, $contentTypeGroupName, $contentTypeIdentifier, TableNode $fieldDetails): void
     {
-        $this->contentTypeFacade->setUser("admin");
-
         if ($this->contentTypeFacade->contentTypeExists($contentTypeIdentifier))
         {
             return ;

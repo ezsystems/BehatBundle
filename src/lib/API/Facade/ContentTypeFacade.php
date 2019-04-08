@@ -7,28 +7,14 @@ namespace EzSystems\BehatBundle\API\Facade;
 
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\API\Repository\UserService;
 
 class ContentTypeFacade
 {
     private $contentTypeService;
 
-    private $userService;
-
-    private $permissionResolver;
-
-    public function __construct(ContentTypeService $contentTypeService, UserService $userService, PermissionResolver $permissionResolver)
+    public function __construct(ContentTypeService $contentTypeService)
     {
         $this->contentTypeService = $contentTypeService;
-        $this->userService = $userService;
-        $this->permissionResolver = $permissionResolver;
-    }
-
-    public function setUser(string $username)
-    {
-        $user = $this->userService->loadUserByLogin($username);
-        $this->permissionResolver->setCurrentUserReference($user);
     }
 
     public function createContentType(string $contentTypeName, string $contentTypeIdentifier, string $contentTypeGroupName, string $mainLanguageCode, array $fieldDefinitions)

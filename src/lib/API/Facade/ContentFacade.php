@@ -13,7 +13,7 @@ use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\UserService;
 use eZ\Publish\API\Repository\Values\Content\URLAlias;
-use EzSystems\BehatBundle\API\ContentData\ContentDataCreator;
+use EzSystems\BehatBundle\API\ContentData\ContentDataProvider;
 use PHPUnit\Framework\Assert;
 
 class ContentFacade
@@ -27,29 +27,15 @@ class ContentFacade
     /** @var URLAliasService  */
     private $urlAliasService;
 
-    /** @var PermissionResolver  */
-    private $permissionResolver;
+    /** @var ContentDataProvider */
+    private $contentDataProvider;
 
-    /** @var UserService  */
-    private $userService;
-
-    /** @var ContentDataCreator */
-    private $contentDataCreator;
-
-    public function __construct(ContentService $contentService, LocationService $locationService, URLAliasService $urlAliasService, PermissionResolver $permissionResolver, UserService $userService, ContentDataCreator $contentDataCreator)
+    public function __construct(ContentService $contentService, LocationService $locationService, URLAliasService $urlAliasService, ContentDataProvider $contentDataProvider)
     {
         $this->contentService = $contentService;
         $this->locationService = $locationService;
         $this->urlAliasService = $urlAliasService;
-        $this->permissionResolver = $permissionResolver;
-        $this->userService = $userService;
-        $this->contentDataCreator = $contentDataCreator;
-    }
-
-    public function setUser(string $username)
-    {
-        $user = $this->userService->loadUserByLogin($username);
-        $this->permissionResolver->setCurrentUserReference($user);
+        $this->contentDataProvider = $contentDataProvider;
     }
 
 
@@ -61,8 +47,14 @@ class ContentFacade
         $parentLocationId = $parentUrlAlias->destination;
         $locationCreateStruct = $this->locationService->newLocationCreateStruct($parentLocationId);
 
-        $this->contentDataCreator->setContentTypeIdentifier($contentTypeIdentifier);
-        $contentCreateStruct = $contentItemData ? $this->contentDataCreator->getFilledContentDataStruct($contentItemData, $language) : $this->contentDataCreator->getRandomContentData($language);
+        $this->contentDataProvider->setContentTypeIdentifier($contentTypeIdentifier);
+
+        $contentCreateStruct = $this->contentDataProvider->getRandomContentData($language);
+
+        if ($contentItemData)
+        {
+            $contentCreateStruct = $this->contentDataProvider->getFilledContentDataStruct($contentCreateStruct, $contentItemData, $language);
+        }
 
         $draft = $this->contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
         $this->contentService->publishVersion($draft->versionInfo);

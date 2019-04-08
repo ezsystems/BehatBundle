@@ -9,8 +9,9 @@ use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\Content\ContentCreateStruct;
 use EzSystems\BehatBundle\API\ContentData\FieldTypesData\FieldTypeDataCreator;
+use EzSystems\BehatBundle\API\ContentData\FieldTypesData\FieldTypeDataProviderInterface;
 
-class ContentDataCreator
+class ContentDataProvider
 {
     private $contentTypeIdentifier;
 
@@ -18,13 +19,18 @@ class ContentDataCreator
 
     private $contentService;
 
-    private $fieldtypeDataCreator;
+    /** @var  FieldTypeDataProviderInterface[] */
+    private $fieldTypeDataProviders;
 
-    public function __construct(ContentTypeService $contentTypeService, ContentService $contentService, FieldTypeDataCreator $fieldTypeDataCreator)
+    public function __construct(ContentTypeService $contentTypeService, ContentService $contentService)
     {
         $this->contentTypeService = $contentTypeService;
         $this->contentService = $contentService;
-        $this->fieldtypeDataCreator = $fieldTypeDataCreator;
+    }
+
+    public function addFieldTypeDataProvider(FieldTypeDataProviderInterface $fieldTypeDataProvider)
+    {
+        $this->fieldTypeDataProviders[] = $fieldTypeDataProvider;
     }
 
     public function setContentTypeIdentifier(string $contentTypeIdentifier)
@@ -42,22 +48,30 @@ class ContentDataCreator
 
         foreach ($fieldDefinitions as $field)
         {
-            $contentCreateStruct->setField($field->identifier, $this->fieldtypeDataCreator->getData($field->fieldTypeIdentifier, $language), $language);
+            $fieldData = $this->getFieldData($field->identifier, $language);
+            $contentCreateStruct->setField($field->identifier, $fieldData, $language);
         }
 
         return $contentCreateStruct;
     }
 
-    public function getFilledContentDataStruct($contentItemData, $language): ContentCreateStruct
+    public function getFilledContentDataStruct(ContentCreateStruct $contentCreateStruct, $contentItemData, $language): ContentCreateStruct
     {
-        $contentType = $this->contentTypeService->loadContentTypeByIdentifier($this->contentTypeIdentifier);
-        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, $language);
-
         foreach ($contentItemData as $fieldIdentifier => $value)
         {
             $contentCreateStruct->setField($fieldIdentifier, $value);
         }
 
         return $contentCreateStruct;
+    }
+
+    public function getFieldData($fieldIdentifier, $language)
+    {
+        foreach ($this->fieldTypeDataProviders as $provider)
+        {
+            if ($provider->canWork($fieldIdentifier)) {
+                return $provider->generateData($language);
+            }
+        }
     }
 }

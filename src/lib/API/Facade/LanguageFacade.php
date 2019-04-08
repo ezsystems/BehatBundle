@@ -13,21 +13,11 @@ use eZ\Publish\API\Repository\UserService;
 
 class LanguageFacade
 {
-    private $permissionResolver;
-    private $userService;
     private $languageService;
 
-    public function __construct(LanguageService $languageService, UserService $userService, PermissionResolver $permissionResolver)
+    public function __construct(LanguageService $languageService)
     {
         $this->languageService = $languageService;
-        $this->userService = $userService;
-        $this->permissionResolver = $permissionResolver;
-    }
-
-    public function setUser(string $username)
-    {
-        $user = $this->userService->loadUserByLogin($username);
-        $this->permissionResolver->setCurrentUserReference($user);
     }
 
     public function createLanguageIfNotExists(string $name, string $languageCode)

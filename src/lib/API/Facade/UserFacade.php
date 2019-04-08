@@ -7,32 +7,34 @@ namespace EzSystems\BehatBundle\API\Facade;
 
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\RoleService;
+use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\UserService;
+use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\User\UserGroup;
+use EzSystems\BehatBundle\API\ContentData\ContentDataProvider;
 
 class UserFacade
 {
     private $userService;
-    private $permissionResolver;
     private $contentTypeService;
     private $locationService;
     private $roleService;
+    private $searchService;
+    private $contentDataProvider;
 
-    public function __construct(UserService $userService, PermissionResolver $permissionResolver, ContentTypeService $contentTypeService, LocationService $locationService, RoleService $roleService)
+    private const USER_CONTENT_TYPE_IDENTIFIER = 'user';
+    private const ROOT_USERGROUP_CONTENTID = 5;
+
+    public function __construct(UserService $userService, ContentTypeService $contentTypeService, LocationService $locationService, RoleService $roleService, SearchService $searchService, ContentDataProvider $contentDataProvider)
     {
         $this->userService = $userService;
-        $this->permissionResolver = $permissionResolver;
         $this->contentTypeService = $contentTypeService;
         $this->locationService = $locationService;
         $this->roleService = $roleService;
-    }
-
-    public function setUser(string $username)
-    {
-        $user = $this->userService->loadUserByLogin($username);
-        $this->permissionResolver->setCurrentUserReference($user);
+        $this->searchService = $searchService;
+        $this->contentDataProvider = $contentDataProvider;
     }
 
     public function createUserGroup(string $groupName)
@@ -50,20 +52,23 @@ class UserFacade
 
     public function createUser($userName, $userGroupName = null)
     {
+        $languageCode = 'eng-GB';
 
-        if ($userGroupName !== null) {
-            $parentGroup = $this->loadUserGroupByName($userGroupName);
-        }
-        else {
-            $location = $this->locationService->loadLocation(5);
-            $parentGroup = $this->userService->loadUserGroup($location->contentId);
-        }
+        $userCreateStruct = $this->userService->newUserCreateStruct(
+            $userName,
+            $this->contentDataProvider->getFieldData('email', $languageCode),
+            $this->contentDataProvider->getFieldData('password', $languageCode),
+            $languageCode,
+            $this->contentTypeService->loadContentTypeByIdentifier(self::USER_CONTENT_TYPE_IDENTIFIER));
 
-        $userContentType = $this->contentTypeService->loadContentTypeByIdentifier('user');
-        // TODO: USE FAKER HERE
-        $userCreateStruct = $this->userService->newUserCreateStruct($userName, sprintf('%s@ez.no', $userName), 'Passw0rd-42', 'eng-GB', $userContentType);
         $userCreateStruct->setField('first_name', $userName);
-        $userCreateStruct->setField('last_name', 'The first');
+        $userCreateStruct->setField('last_name', $this->contentDataProvider->getFieldData('ezstring', $languageCode));
+
+
+        $parentGroup = $userGroupName !== null ?
+            $this->loadUserGroupByName($userGroupName) :
+            $this->userService->loadUserGroup(self::ROOT_USERGROUP_CONTENTID );
+
         $this->userService->createUser($userCreateStruct, [$parentGroup]);
     }
 
@@ -83,54 +88,16 @@ class UserFacade
         $this->roleService->assignRoleToUserGroup($role, $group);
     }
 
-    private function loadUserGroupByName(string $userGroupName): UserGroup
+    private function loadUserGroupByName(string $userGroupName)
     {
-        $location = $this->locationService->loadLocation(5);
-        $parentGroup = $this->userService->loadUserGroup($location->contentId);
+        $query = new Query();
+        $query->filter = new Criterion\LogicalAnd([
+                new Criterion\Subtree( self::ROOT_USERGROUP_CONTENTID ),
+                new Criterion\ContentTypeIdentifier( self::USERGROUP_CONTENT_IDENTIFIER ),
+                new Criterion\Field( 'name', Criterion\Operator::EQ, $userGroupName ),
+            ]);
 
-        $groups = $this->userService->loadSubUserGroups($parentGroup);
-
-        foreach ($groups as $group)
-        {
-            if ($group->getName() === $userGroupName)
-            {
-                return $group;
-            }
-        }
-
-
-        /**
-         * Search User Groups with given name
-         *
-         * @param string $name name of User Group to search for
-         * @param string $parentLocationId (optional) parent location id to search in
-         *
-         * @return search results
-         */
-//        public function searchUserGroups( $name, $parentLocationId = null )
-//    {
-//        $repository = $this->getRepository();
-//        $searchService = $repository->getSearchService();
-//
-//        $criterionArray = array(
-//            new Criterion\Subtree( self::USERGROUP_ROOT_SUBTREE ),
-//            new Criterion\ContentTypeIdentifier( self::USERGROUP_CONTENT_IDENTIFIER ),
-//            new Criterion\Field( 'name', Criterion\Operator::EQ, $name ),
-//        );
-//        if ( $parentLocationId )
-//        {
-//            $criterionArray[] = new Criterion\ParentLocationId( $parentLocationId );
-//        }
-//        $query = new Query();
-//        $query->filter = new Criterion\LogicalAnd( $criterionArray );
-//
-//        $result = $repository->sudo(
-//            function() use( $query, $searchService )
-//            {
-//                return $searchService->findContent( $query, array(), false );
-//            }
-//        );
-//        return $result->searchHits;
-//    }
+        $result = $this->searchService->findContent( $query );
+        return $result->searchHits[0];
     }
 }

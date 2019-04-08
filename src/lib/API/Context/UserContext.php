@@ -22,7 +22,6 @@ class UserContext implements Context
      */
     public function createUseGroup(string $userGroupName): void
     {
-        $this->userFacade->setUser("admin");
         $this->userFacade->createUserGroup($userGroupName);
     }
 
@@ -32,7 +31,6 @@ class UserContext implements Context
      */
     public function createUserInGroup(string $userName, string $userGroupName = null): void
     {
-        $this->userFacade->setUser("admin");
         $this->userFacade->createUser($userName, $userGroupName);
     }
 
@@ -41,7 +39,6 @@ class UserContext implements Context
      */
     public function assignUserToRole(string $userName, string $roleName): void
     {
-        $this->userFacade->setUser("admin");
         $this->userFacade->assignUserToRole($userName, $roleName);
     }
 
@@ -50,7 +47,6 @@ class UserContext implements Context
      */
     public function assignUserGroupToRole(string $userGroupName, string $roleName): void
     {
-        $this->userFacade->setUser("admin");
         $this->userFacade->assignUserGroupToRole($userGroupName, $roleName);
     }
 }

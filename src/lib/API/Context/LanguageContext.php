@@ -24,7 +24,6 @@ class LanguageContext implements Context
     */
     public function createLanguageIfNotExists(string $name, string $languageCode)
     {
-        $this->languageFacade->setUser("admin");
         $this->languageFacade->createLanguageIfNotExists($name, $languageCode);
     }
 }

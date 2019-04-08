@@ -6,29 +6,15 @@
 namespace EzSystems\BehatBundle\API\Facade;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\RoleService;
-use eZ\Publish\API\Repository\UserService;
 
 class RoleFacade
 {
     private $roleService;
 
-    private $userService;
-
-    private $permissionResolver;
-
-    public function __construct(RoleService $roleService, UserService $userService, PermissionResolver $permissionResolver)
+    public function __construct(RoleService $roleService)
     {
         $this->roleService = $roleService;
-        $this->userService = $userService;
-        $this->permissionResolver = $permissionResolver;
-    }
-
-    public function setUser(string $username)
-    {
-        $user = $this->userService->loadUserByLogin($username);
-        $this->permissionResolver->setCurrentUserReference($user);
     }
 
     public function createRole($roleName)

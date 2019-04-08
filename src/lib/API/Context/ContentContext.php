@@ -24,10 +24,6 @@ class ContentContext implements Context
      */
     public function createMultipleContentItems(string $numberOfItems, string $contentTypeIdentifier, string $parentUrl, $language): void
     {
-        $this->contentFacade->setUser("admin");
-
-
-
         for ($i = 0; $i < $numberOfItems; $i++) {
             $this->contentFacade->createContent($contentTypeIdentifier, $parentUrl, $language);
         }
@@ -38,8 +34,6 @@ class ContentContext implements Context
      */
     public function createContentItems($contentTypeIdentifier, $parentUrl, $language, TableNode $contentItemsData): void
     {
-        $this->contentFacade->setUser("admin");
-
         $parentUrl = $this->parseUrl($parentUrl);
         $parsedContentItemData = $this->parseData($contentItemsData);
 
