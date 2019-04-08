@@ -20,7 +20,7 @@ class FieldTypeDataProviderPass implements CompilerPassInterface
 
         foreach ($strategyServiceIds as $strategyServiceId) {
             $contentDataDefinition->addMethodCall(
-                'addStrategy',
+                'addFieldTypeDataProvider',
                 array(new Reference($strategyServiceId))
             );
         }

@@ -9,9 +9,16 @@
 
 namespace EzSystems\BehatBundle;
 
+use EzSystems\BehatBundle\DependencyInjection\Compiler\FieldTypeDataProviderPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class EzSystemsBehatBundle extends Bundle
 {
     protected $name = 'eZBehatBundle';
+
+    public function build(ContainerBuilder $container)
+    {
+        $container->addCompilerPass(new FieldTypeDataProviderPass());
+    }
 }
