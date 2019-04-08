@@ -24,6 +24,8 @@ class ContentContext implements Context
      */
     public function createMultipleContentItems(string $numberOfItems, string $contentTypeIdentifier, string $parentUrl, $language): void
     {
+        $parentUrl = $this->parseUrl($parentUrl);
+
         for ($i = 0; $i < $numberOfItems; $i++) {
             $this->contentFacade->createContent($contentTypeIdentifier, $parentUrl, $language);
         }

@@ -21,6 +21,11 @@ class RoleContext implements Context
     /** @var RoleFacade  */
     private $roleFacade;
 
+    public function __construct(RoleFacade $roleFacade)
+    {
+        $this->roleFacade = $roleFacade;
+    }
+
     /**
      * @Given I create a role :roleName
      */

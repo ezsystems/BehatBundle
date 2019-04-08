@@ -8,8 +8,7 @@ namespace EzSystems\BehatBundle\API\ContentData;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\Content\ContentCreateStruct;
-use EzSystems\BehatBundle\API\ContentData\FieldTypesData\FieldTypeDataCreator;
-use EzSystems\BehatBundle\API\ContentData\FieldTypesData\FieldTypeDataProviderInterface;
+use EzSystems\BehatBundle\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface;
 
 class ContentDataProvider
 {

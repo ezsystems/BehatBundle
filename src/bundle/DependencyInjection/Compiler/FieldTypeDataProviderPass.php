@@ -6,7 +6,7 @@
 namespace EzSystems\BehatBundle\DependencyInjection\Compiler;
 
 use EzSystems\BehatBundle\API\ContentData\ContentDataProvider;
-use EzSystems\BehatBundle\API\ContentData\FieldTypesData\FieldTypeDataProviderInterface;
+use EzSystems\BehatBundle\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;

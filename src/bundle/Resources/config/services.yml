@@ -2,11 +2,15 @@ services:
     _defaults:
             autowire: true
 
-    EzSystems\BehatBundle\API\Context\LimitationParser\LimitationParserInterface:
-        tags: ['behat_limitation_parser']
+    EzSystems\BehatBundle\:
+        resource: '../../../../src/lib/*'
 
-    EzSystems\BehatBundle\API\ContentData\FieldTypesData\FieldTypeDataProviderInterface:
-        tags: ['behat_fieldtype_data_provider']
+    _instanceof:
+        EzSystems\BehatBundle\API\Context\LimitationParser\LimitationParserInterface:
+            tags: ['behat_limitation_parser']
+
+        EzSystems\BehatBundle\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface:
+            tags: ['behat_fieldtype_data_provider']
 
     ezbehatbundle.api.facade.contentfacade:
         class: EzSystems\BehatBundle\API\Facade\ContentFacade
