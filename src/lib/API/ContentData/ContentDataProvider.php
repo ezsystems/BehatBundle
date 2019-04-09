@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -18,7 +19,7 @@ class ContentDataProvider
 
     private $contentService;
 
-    /** @var  FieldTypeDataProviderInterface[] */
+    /** @var FieldTypeDataProviderInterface[] */
     private $fieldTypeDataProviders;
 
     public function __construct(ContentTypeService $contentTypeService, ContentService $contentService)
@@ -45,8 +46,7 @@ class ContentDataProvider
 
         $fieldDefinitions = $contentType->getFieldDefinitions();
 
-        foreach ($fieldDefinitions as $field)
-        {
+        foreach ($fieldDefinitions as $field) {
             $fieldData = $this->getFieldData($field->fieldTypeIdentifier, $language);
             $contentCreateStruct->setField($field->identifier, $fieldData, $language);
         }
@@ -56,8 +56,7 @@ class ContentDataProvider
 
     public function getFilledContentDataStruct(ContentCreateStruct $contentCreateStruct, $contentItemData, $language): ContentCreateStruct
     {
-        foreach ($contentItemData as $fieldIdentifier => $value)
-        {
+        foreach ($contentItemData as $fieldIdentifier => $value) {
             $contentCreateStruct->setField($fieldIdentifier, $value);
         }
 
@@ -66,8 +65,7 @@ class ContentDataProvider
 
     public function getFieldData($fieldIdentifier, $language)
     {
-        foreach ($this->fieldTypeDataProviders as $provider)
-        {
+        foreach ($this->fieldTypeDataProviders as $provider) {
             if ($provider->canWork($fieldIdentifier)) {
                 return $provider->generateData($language);
             }

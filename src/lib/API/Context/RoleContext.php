@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -7,16 +8,11 @@ namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
-use Behat\Symfony2Extension\Context\KernelDictionary;
-use eZ\Publish\API\Repository\Values\User\Limitation;
-use eZ\Publish\API\Repository\Values\User\Limitation\ContentTypeLimitation;
-use eZ\Publish\API\Repository\Values\User\Limitation\SubtreeLimitation;
-use EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface;
 use EzSystems\Behat\API\Facade\RoleFacade;
 
 class RoleContext implements Context
 {
-    /** @var RoleFacade  */
+    /** @var RoleFacade */
     private $roleFacade;
 
     public function __construct(RoleFacade $roleFacade)
@@ -29,8 +25,7 @@ class RoleContext implements Context
      */
     public function createRole(string $roleName): void
     {
-        if ($this->roleFacade->doesRoleExist($roleName))
-        {
+        if ($this->roleFacade->doesRoleExist($roleName)) {
             return;
         }
 
@@ -48,9 +43,7 @@ class RoleContext implements Context
 
         $this->roleFacade->createRole($roleName);
 
-
-        foreach ($policies as $policy)
-        {
+        foreach ($policies as $policy) {
             $this->roleFacade->addPolicyToRole($roleName, $policy['module'], $policy['function']);
         }
     }
@@ -60,8 +53,7 @@ class RoleContext implements Context
      */
     public function addPolicyToRole($roleName, TableNode $policies): void
     {
-        foreach ($policies as $policy)
-        {
+        foreach ($policies as $policy) {
             $this->roleFacade->addPolicyToRole($roleName, $policy['module'], $policy['function']);
         }
     }
@@ -80,12 +72,9 @@ class RoleContext implements Context
         $parsedLimitations = [];
         $limitationParsers = $this->roleFacade->getLimitationParsers();
 
-        foreach ($limitations->getHash() as $rawLimitation)
-        {
-            foreach ($limitationParsers as $parser)
-            {
-                if ($parser->canWork($rawLimitation['limitationType']))
-                {
+        foreach ($limitations->getHash() as $rawLimitation) {
+            foreach ($limitationParsers as $parser) {
+                if ($parser->canWork($rawLimitation['limitationType'])) {
                     $parsedLimitations[] = $parser->parse($rawLimitation['limitationValue']);
                     break;
                 }

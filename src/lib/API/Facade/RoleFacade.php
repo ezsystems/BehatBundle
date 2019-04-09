@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -14,7 +15,7 @@ class RoleFacade
 {
     private $roleService;
 
-    /** @var LimitationParsersCollector  */
+    /** @var LimitationParsersCollector */
     private $limitationParsersCollector;
 
     public function __construct(RoleService $roleService, LimitationParsersCollector $limitationParsersCollector)
@@ -36,8 +37,7 @@ class RoleFacade
         $roleDraft = $this->roleService->createRoleDraft($role);
         $policyCreateStruct = $this->roleService->newPolicyCreateStruct($module, $function);
 
-        if ($limitations !== null)
-        {
+        if ($limitations !== null) {
             foreach ($limitations as $limitation) {
                 $policyCreateStruct->addLimitation($limitation);
             }
@@ -52,9 +52,7 @@ class RoleFacade
     {
         try {
             $this->roleService->loadRoleByIdentifier($roleName);
-        }
-        catch (NotFoundException $e)
-        {
+        } catch (NotFoundException $e) {
             return false;
         }
     }
@@ -66,5 +64,4 @@ class RoleFacade
     {
         return $this->limitationParsersCollector->getLimitationParsers();
     }
-
 }

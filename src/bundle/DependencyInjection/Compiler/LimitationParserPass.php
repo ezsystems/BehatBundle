@@ -1,10 +1,10 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 namespace EzSystems\BehatBundle\DependencyInjection\Compiler;
-
 
 use EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface;
 use EzSystems\Behat\API\Context\LimitationParser\LimitationParsersCollector;
@@ -22,7 +22,7 @@ class LimitationParserPass implements CompilerPassInterface
         foreach ($strategyServiceIds as $strategyServiceId) {
             $parserCollector->addMethodCall(
                 'addLimitationParser',
-                array(new Reference($strategyServiceId))
+                [new Reference($strategyServiceId)]
             );
         }
     }

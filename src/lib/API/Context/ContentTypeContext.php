@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -12,7 +13,7 @@ use EzSystems\Behat\API\Facade\ContentTypeFacade;
 
 class ContentTypeContext implements Context
 {
-    /** @var ContentTypeFacade  */
+    /** @var ContentTypeFacade */
     private $contentTypeFacade;
 
     private $fieldTypeMap = ['Text line' => 'ezstring', 'Image' => 'ezimage', 'RichText' => 'ezrichtext', 'Text block' => 'eztext'];
@@ -27,8 +28,7 @@ class ContentTypeContext implements Context
      */
     public function iCreateAContentTypeWithIdentifier($contentTypeName, $contentTypeGroupName, $contentTypeIdentifier, TableNode $fieldDetails): void
     {
-        if ($this->contentTypeFacade->contentTypeExists($contentTypeIdentifier))
-        {
+        if ($this->contentTypeFacade->contentTypeExists($contentTypeIdentifier)) {
             return;
         }
 
@@ -38,7 +38,7 @@ class ContentTypeContext implements Context
 
     private function parseFieldDefinitions(TableNode $fieldDetails): array
     {
-        $parsedFields  = [];
+        $parsedFields = [];
         $position = 10;
 
         foreach ($fieldDetails->getHash() as $fieldData) {

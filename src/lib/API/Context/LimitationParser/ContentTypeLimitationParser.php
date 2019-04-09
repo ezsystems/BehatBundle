@@ -1,10 +1,10 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 namespace EzSystems\Behat\API\Context\LimitationParser;
-
 
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\User\Limitation;
@@ -44,8 +44,7 @@ class ContentTypeLimitationParser implements LimitationParserInterface
     {
         $contentTypeName = strtolower($contentTypeName);
 
-        if (in_array($contentTypeName, $this->contentTypeNameIdentifierMap, true))
-        {
+        if (in_array($contentTypeName, $this->contentTypeNameIdentifierMap, true)) {
             return $this->contentTypeNameIdentifierMap[$contentTypeName];
         }
 

@@ -1,29 +1,27 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 namespace EzSystems\Behat\API\Facade;
 
-
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\URLAliasService;
-use eZ\Publish\API\Repository\UserService;
 use eZ\Publish\API\Repository\Values\Content\URLAlias;
 use EzSystems\Behat\API\ContentData\ContentDataProvider;
 use PHPUnit\Framework\Assert;
 
 class ContentFacade
 {
-    /** @var ContentService  */
+    /** @var ContentService */
     private $contentService;
 
-    /** @var LocationService  */
+    /** @var LocationService */
     private $locationService;
 
-    /** @var URLAliasService  */
+    /** @var URLAliasService */
     private $urlAliasService;
 
     /** @var ContentDataProvider */
@@ -37,11 +35,10 @@ class ContentFacade
         $this->contentDataProvider = $contentDataProvider;
     }
 
-
     public function createContent($contentTypeIdentifier, $parentUrl, $language, $contentItemData = null)
     {
         $parentUrlAlias = $this->urlAliasService->lookup($parentUrl);
-        Assert::assertEquals(URLAlias::LOCATION,  $parentUrlAlias->type);
+        Assert::assertEquals(URLAlias::LOCATION, $parentUrlAlias->type);
 
         $parentLocationId = $parentUrlAlias->destination;
         $locationCreateStruct = $this->locationService->newLocationCreateStruct($parentLocationId);
@@ -50,8 +47,7 @@ class ContentFacade
 
         $contentCreateStruct = $this->contentDataProvider->getRandomContentData($language);
 
-        if ($contentItemData)
-        {
+        if ($contentItemData) {
             $contentCreateStruct = $this->contentDataProvider->getFilledContentDataStruct($contentCreateStruct, $contentItemData, $language);
         }
 

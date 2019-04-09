@@ -15,19 +15,22 @@
         "fzaninotto/faker": "^1.8",
         "behat/behat": "^3.4"
     },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.7.1"
+    },
     "autoload": {
         "psr-4": {
             "EzSystems\\BehatBundle\\": "src/bundle/",
             "EzSystems\\Behat\\": "src/lib/"
         }
     },
+    "scripts": {
+        "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "7.0.x-dev",
             "dev-tmp_ci_branch": "7.0.x-dev"
         }
-    },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "~2.7.1"
     }
 }

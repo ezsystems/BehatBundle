@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -64,12 +65,9 @@ class UserFacade
         $userCreateStruct->setField('first_name', $userName);
         $userCreateStruct->setField('last_name', $this->contentDataProvider->getFieldData('ezstring', $languageCode));
 
-
         $parentGroup = $userGroupName !== null ?
             $this->loadUserGroupByName($userGroupName) :
-            $this->userService->loadUserGroup(self::ROOT_USERGROUP_CONTENTID );
-
-
+            $this->userService->loadUserGroup(self::ROOT_USERGROUP_CONTENTID);
 
         $this->userService->createUser($userCreateStruct, [$parentGroup]);
     }
@@ -94,11 +92,11 @@ class UserFacade
     {
         $query = new Query();
         $query->filter = new Criterion\LogicalAnd([
-                new Criterion\ContentTypeIdentifier( self::USERGROUP_CONTENT_IDENTIFIER ),
-                new Criterion\Field( 'name', Criterion\Operator::EQ, $userGroupName ),
+                new Criterion\ContentTypeIdentifier(self::USERGROUP_CONTENT_IDENTIFIER),
+                new Criterion\Field('name', Criterion\Operator::EQ, $userGroupName),
             ]);
 
-        $result = $this->searchService->findContent( $query );
+        $result = $this->searchService->findContent($query);
 
         /** @var \eZ\Publish\API\Repository\Values\Content\Content $content */
         $content = $result->searchHits[0]->valueObject;

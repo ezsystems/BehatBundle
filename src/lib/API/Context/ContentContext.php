@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -11,7 +12,7 @@ use EzSystems\Behat\API\Facade\ContentFacade;
 
 class ContentContext implements Context
 {
-    /** @var ContentFacade  */
+    /** @var ContentFacade */
     private $contentFacade;
 
     public function __construct(ContentFacade $contentFacade)
@@ -26,7 +27,7 @@ class ContentContext implements Context
     {
         $parentUrl = $this->parseUrl($parentUrl);
 
-        for ($i = 0; $i < $numberOfItems; $i++) {
+        for ($i = 0; $i < $numberOfItems; ++$i) {
             $this->contentFacade->createContent($contentTypeIdentifier, $parentUrl, $language);
         }
     }
