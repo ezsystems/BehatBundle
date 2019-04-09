@@ -10,6 +10,7 @@ env:
     - COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
     - SYMFONY_ENV=behat
     - SYMFONY_DEBUG=1
+    - EZPLATFORM_REPO="https://github.com/mnocon/ezplatform.git"
 
 matrix:
   include:
