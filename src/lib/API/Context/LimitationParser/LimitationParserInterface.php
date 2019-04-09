@@ -6,11 +6,13 @@
 
 namespace EzSystems\BehatBundle\API\Context\LimitationParser;
 
+use eZ\Publish\API\Repository\Values\User\Limitation;
+
 interface LimitationParserInterface
 {
     public const SERVICE_TAG = 'behat_limitation_parser';
 
     public function canWork(string $limitationType): bool;
 
-    public function parse(string $limitationValue);
+    public function parse(string $limitationValue): Limitation;
 }

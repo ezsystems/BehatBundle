@@ -26,10 +26,11 @@ class ContentTypeLimitationParser implements LimitationParserInterface
 
     public function canWork(string $limitationType): bool
     {
-        return $limitationType === Limitation::CONTENTTYPE || in_array($limitationType, ['Content Type', 'Content type']);
+        return $limitationType === Limitation::CONTENTTYPE ||
+            in_array(strtolower($limitationType), ['content type', 'contenttype']);
     }
 
-    public function parse(string $limitationValue)
+    public function parse(string $limitationValue): Limitation
     {
         $contentTypeIdentifier = $this->parseCommonContentTypes($limitationValue);
         $contentType = $this->contentTypService->loadContentTypeByIdentifier($contentTypeIdentifier);

@@ -9,7 +9,7 @@ class TextLineDataProvider extends RandomDataGenerator implements FieldTypeDataP
 {
     public function canWork(string $fieldTypeIdentifier): bool
     {
-        return $$fieldTypeIdentifier === 'ezstring';
+        return $fieldTypeIdentifier === 'ezstring';
     }
 
     public function generateData(string $language)

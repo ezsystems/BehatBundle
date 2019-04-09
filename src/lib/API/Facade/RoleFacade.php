@@ -7,14 +7,20 @@ namespace EzSystems\BehatBundle\API\Facade;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\RoleService;
+use EzSystems\BehatBundle\API\Context\LimitationParser\LimitationParsersCollector;
+use EzSystems\BehatBundle\API\Context\LimitationParser\LimitationParserInterface;
 
 class RoleFacade
 {
     private $roleService;
 
-    public function __construct(RoleService $roleService)
+    /** @var LimitationParsersCollector  */
+    private $limitationParsersCollector;
+
+    public function __construct(RoleService $roleService, LimitationParsersCollector $limitationParsersCollector)
     {
         $this->roleService = $roleService;
+        $this->limitationParsersCollector = $limitationParsersCollector;
     }
 
     public function createRole($roleName)
@@ -51,6 +57,14 @@ class RoleFacade
         {
             return false;
         }
+    }
+
+    /**
+     * @return LimitationParserInterface[]
+     */
+    public function getLimitationParsers(): array
+    {
+        return $this->limitationParsersCollector->getLimitationParsers();
     }
 
 }

@@ -47,7 +47,7 @@ class ContentDataProvider
 
         foreach ($fieldDefinitions as $field)
         {
-            $fieldData = $this->getFieldData($field->identifier, $language);
+            $fieldData = $this->getFieldData($field->fieldTypeIdentifier, $language);
             $contentCreateStruct->setField($field->identifier, $fieldData, $language);
         }
 

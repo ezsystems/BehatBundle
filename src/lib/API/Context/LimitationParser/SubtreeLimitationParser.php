@@ -27,7 +27,7 @@ class SubtreeLimitationParser implements LimitationParserInterface
         return $limitationType === Limitation::SUBTREE;
     }
 
-    public function parse(string $limitationValue)
+    public function parse(string $limitationValue): Limitation
     {
         $urlAlias = $this->urlAliasService->lookup($limitationValue);
         $location = $this->locationService->loadLocation($urlAlias->destination);

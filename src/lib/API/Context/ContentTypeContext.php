@@ -29,7 +29,7 @@ class ContentTypeContext implements Context
     {
         if ($this->contentTypeFacade->contentTypeExists($contentTypeIdentifier))
         {
-            return ;
+            return;
         }
 
         $fieldDefinitions = $this->parseFieldDefinitions($fieldDetails);

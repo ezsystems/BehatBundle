@@ -16,8 +16,6 @@ use EzSystems\BehatBundle\API\Facade\RoleFacade;
 
 class RoleContext implements Context
 {
-    use KernelDictionary;
-
     /** @var RoleFacade  */
     private $roleFacade;
 
@@ -80,7 +78,7 @@ class RoleContext implements Context
     private function parseLimitations(TableNode $limitations)
     {
         $parsedLimitations = [];
-        $limitationParsers = $this->getLimitationParsers();
+        $limitationParsers = $this->roleFacade->getLimitationParsers();
 
         foreach ($limitations->getHash() as $rawLimitation)
         {
@@ -88,19 +86,12 @@ class RoleContext implements Context
             {
                 if ($parser->canWork($rawLimitation['limitationType']))
                 {
-                    $limitations[] = $parser->parse($rawLimitation['limitationValue']);
+                    $parsedLimitations[] = $parser->parse($rawLimitation['limitationValue']);
+                    break;
                 }
             }
         }
 
         return $parsedLimitations;
-    }
-
-    /**
-     * @return LimitationParserInterface[]
-     */
-    private function getLimitationParsers(): array
-    {
-        return $this->container->findTaggedServiceIds(LimitationParserInterface::SERVICE_TAG);
     }
 }

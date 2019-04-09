@@ -2,8 +2,11 @@ behatbundle:
     suites:
         default:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/my.feature'
+                - '%paths.base%/vendor/ezsystems/behatbundle/features/'
             contexts:
+              - EzSystems\BehatBundle\API\Context\TestContext:
+                  userService: '@ezpublish.api.service.user'
+                  permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
               - EzSystems\BehatBundle\API\Context\ContentContext:
                   contentFacade: '@ezbehatbundle.api.facade.contentfacade'
               - EzSystems\BehatBundle\API\Context\ContentTypeContext:

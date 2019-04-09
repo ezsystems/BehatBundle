@@ -5,8 +5,8 @@
  */
 namespace EzSystems\BehatBundle\API\Facade;
 
+use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\RoleService;
 use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\UserService;
@@ -19,19 +19,20 @@ class UserFacade
 {
     private $userService;
     private $contentTypeService;
-    private $locationService;
+    private $contentService;
     private $roleService;
     private $searchService;
     private $contentDataProvider;
 
-    private const USER_CONTENT_TYPE_IDENTIFIER = 'user';
-    private const ROOT_USERGROUP_CONTENTID = 5;
+    public const USER_CONTENT_TYPE_IDENTIFIER = 'user';
+    public const USERGROUP_CONTENT_IDENTIFIER = 'user_group';
+    public const ROOT_USERGROUP_CONTENTID = 4;
 
-    public function __construct(UserService $userService, ContentTypeService $contentTypeService, LocationService $locationService, RoleService $roleService, SearchService $searchService, ContentDataProvider $contentDataProvider)
+    public function __construct(UserService $userService, ContentTypeService $contentTypeService, ContentService $contentService, RoleService $roleService, SearchService $searchService, ContentDataProvider $contentDataProvider)
     {
         $this->userService = $userService;
         $this->contentTypeService = $contentTypeService;
-        $this->locationService = $locationService;
+        $this->contentService = $contentService;
         $this->roleService = $roleService;
         $this->searchService = $searchService;
         $this->contentDataProvider = $contentDataProvider;
@@ -44,8 +45,7 @@ class UserFacade
         $userGroupStruct = $this->userService->newUserGroupCreateStruct('eng-GB', $userGroupContentType);
         $userGroupStruct->setField('name', $groupName);
 
-        $location = $this->locationService->loadLocation(5);
-        $parentGroup = $this->userService->loadUserGroup($location->contentId);
+        $parentGroup = $this->userService->loadUserGroup(self::ROOT_USERGROUP_CONTENTID);
 
         $this->userService->createUserGroup($userGroupStruct, $parentGroup);
     }
@@ -69,6 +69,8 @@ class UserFacade
             $this->loadUserGroupByName($userGroupName) :
             $this->userService->loadUserGroup(self::ROOT_USERGROUP_CONTENTID );
 
+
+
         $this->userService->createUser($userCreateStruct, [$parentGroup]);
     }
 
@@ -88,16 +90,19 @@ class UserFacade
         $this->roleService->assignRoleToUserGroup($role, $group);
     }
 
-    private function loadUserGroupByName(string $userGroupName)
+    private function loadUserGroupByName(string $userGroupName): UserGroup
     {
         $query = new Query();
         $query->filter = new Criterion\LogicalAnd([
-                new Criterion\Subtree( self::ROOT_USERGROUP_CONTENTID ),
                 new Criterion\ContentTypeIdentifier( self::USERGROUP_CONTENT_IDENTIFIER ),
                 new Criterion\Field( 'name', Criterion\Operator::EQ, $userGroupName ),
             ]);
 
         $result = $this->searchService->findContent( $query );
-        return $result->searchHits[0];
+
+        /** @var \eZ\Publish\API\Repository\Values\Content\Content $content */
+        $content = $result->searchHits[0]->valueObject;
+
+        return $this->userService->loadUserGroup($content->contentInfo->id);
     }
 }
