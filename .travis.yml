@@ -1,17 +1,5 @@
 dist: xenial
-
 language: php
-
-services:
-  - mysql
-
-# Mysql isn't installed on trusty (only client is), so we need to specifically install it
-addons:
-  apt:
-    packages:
-    - mysql-server-5.6
-    - mysql-client-core-5.6
-    - mysql-client-5.6
 
 cache:
   directories:
@@ -19,18 +7,14 @@ cache:
 
 env:
   global:
-    # For functional tests
-    - COMPOSE_FILE="doc/docker-compose/base-dev.yml:doc/docker-compose/selenium.yml"
+    - COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
     - SYMFONY_ENV=behat
     - SYMFONY_DEBUG=1
 
 matrix:
-  fast_finish: true
   include:
     - php: 7.1
-      env: BEHAT_OPTS="--profile=behat --suite=default --tags='~@broken'"
-    - php: 7.1
-      env: BEHAT_OPTS="--profile=rest --suite=fullJson --tags='~@broken'"
+      env: BEHAT_OPTS="--profile=behatbundle"
 
 # test only master and pull requests
 branches:
