@@ -4,16 +4,16 @@ behatbundle:
             paths:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/'
             contexts:
-              - EzSystems\BehatBundle\API\Context\TestContext:
+              - EzSystems\Behat\API\Context\TestContext:
                   userService: '@ezpublish.api.service.user'
                   permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
-              - EzSystems\BehatBundle\API\Context\ContentContext:
+              - EzSystems\Behat\API\Context\ContentContext:
                   contentFacade: '@ezbehatbundle.api.facade.contentfacade'
-              - EzSystems\BehatBundle\API\Context\ContentTypeContext:
+              - EzSystems\Behat\API\Context\ContentTypeContext:
                   contentTypeFacade: '@ezbehatbundle.api.facade.contenttypefacade'
-              - EzSystems\BehatBundle\API\Context\UserContext:
+              - EzSystems\Behat\API\Context\UserContext:
                   userFacade: '@ezbehatbundle.api.facade.userfacade'
-              - EzSystems\BehatBundle\API\Context\RoleContext:
+              - EzSystems\Behat\API\Context\RoleContext:
                   roleFacade: '@ezbehatbundle.api.facade.rolefacade'
-              - EzSystems\BehatBundle\API\Context\LanguageContext:
+              - EzSystems\Behat\API\Context\LanguageContext:
                   languageFacade: '@ezbehatbundle.api.facade.languagefacade'

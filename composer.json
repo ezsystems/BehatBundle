@@ -17,7 +17,8 @@
     },
     "autoload": {
         "psr-4": {
-            "EzSystems\\BehatBundle\\": ["src/lib/", "src/bundle/", ""]
+            "EzSystems\\BehatBundle\\": "src/bundle/",
+            "EzSystems\\Behat\\": "src/lib/"
         }
     },
     "extra": {

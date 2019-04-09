@@ -3,12 +3,12 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\BehatBundle\API\Context;
+namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LanguageService;
-use EzSystems\BehatBundle\API\Facade\LanguageFacade;
+use EzSystems\Behat\API\Facade\LanguageFacade;
 
 class LanguageContext implements Context
 {

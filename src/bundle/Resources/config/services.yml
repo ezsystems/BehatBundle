@@ -3,27 +3,27 @@ services:
             autowire: true
             public: true
 
-    EzSystems\BehatBundle\:
+    EzSystems\Behat\:
         resource: '../../../../src/lib/*'
 
     _instanceof:
-        EzSystems\BehatBundle\API\Context\LimitationParser\LimitationParserInterface:
-            tags: ['behat_limitation_parser']
+        EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface:
+            tags: ['ezsystems.behat.limitation_parser']
 
-        EzSystems\BehatBundle\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface:
-            tags: ['behat_fieldtype_data_provider']
+        EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface:
+            tags: ['ezsystems.behat.fieldtype_data_provider']
 
     ezbehatbundle.api.facade.contentfacade:
-        class: EzSystems\BehatBundle\API\Facade\ContentFacade
+        class: EzSystems\Behat\API\Facade\ContentFacade
 
     ezbehatbundle.api.facade.contenttypefacade:
-        class: EzSystems\BehatBundle\API\Facade\ContentTypeFacade
+        class: EzSystems\Behat\API\Facade\ContentTypeFacade
 
     ezbehatbundle.api.facade.rolefacade:
-        class: EzSystems\BehatBundle\API\Facade\RoleFacade
+        class: EzSystems\Behat\API\Facade\RoleFacade
 
     ezbehatbundle.api.facade.userfacade:
-        class: EzSystems\BehatBundle\API\Facade\UserFacade
+        class: EzSystems\Behat\API\Facade\UserFacade
 
     ezbehatbundle.api.facade.languagefacade:
-        class: EzSystems\BehatBundle\API\Facade\LanguageFacade
+        class: EzSystems\Behat\API\Facade\LanguageFacade

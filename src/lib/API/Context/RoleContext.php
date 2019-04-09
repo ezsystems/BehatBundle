@@ -3,7 +3,7 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\BehatBundle\API\Context;
+namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
@@ -11,8 +11,8 @@ use Behat\Symfony2Extension\Context\KernelDictionary;
 use eZ\Publish\API\Repository\Values\User\Limitation;
 use eZ\Publish\API\Repository\Values\User\Limitation\ContentTypeLimitation;
 use eZ\Publish\API\Repository\Values\User\Limitation\SubtreeLimitation;
-use EzSystems\BehatBundle\API\Context\LimitationParser\LimitationParserInterface;
-use EzSystems\BehatBundle\API\Facade\RoleFacade;
+use EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface;
+use EzSystems\Behat\API\Facade\RoleFacade;
 
 class RoleContext implements Context
 {
