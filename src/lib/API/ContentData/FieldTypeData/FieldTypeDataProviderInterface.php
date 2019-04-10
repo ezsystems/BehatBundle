@@ -12,5 +12,5 @@ interface FieldTypeDataProviderInterface
 
     public function canWork(string $fieldTypeIdentifier): bool;
 
-    public function generateData(string $language);
+    public function generateData(string $language = 'eng-GB');
 }

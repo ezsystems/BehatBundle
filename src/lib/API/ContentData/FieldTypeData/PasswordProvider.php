@@ -13,7 +13,7 @@ class PasswordProvider implements FieldTypeDataProviderInterface
         return $fieldTypeIdentifier === 'password';
     }
 
-    public function generateData(string $language)
+    public function generateData(string $language = 'eng-GB'): string
     {
         return 'Passw0rd-42';
     }

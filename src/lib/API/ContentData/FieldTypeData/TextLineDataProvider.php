@@ -13,10 +13,10 @@ class TextLineDataProvider extends RandomDataGenerator implements FieldTypeDataP
         return $fieldTypeIdentifier === 'ezstring';
     }
 
-    public function generateData(string $language)
+    public function generateData(string $language = 'eng-GB'): string
     {
         $this->setLanguage($language);
 
-        return $this->faker->text(20);
+        return $this->faker->text(50);
     }
 }

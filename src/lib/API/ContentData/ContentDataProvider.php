@@ -63,7 +63,7 @@ class ContentDataProvider
         return $contentCreateStruct;
     }
 
-    public function getFieldData($fieldIdentifier, $language)
+    public function getFieldData($fieldIdentifier, $language = 'eng-GB')
     {
         foreach ($this->fieldTypeDataProviders as $provider) {
             if ($provider->canWork($fieldIdentifier)) {

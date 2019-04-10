@@ -18,7 +18,7 @@ class RichTextDataProvider extends RandomDataGenerator implements FieldTypeDataP
         return $fieldTypeIdentifier === 'ezrichtext';
     }
 
-    public function generateData(string $language)
+    public function generateData(string $language = 'eng-GB'): string
     {
         $this->setLanguage($language);
 

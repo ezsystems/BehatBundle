@@ -25,7 +25,7 @@ class RoleContext implements Context
      */
     public function createRole(string $roleName): void
     {
-        if ($this->roleFacade->doesRoleExist($roleName)) {
+        if ($this->roleFacade->roleExist($roleName)) {
             return;
         }
 
@@ -37,7 +37,7 @@ class RoleContext implements Context
      */
     public function createRoleWithPolicies(string $roleName, TableNode $policies): void
     {
-        if ($this->roleFacade->doesRoleExist($roleName)) {
+        if ($this->roleFacade->roleExist($roleName)) {
             return;
         }
 

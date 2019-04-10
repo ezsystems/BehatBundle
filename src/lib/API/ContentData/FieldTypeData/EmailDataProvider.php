@@ -13,7 +13,7 @@ class EmailDataProvider extends RandomDataGenerator implements FieldTypeDataProv
         return $fieldTypeIdentifier === 'ezemail' || $fieldTypeIdentifier === 'email';
     }
 
-    public function generateData(string $language): string
+    public function generateData(string $language = 'eng-GB'): string
     {
         $this->setLanguage($language);
 

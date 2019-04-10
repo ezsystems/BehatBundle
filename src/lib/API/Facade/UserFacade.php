@@ -6,7 +6,6 @@
  */
 namespace EzSystems\Behat\API\Facade;
 
-use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\RoleService;
 use eZ\Publish\API\Repository\SearchService;
@@ -15,12 +14,12 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\User\UserGroup;
 use EzSystems\Behat\API\ContentData\ContentDataProvider;
+use EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider;
 
 class UserFacade
 {
     private $userService;
     private $contentTypeService;
-    private $contentService;
     private $roleService;
     private $searchService;
     private $contentDataProvider;
@@ -29,11 +28,10 @@ class UserFacade
     public const USERGROUP_CONTENT_IDENTIFIER = 'user_group';
     public const ROOT_USERGROUP_CONTENTID = 4;
 
-    public function __construct(UserService $userService, ContentTypeService $contentTypeService, ContentService $contentService, RoleService $roleService, SearchService $searchService, ContentDataProvider $contentDataProvider)
+    public function __construct(UserService $userService, ContentTypeService $contentTypeService, RoleService $roleService, SearchService $searchService, ContentDataProvider $contentDataProvider)
     {
         $this->userService = $userService;
         $this->contentTypeService = $contentTypeService;
-        $this->contentService = $contentService;
         $this->roleService = $roleService;
         $this->searchService = $searchService;
         $this->contentDataProvider = $contentDataProvider;
@@ -51,10 +49,8 @@ class UserFacade
         $this->userService->createUserGroup($userGroupStruct, $parentGroup);
     }
 
-    public function createUser($userName, $userGroupName = null)
+    public function createUser($userName, $userGroupName = null, $languageCode = 'eng-GB')
     {
-        $languageCode = 'eng-GB';
-
         $userCreateStruct = $this->userService->newUserCreateStruct(
             $userName,
             $this->contentDataProvider->getFieldData('email', $languageCode),
@@ -86,6 +82,11 @@ class UserFacade
         $role = $this->roleService->loadRoleByIdentifier($roleName);
 
         $this->roleService->assignRoleToUserGroup($role, $group);
+    }
+
+    public function getDefaultPassword(): string
+    {
+        return $this->contentDataProvider->getFieldData('password');
     }
 
     private function loadUserGroupByName(string $userGroupName): UserGroup

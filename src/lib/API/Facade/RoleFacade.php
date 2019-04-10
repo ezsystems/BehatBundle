@@ -48,7 +48,7 @@ class RoleFacade
         $this->roleService->publishRoleDraft($updatedRoleDraft);
     }
 
-    public function doesRoleExist($roleName): bool
+    public function roleExist($roleName): bool
     {
         try {
             $this->roleService->loadRoleByIdentifier($roleName);

@@ -29,8 +29,7 @@ script:
   - cd "$HOME/build/ezplatform";
   - docker-compose exec --user www-data app sh -c "bin/behat $BEHAT_OPTS"
 
-# disable mail notifications		
-notification:		
+notification:
   email: false
   slack:
     rooms:
