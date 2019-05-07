@@ -5,19 +5,32 @@
     "authors": [
         {
             "name": "eZ Publish dev-team & eZ Community",
-            "homepage": "https://github.com/ezsystems/BehatBundle/graphs/contributors"
+            "homepage": "https://github.com/ezsystems/BehatBundle"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
-        "php": "^5.6|^7.0",
-        "ezsystems/ezpublish-kernel": "*",
-        "phpunit/phpunit": "^5.7|^6.0|^7.0"
+        "php": "^7.1",
+        "ezsystems/ezpublish-kernel": "^8.0@dev",
+        "phpunit/phpunit": "^5.7|^6.0|^7.0",
+        "fzaninotto/faker": "^1.8",
+        "behat/behat": "^3.4"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.7.1"
     },
     "autoload": {
-        "psr-0": {"EzSystems\\BehatBundle": ""}
+        "psr-4": {
+            "EzSystems\\BehatBundle\\": "src/bundle/",
+            "EzSystems\\Behat\\": "src/lib/"
+        }
     },
-    "target-dir": "EzSystems/BehatBundle",
+    "scripts": {
+        "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"
+    },
     "extra": {
+        "_ezplatform_branch_for_behat_tests": "master",
         "branch-alias": {
             "dev-master": "7.0.x-dev",
             "dev-tmp_ci_branch": "7.0.x-dev"

@@ -1,15 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
-# File for setting up system for behat testing, just like it's done in Kernel's .travis.yml
+EZPLATFORM_BRANCH=`php -r 'echo json_decode(file_get_contents("./composer.json"))->extra->_ezplatform_branch_for_behat_tests;'`
+EZPLATFORM_BRANCH="${EZPLATFORM_BRANCH:-master}"
+PACKAGE_BUILD_DIR=$PWD
+EZPLATFORM_BUILD_DIR=${HOME}/build/ezplatform
 
-# Change local git repo to be a full one as we will reuse it for composer install below
-git fetch --unshallow && git checkout -b tmp_ci_branch
-export BRANCH_BUILD_DIR=$TRAVIS_BUILD_DIR TRAVIS_BUILD_DIR="$HOME/build/ezplatform"
+echo "> Cloning ezsystems/ezplatform"
+git clone --depth 1 --single-branch  --branch "${EZPLATFORM_BRANCH}" ${EZPLATFORM_REPO} ${EZPLATFORM_BUILD_DIR}
+cd ${EZPLATFORM_BUILD_DIR}
 
-cd "$HOME/build"
-
-git clone --depth 1 --single-branch --branch $EZPLATFORM_BRANCH https://github.com/ezsystems/ezplatform.git
-cd ezplatform
-
-# Install everything needed for behat testing, using our local branch of this repo
-./bin/.travis/trusty/setup_from_external_repo.sh $BRANCH_BUILD_DIR "ezsystems/BehatBundle:dev-tmp_ci_branch"
+/bin/bash ./bin/.travis/trusty/setup_ezplatform.sh "${COMPOSE_FILE}" '' "${PACKAGE_BUILD_DIR}"

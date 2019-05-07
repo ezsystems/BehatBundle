@@ -1,0 +1,29 @@
+services:
+    _defaults:
+            autowire: true
+            public: true
+
+    EzSystems\Behat\:
+        resource: '../../../../src/lib/*'
+
+    _instanceof:
+        EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface:
+            tags: ['ezsystems.behat.limitation_parser']
+
+        EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface:
+            tags: ['ezsystems.behat.fieldtype_data_provider']
+
+    ezbehatbundle.api.facade.contentfacade:
+        class: EzSystems\Behat\API\Facade\ContentFacade
+
+    ezbehatbundle.api.facade.contenttypefacade:
+        class: EzSystems\Behat\API\Facade\ContentTypeFacade
+
+    ezbehatbundle.api.facade.rolefacade:
+        class: EzSystems\Behat\API\Facade\RoleFacade
+
+    ezbehatbundle.api.facade.userfacade:
+        class: EzSystems\Behat\API\Facade\UserFacade
+
+    ezbehatbundle.api.facade.languagefacade:
+        class: EzSystems\Behat\API\Facade\LanguageFacade

@@ -1,19 +1,5 @@
-# Use trusty for better performance (and avoiding mysql/postgres/solr gone issues on precise and container infra)
-dist: trusty
-sudo: required
-
+dist: xenial
 language: php
-
-services:
-  - mysql
-
-# Mysql isn't installed on trusty (only client is), so we need to specifically install it
-addons:
-  apt:
-    packages:
-    - mysql-server-5.6
-    - mysql-client-core-5.6
-    - mysql-client-5.6
 
 cache:
   directories:
@@ -21,46 +7,41 @@ cache:
 
 env:
   global:
-    # For functional tests
-    - COMPOSE_FILE="doc/docker-compose/base-dev.yml:doc/docker-compose/selenium.yml"
-    - EZPLATFORM_BRANCH=master
-    - RUN_INSTALL=1 
-    - SYMFONY_ENV=behat 
+    - COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
+    - SYMFONY_ENV=behat
     - SYMFONY_DEBUG=1
-    - SETUP_SCRIPT=./bin/.travis/prepare_behat_v2.sh
+    - EZPLATFORM_REPO="https://github.com/ezsystems/ezplatform.git"
 
 matrix:
-  fast_finish: true
   include:
-    - php: 7.1
-      env: BEHAT_OPTS="--profile=behat --suite=default --tags='~@broken'" COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
-    - php: 7.1
-      env: BEHAT_OPTS="--profile=rest --suite=fullJson --tags='~@broken'" COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
-    - php: 5.6
-      env: BEHAT_OPTS="--profile=rest --suite=fullXml --tags='~@broken'" SETUP_SCRIPT=./bin/.travis/prepare_behat.sh PHP_IMAGE=ezsystems/php:5.6-v1 PHP_IMAGE_DEV=ezsystems/php:5.6-v1-dev EZPLATFORM_BRANCH=1.13
-    - php: 5.6
-      env: BEHAT_OPTS="--profile=rest --suite=fullJson --tags='~@broken'" SETUP_SCRIPT=./bin/.travis/prepare_behat.sh PHP_IMAGE=ezsystems/php:5.6-v1 PHP_IMAGE_DEV=ezsystems/php:5.6-v1-dev EZPLATFORM_BRANCH=1.13
+    - name: "Code Style Check"
+      env: CHECK_CS=1
+    - name: "Behat tests"
+      php: 7.1
+      env: BEHAT_OPTS="--profile=behat --suite=examples"
 
-# test only master and pull requests
+# test only master and stable branches (+ Pull requests)
 branches:
-  only:
-    - master
+    only:
+        - master
+        - /^\d+\.\d+$/
 
-# setup requirements for running Behat tests
-before_install:
-  # Disable memory_limit for composer in PHP 5.6
-  - echo "memory_limit=-1" >> ~/.phpenv/versions/5.6/etc/conf.d/travis.ini
-  - eval $SETUP_SCRIPT
+install:
+  - if [ "${CHECK_CS}" == "1" ]; then travis_retry composer install --prefer-dist --no-interaction --no-suggest ; fi
+  - if [ "${BEHAT_OPTS}" != "" ]; then ./bin/.travis/prepare_behat.sh ; fi
 
-# execute phpunit or behat as the script command
 script:
-  - cd "$HOME/build/ezplatform";
-  - docker-compose exec --user www-data app sh -c "bin/behat $BEHAT_OPTS"
+  - if [ "${CHECK_CS}" == "1" ] ; then ./vendor/bin/php-cs-fixer fix -v --dry-run --show-progress=estimating ; fi
+  - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/behat $BEHAT_OPTS" ; fi
 
-# disable mail notifications		
-notification:		
+notification:
   email: false
+  slack:
+    rooms:
+      - secure: cfcRhrcOrE/aaY0R8uBR8PDvWOFXf6LUlpnWojy/gdgkHfGIgfqF3e+ROZgkXwe99eRNbFTrtkNfBJbOu41Jz9zy3xYEj+NX3JaKkUT7QgpcvU8a7AAehFMPabF/N5E37hoTDl33efDaXM9y2JDG2ygWnWlm5r1tAcaDpmP2tJI=
+    on_success: change
+    on_failure: always
+    on_pull_requests: false
 
-# reduce depth (history) of git checkout
 git:
   depth: 30
