@@ -1,4 +1,18 @@
 #!/bin/bash
+# Examples of use:
+#
+# for the 1-thread, pure behat tests:
+#   bin/ezbehat --mode=behat --profile=repository-forms --tags=~@broken
+#   bin/ezbehat -m=behat -p=rest -s=fullXml -t=~@broken
+#
+# for the multi-thread fastest tests:
+#   bin/ezbehat -m=fastest -p=regression -s=demoRegression
+#   bin/ezbehat --profile=adminui --suite=adminui
+#
+# for getting features list for given profiles/suites:
+#   bin/ezbehat --mode=get-features --profile=repository-forms --tags=~@broken
+#   bin/ezbehat -m=get-features -p=regression -s=demoRegression
+
 PROFILE=''
 SUITE=''
 TAGS=''
@@ -7,12 +21,16 @@ MODE='fastest'
 
  # Help command output
 usage(){
-echo "\
-ezbehat [OPTION...]
--m, --mode; 'get-features', 'behat' or 'fastest' ('fastest' by default);
--p, --profile; Behat tests profile, obligatory;
--s, --suite; Behat tests suite;
--t, --tags; Behat tags filter;
+echo -e "\
+Usage:
+\t ezbehat [OPTIONS...]
+
+Options:
+
+\t -m, --mode=MODE; 'get-features', 'behat' or 'fastest' ('fastest' by default);
+\t -p, --profile=PROFILE; Behat tests profile;
+\t -s, --suite=SUITE; Behat tests suite;
+\t -t, --tags=TAGS; Behat tags filter;
 " | column -t -s ";"
 }
 
@@ -23,11 +41,11 @@ error(){
     exit 1;
 }
 
- behat(){
+behat(){
     bin/behat ${PROFILE}${SUITE}${TAGS}--no-interaction -vv --strict
 }
 
- fastest(){
+fastest(){
     get_behat_features | bin/fastest -o -v "bin/behat {} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv --strict"
 }
 
@@ -40,7 +58,7 @@ get_behat_features(){
     bin/behat ${PROFILE}${SUITE}${TAGS} --list-scenarios | awk '{ gsub(/:[0-9]+/,"",$1); print $1 }' | uniq -c | sort | awk '{ print $2 }'
 }
 
- for i in "$@"
+for i in "$@"
 do
 case $i in
     -m=*|--mode=*)     MODE="${i#*=}"; shift;;
@@ -52,7 +70,7 @@ case $i in
 esac
 done
 
- case "${MODE}" in
+case "${MODE}" in
     behat) behat;;
     fastest) fastest;;
     get-features) get_behat_features;;
