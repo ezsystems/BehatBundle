@@ -1,0 +1,60 @@
+#!/bin/bash
+PROFILE=''
+SUITE=''
+TAGS=''
+MODE='fastest'
+
+
+ # Help command output
+usage(){
+echo "\
+ezbehat [OPTION...]
+-m, --mode; 'get-features', 'behat' or 'fastest' ('fastest' by default);
+-p, --profile; Behat tests profile, obligatory;
+-s, --suite; Behat tests suite;
+-t, --tags; Behat tags filter;
+" | column -t -s ";"
+}
+
+ # Error message
+error(){
+    echo "ezbehat: invalid option -- '$1'";
+    echo "Try 'ezbehat -h' for more information.";
+    exit 1;
+}
+
+ behat(){
+    bin/behat ${PROFILE}${SUITE}${TAGS}--no-interaction -vv --strict
+}
+
+ fastest(){
+    get_behat_features | bin/fastest -o -v "bin/behat {} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv --strict"
+}
+
+ # Fastest option 'list-features' gives us the list of all features from given context in random order, which are later
+# run in this order in few threads and dynamically distributed between these threads. That gives us different test build
+# times each build, often non optimal. To make this optimal we sort features by the number of scenarios in them
+# (ascending because Fastest reverse the queue order, and we want this queue to run descending) and run them in that order,
+# to minimize final time gap between the threads.
+get_behat_features(){
+    bin/behat ${PROFILE}${SUITE}${TAGS} --list-scenarios | awk '{ gsub(/:[0-9]+/,"",$1); print $1 }' | uniq -c | sort | awk '{ print $2 }'
+}
+
+ for i in "$@"
+do
+case $i in
+    -m=*|--mode=*)     MODE="${i#*=}"; shift;;
+    -p=*|--profile=*)  PROFILE="--profile=${i#*=} "; shift;;
+    -s=*|--suite=*)    SUITE="--suite=${i#*=} "; shift;;
+    -t=*|--tags=*)     TAGS="--tags=${i#*=} "; shift;;
+    -h|--help)         usage; exit 1;;
+    *)                 error $1;;
+esac
+done
+
+ case "${MODE}" in
+    behat) behat;;
+    fastest) fastest;;
+    get-features) get_behat_features;;
+    *) error $MODE
+esac
