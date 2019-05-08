@@ -2,7 +2,7 @@ behat:
     suites:
         examples:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/examples.feature'
+                - '%paths.base%/vendor/ezsystems/behatbundle/features/'
             contexts:
               - EzSystems\Behat\API\Context\TestContext:
                   userService: '@ezpublish.api.service.user'
