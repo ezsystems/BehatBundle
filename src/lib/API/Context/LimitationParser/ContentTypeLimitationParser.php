@@ -27,7 +27,7 @@ class ContentTypeLimitationParser implements LimitationParserInterface
     public function supports(string $limitationType): bool
     {
         return $limitationType === Limitation::CONTENTTYPE ||
-            in_array(strtolower($limitationType), ['content type', 'contenttype']);
+            \in_array(strtolower($limitationType), ['content type', 'contenttype']);
     }
 
     public function parse(string $limitationValue): Limitation
@@ -44,7 +44,7 @@ class ContentTypeLimitationParser implements LimitationParserInterface
     {
         $contentTypeName = strtolower($contentTypeName);
 
-        if (in_array($contentTypeName, $this->contentTypeNameIdentifierMap, true)) {
+        if (\in_array($contentTypeName, $this->contentTypeNameIdentifierMap, true)) {
             return $this->contentTypeNameIdentifierMap[$contentTypeName];
         }
 

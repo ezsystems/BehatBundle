@@ -27,6 +27,8 @@ branches:
         - /^\d+\.\d+$/
 
 install:
+  # Avoid memory issues on composer install
+  - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - if [ "${CHECK_CS}" == "1" ]; then travis_retry composer install --prefer-dist --no-interaction --no-suggest ; fi
   - if [ "${BEHAT_OPTS}" != "" ]; then ./bin/.travis/prepare_behat.sh ; fi
 
@@ -34,14 +36,16 @@ script:
   - if [ "${CHECK_CS}" == "1" ] ; then ./vendor/bin/php-cs-fixer fix -v --dry-run --show-progress=estimating ; fi
   - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/behat $BEHAT_OPTS" ; fi
 
-notification:
-  email: false
-  slack:
-    rooms:
-      - secure: cfcRhrcOrE/aaY0R8uBR8PDvWOFXf6LUlpnWojy/gdgkHfGIgfqF3e+ROZgkXwe99eRNbFTrtkNfBJbOu41Jz9zy3xYEj+NX3JaKkUT7QgpcvU8a7AAehFMPabF/N5E37hoTDl33efDaXM9y2JDG2ygWnWlm5r1tAcaDpmP2tJI=
-    on_success: change
-    on_failure: always
-    on_pull_requests: false
+notifications:
+     # disable mail notifications
+     email: false
+     # enable Slack notifications
+     slack:
+         rooms:
+             - secure: "XctNpZ4q36oCCn60DWxt0+E1C6hlr1f5Ry9dMSLgS9jsoz0M2dBb0aNrIJS1dOFDCV+SjQFmY53daIVJKxbDVpCM6/byd0rA5VGByD24NoxuzlQsR6JBHi1/nxDAGBsXUM0IpLl252x8kLjnRCAHfW1OoUjWFGhbK/mAY/ocl6A="
+         on_success: change
+         on_failure: always
+         on_pull_requests: false
 
 git:
   depth: 30
