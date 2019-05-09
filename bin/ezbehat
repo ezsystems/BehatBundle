@@ -1,0 +1,78 @@
+#!/bin/bash
+# Examples of use:
+#
+# for the 1-thread, pure behat tests:
+#   bin/ezbehat --mode=behat --profile=repository-forms --tags=~@broken
+#   bin/ezbehat -m=behat -p=rest -s=fullXml -t=~@broken
+#
+# for the multi-thread fastest tests:
+#   bin/ezbehat -m=fastest -p=regression -s=demoRegression
+#   bin/ezbehat --profile=adminui --suite=adminui
+#
+# for getting features list for given profiles/suites:
+#   bin/ezbehat --mode=get-features --profile=repository-forms --tags=~@broken
+#   bin/ezbehat -m=get-features -p=regression -s=demoRegression
+
+PROFILE=''
+SUITE=''
+TAGS=''
+MODE='fastest'
+
+
+ # Help command output
+usage(){
+echo -e "\
+Usage:
+\t ezbehat [OPTIONS...]
+
+Options:
+
+\t -m, --mode=MODE; 'get-features', 'behat' or 'fastest' ('fastest' by default);
+\t -p, --profile=PROFILE; Behat tests profile;
+\t -s, --suite=SUITE; Behat tests suite;
+\t -t, --tags=TAGS; Behat tags filter;
+" | column -t -s ";"
+}
+
+ # Error message
+error(){
+    echo "ezbehat: invalid option -- '$1'";
+    echo "Try 'ezbehat -h' for more information.";
+    exit 1;
+}
+
+behat(){
+    bin/behat ${PROFILE}${SUITE}${TAGS}--no-interaction -vv --strict
+}
+
+fastest(){
+    get_behat_features | bin/fastest -o -v "bin/behat {} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv --strict"
+}
+
+ # Fastest option 'list-features' gives us the list of all features from given context in random order, which are later
+# run in this order in few threads and dynamically distributed between these threads. That gives us different test build
+# times each build, often non optimal. To make this optimal we sort features by the number of scenarios in them
+# (ascending because Fastest reverse the queue order, and we want this queue to run descending) and run them in that order,
+# to minimize final time gap between the threads.
+get_behat_features(){
+    bin/behat ${PROFILE}${SUITE}${TAGS} --list-scenarios | awk '{ gsub(/:[0-9]+/,"",$1); print $1 }' | uniq -c | sort | awk '{ print $2 }'
+}
+
+for i in "$@"
+do
+case $i in
+    -m=*|--mode=*)     MODE="${i#*=}"; shift;;
+    -p=*|--profile=*)  PROFILE="--profile=${i#*=} "; shift;;
+    -s=*|--suite=*)    SUITE="--suite=${i#*=} "; shift;;
+    -t=*|--tags=*)     TAGS="--tags=${i#*=} "; shift;;
+    -h|--help)         usage; exit 1;;
+    *)                 error $1;;
+esac
+done
+
+case "${MODE}" in
+    behat) behat;;
+    fastest) fastest;;
+    get-features) get_behat_features;;
+    *) error $MODE
+esac

@@ -35,5 +35,7 @@
             "dev-master": "7.0.x-dev",
             "dev-tmp_ci_branch": "7.0.x-dev"
         }
-    }
+    },
+
+    "bin": ["bin/ezbehat"]
 }
