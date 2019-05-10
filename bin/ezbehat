@@ -17,6 +17,7 @@ PROFILE=''
 SUITE=''
 TAGS=''
 MODE='fastest'
+STRICT='--strict'
 
 
  # Help command output
@@ -31,6 +32,7 @@ Options:
 \t -p, --profile=PROFILE; Behat tests profile;
 \t -s, --suite=SUITE; Behat tests suite;
 \t -t, --tags=TAGS; Behat tags filter;
+\t --non-strict; Run Behat in non-strict mode;
 " | column -t -s ";"
 }
 
@@ -42,11 +44,11 @@ error(){
 }
 
 behat(){
-    bin/behat ${PROFILE}${SUITE}${TAGS}--no-interaction -vv --strict
+    bin/behat ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT}
 }
 
 fastest(){
-    get_behat_features | bin/fastest -o -v "bin/behat {} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv --strict"
+    get_behat_features | bin/fastest -o -v "bin/behat {} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT}"
 }
 
  # Fastest option 'list-features' gives us the list of all features from given context in random order, which are later
@@ -65,6 +67,7 @@ case $i in
     -p=*|--profile=*)  PROFILE="--profile=${i#*=} "; shift;;
     -s=*|--suite=*)    SUITE="--suite=${i#*=} "; shift;;
     -t=*|--tags=*)     TAGS="--tags=${i#*=} "; shift;;
+    --non-strict)      STRICT=''; shift;;
     -h|--help)         usage; exit 1;;
     *)                 error $1;;
 esac
