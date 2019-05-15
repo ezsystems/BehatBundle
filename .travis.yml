@@ -1,16 +1,24 @@
-dist: xenial
+dist: trusty
 language: php
+php:
+  - 7.1
+
+env:
+  global:
+    - EZPLATFORM_REPO="https://github.com/ezsystems/ezplatform.git"
+    - COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
+    - SYMFONY_ENV=behat
+    - SYMFONY_DEBUG=1
 
 cache:
   directories:
     - $HOME/.composer/cache/files
 
-env:
-  global:
-    - COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
-    - SYMFONY_ENV=behat
-    - SYMFONY_DEBUG=1
-    - EZPLATFORM_REPO="https://github.com/ezsystems/ezplatform.git"
+# test only master and stable branches (+ Pull requests)
+branches:
+  only:
+    - master
+    - /^\d+\.\d+$/
 
 matrix:
   include:
@@ -20,32 +28,32 @@ matrix:
       php: 7.1
       env: BEHAT_OPTS="--profile=behat --suite=examples"
 
-# test only master and stable branches (+ Pull requests)
-branches:
-    only:
-        - master
-        - /^\d+\.\d+$/
+git:
+  depth: 30
 
-install:
+notifications:
+  email: false
+  slack:
+    rooms:
+      - secure: "XctNpZ4q36oCCn60DWxt0+E1C6hlr1f5Ry9dMSLgS9jsoz0M2dBb0aNrIJS1dOFDCV+SjQFmY53daIVJKxbDVpCM6/byd0rA5VGByD24NoxuzlQsR6JBHi1/nxDAGBsXUM0IpLl252x8kLjnRCAHfW1OoUjWFGhbK/mAY/ocl6A="
+    on_success: change
+    on_failure: always
+    on_pull_requests: false
+
+before_install:
+  # Disable XDebug for performance
+  - phpenv config-rm xdebug.ini
+  # Get latest composer build
+  - travis_retry composer selfupdate
   # Avoid memory issues on composer install
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
+install:
+  # Install packages if needed
   - if [ "${CHECK_CS}" == "1" ]; then travis_retry composer install --prefer-dist --no-interaction --no-suggest ; fi
-  - if [ "${BEHAT_OPTS}" != "" ]; then ./bin/.travis/prepare_behat.sh ; fi
+  # Prepare whole environment if needed
+  - if [ "${BEHAT_OPTS}" != "" ]; then ./bin/.travis/prepare_ezplatform.sh ; fi
 
 script:
   - if [ "${CHECK_CS}" == "1" ] ; then ./vendor/bin/php-cs-fixer fix -v --dry-run --show-progress=estimating ; fi
   - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/behat $BEHAT_OPTS" ; fi
-
-notifications:
-     # disable mail notifications
-     email: false
-     # enable Slack notifications
-     slack:
-         rooms:
-             - secure: "XctNpZ4q36oCCn60DWxt0+E1C6hlr1f5Ry9dMSLgS9jsoz0M2dBb0aNrIJS1dOFDCV+SjQFmY53daIVJKxbDVpCM6/byd0rA5VGByD24NoxuzlQsR6JBHi1/nxDAGBsXUM0IpLl252x8kLjnRCAHfW1OoUjWFGhbK/mAY/ocl6A="
-         on_success: change
-         on_failure: always
-         on_pull_requests: false
-
-git:
-  depth: 30
