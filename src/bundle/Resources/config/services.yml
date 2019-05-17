@@ -27,3 +27,6 @@ services:
 
     ezbehatbundle.api.facade.languagefacade:
         class: EzSystems\Behat\API\Facade\LanguageFacade
+
+    ezbehatbundle.controller.exception:
+        class: EzSystems\BehatBundle\Controller\ExceptionController
