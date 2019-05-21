@@ -2,7 +2,7 @@ behat:
     suites:
         examples:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/examples.feature'
+                - '%paths.base%/vendor/ezsystems/behatbundle/features/'
             contexts:
               - EzSystems\Behat\API\Context\TestContext:
                   userService: '@ezpublish.api.service.user'
@@ -17,3 +17,5 @@ behat:
                   roleFacade: '@ezbehatbundle.api.facade.rolefacade'
               - EzSystems\Behat\API\Context\LanguageContext:
                   languageFacade: '@ezbehatbundle.api.facade.languagefacade'
+              - EzSystems\Behat\Core\Context\ConfigurationContext:
+                  projectDir: '%paths.base%'

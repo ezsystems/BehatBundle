@@ -24,6 +24,8 @@ matrix:
   include:
     - name: "Code Style Check"
       env: CHECK_CS=1
+    - name: "Unit tests"
+      env: PHPUNIT_CONFIG='phpunit.xml'
     - name: "Behat tests"
       php: 7.1
       env: BEHAT_OPTS="--profile=behat --suite=examples"
@@ -50,10 +52,11 @@ before_install:
 
 install:
   # Install packages if needed
-  - if [ "${CHECK_CS}" == "1" ]; then travis_retry composer install --prefer-dist --no-interaction --no-suggest ; fi
+  - if [ "${CHECK_CS}" == "1" -o "${PHPUNIT_CONFIG}" != "" ]; then travis_retry composer install --prefer-dist --no-interaction --no-suggest ; fi
   # Prepare whole environment if needed
   - if [ "${BEHAT_OPTS}" != "" ]; then ./bin/.travis/prepare_ezplatform.sh ; fi
 
 script:
   - if [ "${CHECK_CS}" == "1" ] ; then ./vendor/bin/php-cs-fixer fix -v --dry-run --show-progress=estimating ; fi
+  - if [ "${PHPUNIT_CONFIG}" != '' ]; then ./vendor/bin/phpunit -c "${PHPUNIT_CONFIG}"; fi
   - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/behat $BEHAT_OPTS" ; fi
