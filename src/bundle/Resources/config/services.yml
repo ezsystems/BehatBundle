@@ -3,8 +3,8 @@ services:
             autowire: true
             public: true
 
-    EzSystems\Behat\:
-        resource: '../../../../src/lib/*'
+    EzSystems\Behat\API\:
+        resource: '../../../../src/lib/API/*'
 
     _instanceof:
         EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface:

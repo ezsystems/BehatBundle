@@ -13,17 +13,24 @@
     "require": {
         "php": "^7.1",
         "ezsystems/ezpublish-kernel": "^8.0@dev",
-        "phpunit/phpunit": "^5.7|^6.0|^7.0",
         "fzaninotto/faker": "^1.8",
-        "behat/behat": "^3.4"
+        "behat/behat": "^3.4",
+        "symfony/property-access": "^3.0",
+        "symfony/yaml": "^3.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "~2.15.0"
+        "friendsofphp/php-cs-fixer": "~2.15.0",
+        "phpunit/phpunit": "^7.0"
     },
     "autoload": {
         "psr-4": {
             "EzSystems\\BehatBundle\\": "src/bundle/",
             "EzSystems\\Behat\\": "src/lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "EzSystems\\Behat\\Test\\": "tests/"
         }
     },
     "scripts": {
