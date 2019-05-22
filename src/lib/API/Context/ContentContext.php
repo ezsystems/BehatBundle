@@ -47,7 +47,13 @@ class ContentContext implements Context
 
     private function parseUrl(string $url)
     {
-        return $url === 'root' ? '/' : $url;
+        if ($url === 'root') {
+            return '/';
+        }
+
+        $url = str_replace(' ', '-', $url);
+
+        return strpos($url, '/') === 0 ? $url : sprintf('/%s', $url);
     }
 
     private function parseData(TableNode $contentItemData)
