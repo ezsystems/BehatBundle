@@ -26,7 +26,7 @@ class BehatExtension implements Extension
             $container,
             new FileLocator(__DIR__ . '/Resources/config')
         );
-        $loader->load('extension.yml');
+        $loader->load('extension.yaml');
     }
 
     public function process(ContainerBuilder $container)
