@@ -29,3 +29,11 @@ services:
 
     ezbehatbundle.controller.exception:
         class: EzSystems\BehatBundle\Controller\ExceptionController
+
+    EzSystems\BehatBundle\Command\CreateLanguageCommand:
+        tags:
+            - { name: console.command }
+
+    EzSystems\BehatBundle\Command\TestSiteaccessCommand:
+        tags:
+            - { name: console.command }
