@@ -41,5 +41,7 @@ services:
             - { name: console.command }
 
     EzSystems\BehatBundle\Command\TestSiteaccessCommand:
+        arguments:
+            $siteaccess: '@ezpublish.siteaccess'
         tags:
             - { name: console.command }
