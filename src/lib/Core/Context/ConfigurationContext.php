@@ -21,7 +21,7 @@ class ConfigurationContext implements Context
 
     public function __construct(string $projectDir)
     {
-        $this->ezplatformConfigFilePath = sprintf('%s/app/config/ezplatform.yml', $projectDir);
+        $this->ezplatformConfigFilePath = sprintf('%s/config/packages/ezplatform.yaml', $projectDir);
     }
 
     /**
