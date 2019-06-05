@@ -9,9 +9,9 @@ namespace EzSystems\Behat\API\Context\LimitationParser;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\User\Limitation;
-use eZ\Publish\API\Repository\Values\User\Limitation\SubtreeLimitation;
+use eZ\Publish\API\Repository\Values\User\Limitation\LocationLimitation;
 
-class SubtreeLimitationParser implements LimitationParserInterface
+class LocationLimitationParser implements LimitationParserInterface
 {
     private $locationService;
     private $urlAliasService;
@@ -24,7 +24,7 @@ class SubtreeLimitationParser implements LimitationParserInterface
 
     public function supports(string $limitationType): bool
     {
-        return $limitationType === Limitation::SUBTREE;
+        return $limitationType === Limitation::LOCATION || strtolower($limitationType) === 'location';
     }
 
     public function parse(string $limitationValues): Limitation
@@ -34,10 +34,10 @@ class SubtreeLimitationParser implements LimitationParserInterface
         foreach (explode(',', $limitationValues) as $limitationValue) {
             $urlAlias = $this->urlAliasService->lookup($limitationValue);
             $location = $this->locationService->loadLocation($urlAlias->destination);
-            $values[] = $location->pathString;
+            $values[] = $location->id;
         }
 
-        return new SubtreeLimitation(
+        return new LocationLimitation(
             ['limitationValues' => $values]
         );
     }

@@ -1,16 +1,17 @@
+imports:
+    - { resource: services/fieldtype_data_providers.yaml }
+    - { resource: services/limitation_parsers.yaml }
+
 services:
     _defaults:
         autowire: true
+        autoconfigure: true
+        public: false
 
-    EzSystems\Behat\API\:
-        resource: '../../../../src/lib/API/*'
-
-    _instanceof:
-        EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface:
-            tags: ['ezsystems.behat.limitation_parser']
-
-        EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface:
-            tags: ['ezsystems.behat.fieldtype_data_provider']
+    EzSystems\Behat\API\ContentData\ContentDataProvider:
+         arguments:
+            - '@ezpublish.api.service.content_type'
+            - '@ezpublish.api.service.content'
 
     ezbehatbundle.api.facade.contentfacade:
         class: EzSystems\Behat\API\Facade\ContentFacade

@@ -14,5 +14,5 @@ interface LimitationParserInterface
 
     public function supports(string $limitationType): bool;
 
-    public function parse(string $limitationValue): Limitation;
+    public function parse(string $limitationValues): Limitation;
 }

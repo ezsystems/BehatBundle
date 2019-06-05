@@ -30,14 +30,24 @@ class ContentTypeLimitationParser implements LimitationParserInterface
             \in_array(strtolower($limitationType), ['content type', 'contenttype']);
     }
 
-    public function parse(string $limitationValue): Limitation
+    public function parse(string $limitationValues): Limitation
     {
-        $contentTypeIdentifier = $this->parseCommonContentTypes($limitationValue);
-        $contentType = $this->contentTypService->loadContentTypeByIdentifier($contentTypeIdentifier);
-
         return new ContentTypeLimitation(
-            ['limitationValues' => [$contentType->id]]
+            ['limitationValues' => $this->parseContentTypeValues(explode(',', $limitationValues))]
         );
+    }
+
+    protected function parseContentTypeValues($limitationValues)
+    {
+        $values = [];
+
+        foreach ($limitationValues as $limitationValue) {
+            $contentTypeIdentifier = $this->parseCommonContentTypes($limitationValue);
+            $contentType = $this->contentTypService->loadContentTypeByIdentifier($contentTypeIdentifier);
+            $values[] = $contentType->id;
+        }
+
+        return $values;
     }
 
     private function parseCommonContentTypes(string $contentTypeName): string
