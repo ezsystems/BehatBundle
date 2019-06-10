@@ -11,7 +11,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.2",
+        "php": "^7.3",
         "ezsystems/ezpublish-kernel": "^8.0@dev",
         "fzaninotto/faker": "^1.8",
         "behat/behat": "^3.5",
