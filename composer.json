@@ -11,12 +11,16 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.1",
+        "php": "^7.3",
         "ezsystems/ezpublish-kernel": "^8.0@dev",
         "fzaninotto/faker": "^1.8",
-        "behat/behat": "^3.4",
-        "symfony/property-access": "^3.0",
-        "symfony/yaml": "^3.0"
+        "behat/behat": "^3.5",
+        "symfony/property-access": "^4.3",
+        "symfony/yaml": "^4.3",
+        "symfony/config": "^4.3",
+        "symfony/dependency-injection": "^4.3",
+        "symfony/http-kernel": "^4.3",
+        "symfony/console": "^4.3"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.15.0",

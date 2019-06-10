@@ -1,14 +1,14 @@
 dist: trusty
 language: php
 php:
-  - 7.1
+  - 7.3
 
 env:
   global:
     - EZPLATFORM_REPO="https://github.com/ezsystems/ezplatform.git"
     - COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
-    - SYMFONY_ENV=behat
-    - SYMFONY_DEBUG=1
+    - APP_ENV=behat
+    - APP_DEBUG=1
 
 cache:
   directories:
@@ -27,7 +27,7 @@ matrix:
     - name: "Unit tests"
       env: PHPUNIT_CONFIG='phpunit.xml'
     - name: "Behat tests"
-      php: 7.1
+      php: 7.3
       env: BEHAT_OPTS="--profile=behat --suite=examples"
 
 git:

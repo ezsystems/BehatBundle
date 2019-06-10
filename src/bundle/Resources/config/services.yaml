@@ -14,18 +14,34 @@ services:
 
     ezbehatbundle.api.facade.contentfacade:
         class: EzSystems\Behat\API\Facade\ContentFacade
+        public: true
 
     ezbehatbundle.api.facade.contenttypefacade:
         class: EzSystems\Behat\API\Facade\ContentTypeFacade
+        public: true
 
     ezbehatbundle.api.facade.rolefacade:
         class: EzSystems\Behat\API\Facade\RoleFacade
+        public: true
 
     ezbehatbundle.api.facade.userfacade:
         class: EzSystems\Behat\API\Facade\UserFacade
+        public: true
 
     ezbehatbundle.api.facade.languagefacade:
         class: EzSystems\Behat\API\Facade\LanguageFacade
+        public: true
 
     ezbehatbundle.controller.exception:
         class: EzSystems\BehatBundle\Controller\ExceptionController
+        public: true
+
+    EzSystems\BehatBundle\Command\CreateLanguageCommand:
+        tags:
+            - { name: console.command }
+
+    EzSystems\BehatBundle\Command\TestSiteaccessCommand:
+        arguments:
+            $siteaccess: '@ezpublish.siteaccess'
+        tags:
+            - { name: console.command }
