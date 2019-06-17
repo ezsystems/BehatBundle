@@ -7,6 +7,8 @@ behat:
               - EzSystems\Behat\API\Context\TestContext:
                   userService: '@ezpublish.api.service.user'
                   permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
+              - EzSystems\Behat\API\Context\ObjectStateContext:
+                  objectStateService: '@ezpublish.api.service.object_state'
               - EzSystems\Behat\API\Context\ContentContext:
                   contentFacade: '@ezbehatbundle.api.facade.contentfacade'
               - EzSystems\Behat\API\Context\ContentTypeContext:

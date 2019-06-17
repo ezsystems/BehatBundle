@@ -12,7 +12,7 @@ Feature: Example scenarios showing how to set configuration
       | page_builder.siteaccess_list | pol    |
 
   Scenario: Create specified workflows
-    And I set configuration to "admin" siteaccess under "workflows" key
+    And I set configuration to "default" siteaccess under "workflows" key
     """
       article_workflow:
           name: 'Article Workflow'
@@ -37,7 +37,7 @@ Feature: Example scenarios showing how to set configuration
                   icon: '/bundles/ezplatformadminui/img/ez-icons.svg#rejected'
                   label: 'Back to Draft'
     """
-    And I append configuration to "admin" siteaccess under "workflows" key
+    And I append configuration to "default" siteaccess under "workflows" key
     """
     folder_workflow:
         name: 'Folder Workflow'

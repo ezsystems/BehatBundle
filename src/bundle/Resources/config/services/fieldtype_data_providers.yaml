@@ -1,0 +1,61 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        
+    _instanceof:
+      EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface:
+        tags: ['ezsystems.behat.fieldtype_data_provider']
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\RandomDataGenerator:
+      arguments:
+        - '@ezpublish.api.service.search'
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\ObjectRelationDataProvider:
+      arguments:
+        - '@ezpublish.api.service.search'
+        - '@ezpublish.api.service.content'
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\ObjectRelationListDataProvider:
+      arguments:
+        - '@ezpublish.api.service.search'
+        - '@ezpublish.api.service.content'
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\AuthorDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\BinaryFileDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\BooleanDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\CountryDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\DateDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\DateTimeDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\EmailDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\FloatDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\ISBNDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\ImageDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\IntegerDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\MapDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\MediaDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\RichTextDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\StringDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\TextLineDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\TimeDataProvider: ~
+
+    EzSystems\Behat\API\ContentData\FieldTypeData\URLDataProvider: ~
