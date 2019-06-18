@@ -5,7 +5,7 @@ php:
 
 env:
   global:
-    - EZPLATFORM_REPO="https://github.com/ezsystems/ezplatform.git"
+    - EZPLATFORM_REPO="https://github.com/mnocon/ezplatform.git"
     - COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
     - APP_ENV=behat
     - APP_DEBUG=1
