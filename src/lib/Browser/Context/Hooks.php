@@ -11,7 +11,7 @@ use Behat\Behat\Hook\Scope\AfterStepScope;
 use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Testwork\Tester\Result\TestResult;
-use EzSystems\Behat\Browser\BrowserLogFilter;
+use EzSystems\Behat\Browser\Filter\BrowserLogFilter;
 use EzSystems\Behat\Browser\Factory\ElementFactory;
 use EzSystems\Behat\Browser\Factory\PageObjectFactory;
 use EzSystems\Behat\Core\Environment\Environment;
