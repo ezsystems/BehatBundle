@@ -17,8 +17,9 @@ use EzSystems\Behat\Browser\Factory\PageObjectFactory;
 use EzSystems\Behat\Core\Environment\Environment;
 use EzSystems\Behat\Core\Environment\EnvironmentConstants;
 use WebDriver\LogType;
+use Behat\MinkExtension\Context\RawMinkContext;
 
-class Hooks implements Context
+class Hooks extends RawMinkContext
 {
     private const CONSOLE_LOGS_LIMIT = 10;
     private const APPLICATION_LOGS_LIMIT = 10;
