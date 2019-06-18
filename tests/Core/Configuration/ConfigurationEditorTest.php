@@ -4,7 +4,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 
-namespace EzSystems\Behat\Test;
+namespace EzSystems\Behat\Test\Core\Configuration;
 
 use EzSystems\Behat\Core\Configuration\ConfigurationEditor;
 use PHPUnit\Framework\Assert;
