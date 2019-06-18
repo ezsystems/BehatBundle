@@ -180,7 +180,7 @@ class BrowserContext extends MinkContext
      */
     public function waitUntil(int $timeoutSeconds, callable $callback, bool $throwOnFailure = true)
     {
-        if (!is_callable($callback)) {
+        if (!\is_callable($callback)) {
             throw new \InvalidArgumentException('Given callback is not a valid callable');
         }
 

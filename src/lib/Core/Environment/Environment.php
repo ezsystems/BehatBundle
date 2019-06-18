@@ -7,9 +7,7 @@
 namespace EzSystems\Behat\Core\Environment;
 
 use EzSystems\PlatformInstallerBundle\Installer\Installer;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 class Environment
 {
