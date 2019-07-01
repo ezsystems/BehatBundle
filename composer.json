@@ -12,7 +12,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.3",
-        "ezsystems/ezpublish-kernel": "^8.0@dev",
+        "ezsystems/ezpublish-kernel": "^8.0@beta",
         "fzaninotto/faker": "^1.8",
         "behat/behat": "^3.5",
         "symfony/property-access": "^4.3",
