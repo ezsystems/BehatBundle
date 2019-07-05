@@ -6,9 +6,9 @@
  */
 namespace EzSystems\Behat\API\Facade;
 
+use EzSystems\Behat\API\ContentData\FieldTypeNameConverter;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use EzSystems\EzPlatformAdminUi\Behat\PageElement\Fields\EzFieldElement;
 
 class ContentTypeFacade
 {
@@ -48,7 +48,6 @@ class ContentTypeFacade
 
     public function getFieldTypeIdentifierByName(string $fieldtypeName): string
     {
-        // TODO: When refactoring in AdminUI move the mappings here
-        return EzFieldElement::getFieldInternalNameByName($fieldtypeName);
+        return FieldTypeNameConverter::getFieldTypeIdentifierByName($fieldtypeName);
     }
 }
