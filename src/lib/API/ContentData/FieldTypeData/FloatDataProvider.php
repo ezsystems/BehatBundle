@@ -17,4 +17,9 @@ class FloatDataProvider extends RandomDataGenerator implements FieldTypeDataProv
     {
         return $this->getFaker()->randomFloat(4);
     }
+
+    public function parseFromString(string $value)
+    {
+        return (float) $value;
+    }
 }

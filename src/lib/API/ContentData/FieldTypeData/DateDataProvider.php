@@ -6,6 +6,7 @@
  */
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
+use DateTime;
 use eZ\Publish\Core\FieldType\Date\Value;
 
 class DateDataProvider extends RandomDataGenerator implements FieldTypeDataProviderInterface
@@ -18,5 +19,10 @@ class DateDataProvider extends RandomDataGenerator implements FieldTypeDataProvi
     public function generateData(string $language = 'eng-GB')
     {
         return new Value($this->getFaker()->dateTimeThisCentury());
+    }
+
+    public function parseFromString(string $value)
+    {
+        return DateTime::createFromFormat('Y-m-d', $value);
     }
 }

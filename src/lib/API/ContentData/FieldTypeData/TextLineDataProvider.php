@@ -19,4 +19,9 @@ class TextLineDataProvider extends RandomDataGenerator implements FieldTypeDataP
 
         return $this->getFaker()->paragraphs(5, true);
     }
+
+    public function parseFromString(string $value)
+    {
+        return $value;
+    }
 }

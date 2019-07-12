@@ -16,19 +16,30 @@ class AuthorDataProvider extends RandomDataGenerator implements FieldTypeDataPro
         return $fieldTypeIdentifier === 'ezauthor';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $language = 'eng-GB'): Value
     {
         return new Value([$this->getSingleAuthor($language), $this->getSingleAuthor($language)]);
     }
 
     private function getSingleAuthor(string $language = 'eng-GB'): Author
     {
-        $author = new Author();
-
         $this->setLanguage($language);
+
+        $author = new Author();
         $author->name = $this->getFaker()->name;
         $author->email = $this->getFaker()->email;
 
         return $author;
+    }
+
+    public function parseFromString(string $value): Value
+    {
+        [$name, $email] = explode(',', $value);
+
+        $author = new Author();
+        $author->name = $name;
+        $author->email = $email;
+
+        return new Value([$author]);
     }
 }

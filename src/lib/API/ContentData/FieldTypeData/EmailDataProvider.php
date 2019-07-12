@@ -19,4 +19,9 @@ class EmailDataProvider extends RandomDataGenerator implements FieldTypeDataProv
 
         return $this->getFaker()->companyEmail;
     }
+
+    public function parseFromString(string $value)
+    {
+        return $value;
+    }
 }

@@ -42,4 +42,9 @@ class MapDataProvider implements FieldTypeDataProviderInterface
     {
         return new Value(self::LOCATION_DATA[array_rand(self::LOCATION_DATA, 1)]);
     }
+
+    public function parseFromString(string $value)
+    {
+        return new Value(self::LOCATION_DATA[$value]);
+    }
 }

@@ -17,4 +17,9 @@ class URLDataProvider extends RandomDataGenerator implements FieldTypeDataProvid
     {
         return $this->getFaker()->url;
     }
+
+    public function parseFromString(string $value)
+    {
+        return $value;
+    }
 }

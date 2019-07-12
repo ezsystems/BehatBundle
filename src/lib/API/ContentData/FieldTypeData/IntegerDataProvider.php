@@ -17,4 +17,9 @@ class IntegerDataProvider extends RandomDataGenerator implements FieldTypeDataPr
     {
         return (int) $this->getFaker()->numerify('########');
     }
+
+    public function parseFromString(string $value)
+    {
+        return (int) $value;
+    }
 }

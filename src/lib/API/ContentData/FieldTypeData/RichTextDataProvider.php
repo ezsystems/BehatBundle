@@ -24,4 +24,9 @@ class RichTextDataProvider extends RandomDataGenerator implements FieldTypeDataP
 
         return sprintf(self::RICHTEXT_XML, $this->getFaker()->realText());
     }
+
+    public function parseFromString(string $value)
+    {
+        return sprintf(self::RICHTEXT_XML, $value);
+    }
 }

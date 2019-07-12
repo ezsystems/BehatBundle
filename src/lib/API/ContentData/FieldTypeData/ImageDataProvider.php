@@ -44,4 +44,16 @@ class ImageDataProvider extends RandomDataGenerator implements FieldTypeDataProv
             ]
         );
     }
+
+    public function parseFromString(string $value)
+    {
+        return new Value(
+            [
+                'path' => $value,
+                'fileSize' => filesize($value),
+                'fileName' => basename($value),
+                'alternativeText' => $value,
+            ]
+        );
+    }
 }

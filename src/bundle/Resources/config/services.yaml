@@ -13,24 +13,22 @@ services:
             - '@ezpublish.api.service.content_type'
             - '@ezpublish.api.service.content'
 
-    ezbehatbundle.api.facade.contentfacade:
-        class: EzSystems\Behat\API\Facade\ContentFacade
+    EzSystems\Behat\API\Facade\ContentFacade:
         public: true
 
-    ezbehatbundle.api.facade.contenttypefacade:
-        class: EzSystems\Behat\API\Facade\ContentTypeFacade
+    EzSystems\Behat\API\Facade\ContentTypeFacade:
         public: true
 
-    ezbehatbundle.api.facade.rolefacade:
-        class: EzSystems\Behat\API\Facade\RoleFacade
+    EzSystems\Behat\API\Facade\RoleFacade:
         public: true
 
-    ezbehatbundle.api.facade.userfacade:
-        class: EzSystems\Behat\API\Facade\UserFacade
+    EzSystems\Behat\API\Facade\UserFacade:
         public: true
 
-    ezbehatbundle.api.facade.languagefacade:
-        class: EzSystems\Behat\API\Facade\LanguageFacade
+    EzSystems\Behat\API\Facade\LanguageFacade:
+        public: true
+
+    EzSystems\Behat\Core\Behat\ArgumentParser:
         public: true
 
     ezbehatbundle.controller.exception:

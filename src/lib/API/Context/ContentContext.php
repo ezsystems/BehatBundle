@@ -9,15 +9,20 @@ namespace EzSystems\Behat\API\Context;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use EzSystems\Behat\API\Facade\ContentFacade;
+use EzSystems\Behat\Core\Behat\ArgumentParser;
 
 class ContentContext implements Context
 {
     /** @var ContentFacade */
     private $contentFacade;
 
-    public function __construct(ContentFacade $contentFacade)
+    /** @var ArgumentParser */
+    private $argumentParser;
+
+    public function __construct(ContentFacade $contentFacade, ArgumentParser $argumentParser)
     {
         $this->contentFacade = $contentFacade;
+        $this->argumentParser = $argumentParser;
     }
 
     /**
@@ -25,13 +30,11 @@ class ContentContext implements Context
      */
     public function createMultipleContentItems(string $numberOfItems, string $contentTypeIdentifier, string $parentUrl, $language): void
     {
-        $parentUrl = $this->parseUrl($parentUrl);
+        $parentUrl = $this->argumentParser->parseUrl($parentUrl);
 
         for ($i = 0; $i < $numberOfItems; ++$i) {
             $this->contentFacade->createContent($contentTypeIdentifier, $parentUrl, $language);
-            gc_collect_cycles();
         }
-        gc_collect_cycles();
     }
 
     /**
@@ -39,7 +42,7 @@ class ContentContext implements Context
      */
     public function createContentItems($contentTypeIdentifier, $parentUrl, $language, TableNode $contentItemsData): void
     {
-        $parentUrl = $this->parseUrl($parentUrl);
+        $parentUrl = $this->argumentParser->parseUrl($parentUrl);
         $parsedContentItemData = $this->parseData($contentItemsData);
 
         foreach ($parsedContentItemData as $contentItemData) {
@@ -47,15 +50,17 @@ class ContentContext implements Context
         }
     }
 
-    private function parseUrl(string $url)
+    /**
+     * @Given I edit :locationURL Content item in :language
+     */
+    public function editContentItem($locationURL, $language, TableNode $contentItemsData): void
     {
-        if ($url === 'root') {
-            return '/';
+        $locationURL = $this->argumentParser->parseUrl($locationURL);
+        $parsedContentItemData = $this->parseData($contentItemsData);
+
+        foreach ($parsedContentItemData as $contentItemData) {
+            $this->contentFacade->editContent($locationURL, $language, $contentItemData);
         }
-
-        $url = str_replace(' ', '-', $url);
-
-        return strpos($url, '/') === 0 ? $url : sprintf('/%s', $url);
     }
 
     private function parseData(TableNode $contentItemData)

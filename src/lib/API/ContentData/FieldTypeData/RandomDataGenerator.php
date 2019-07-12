@@ -37,6 +37,9 @@ class RandomDataGenerator
 
     protected function getFaker(): Generator
     {
+        // Workaround for Faker memory issues, see: https://github.com/fzaninotto/Faker/issues/1125#issuecomment-268676186
+        gc_collect_cycles();
+
         return self::$faker;
     }
 }

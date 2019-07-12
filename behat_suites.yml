@@ -2,7 +2,7 @@ behat:
     suites:
         examples:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/'
+                - '%paths.base%/vendor/ezsystems/behatbundle/features/examples'
             contexts:
               - EzSystems\Behat\API\Context\TestContext:
                   userService: '@ezpublish.api.service.user'
@@ -10,14 +10,15 @@ behat:
               - EzSystems\Behat\API\Context\ObjectStateContext:
                   objectStateService: '@ezpublish.api.service.object_state'
               - EzSystems\Behat\API\Context\ContentContext:
-                  contentFacade: '@ezbehatbundle.api.facade.contentfacade'
+                  contentFacade: '@EzSystems\Behat\API\Facade\ContentFacade'
+                  argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
               - EzSystems\Behat\API\Context\ContentTypeContext:
-                  contentTypeFacade: '@ezbehatbundle.api.facade.contenttypefacade'
+                  contentTypeFacade: '@EzSystems\Behat\API\Facade\ContentTypeFacade'
               - EzSystems\Behat\API\Context\UserContext:
-                  userFacade: '@ezbehatbundle.api.facade.userfacade'
+                  userFacade: '@EzSystems\Behat\API\Facade\UserFacade'
               - EzSystems\Behat\API\Context\RoleContext:
-                  roleFacade: '@ezbehatbundle.api.facade.rolefacade'
+                  roleFacade: '@EzSystems\Behat\API\Facade\RoleFacade'
               - EzSystems\Behat\API\Context\LanguageContext:
-                  languageFacade: '@ezbehatbundle.api.facade.languagefacade'
+                  languageFacade: '@EzSystems\Behat\API\Facade\LanguageFacade'
               - EzSystems\Behat\Core\Context\ConfigurationContext:
                   projectDir: '%paths.base%'

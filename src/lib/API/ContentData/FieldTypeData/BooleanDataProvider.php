@@ -18,4 +18,9 @@ class BooleanDataProvider implements FieldTypeDataProviderInterface
         // if the field is required then the value has to be true.
         return true;
     }
+
+    public function parseFromString(string $value)
+    {
+        return  $value === 'true';
+    }
 }

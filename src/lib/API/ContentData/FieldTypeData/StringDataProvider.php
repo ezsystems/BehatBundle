@@ -19,4 +19,9 @@ class StringDataProvider extends RandomDataGenerator implements FieldTypeDataPro
 
         return $this->getFaker()->realText(80, 1);
     }
+
+    public function parseFromString(string $value)
+    {
+        return $value;
+    }
 }

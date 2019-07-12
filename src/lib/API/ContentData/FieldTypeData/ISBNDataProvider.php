@@ -17,4 +17,9 @@ class ISBNDataProvider extends RandomDataGenerator implements FieldTypeDataProvi
     {
         return $this->getFaker()->isbn13;
     }
+
+    public function parseFromString(string $value)
+    {
+        return $value;
+    }
 }
