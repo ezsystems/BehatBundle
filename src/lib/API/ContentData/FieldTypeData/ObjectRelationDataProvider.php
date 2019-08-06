@@ -7,22 +7,38 @@
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
 use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
+use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\SearchService;
+use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\Core\FieldType\Relation\Value;
+use EzSystems\Behat\Core\Behat\ArgumentParser;
 
 class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
 {
+    /** @var SearchService */
     private $searchService;
+
+    /** @var ContentService */
     private $contentService;
 
-    public function __construct(SearchService $searchService, ContentService $contentService)
+    /** @var LocationService */
+    private $locationService;
+
+    /** @var URLAliasService */
+    private $urlAliasService;
+
+    /** @var ArgumentParser */
+    private $argumentParser;
+
+    public function __construct(SearchService $searchService, ContentService $contentService, LocationService $locationSerice, URLAliasService $urlAliasSerivce, ArgumentParser $argumentParser)
     {
         $this->searchService = $searchService;
         $this->contentService = $contentService;
+        $this->locationService = $locationSerice;
+        $this->urlAliasService = $urlAliasSerivce;
+        $this->argumentParser = $argumentParser;
     }
 
     public function supports(string $fieldTypeIdentifier): bool
@@ -46,16 +62,6 @@ class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
             return $result->valueObject->contentInfo->id;
         }, $results->searchHits);
 
-        $contentIDs = array_filter($contentIDs, function (int $contentID) {
-            try {
-                $this->contentService->loadContentInfo($contentID);
-
-                return true;
-            } catch (NotFoundException $e) {
-            } catch (UnauthorizedException $e) {
-            }
-        });
-
         $indices = array_rand($contentIDs, $number);
 
         if ($number === 1) {
@@ -69,5 +75,20 @@ class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
         }
 
         return $randomContentIDs;
+    }
+
+    public function parseFromString(string $value)
+    {
+        return new Value($this->getContentID($value));
+    }
+
+    protected function getContentID(string $locationPath)
+    {
+        $locationURL = $this->argumentParser->parseUrl($locationPath);
+        $urlAlias = $this->urlAliasService->lookup($locationURL);
+
+        $location = $this->locationService->loadLocation($urlAlias->destination);
+
+        return $location->getContentInfo()->id;
     }
 }

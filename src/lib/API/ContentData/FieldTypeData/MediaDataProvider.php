@@ -34,4 +34,14 @@ class MediaDataProvider implements FieldTypeDataProviderInterface
 
         return $value;
     }
+
+    public function parseFromString(string $value)
+    {
+        $mediaValue = new Value(['inputUri' => $value]);
+        $mediaValue->hasController = true;
+        $mediaValue->autoplay = true;
+        $mediaValue->loop = true;
+
+        return $mediaValue;
+    }
 }

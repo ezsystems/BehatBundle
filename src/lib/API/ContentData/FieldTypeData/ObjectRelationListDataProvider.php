@@ -19,4 +19,14 @@ class ObjectRelationListDataProvider extends ObjectRelationDataProvider
     {
         return new Value($this->getRandomContentIds(3));
     }
+
+    public function parseFromString(string $value)
+    {
+        $itemsToAdd = [];
+        foreach (explode(',', $value) as $itemToAdd) {
+            $itemsToAdd[] = $this->getContentID($itemToAdd);
+        }
+
+        return new Value($itemsToAdd);
+    }
 }

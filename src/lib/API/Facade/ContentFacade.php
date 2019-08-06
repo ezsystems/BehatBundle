@@ -54,4 +54,20 @@ class ContentFacade
         $draft = $this->contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
         $this->contentService->publishVersion($draft->versionInfo);
     }
+
+    public function editContent($locationURL, $language, $contentItemData)
+    {
+        $urlAlias = $this->urlAliasService->lookup($locationURL);
+        Assert::assertEquals(URLAlias::LOCATION, $urlAlias->type);
+
+        $location = $this->locationService->loadLocation($urlAlias->destination);
+        $contentDraft = $this->contentService->createContentDraft($location->getContentInfo());
+        $contentUpdateStruct = $this->contentService->newContentUpdateStruct();
+
+        $this->contentDataProvider->setContentTypeIdentifier($contentDraft->getContentType()->identifier);
+        $this->contentDataProvider->getFilledContentDataStruct($contentUpdateStruct, $contentItemData, $language);
+
+        $updatedDraft = $this->contentService->updateContent($contentDraft->getVersionInfo(), $contentUpdateStruct);
+        $this->contentService->publishVersion($updatedDraft->getVersionInfo());
+    }
 }

@@ -28,4 +28,9 @@ class BinaryFileDataProvider implements FieldTypeDataProviderInterface
 
         return new Value(['inputUri' => $filePath]);
     }
+
+    public function parseFromString(string $value)
+    {
+        return new Value(['inputUri' => $value]);
+    }
 }

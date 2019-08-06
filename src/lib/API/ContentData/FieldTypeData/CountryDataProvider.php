@@ -36,4 +36,9 @@ class CountryDataProvider implements FieldTypeDataProviderInterface
 
         return new Value([$randomCountry => self::COUNTRY_DATA[$randomCountry]]);
     }
+
+    public function parseFromString(string $value)
+    {
+        return new Value([$value => self::COUNTRY_DATA[$value]]);
+    }
 }

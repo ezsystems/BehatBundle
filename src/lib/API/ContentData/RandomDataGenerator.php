@@ -4,7 +4,7 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace EzSystems\Behat\API\ContentData;
 
 use eZ\Publish\Core\MVC\Symfony\Locale\LocaleConverterInterface;
 use Faker;
@@ -35,8 +35,11 @@ class RandomDataGenerator
         }
     }
 
-    protected function getFaker(): Generator
+    public function getFaker(): Generator
     {
+        // Workaround for Faker memory issues, see: https://github.com/fzaninotto/Faker/issues/1125#issuecomment-268676186
+        gc_collect_cycles();
+
         return self::$faker;
     }
 }
