@@ -6,8 +6,12 @@
  */
 namespace EzSystems\Behat\Browser\Context;
 
+use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\AfterStepScope;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Behat\Hook\Scope\BeforeStepScope;
 use Behat\Mink\Driver\Selenium2Driver;
+use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Testwork\Tester\Result\TestResult;
 use EzSystems\Behat\Browser\Filter\BrowserLogFilter;
@@ -15,8 +19,9 @@ use EzSystems\Behat\Browser\Factory\ElementFactory;
 use EzSystems\Behat\Browser\Factory\PageObjectFactory;
 use EzSystems\Behat\Core\Environment\Environment;
 use EzSystems\Behat\Core\Environment\EnvironmentConstants;
+use EzSystems\Behat\Core\Log\LogFileReader;
+use Psr\Log\LoggerInterface;
 use WebDriver\LogType;
-use Behat\MinkExtension\Context\RawMinkContext;
 
 class Hooks extends RawMinkContext
 {
@@ -82,7 +87,9 @@ class Hooks extends RawMinkContext
             $this->displayLogEntries('JS console errors:', $browserLogEntries);
         }
 
-        $applicationLogEntries = $this->parseApplicationlogs();
+        $logReader = new LogFileReader();
+        $applicationLogEntries = $logReader->getLastLines(sprintf('%s/%s', $this->getKernel()->getLogDir(), self::LOG_FILE_NAME), self::APPLICATION_LOGS_LIMIT);
+
         $this->displayLogEntries('Application errors:', $applicationLogEntries);
     }
 
