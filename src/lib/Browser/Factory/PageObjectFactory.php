@@ -7,6 +7,7 @@
 namespace EzSystems\Behat\Browser\Factory;
 
 use EzSystems\Behat\Browser\Context\BrowserContext;
+use EzSystems\Behat\Browser\Page\FrontendLoginPage;
 use EzSystems\Behat\Core\Environment\InstallType;
 use EzSystems\EzPlatformAdminUi\Behat\PageObject\PlatformPageObjectFactory;
 use EzSystems\EzPlatformPageBuilder\Tests\Behat\PageObject\EnterprisePageObjectFactory;
@@ -31,6 +32,11 @@ class PageObjectFactory
 
         if (self::$factory === null) {
             self::$factory = self::getFactory(self::$installType);
+        }
+
+        switch ($pageName) {
+            case FrontendLoginPage::PAGE_NAME:
+                return new FrontendLoginPage($context);
         }
 
         return self::$factory::createPage($context, $pageName, ...$parameters);

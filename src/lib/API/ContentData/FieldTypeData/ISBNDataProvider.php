@@ -6,7 +6,7 @@
  */
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-class ISBNDataProvider extends RandomDataGenerator implements FieldTypeDataProviderInterface
+class ISBNDataProvider extends AbstractFieldTypeDataProvider
 {
     public function supports(string $fieldTypeIdentifier): bool
     {

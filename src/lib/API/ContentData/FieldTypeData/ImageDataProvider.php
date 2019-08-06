@@ -8,7 +8,7 @@ namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
 use eZ\Publish\Core\FieldType\Image\Value;
 
-class ImageDataProvider extends RandomDataGenerator implements FieldTypeDataProviderInterface
+class ImageDataProvider extends AbstractFieldTypeDataProvider
 {
     private const IMAGES = [
         'small1.jpg',
@@ -41,6 +41,18 @@ class ImageDataProvider extends RandomDataGenerator implements FieldTypeDataProv
                 'fileSize' => filesize($filePath),
                 'fileName' => basename($filePath),
                 'alternativeText' => $this->getFaker()->text,
+            ]
+        );
+    }
+
+    public function parseFromString(string $value)
+    {
+        return new Value(
+            [
+                'path' => $value,
+                'fileSize' => filesize($value),
+                'fileName' => basename($value),
+                'alternativeText' => $value,
             ]
         );
     }

@@ -6,7 +6,7 @@
  */
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-class URLDataProvider extends RandomDataGenerator implements FieldTypeDataProviderInterface
+class URLDataProvider extends AbstractFieldTypeDataProvider
 {
     public function supports(string $fieldTypeIdentifier): bool
     {

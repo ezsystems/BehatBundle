@@ -6,7 +6,7 @@
  */
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-class IntegerDataProvider extends RandomDataGenerator implements FieldTypeDataProviderInterface
+class IntegerDataProvider extends AbstractFieldTypeDataProvider
 {
     public function supports(string $fieldTypeIdentifier): bool
     {
@@ -16,5 +16,10 @@ class IntegerDataProvider extends RandomDataGenerator implements FieldTypeDataPr
     public function generateData(string $language = 'eng-GB')
     {
         return (int) $this->getFaker()->numerify('########');
+    }
+
+    public function parseFromString(string $value)
+    {
+        return (int) $value;
     }
 }

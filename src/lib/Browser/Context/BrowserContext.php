@@ -6,11 +6,13 @@
  */
 namespace EzSystems\Behat\Browser\Context;
 
+use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Element\TraversableElement;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\MinkExtension\Context\MinkContext;
 use Exception;
+use PHPUnit\Framework\Assert;
 use WebDriver\Exception\ElementNotVisible;
 
 class BrowserContext extends MinkContext
@@ -318,5 +320,16 @@ class BrowserContext extends MinkContext
         $this->waitUntil(10, function () {
             return $this->isDraggingLibraryLoaded();
         });
+    }
+
+    /**
+     * @Given response headers contain
+     */
+    public function responseHeadersContain(TableNode $expectedHeadersData): void
+    {
+        $responseHeaders = $this->getSession()->getDriver()->getResponseHeaders();
+        foreach ($expectedHeadersData->getHash() as $row) {
+            Assert::assertEquals($row['Value'], $responseHeaders[$row['Header']][0]);
+        }
     }
 }

@@ -14,6 +14,7 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\User\UserGroup;
 use EzSystems\Behat\API\ContentData\ContentDataProvider;
+use EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider;
 
 class UserFacade
 {
@@ -52,13 +53,13 @@ class UserFacade
     {
         $userCreateStruct = $this->userService->newUserCreateStruct(
             $userName,
-            $this->contentDataProvider->getFieldData('email', $languageCode),
-            $this->contentDataProvider->getFieldData('password', $languageCode),
+            $this->contentDataProvider->getRandomFieldData('email', $languageCode),
+            $this->getDefaultPassword(),
             $languageCode,
             $this->contentTypeService->loadContentTypeByIdentifier(self::USER_CONTENT_TYPE_IDENTIFIER));
 
         $userCreateStruct->setField('first_name', $userName);
-        $userCreateStruct->setField('last_name', $this->contentDataProvider->getFieldData('ezstring', $languageCode));
+        $userCreateStruct->setField('last_name', $this->contentDataProvider->getRandomFieldData('ezstring', $languageCode));
 
         $parentGroup = $userGroupName !== null ?
             $this->loadUserGroupByName($userGroupName) :
@@ -85,7 +86,7 @@ class UserFacade
 
     public function getDefaultPassword(): string
     {
-        return $this->contentDataProvider->getFieldData('password');
+        return PasswordProvider::DEFAUlT_PASSWORD;
     }
 
     private function loadUserGroupByName(string $userGroupName): UserGroup

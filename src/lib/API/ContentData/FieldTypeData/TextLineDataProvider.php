@@ -6,7 +6,7 @@
  */
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-class TextLineDataProvider extends RandomDataGenerator implements FieldTypeDataProviderInterface
+class TextLineDataProvider extends AbstractFieldTypeDataProvider
 {
     public function supports(string $fieldTypeIdentifier): bool
     {

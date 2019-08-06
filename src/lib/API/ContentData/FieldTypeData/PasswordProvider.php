@@ -6,8 +6,10 @@
  */
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-class PasswordProvider implements FieldTypeDataProviderInterface
+class PasswordProvider extends AbstractFieldTypeDataProvider
 {
+    public const DEFAUlT_PASSWORD = 'Passw0rd-42';
+
     public function supports(string $fieldTypeIdentifier): bool
     {
         return $fieldTypeIdentifier === 'password';
@@ -15,6 +17,6 @@ class PasswordProvider implements FieldTypeDataProviderInterface
 
     public function generateData(string $language = 'eng-GB'): string
     {
-        return 'Passw0rd-42';
+        return self::DEFAUlT_PASSWORD;
     }
 }
