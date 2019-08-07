@@ -6,8 +6,12 @@
  */
 namespace EzSystems\Behat\Browser\Context;
 
+use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\AfterStepScope;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Behat\Hook\Scope\BeforeStepScope;
 use Behat\Mink\Driver\Selenium2Driver;
+use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Testwork\Tester\Result\TestResult;
 use EzSystems\Behat\Browser\Filter\BrowserLogFilter;
@@ -15,19 +19,27 @@ use EzSystems\Behat\Browser\Factory\ElementFactory;
 use EzSystems\Behat\Browser\Factory\PageObjectFactory;
 use EzSystems\Behat\Core\Environment\Environment;
 use EzSystems\Behat\Core\Environment\EnvironmentConstants;
+use EzSystems\Behat\Core\Log\LogFileReader;
+use Psr\Log\LoggerInterface;
 use WebDriver\LogType;
-use Behat\MinkExtension\Context\RawMinkContext;
 
 class Hooks extends RawMinkContext
 {
     private const CONSOLE_LOGS_LIMIT = 10;
-    private const APPLICATION_LOGS_LIMIT = 10;
+    private const APPLICATION_LOGS_LIMIT = 25;
     private const LOG_FILE_NAME = 'travis_test.log';
 
     use KernelDictionary;
 
-    /** @BeforeScenario
+    /**
+     * @injectService $logger @logger
      */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /** @BeforeScenario */
     public function setInstallTypeBeforeScenario()
     {
         $env = new Environment($this->getContainer());
@@ -36,6 +48,30 @@ class Hooks extends RawMinkContext
         PageObjectFactory::setInstallType($installType);
         ElementFactory::setInstallType($installType);
         EnvironmentConstants::setInstallType($installType);
+    }
+
+    /** @BeforeScenario */
+    public function logStartingScenario(BeforeScenarioScope $scope)
+    {
+        $this->logger->error(sprintf('Starting Scenario "%s"', $scope->getScenario()->getTitle()));
+    }
+
+    /** @BeforeStep */
+    public function logStartingStep(BeforeStepScope $scope)
+    {
+        $this->logger->error(sprintf('Starting Step %s', $scope->getStep()->getText()));
+    }
+
+    /** @AfterScenario */
+    public function logEndingScenario(AfterScenarioScope $scope)
+    {
+        $this->logger->error(sprintf('Ending Scenario "%s"', $scope->getScenario()->getTitle()));
+    }
+
+    /** @AfterStep */
+    public function logEndingStep(AfterStepScope $scope)
+    {
+        $this->logger->error(sprintf('Ending Step %s', $scope->getStep()->getText()));
     }
 
     /** @AfterStep */
@@ -51,33 +87,10 @@ class Hooks extends RawMinkContext
             $this->displayLogEntries('JS console errors:', $browserLogEntries);
         }
 
-        $applicationLogEntries = $this->parseApplicationlogs();
+        $logReader = new LogFileReader();
+        $applicationLogEntries = $logReader->getLastLines(sprintf('%s/%s', $this->getKernel()->getLogDir(), self::LOG_FILE_NAME), self::APPLICATION_LOGS_LIMIT);
+
         $this->displayLogEntries('Application errors:', $applicationLogEntries);
-    }
-
-    private function parseApplicationlogs(): array
-    {
-        $logEntries = [];
-        $counter = 0;
-
-        $file = @fopen(sprintf('%s/%s', $this->getKernel()->getLogDir(), self::LOG_FILE_NAME), 'r');
-
-        if ($file === false) {
-            return $logEntries;
-        }
-
-        while (!feof($file)) {
-            if ($counter >= self::APPLICATION_LOGS_LIMIT) {
-                break;
-            }
-
-            $logEntries[] = fgets($file);
-            ++$counter;
-        }
-
-        fclose($file);
-
-        return $logEntries;
     }
 
     private function parseBrowserLogs($logEntries): array
