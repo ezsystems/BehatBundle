@@ -18,7 +18,7 @@ class Environment
     private $installerServices = ['platform' => 'ezplatform.installer.clean_installer',
         'platform-demo' => 'app.installer.demo_installer',
         'platform-ee' => 'ezstudio.installer.studio_installer',
-        'platform-ee-demo' => 'app.installer.ee-demo_installer', ];
+        'platform-ee-demo' => 'App\Installer\PlatformEEDemoInstaller', ];
 
     /**
      * Environment constructor.
