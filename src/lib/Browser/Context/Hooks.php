@@ -42,7 +42,10 @@ class Hooks extends RawMinkContext
     /** @BeforeScenario */
     public function setInstallTypeBeforeScenario()
     {
-        $env = new Environment($this->getContainer());
+        $container = $this->getContainer();
+        $container = $container->has('test.service_container') ? $container->get('test.service_container') : $container;
+
+        $env = new Environment($container);
         $installType = $env->getInstallType();
 
         PageObjectFactory::setInstallType($installType);
