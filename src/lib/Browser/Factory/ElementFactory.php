@@ -10,7 +10,7 @@ use EzSystems\Behat\Browser\Context\BrowserContext;
 use EzSystems\Behat\Core\Environment\InstallType;
 use EzSystems\EzPlatformAdminUi\Behat\PageElement\PlatformElementFactory;
 use EzSystems\EzPlatformPageBuilder\Tests\Behat\PageElement\EnterpriseElementFactory;
-use Tests\AppBundle\Behat\PageElement\DemoEnterpriseElementFactory;
+use Tests\App\Behat\PageElement\DemoEnterpriseElementFactory;
 
 class ElementFactory
 {
