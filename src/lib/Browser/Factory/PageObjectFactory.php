@@ -11,7 +11,7 @@ use EzSystems\Behat\Browser\Page\FrontendLoginPage;
 use EzSystems\Behat\Core\Environment\InstallType;
 use EzSystems\EzPlatformAdminUi\Behat\PageObject\PlatformPageObjectFactory;
 use EzSystems\EzPlatformPageBuilder\Tests\Behat\PageObject\EnterprisePageObjectFactory;
-use Tests\AppBundle\Behat\PageObject\DemoEnterprisePageObjectFactory;
+use Tests\App\Behat\PageObject\DemoEnterprisePageObjectFactory;
 
 class PageObjectFactory
 {

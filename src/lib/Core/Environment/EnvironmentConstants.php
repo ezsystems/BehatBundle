@@ -9,7 +9,7 @@ namespace EzSystems\Behat\Core\Environment;
 use EzSystems\EzPlatformAdminUi\Behat\Environment\PlatformEnvironmentConstants;
 use EzSystems\EzPlatformPageBuilder\Tests\Behat\Environment\EnterpriseEnvironmentConstants;
 use Tests\AppBundle\Behat\PlatformDemoEnvironmentConstants;
-use Tests\AppBundle\Behat\EnterpriseDemoEnvironmentConstants;
+use Tests\App\Behat\EnterpriseDemoEnvironmentConstants;
 
 class EnvironmentConstants
 {
