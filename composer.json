@@ -10,6 +10,7 @@
     ],
     "require": {
         "php": "^7.3",
+        "ezsystems/doctrine-dbal-schema": "^1.0@dev", 
         "ezsystems/ezpublish-kernel": "^8.0@dev",
         "fzaninotto/faker": "^1.8",
         "behat/behat": "^3.5",
