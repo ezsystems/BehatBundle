@@ -8,8 +8,6 @@
             "homepage": "https://github.com/ezsystems/BehatBundle"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "php": "^7.3",
         "ezsystems/ezpublish-kernel": "^8.0@dev",
