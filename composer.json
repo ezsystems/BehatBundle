@@ -19,8 +19,8 @@
     "target-dir": "EzSystems/BehatBundle",
     "extra": {
         "branch-alias": {
-            "dev-master": "6.5.x-dev",
-            "dev-tmp_ci_branch": "6.5.x-dev"
+            "dev-master": "7.0.x-dev",
+            "dev-tmp_ci_branch": "7.0.x-dev"
         }
     },
 
