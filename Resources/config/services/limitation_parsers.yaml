@@ -1,0 +1,56 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    _instanceof:
+        EzSystems\BehatBundle\Context\Api\LimitationParser\LimitationParserInterface:
+            tags: ['ezsystems.behat.limitation_parser']
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\ContentTypeLimitationParser:
+        arguments:
+            - '@ezpublish.api.service.content_type'
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\LocationLimitationParser:
+        arguments:
+            - '@ezpublish.api.service.url_alias'
+            - '@ezpublish.api.service.location'
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\NewSectionLimitationParser:
+        arguments:
+            - '@ezpublish.api.service.section'
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\NewStateLimitationParser:
+        arguments:
+            - '@ezpublish.api.service.object_state'
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\ObjectStateLimitationParser:
+        arguments:
+            - '@ezpublish.api.service.object_state'
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\LanguageLimitationParser: ~
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\LimitationParsersCollector: ~
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\OwnerLimitationParser: ~
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\ParentContentTypeLimitationParser: ~
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\ParentDepthLimitationParser: ~
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\ParentOwnerLimitationParser: ~
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\ParentUserGroupLimitationParser: ~
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\SectionLimitationParser: ~
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\SiteaccessLimitationParser: ~
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\SubtreeLimitationParser: ~
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\UserGroupLimitationParser: ~
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\WorkflowStageLimitationParser: ~
+
+    EzSystems\BehatBundle\Context\Api\LimitationParser\WorkflowTransitionLimitationParser: ~

@@ -1,66 +1,65 @@
-# Use trusty for better performance (and avoiding mysql/postgres/solr gone issues on precise and container infra)
 dist: trusty
-sudo: required
-
 language: php
+php:
+  - 7.3
 
-services:
-  - mysql
-
-# Mysql isn't installed on trusty (only client is), so we need to specifically install it
-addons:
-  apt:
-    packages:
-    - mysql-server-5.6
-    - mysql-client-core-5.6
-    - mysql-client-5.6
+env:
+  global:
+    - EZPLATFORM_REPO="https://github.com/ezsystems/ezplatform.git"
+    - COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
+    - SYMFONY_ENV=behat
+    - SYMFONY_DEBUG=1
 
 cache:
   directories:
     - $HOME/.composer/cache/files
 
-env:
-  global:
-    # For functional tests
-    - COMPOSE_FILE="doc/docker-compose/base-dev.yml:doc/docker-compose/selenium.yml"
-    - EZPLATFORM_BRANCH=master
-    - RUN_INSTALL=1 
-    - SYMFONY_ENV=behat 
-    - SYMFONY_DEBUG=1
-    - SETUP_SCRIPT=./bin/.travis/prepare_behat_v2.sh
-
-matrix:
-  fast_finish: true
-  include:
-    - php: 7.1
-      env: BEHAT_OPTS="--profile=behat --suite=default --tags='~@broken'" COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
-    - php: 7.1
-      env: BEHAT_OPTS="--profile=rest --suite=fullJson --tags='~@broken'" COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
-    - php: 5.6
-      env: BEHAT_OPTS="--profile=rest --suite=fullXml --tags='~@broken'" SETUP_SCRIPT=./bin/.travis/prepare_behat.sh PHP_IMAGE=ezsystems/php:5.6-v1 PHP_IMAGE_DEV=ezsystems/php:5.6-v1-dev EZPLATFORM_BRANCH=1.13
-    - php: 5.6
-      env: BEHAT_OPTS="--profile=rest --suite=fullJson --tags='~@broken'" SETUP_SCRIPT=./bin/.travis/prepare_behat.sh PHP_IMAGE=ezsystems/php:5.6-v1 PHP_IMAGE_DEV=ezsystems/php:5.6-v1-dev EZPLATFORM_BRANCH=1.13
-
-# test only master and pull requests
+# test only master and stable branches (+ Pull requests)
 branches:
   only:
     - master
+    - /^\d+\.\d+$/
 
-# setup requirements for running Behat tests
-before_install:
-  # Disable memory_limit for composer in PHP 5.6
-  - echo "memory_limit=-1" >> ~/.phpenv/versions/5.6/etc/conf.d/travis.ini
-  - eval $SETUP_SCRIPT
+matrix:
+  include:
+    - name: "Code Style Check"
+      env: CHECK_CS=1
+    - name: "Unit tests"
+      env: PHPUNIT_CONFIG='phpunit.xml'
+    - name: "BehatBundle tests"
+      php: 7.3
+      env: BEHAT_OPTS="--profile=behat"
+    - name: "AdminUI Modules tests"
+      php: 7.3
+      env: BEHAT_OPTS="--profile=adminui --suite=adminuimodules"
 
-# execute phpunit or behat as the script command
-script:
-  - cd "$HOME/build/ezplatform";
-  - docker-compose exec --user www-data app sh -c "bin/behat $BEHAT_OPTS"
-
-# disable mail notifications		
-notification:		
-  email: false
-
-# reduce depth (history) of git checkout
 git:
   depth: 30
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      - secure: "XctNpZ4q36oCCn60DWxt0+E1C6hlr1f5Ry9dMSLgS9jsoz0M2dBb0aNrIJS1dOFDCV+SjQFmY53daIVJKxbDVpCM6/byd0rA5VGByD24NoxuzlQsR6JBHi1/nxDAGBsXUM0IpLl252x8kLjnRCAHfW1OoUjWFGhbK/mAY/ocl6A="
+    on_success: change
+    on_failure: always
+    on_pull_requests: false
+
+before_install:
+  # Disable XDebug for performance
+  - phpenv config-rm xdebug.ini
+  # Get latest composer build
+  - travis_retry composer selfupdate
+  # Avoid memory issues on composer install
+  - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
+install:
+  # Install packages if needed
+  - if [ "${CHECK_CS}" == "1" -o "${PHPUNIT_CONFIG}" != "" ]; then travis_retry composer install --prefer-dist --no-interaction --no-suggest ; fi
+  # Prepare whole environment if needed
+  - if [ "${BEHAT_OPTS}" != "" ]; then ./bin/.travis/prepare_ezplatform.sh ; fi
+
+script:
+  - if [ "${CHECK_CS}" == "1" ] ; then ./vendor/bin/php-cs-fixer fix -v --dry-run --show-progress=estimating ; fi
+  - if [ "${PHPUNIT_CONFIG}" != '' ]; then ./vendor/bin/phpunit -c "${PHPUNIT_CONFIG}"; fi
+  - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/behat $BEHAT_OPTS" ; fi

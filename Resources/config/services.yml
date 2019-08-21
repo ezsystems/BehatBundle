@@ -1,5 +1,39 @@
+imports:
+    - { resource: services/fieldtype_data_providers.yaml }
+    - { resource: services/limitation_parsers.yaml }
+
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
     behatbundle.context_argument_resolver:
         class: EzSystems\BehatBundle\Context\Resolver\AnnotationArgumentResolver
         tags:
             -  { name: context.argument_resolver }
+
+    EzSystems\BehatBundle\API\ContentData\ContentDataProvider:
+        arguments:
+        - '@ezpublish.api.service.content_type'
+        - '@ezpublish.api.service.content'
+
+    EzSystems\BehatBundle\API\ContentData\RandomDataGenerator: ~
+
+    EzSystems\BehatBundle\API\Facade\ContentFacade:
+        public: true
+
+    EzSystems\BehatBundle\API\Facade\ContentTypeFacade:
+        public: true
+
+    EzSystems\BehatBundle\API\Facade\RoleFacade:
+        public: true
+
+    EzSystems\BehatBundle\API\Facade\UserFacade:
+        public: true
+
+    EzSystems\BehatBundle\API\Facade\LanguageFacade:
+        public: true
+
+    EzSystems\BehatBundle\Helper\ArgumentParser:
+        public: true

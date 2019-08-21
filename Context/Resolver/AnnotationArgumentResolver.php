@@ -1,13 +1,16 @@
 <?php
 
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\BehatBundle\Context\Resolver;
 
 use Behat\Behat\Context\Argument\ArgumentResolver;
 use ReflectionClass;
-use Exception;
 
 /**
- * Behat Context Argument Resolver
+ * Behat Context Argument Resolver.
  *
  * @deprecated deprecated since 6.4, will be removed in 7.0.
  * Use instead EzSystems\PlatformBehatBundle\Context\Argument\AnnotationArgumentResolver
@@ -15,7 +18,7 @@ use Exception;
 class AnnotationArgumentResolver implements ArgumentResolver
 {
     /**
-     * Service annotation tag
+     * Service annotation tag.
      */
     const SERVICE_DOC_TAG = 'injectService';
 
@@ -43,7 +46,7 @@ class AnnotationArgumentResolver implements ArgumentResolver
     }
 
     /**
-     * Returns a array with the method annotations
+     * Returns a array with the method annotations.
      *
      * @return array array annotations
      */
@@ -57,7 +60,7 @@ class AnnotationArgumentResolver implements ArgumentResolver
 
     /**
      * Returns an array with the method arguments service requirements,
-     * if the methods use the service Annotation
+     * if the methods use the service Annotation.
      *
      * @return array array of methods and their service dependencies
      */

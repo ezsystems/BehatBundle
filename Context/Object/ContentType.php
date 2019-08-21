@@ -1,37 +1,33 @@
 <?php
+
 /**
- * File containing the Content Type context
- *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
- * @version //autogentag//
  */
-
 namespace EzSystems\BehatBundle\Context\Object;
 
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Behat\Context\Context;
 use EzSystems\BehatBundle\Context\RepositoryContext;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
 use eZ\Publish\API\Repository\Repository;
 use Behat\Gherkin\Node\TableNode;
-use PHPUnit_Framework_Assert as Assertion;
+use PHPUnit\Framework\Assert;
 
 /**
- * Sentences for Content Types
+ * Sentences for Content Types.
  */
 class ContentType implements Context
 {
     use RepositoryContext;
 
     /**
-     * Default ContentTypeGroup
+     * Default ContentTypeGroup.
      */
     const DEFAULT_GROUP = 'Content';
 
     /**
-     * Default language code
+     * Default language code.
      */
     const DEFAULT_LANGUAGE = 'eng-GB';
 
@@ -96,7 +92,7 @@ class ContentType implements Context
      */
     public function assertContentTypeExistsByIdentifier($identifier)
     {
-        Assertion::assertTrue(
+        Assert::assertTrue(
             $this->checkContentTypeExistenceByIdentifier($identifier),
             "Couldn't find a Content Type with identifier '$identifier'."
         );
@@ -109,7 +105,7 @@ class ContentType implements Context
      */
     public function assertContentTypeDoesntExistsByIdentifier($identifier)
     {
-        Assertion::assertFalse(
+        Assert::assertFalse(
             $this->checkContentTypeExistenceByIdentifier($identifier),
             "Found a Content Type with identifier '$identifier'."
         );
@@ -122,17 +118,17 @@ class ContentType implements Context
      */
     public function assertContentTypeExistsByIdentifierOnGroup($identifier, $groupIdentifier)
     {
-        Assertion::assertTrue(
+        Assert::assertTrue(
             $this->checkContentTypeExistenceByIdentifier($identifier, $groupIdentifier),
             "Couldn't find Content Type with identifier '$identifier' on '$groupIdentifier'."
         );
     }
 
     /**
-     * Load and return a content type by its identifier
+     * Load and return a content type by its identifier.
      *
      * @param  string  $identifier       content type identifier
-     * @param  boolean $throwIfNotFound  if true, throws an exception if it is not found.
+     * @param  bool $throwIfNotFound  if true, throws an exception if it is not found
      *
      * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup|null
      */
@@ -171,7 +167,7 @@ class ContentType implements Context
 
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct($identifier);
         $contentTypeCreateStruct->mainLanguageCode = self::DEFAULT_LANGUAGE;
-        $contentTypeCreateStruct->names = array(self::DEFAULT_LANGUAGE => $contentTypeName);
+        $contentTypeCreateStruct->names = [self::DEFAULT_LANGUAGE => $contentTypeName];
 
         $fieldPosition = 0;
         foreach ($fields as $field) {
@@ -180,10 +176,10 @@ class ContentType implements Context
 
             $fieldCreateStruct = $contentTypeService
                 ->newFieldDefinitionCreateStruct($field['identifier'], $field['type']);
-            $fieldCreateStruct->names = array(self::DEFAULT_LANGUAGE => $field['name']);
+            $fieldCreateStruct->names = [self::DEFAULT_LANGUAGE => $field['name']];
             $fieldCreateStruct->position = $fieldPosition;
             if (isset($field['required'])) {
-                $fieldCreateStruct->isRequired = ( $field['required'] === 'true' );
+                $fieldCreateStruct->isRequired = ($field['required'] === 'true');
             }
             if (isset($field['validator']) && $field['validator'] !== 'false') {
                 $fieldCreateStruct->validatorConfiguration = $this->processValidator($field['validator']);
@@ -196,7 +192,7 @@ class ContentType implements Context
 
         $contentTypeDraft = $contentTypeService->createContentType(
             $contentTypeCreateStruct,
-            array($contentTypeGroup)
+            [$contentTypeGroup]
         );
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
 
@@ -206,7 +202,7 @@ class ContentType implements Context
     }
 
     /**
-     * Remove the given 'ContentType' object
+     * Remove the given 'ContentType' object.
      *
      * @param  eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType
      */
@@ -233,10 +229,11 @@ class ContentType implements Context
     }
 
     /**
-     * Verifies that a content type with $identifier exists
+     * Verifies that a content type with $identifier exists.
      *
      * @param string $identifier
-     * @return boolean
+     *
+     * @return bool
      */
     protected function checkContentTypeExistenceByIdentifier($identifier, $groupIdentifier = null)
     {
@@ -251,8 +248,10 @@ class ContentType implements Context
                     return true;
                 }
             }
+
             return false;
         }
+
         return $contentType ? true : false;
     }
 }

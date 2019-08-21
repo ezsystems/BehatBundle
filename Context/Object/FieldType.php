@@ -1,19 +1,15 @@
 <?php
+
 /**
-  *This file is part of the BehatBundle package
- *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
- * @version //autogentag//
  */
-
 namespace EzSystems\BehatBundle\Context\Object;
 
 use Behat\Gherkin\Node\TableNode;
-use PHPUnit_Framework_Assert as Assertion;
 
 /**
- * Sentences for Fields
+ * Sentences for Fields.
  */
 trait FieldType
 {
@@ -23,9 +19,9 @@ trait FieldType
      *
      * Creates a ContentType with only the desired FieldType
      */
-    public function createContentTypeWithFieldType( $fieldType, $name = null )
+    public function createContentTypeWithFieldType($fieldType, $name = null)
     {
-        return $this->getFieldTypeManager()->createField( $fieldType, $name );
+        return $this->getFieldTypeManager()->createField($fieldType, $name);
     }
 
     /**
@@ -34,9 +30,9 @@ trait FieldType
      *
      * Creates a ContentType with only the desired FieldType
      */
-    public function createContentTypeWithRequiredFieldType( $fieldType, $name = null )
+    public function createContentTypeWithRequiredFieldType($fieldType, $name = null)
     {
-        return $this->getFieldTypeManager()->createField( $fieldType, $name, true );
+        return $this->getFieldTypeManager()->createField($fieldType, $name, true);
     }
 
     /**
@@ -47,29 +43,27 @@ trait FieldType
      *
      * Creates a Content with the previously defined ContentType
      */
-    public function createContentOfThisType( $field = null, $value = null )
+    public function createContentOfThisType($field = null, $value = null)
     {
-        return $this->getFieldTypeManager()->createContent( $field, $value );
+        return $this->getFieldTypeManager()->createContent($field, $value);
     }
 
     /**
      * @Given a Content Type with an/a :fieldType field exists with Properties:
      * @Given a Content Type with an/a :fieldType field with name :name exists with Properties:
      */
-    public function createContentOfThisTypeWithProperties( $fieldType, TableNode $properties, $name = null )
+    public function createContentOfThisTypeWithProperties($fieldType, TableNode $properties, $name = null)
     {
-        $this->getFieldTypeManager()->createField( $fieldType, $name );
-        foreach ( $properties as $property )
-        {
-            switch( $property[ 'Validator' ] )
-            {
+        $this->getFieldTypeManager()->createField($fieldType, $name);
+        foreach ($properties as $property) {
+            switch ($property['Validator']) {
                 case 'maximum value validator':
                 case 'maximum length validator':
-                    $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "max" );
+                    $this->getFieldTypeManager()->addValueConstraint($fieldType, $property['Value'], 'max');
                     break;
                 case 'minimum value validator':
                 case 'minimum length validator':
-                    $this->getFieldTypeManager()->addValueConstraint( $fieldType, $property[ 'Value' ], "min" );
+                    $this->getFieldTypeManager()->addValueConstraint($fieldType, $property['Value'], 'min');
                     break;
             }
         }

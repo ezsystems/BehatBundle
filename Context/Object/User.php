@@ -1,19 +1,16 @@
 <?php
+
 /**
- * File containing the User object context
- *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
- * @version //autogentag//
  */
-
 namespace EzSystems\BehatBundle\Context\Object;
 
 use Behat\Gherkin\Node\TableNode;
-use PHPUnit_Framework_Assert as Assertion;
+use PHPUnit\Framework\Assert;
 
 /**
- * Sentences for Users
+ * Sentences for Users.
  */
 trait User
 {
@@ -24,12 +21,12 @@ trait User
      *
      * @return \eZ\Publish\API\Repository\Values\User\User
      */
-    public function iHaveUser( $username )
+    public function iHaveUser($username)
     {
-        $email = $this->findNonExistingUserEmail( $username );
+        $email = $this->findNonExistingUserEmail($username);
         $password = $this->getUserManager()->getDefaultPassword();
-        $user = $this->getUserManager()->ensureUserExists( $username, $email, $password );
-        $this->addValuesToKeyMap( $email, $user->email );
+        $user = $this->getUserManager()->ensureUserExists($username, $email, $password);
+        $this->addValuesToKeyMap($email, $user->email);
     }
 
     /**
@@ -39,9 +36,9 @@ trait User
      *
      * @return \eZ\Publish\API\Repository\Values\User\User
      */
-    public function iHaveUserWithUsernameEmailAndPassword( $username, $email, $password )
+    public function iHaveUserWithUsernameEmailAndPassword($username, $email, $password)
     {
-        $this->getUserManager()->ensureUserExists( $username, $email, $password );
+        $this->getUserManager()->ensureUserExists($username, $email, $password);
     }
 
     /**
@@ -51,12 +48,12 @@ trait User
      *
      * @return \eZ\Publish\API\Repository\Values\User\User
      */
-    public function iHaveUserInGroup( $username, $parentGroupName )
+    public function iHaveUserInGroup($username, $parentGroupName)
     {
-        $email = $this->findNonExistingUserEmail( $username );
+        $email = $this->findNonExistingUserEmail($username);
         $password = $this->getUserManager()->getDefaultPassword();
-        $user = $this->getUserManager()->ensureUserExists( $username, $email, $password, $parentGroupName );
-        $this->addValuesToKeyMap( $email, $user->email );
+        $user = $this->getUserManager()->ensureUserExists($username, $email, $password, $parentGroupName);
+        $this->addValuesToKeyMap($email, $user->email);
     }
 
     /**
@@ -66,9 +63,9 @@ trait User
      *
      * @return \eZ\Publish\API\Repository\Values\User\User
      */
-    public function iHaveUserWithUsernameEmailAndPasswordInGroup( $username, $email, $password, $parentGroupName )
+    public function iHaveUserWithUsernameEmailAndPasswordInGroup($username, $email, $password, $parentGroupName)
     {
-        return $this->getUserManager()->ensureUserExists( $username, $email, $password, $parentGroupName );
+        return $this->getUserManager()->ensureUserExists($username, $email, $password, $parentGroupName);
     }
 
     /**
@@ -83,24 +80,23 @@ trait User
      *
      * @return \eZ\Publish\API\Repository\Values\User\User
      */
-    public function iHaveUserWithFields( $username, TableNode $table )
+    public function iHaveUserWithFields($username, TableNode $table)
     {
         $fieldsTable = $table->getTable();
-        array_shift( $fieldsTable );
-        $fields = array();
-        foreach ( $fieldsTable as $fieldRow )
-        {
-            $fields[ $fieldRow[0] ] = $fieldRow[1];
+        array_shift($fieldsTable);
+        $fields = [];
+        foreach ($fieldsTable as $fieldRow) {
+            $fields[$fieldRow[0]] = $fieldRow[1];
         }
 
-        $password = isset( $fields['password'] ) ? $fields['password'] : $username;
-        $email = isset( $fields['email'] ) ? $fields['email'] : $this->findNonExistingUserEmail( $username );
+        $password = isset($fields['password']) ? $fields['password'] : $username;
+        $email = isset($fields['email']) ? $fields['email'] : $this->findNonExistingUserEmail($username);
 
         // first, ensure the user exists
-        $user = $this->getUserManager()->ensureUserExists( $username, $email, $password );
+        $user = $this->getUserManager()->ensureUserExists($username, $email, $password);
 
         // then, update with fields
-        $this->getUserManager()->updateUser( $user, $fields );
+        $this->getUserManager()->updateUser($user, $fields);
     }
 
     /**
@@ -108,9 +104,9 @@ trait User
      *
      * Makes sure a user with username ':username' doesn't exist, removing it if necessary
      */
-    public function iDontHaveUser( $username )
+    public function iDontHaveUser($username)
     {
-        $this->getUserManager()->ensureUserDoesntExist( $username );
+        $this->getUserManager()->ensureUserDoesntExist($username);
     }
 
     /**
@@ -118,9 +114,9 @@ trait User
      *
      * Makes sure a user with username ':username' doesn't exist as a chield of group ':parentGroup', removing it if necessary.
      */
-    public function iDontHaveUserInGroup( $username, $parentGroup )
+    public function iDontHaveUserInGroup($username, $parentGroup)
     {
-        $this->getUserManager()->ensureUserDoesntExist( $username, $parentGroup );
+        $this->getUserManager()->ensureUserDoesntExist($username, $parentGroup);
     }
 
     /**
@@ -128,11 +124,11 @@ trait User
      *
      * Makes user a user with (mapped) id ':id' exists
      */
-    public function iHaveUserWithId( $id )
+    public function iHaveUserWithId($id)
     {
         $name = $this->findNonExistingUserName();
-        $user = $this->getUserManager()->ensureUserExists( $name );
-        $this->addValuesToKeyMap( $id, $user->id );
+        $user = $this->getUserManager()->ensureUserExists($name);
+        $this->addValuesToKeyMap($id, $user->id);
     }
 
     /**
@@ -140,10 +136,10 @@ trait User
      *
      * Ensures a user with username ':username' and id ':id' exists as a child of ':parentGroup' user group, can create either one.
      */
-    public function iHaveUserWithIdInGroup( $username, $id, $parentGroup )
+    public function iHaveUserWithIdInGroup($username, $id, $parentGroup)
     {
-        $user = $this->getUserManager()->ensureUserExists( $username, $parentGroup );
-        $this->addValuesToMap( $id, $user->id );
+        $user = $this->getUserManager()->ensureUserExists($username, $parentGroup);
+        $this->addValuesToMap($id, $user->id);
     }
 
     /**
@@ -155,15 +151,14 @@ trait User
      *      | testUser2       | Editors          |
      *      | testUser3       | NewParent        | # Both user and group should be created
      */
-    public function iHaveTheFollowingUsers( TableNode $table )
+    public function iHaveTheFollowingUsers(TableNode $table)
     {
         $users = $table->getTable();
 
-        array_shift( $users );
-        foreach ( $users as $user )
-        {
+        array_shift($users);
+        foreach ($users as $user) {
             // array( [0] => userName, [1] => groupName );
-            $this->getUserManager()->ensureUserExists( $user[0], $user[1] );
+            $this->getUserManager()->ensureUserExists($user[0], $user[1]);
         }
     }
 
@@ -173,10 +168,10 @@ trait User
      *
      * Checks that user ':username' exists
      */
-    public function assertUserWithNameExists( $username )
+    public function assertUserWithNameExists($username)
     {
-        Assertion::assertTrue(
-            $this->getUserManager()->checkUserExistenceByUsername( $username ),
+        Assert::assertTrue(
+            $this->getUserManager()->checkUserExistenceByUsername($username),
             "Couldn't find User with name '$username'."
         );
     }
@@ -186,10 +181,10 @@ trait User
      *
      * * Checks that user ':username' does not exist
      */
-    public function assertUserWithNameDoesntExist( $username )
+    public function assertUserWithNameDoesntExist($username)
     {
-        Assertion::assertFalse(
-            $this->getUserManager()->checkUserExistenceByUsername( $username ),
+        Assert::assertFalse(
+            $this->getUserManager()->checkUserExistenceByUsername($username),
             "User with name '$username' was found."
         );
     }
@@ -200,10 +195,10 @@ trait User
      *
      * Checks that user ':username' exists as a child of group ':parentGroup'
      */
-    public function assertUserWithNameExistsInGroup( $username, $parentGroup )
+    public function assertUserWithNameExistsInGroup($username, $parentGroup)
     {
-        Assertion::assertTrue(
-            $this->getUserManager()->checkUserExistenceByUsername( $username, $parentGroup ),
+        Assert::assertTrue(
+            $this->getUserManager()->checkUserExistenceByUsername($username, $parentGroup),
             "Couldn't find User with name '$username' in parent group '$parentGroup'."
         );
     }
@@ -214,10 +209,10 @@ trait User
      *
      * Checks that user ':username' does not exist as a child of group ':parentGroup'
      */
-    public function assertUserWithNameDoesntExistInGroup( $username, $parentGroup )
+    public function assertUserWithNameDoesntExistInGroup($username, $parentGroup)
     {
-        Assertion::assertFalse(
-            $this->getUserManager()->checkUserExistenceByUsername( $username, $parentGroup ),
+        Assert::assertFalse(
+            $this->getUserManager()->checkUserExistenceByUsername($username, $parentGroup),
             "User with name '$username' was found in parent group '$parentGroup'."
         );
     }
@@ -232,15 +227,14 @@ trait User
      *      | Editors               |
      *      | Administrator users   |
      */
-    public function assertUserWithNameDoesntExistInGroups( $username, TableNode $table )
+    public function assertUserWithNameDoesntExistInGroups($username, TableNode $table)
     {
         $groups = $table->getTable();
-        array_shift( $groups );
-        foreach ( $groups as $group )
-        {
+        array_shift($groups);
+        foreach ($groups as $group) {
             $parentGroupName = $group[0];
-            Assertion::assertFalse(
-                $this->getUserManager()->checkUserExistenceByUsername( $username, $parentGroupName ),
+            Assert::assertFalse(
+                $this->getUserManager()->checkUserExistenceByUsername($username, $parentGroupName),
                 "User with name '$username' was found in parent group '$parentGroupName'."
             );
         }
@@ -257,26 +251,24 @@ trait User
      *       | first_name    | Test            |
      *       | last_name     | User            |
      */
-    public function assertUserWithNameExistsWithFields( $username, TableNode $table )
+    public function assertUserWithNameExistsWithFields($username, TableNode $table)
     {
-        Assertion::assertTrue(
-            $this->getUserManager()->checkUserExistenceByUsername( $username ),
+        Assert::assertTrue(
+            $this->getUserManager()->checkUserExistenceByUsername($username),
             "Couldn't find User with name '$username'."
         );
 
-        $user = $this->getUserManager()->loadUserByLogin( $username );
+        $user = $this->getUserManager()->loadUserByLogin($username);
 
         $fieldsTable = $table->getTable();
-        array_shift( $fieldsTable );
-        $updateFields = array();
-        foreach ( $fieldsTable as $fieldRow )
-        {
+        array_shift($fieldsTable);
+        $updateFields = [];
+        foreach ($fieldsTable as $fieldRow) {
             $fieldName = $fieldRow[0];
             $expectedValue = $fieldRow[1];
             $assertErrorMsg = "Field '$fieldName' did not contain expected value '$expectedValue'.";
 
-            switch ( $fieldName )
-            {
+            switch ($fieldName) {
                 case 'email':
                     $fieldValue = $user->email;
                     break;
@@ -291,9 +283,9 @@ trait User
                     $expectedValue = true;
                     break;
                 default:
-                    $fieldValue = $user->getFieldValue( $fieldName );
+                    $fieldValue = $user->getFieldValue($fieldName);
             }
-            Assertion::assertEquals(
+            Assert::assertEquals(
                 $expectedValue,
                 $fieldValue,
                 $assertErrorMsg
@@ -302,35 +294,32 @@ trait User
     }
 
     /**
-     * Find a non existing User email
+     * Find a non existing User email.
      *
      * @return string A not used email
      *
      * @throws \Exception Possible endless loop
      */
-    private function findNonExistingUserEmail( $username = 'User' )
+    private function findNonExistingUserEmail($username = 'User')
     {
         $userManager = $this->getUserManager();
         $email = "${username}@ez.no";
-        if ( $userManager->checkUserExistenceByEmail( $email ) )
-        {
+        if ($userManager->checkUserExistenceByEmail($email)) {
             return $email;
         }
 
-        for ( $i = 0; $i < 20; $i++ )
-        {
+        for ($i = 0; $i < 20; ++$i) {
             $email = uniqid('User#', true) . '@ez.no';
-            if ( !$userManager->checkUserExistenceByEmail( $email ) )
-            {
+            if (!$userManager->checkUserExistenceByEmail($email)) {
                 return $email;
             }
         }
 
-        throw new \Exception( 'Possible endless loop when attempting to find a new email for User.' );
+        throw new \Exception('Possible endless loop when attempting to find a new email for User.');
     }
 
     /**
-     * Find a non existing User name
+     * Find a non existing User name.
      *
      * @return string A not used name
      *
@@ -339,15 +328,13 @@ trait User
     private function findNonExistingUserName()
     {
         $userManager = $this->getUserManager();
-        for ( $i = 0; $i < 20; $i++ )
-        {
+        for ($i = 0; $i < 20; ++$i) {
             $username = substr(uniqid('User#', true), 0, 15);
-            if ( !$userManager->checkUserExistenceByUsername( $username ) )
-            {
+            if (!$userManager->checkUserExistenceByUsername($username)) {
                 return $username;
             }
         }
 
-        throw new \Exception( 'Possible endless loop when attempting to find a new name for User.' );
+        throw new \Exception('Possible endless loop when attempting to find a new name for User.');
     }
 }

@@ -1,19 +1,15 @@
 <?php
+
 /**
- * File containing the Role object context
- *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
- * @version //autogentag//
  */
-
 namespace EzSystems\BehatBundle\Context\Object;
 
-use Behat\Gherkin\Node\TableNode;
-use PHPUnit_Framework_Assert as Assertion;
+use PHPUnit\Framework\Assert;
 
 /**
- * Sentences for Roles
+ * Sentences for Roles.
  */
 trait Role
 {
@@ -24,21 +20,20 @@ trait Role
      *
      * @return \eZ\Publish\API\Repository\Values\User\Role
      */
-    public function iHaveRole( $name )
+    public function iHaveRole($name)
     {
-        return $this->getRoleManager()->ensureRoleExists( $name );
+        return $this->getRoleManager()->ensureRoleExists($name);
     }
 
     /**
      * @Then I see that a/an :name role exists
      *
      * Verifies that a role with $name exists.
-     *
      */
-    public function iSeeRole( $name )
+    public function iSeeRole($name)
     {
-        $role = $this->getRoleManager()->getRole( $name );
-        Assertion::assertNotNull(
+        $role = $this->getRoleManager()->getRole($name);
+        Assert::assertNotNull(
             $role,
             "Couldn't find Role with name $name"
         );
@@ -57,12 +52,11 @@ trait Role
      * @Then I see that a/an :name role does not exists
      *
      * Verifies that a role with $name exists.
-     *
      */
-    public function iDontSeeRole( $name )
+    public function iDontSeeRole($name)
     {
-        $role = $this->getRoleManager()->getRole( $name );
-        Assertion::assertNull(
+        $role = $this->getRoleManager()->getRole($name);
+        Assert::assertNull(
             $role,
             "Found Role with name $name"
         );

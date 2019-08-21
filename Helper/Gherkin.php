@@ -1,23 +1,20 @@
 <?php
+
 /**
- * File containing the Gherkin helper for BehatBundle
- *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
- * @version //autogentag//
  */
-
 namespace EzSystems\BehatBundle\Helper;
 
 use Behat\Gherkin\Node\TableNode;
 
 /**
- * Gherkin helper methods to manipulate Node's
+ * Gherkin helper methods to manipulate Node's.
  */
 class Gherkin
 {
     /**
-     * This function will convert Gherkin tables into structure array of data
+     * This function will convert Gherkin tables into structure array of data.
      *
      * if Gherkin table look like
      *
@@ -60,64 +57,60 @@ class Gherkin
      *
      * @todo Define better the intended results in all (possible) variations
      */
-    static function convertTableToArrayOfData( TableNode $table, array $data = null )
+    public static function convertTableToArrayOfData(TableNode $table, array $data = null)
     {
-        if( empty( $data ) )
-            $data = array();
+        if (empty($data)) {
+            $data = [];
+        }
 
         // prepare given data
         $i = 0;
         $rows = $table->getRows();
-        $headers = array_shift( $rows );   // this is needed to take the first row ( readability only )
-        foreach ( $rows as $row )
-        {
-            $count = count( array_filter( $row ) );
+        $headers = array_shift($rows);   // this is needed to take the first row ( readability only )
+        foreach ($rows as $row) {
+            $count = \count(array_filter($row));
             // check if the field is supposed to be empty
             // or it simply has only 1 element
             if (
                 $count == 1
-                && count( $row )
-                && !method_exists( $table, "getCleanRows" )
-            )
-            {
+                && \count($row)
+                && !method_exists($table, 'getCleanRows')
+            ) {
                 $count = 2;
             }
 
             $key = $row[0];
-            switch( $count ){
+            switch ($count) {
             // case 1 is for the cases where there is an Examples table and it
             // gets the values from there, so the field name/id shold be on the
             // examples table (ex: "| <field_name> |")
             case 1:
                 $value = $key;
                 $aux = $table->getCleanRows();
-                $k = ( count( $aux ) === count( array_keys( $table ) ) ) ? $i : $i + 1;
+                $k = (\count($aux) === \count(array_keys($table))) ? $i : $i + 1;
 
-                $key = str_replace( array( '<', '>' ), array( '', '' ), $aux[$k][0] );
+                $key = str_replace(['<', '>'], ['', ''], $aux[$k][0]);
                 break;
 
             // case 2 is the most simple case where "| field1 | as value 1 |"
             case 2:
-                if ( count( $headers ) === 1 )
-                {
+                if (\count($headers) === 1) {
                     $value = $row[0];
-                }
-                else
-                {
+                } else {
                     $value = $row[1];
                 }
                 break;
 
             // this is for the cases where there are several values for the same
             // field (ex: author) and the gherkin table should look like
-            default: $value = array_slice( $row, 1 );
+            default: $value = \array_slice($row, 1);
                 break;
             }
             $data[$key] = $value;
-            $i++;
+            ++$i;
         }
 
         // if its empty return false otherwise return the array with data
-        return empty( $data ) ? false : $data;
+        return empty($data) ? false : $data;
     }
 }
