@@ -1,19 +1,13 @@
 <?php
+
 /**
-  *This file is part of the BehatBundle package
- *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
- * @version //autogentag//
  */
-
 namespace EzSystems\BehatBundle\Context\Object;
 
-use Behat\Gherkin\Node\TableNode;
-use PHPUnit_Framework_Assert as Assertion;
-
 /**
- * Sentences for Fields
+ * Sentences for Fields.
  *
  * @method \EzSystems\BehatBundle\ObjectManager\BasicContent getBasicContentManager
  */
@@ -22,40 +16,44 @@ trait BasicContent
     /**
      * @Given a/an :path folder exists
      */
-    public function createBasicFolder( $path )
+    public function createBasicFolder($path)
     {
-        $fields = array( 'name' => $this->getTitleFromPath( $path ) );
-        return $this->getBasicContentManager()->createContentwithPath( $path, $fields, 'folder' );
+        $fields = ['name' => $this->getTitleFromPath($path)];
+
+        return $this->getBasicContentManager()->createContentwithPath($path, $fields, 'folder');
     }
 
     /**
      * @Given a/an :path article exists
      */
-    public function createBasicArticle( $path )
+    public function createBasicArticle($path)
     {
-        $fields = array(
-            'title' => $this->getTitleFromPath( $path ),
-            'intro' => $this->getDummyXmlText()
-        );
-        return $this->getBasicContentManager()->createContentwithPath( $path, $fields, 'article' );
+        $fields = [
+            'title' => $this->getTitleFromPath($path),
+            'intro' => $this->getDummyXmlText(),
+        ];
+
+        return $this->getBasicContentManager()->createContentwithPath($path, $fields, 'article');
     }
 
     /**
      * @Given a/an :path article draft exists
      */
-    public function createArticleDraft( $path )
+    public function createArticleDraft($path)
     {
-        $fields = array(
-            'title' => $this->getTitleFromPath( $path ),
-            'intro' => $this->getDummyXmlText()
-        );
-        return $this->getBasicContentManager()->createContentDraft( 2, 'article', $fields );
+        $fields = [
+            'title' => $this->getTitleFromPath($path),
+            'intro' => $this->getDummyXmlText(),
+        ];
+
+        return $this->getBasicContentManager()->createContentDraft(2, 'article', $fields);
     }
 
-    private function getTitleFromPath( $path )
+    private function getTitleFromPath($path)
     {
-        $parts = explode( '/', rtrim( $path, '/' ) );
-        return end( $parts );
+        $parts = explode('/', rtrim($path, '/'));
+
+        return end($parts);
     }
 
     /**

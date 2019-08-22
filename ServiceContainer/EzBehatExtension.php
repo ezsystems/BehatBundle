@@ -1,17 +1,20 @@
 <?php
 
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\BehatBundle\ServiceContainer;
 
 use Behat\Testwork\ServiceContainer\Extension;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
-use Behat\Symfony2Extension\ServiceContainer\Driver\SymfonyFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
- * EzBehatExtension loads extension specific services
+ * EzBehatExtension loads extension specific services.
  *
  * @deprecated deprecated since 6.4, will be removed in 7.0.
  * Use instead EzSystems\PlatformBehatBundle\ServiceContainer\EzBehatExtension

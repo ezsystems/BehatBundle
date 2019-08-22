@@ -1,12 +1,9 @@
 <?php
+
 /**
- * File containing the ContentTypeGroup context
- *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
- * @version //autogentag//
  */
-
 namespace EzSystems\BehatBundle\Context\Object;
 
 use Behat\Behat\Context\Context;
@@ -14,12 +11,11 @@ use EzSystems\BehatBundle\Context\RepositoryContext;
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
-
 use Behat\Gherkin\Node\TableNode;
-use PHPUnit_Framework_Assert as Assertion;
+use PHPUnit\Framework\Assert;
 
 /**
- * Sentences for ContentTypeGroups
+ * Sentences for ContentTypeGroups.
  */
 class ContentTypeGroup implements Context
 {
@@ -61,10 +57,10 @@ class ContentTypeGroup implements Context
             $contentTypeGroup = $contentTypeService->createContentTypeGroup($ContentTypeGroupCreateStruct);
         }
 
-        return array(
-            'found'             => $found,
-            'contentTypeGroup'  => $contentTypeGroup
-        );
+        return [
+            'found' => $found,
+            'contentTypeGroup' => $contentTypeGroup,
+        ];
     }
 
     /**
@@ -74,7 +70,6 @@ class ContentTypeGroup implements Context
      */
     public function ensureContentTypeGroupDoesntExist($identifier)
     {
-
         /** @var \eZ\Publish\API\Repository\ContentTypeService */
         $contentTypeService = $this->contentTypeService;
 
@@ -116,7 +111,7 @@ class ContentTypeGroup implements Context
      */
     public function assertContentTypeGroupWithIdentifierExists($identifier)
     {
-        Assertion::assertTrue(
+        Assert::assertTrue(
             $this->checkContentTypeGroupExistenceByIdentifier($identifier),
             "Couldn't find ContentTypeGroup with identifier '$identifier'"
         );
@@ -131,7 +126,7 @@ class ContentTypeGroup implements Context
      */
     public function assertContentTypeGroupWithIdentifierDoesntExist($identifier)
     {
-        Assertion::assertFalse(
+        Assert::assertFalse(
             $this->checkContentTypeGroupExistenceByIdentifier($identifier),
             "Unexpected ContentTypeGroup with identifer '$identifier' found"
         );
@@ -145,18 +140,18 @@ class ContentTypeGroup implements Context
      */
     public function assertTotalContentTypeGroups($total, $identifier)
     {
-        Assertion::assertEquals(
+        Assert::assertEquals(
             $this->countContentTypeGroup($identifier),
             $total
         );
     }
 
     /**
-     * Checks if the ContentTypeGroup with $identifier exists
+     * Checks if the ContentTypeGroup with $identifier exists.
      *
      * @param string $identifier Identifier of the possible content
      *
-     * @return boolean True if it exists
+     * @return bool True if it exists
      */
     public function checkContentTypeGroupExistenceByIdentifier($identifier)
     {
@@ -166,6 +161,7 @@ class ContentTypeGroup implements Context
         // attempt to load the content type group with the identifier
         try {
             $contentTypeService->loadContentTypeGroupByIdentifier($identifier);
+
             return true;
         } catch (ApiExceptions\NotFoundException $e) {
             return false;
@@ -173,7 +169,7 @@ class ContentTypeGroup implements Context
     }
 
     /**
-     * Find a non existing ContentTypeGroup identifier
+     * Find a non existing ContentTypeGroup identifier.
      *
      * @return string A not used identifier
      *

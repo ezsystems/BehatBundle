@@ -1,39 +1,30 @@
 <?php
+
 /**
- * File containing the Role ObjectManager class.
- *
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
- * @version //autogentag//
  */
-
 namespace EzSystems\BehatBundle\ObjectManager;
 
 use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\API\Repository\Values\User\RoleCreateStruct;
 use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Base\Exceptions as CoreExceptions;
-use Behat\Gherkin\Node\TableNode;
 
 class Role extends Base
 {
     /**
-     * Make sure a Role with name $name exists in parent group
+     * Make sure a Role with name $name exists in parent group.
      *
      * @param string $name Role identifier
      *
      * @return \eZ\Publish\API\Repository\Values\User\Role
      */
-    public function ensureRoleExists( $name )
+    public function ensureRoleExists($name)
     {
-         /** @var \eZ\Publish\API\Repository\Repository $repository */
+        /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = $this->getRepository();
         $that = $this;
         $role = $repository->sudo(
-            function() use( $repository, $name, $that )
-            {
+            function () use ($repository, $name, $that) {
                 $role = null;
                 $roleService = $repository->getRoleService();
 
@@ -45,17 +36,14 @@ class Role extends Base
                     );
                 }
 
-                try
-                {
+                try {
                     $role = $roleService->loadRoleByIdentifier(ucfirst($name));
-                }
-                catch ( ApiExceptions\NotFoundException $e )
-                {
+                } catch (ApiExceptions\NotFoundException $e) {
                     $roleCreateStruct = $roleService->newRoleCreateStruct(ucfirst($name));
-                    $roleDraft = $roleService->createRole( $roleCreateStruct );
+                    $roleDraft = $roleService->createRole($roleCreateStruct);
                     $roleService->publishRoleDraft($roleDraft);
                     $role = $roleService->loadRole($roleDraft->id);
-                    $that->addObjectToList( $role );
+                    $that->addObjectToList($role);
                 }
 
                 return $role;
@@ -66,23 +54,21 @@ class Role extends Base
     }
 
     /**
-     * Fetches the role with identifier
+     * Fetches the role with identifier.
      *
      * @param string $identifier Role identifier
      *
      * @return \eZ\Publish\API\Repository\Values\User\Role
      */
-    public function getRole( $identifier )
+    public function getRole($identifier)
     {
-         /** @var \eZ\Publish\API\Repository\Repository $repository */
+        /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = $this->getRepository();
         $role = $repository->sudo(
-            function() use( $repository, $identifier )
-            {
+            function () use ($repository, $identifier) {
                 $role = null;
                 $roleService = $repository->getRoleService();
-                try
-                {
+                try {
                     // make sure role name starts with uppercase as this is what default setup provides
                     if ($identifier !== ucfirst($identifier)) {
                         @trigger_error(
@@ -91,9 +77,7 @@ class Role extends Base
                         );
                     }
                     $role = $roleService->loadRoleByIdentifier(ucfirst($identifier));
-                }
-                catch ( ApiExceptions\NotFoundException $e )
-                {
+                } catch (ApiExceptions\NotFoundException $e) {
                     // Role not found, do nothing, returns null
                 }
 
@@ -105,11 +89,13 @@ class Role extends Base
     }
 
     /**
-     * [destroy description]
+     * [destroy description].
+     *
      * @param  ValueObject $object [description]
+     *
      * @return [type]              [description]
      */
-    protected function destroy( ValueObject $object )
+    protected function destroy(ValueObject $object)
     {
         // Ignore warnings about not empty cache directory. See: https://github.com/ezsystems/BehatBundle/pull/71
         $currentErrorReportingLevel = error_reporting();
@@ -118,16 +104,12 @@ class Role extends Base
         /** @var \eZ\Publish\API\Repository\Repository $repository */
         $repository = $this->getRepository();
         $repository->sudo(
-            function() use( $repository, $object )
-            {
+            function () use ($repository, $object) {
                 $roleService = $repository->getRoleService();
-                try
-                {
-                    $objectToBeRemoved = $roleService->loadRole( $object->id );
-                    $roleService->deleteRole( $objectToBeRemoved );
-                }
-                catch ( ApiExceptions\NotFoundException $e )
-                {
+                try {
+                    $objectToBeRemoved = $roleService->loadRole($object->id);
+                    $roleService->deleteRole($objectToBeRemoved);
+                } catch (ApiExceptions\NotFoundException $e) {
                     // nothing to do
                 }
             }

@@ -14,3 +14,4 @@ Feature: Content Type Creation
             |   Identifier   |     Type       |     Name      |
             |  title         |  ezstring      |  Title        |
         Then Content Type with identifier "Test2" exists
+
