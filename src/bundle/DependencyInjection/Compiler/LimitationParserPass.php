@@ -6,8 +6,8 @@
  */
 namespace EzSystems\BehatBundle\DependencyInjection\Compiler;
 
-use EzSystems\BehatBundle\Context\Api\LimitationParser\LimitationParserInterface;
-use EzSystems\BehatBundle\Context\Api\LimitationParser\LimitationParsersCollector;
+use EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface;
+use EzSystems\Behat\API\Context\LimitationParser\LimitationParsersCollector;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;

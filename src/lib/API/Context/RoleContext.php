@@ -4,11 +4,11 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\BehatBundle\Context\Object;
+namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
-use EzSystems\BehatBundle\API\Facade\RoleFacade;
+use EzSystems\Behat\API\Facade\RoleFacade;
 
 class RoleContext implements Context
 {

@@ -4,10 +4,10 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\BehatBundle\Context\Object;
+namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
-use EzSystems\BehatBundle\API\Facade\UserFacade;
+use EzSystems\Behat\API\Facade\UserFacade;
 
 class UserContext implements Context
 {

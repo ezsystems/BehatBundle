@@ -1,12 +1,12 @@
 <?php
-
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\BehatBundle\Test\Helper;
 
-use EzSystems\BehatBundle\Helper\ConfigurationEditor;
+namespace EzSystems\Behat\Test\Core\Configuration;
+
+use EzSystems\Behat\Core\Configuration\ConfigurationEditor;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
@@ -89,7 +89,7 @@ class ConfigurationEditorTest extends TestCase
 
         $config = $configurationEditor->append($initialConfig, 'testKey.testSection', ['testValue1', 'testValue2']);
 
-        Assert::assertEquals(['testKey' => ['initialValue', 'testSection' => ['testValue1', 'testValue2']]], $config);
+        Assert::assertEquals(['testKey' => ['initialValue', 'testSection' => ['testValue1','testValue2']]], $config);
     }
 
     public function testCanAddAnotherValueWithConfigurationEditor()
@@ -100,7 +100,7 @@ class ConfigurationEditorTest extends TestCase
         $config = $configurationEditor->append($initialConfig, 'testKey', 'testValue1');
         $config = $configurationEditor->append($config, 'testKey', 'testValue2');
 
-        Assert::assertEquals(['testKey' => ['testValue1', 'testValue2']], $config);
+        Assert::assertEquals(['testKey' => ['testValue1','testValue2']], $config);
     }
 
     public function testCanAddNestedValueWithConfigurationEditor()
@@ -160,7 +160,7 @@ class ConfigurationEditorTest extends TestCase
         $configurationEditor = new ConfigurationEditor();
         $initialConfig = ['testKey' => ['initialValue1', 'initialValue2']];
 
-        $config = $configurationEditor->set($initialConfig, 'testKey', 'testValue');
+        $config = $configurationEditor->set($initialConfig, 'testKey','testValue');
 
         Assert::assertEquals(['testKey' => 'testValue'], $config);
     }
@@ -202,7 +202,7 @@ class ConfigurationEditorTest extends TestCase
 
         $config = $configurationEditor->set($initialConfig, 'testKey.testSection', ['testValue1', 'testValue2']);
 
-        Assert::assertEquals(['testKey' => ['initialValue', 'testSection' => ['testValue1', 'testValue2']]], $config);
+        Assert::assertEquals(['testKey' => ['initialValue', 'testSection' => ['testValue1','testValue2']]], $config);
     }
 
     public function testCanSetAnotherValueWithConfigurationEditor()

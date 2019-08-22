@@ -4,7 +4,7 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\BehatBundle\API\Facade;
+namespace EzSystems\Behat\API\Facade;
 
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\RoleService;
@@ -13,8 +13,8 @@ use eZ\Publish\API\Repository\UserService;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\User\UserGroup;
-use EzSystems\BehatBundle\API\ContentData\ContentDataProvider;
-use EzSystems\BehatBundle\API\ContentData\FieldTypeData\PasswordProvider;
+use EzSystems\Behat\API\ContentData\ContentDataProvider;
+use EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider;
 
 class UserFacade
 {
@@ -93,9 +93,9 @@ class UserFacade
     {
         $query = new Query();
         $query->filter = new Criterion\LogicalAnd([
-            new Criterion\ContentTypeIdentifier(self::USERGROUP_CONTENT_IDENTIFIER),
-            new Criterion\Field('name', Criterion\Operator::EQ, $userGroupName),
-        ]);
+                new Criterion\ContentTypeIdentifier(self::USERGROUP_CONTENT_IDENTIFIER),
+                new Criterion\Field('name', Criterion\Operator::EQ, $userGroupName),
+            ]);
 
         $result = $this->searchService->findContent($query);
 

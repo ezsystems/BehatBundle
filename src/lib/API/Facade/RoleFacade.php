@@ -4,12 +4,12 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\BehatBundle\API\Facade;
+namespace EzSystems\Behat\API\Facade;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\RoleService;
-use EzSystems\BehatBundle\Context\Api\LimitationParser\LimitationParsersCollector;
-use EzSystems\BehatBundle\Context\Api\LimitationParser\LimitationParserInterface;
+use EzSystems\Behat\API\Context\LimitationParser\LimitationParsersCollector;
+use EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface;
 
 class RoleFacade
 {

@@ -4,7 +4,7 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\BehatBundle\Context\Api;
+namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
 use eZ\Publish\API\Repository\PermissionResolver;

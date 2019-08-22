@@ -4,12 +4,12 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\BehatBundle\Context\Object;
+namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
-use EzSystems\BehatBundle\API\Facade\ContentFacade;
-use EzSystems\BehatBundle\Helper\ArgumentParser;
+use EzSystems\Behat\API\Facade\ContentFacade;
+use EzSystems\Behat\Core\Behat\ArgumentParser;
 
 class ContentContext implements Context
 {

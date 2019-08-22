@@ -4,7 +4,7 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\BehatBundle\API\ContentData\FieldTypeData;
+namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
@@ -13,7 +13,7 @@ use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\Core\FieldType\Relation\Value;
-use EzSystems\BehatBundle\Helper\ArgumentParser;
+use EzSystems\Behat\Core\Behat\ArgumentParser;
 
 class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
 {

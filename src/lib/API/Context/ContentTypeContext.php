@@ -4,12 +4,12 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\BehatBundle\Context\Object;
+namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCreateStruct;
-use EzSystems\BehatBundle\API\Facade\ContentTypeFacade;
+use EzSystems\Behat\API\Facade\ContentTypeFacade;
 
 class ContentTypeContext implements Context
 {
