@@ -4,13 +4,13 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\Behat\API\Facade;
+namespace EzSystems\BehatBundle\API\Facade;
 
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\URLAlias;
-use EzSystems\Behat\API\ContentData\ContentDataProvider;
+use EzSystems\BehatBundle\API\ContentData\ContentDataProvider;
 use PHPUnit\Framework\Assert;
 
 class ContentFacade

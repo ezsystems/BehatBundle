@@ -4,11 +4,11 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\Behat\API\Facade;
+namespace EzSystems\BehatBundle\API\Facade;
 
-use EzSystems\Behat\API\ContentData\FieldTypeNameConverter;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
+use EzSystems\EzPlatformAdminUi\Behat\PageElement\Fields\EzFieldElement;
 
 class ContentTypeFacade
 {
@@ -35,7 +35,7 @@ class ContentTypeFacade
         $this->contentTypeService->publishContentTypeDraft($contentTypeDraft);
     }
 
-    public function contentTypeExists(string $contentTypeIdentifier): bool
+    public function contentTypeExists(string $contentTypeIdentifier)
     {
         try {
             $this->contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
@@ -46,8 +46,8 @@ class ContentTypeFacade
         }
     }
 
-    public function getFieldTypeIdentifierByName(string $fieldtypeName): string
+    public function getFieldTypeIdentifierByName(string $fieldtypeName)
     {
-        return FieldTypeNameConverter::getFieldTypeIdentifierByName($fieldtypeName);
+        return EzFieldElement::getFieldInternalNameByName($fieldtypeName);
     }
 }

@@ -4,13 +4,13 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\Behat\Core\Context;
+namespace EzSystems\BehatBundle\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Exception;
-use EzSystems\Behat\Core\Configuration\ConfigurationEditor;
+use EzSystems\BehatBundle\Helper\ConfigurationEditor;
 use Symfony\Component\Yaml\Yaml;
 
 class ConfigurationContext implements Context
@@ -21,7 +21,7 @@ class ConfigurationContext implements Context
 
     public function __construct(string $projectDir)
     {
-        $this->ezplatformConfigFilePath = sprintf('%s/config/packages/ezplatform.yaml', $projectDir);
+        $this->ezplatformConfigFilePath = sprintf('%s/app/config/ezplatform.yml', $projectDir);
     }
 
     /**

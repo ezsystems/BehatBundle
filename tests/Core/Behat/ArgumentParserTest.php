@@ -1,12 +1,12 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\Behat\Test\Core\Behat;
+namespace EzSystems\BehatBundle\Test\Helper;
 
-
-use EzSystems\Behat\Core\Behat\ArgumentParser;
+use EzSystems\BehatBundle\Helper\ArgumentParser;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
@@ -37,5 +37,4 @@ class ArgumentParserTest extends TestCase
             ['New Folder Long Name', '/New-Folder-Long-Name'],
         ];
     }
-
 }
