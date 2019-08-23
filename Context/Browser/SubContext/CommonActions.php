@@ -6,6 +6,7 @@
  */
 namespace EzSystems\BehatBundle\Context\Browser\SubContext;
 
+use EzSystems\BehatBundle\Helper\EzAssertion;
 use EzSystems\BehatBundle\Helper\Gherkin as GherkinHelper;
 use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
@@ -185,7 +186,7 @@ trait CommonActions
         );
         $base = $this->makeXpathForBlock($pageSection);
         $el = $this->getXpath()->findButtons($button, $base);
-        EzAssert::assertElementFound($button, $el, $pageSection, 'button');
+        EzAssertion::assertElementFound($button, $el, $pageSection, 'button');
         $el[0]->click();
     }
 
@@ -223,7 +224,7 @@ trait CommonActions
         );
         $base = $this->makeXpathForBlock($pageSection);
         $el = $this->getXpath()->findLinks($link, $base);
-        EzAssert::assertElementFound($link, $el, $pageSection, 'link');
+        EzAssertion::assertElementFound($link, $el, $pageSection, 'link');
         $el[0]->click();
     }
 
@@ -242,7 +243,7 @@ trait CommonActions
             E_USER_DEPRECATED
         );
         $fieldElements = $this->getXpath()->findFields($option);
-        EzAssert::assertElementFound($option, $fieldElements, null, 'checkbox');
+        EzAssertion::assertElementFound($option, $fieldElements, null, 'checkbox');
 
         // this is needed for the cases where are checkboxes and radio's
         // side by side, for main option the radio and the extra being the
@@ -250,7 +251,7 @@ trait CommonActions
         if (strtolower($fieldElements[0]->getAttribute('type')) !== 'checkbox') {
             $value = $fieldElements[0]->getAttribute('value');
             $fieldElements = $this->getXpath()->findXpath("//input[@type='checkbox' and @value='$value']");
-            EzAssert::assertElementFound($value, $fieldElements, null, 'checkbox');
+            EzAssertion::assertElementFound($value, $fieldElements, null, 'checkbox');
         }
 
         $fieldElements[0]->check();
@@ -498,7 +499,7 @@ trait CommonActions
 
             // search and do assertions
             $el = $this->getXpath()->findXpath($xpath);
-            EzAssert::assertSingleElement($link, $el, $type, 'link');
+            EzAssertion::assertSingleElement($link, $el, $type, 'link');
         }
     }
 
@@ -530,7 +531,7 @@ trait CommonActions
         $el = $this->getXpath()->findXpath($xpath);
 
         // assert that message was found
-        EzAssert::assertSingleElement($title, $el, null, 'title');
+        EzAssertion::assertSingleElement($title, $el, null, 'title');
     }
 
     /**
@@ -606,7 +607,7 @@ trait CommonActions
         $base = $this->makeXpathForBlock($pageSection);
         $el = $this->getXpath()->findXpath("$base//*[contains( text(), {$this->getXpath()->literal($text)} )]");
 
-        EzAssert::assertSingleElement($text, $el, $pageSection, 'emphasized text');
+        EzAssertion::assertSingleElement($text, $el, $pageSection, 'emphasized text');
 
         // finally verify if it has custom characteristics
         Assert::assertTrue(
@@ -743,7 +744,7 @@ trait CommonActions
     private function getCheckboxChecked($option)
     {
         $fieldElements = $this->getXpath()->findFields($option);
-        EzAssert::assertElementFound($option, $fieldElements, null, 'checkbox');
+        EzAssertion::assertElementFound($option, $fieldElements, null, 'checkbox');
 
         // this is needed for the cases where are checkboxes and radio's
         // side by side, for main option the radio and the extra being the
@@ -751,7 +752,7 @@ trait CommonActions
         if (strtolower($fieldElements[0]->getAttribute('type')) !== 'checkbox') {
             $value = $fieldElements[0]->getAttribute('value');
             $fieldElements = $this->getXpath()->findXpath("//input[@type='checkbox' and @value='$value']");
-            EzAssert::assertElementFound($value, $fieldElements, null, 'checkbox');
+            EzAssertion::assertElementFound($value, $fieldElements, null, 'checkbox');
         }
 
         return $isChecked = ($fieldElements[0]->getAttribute('checked')) === 'true';
