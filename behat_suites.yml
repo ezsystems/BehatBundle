@@ -53,3 +53,14 @@ behat:
                       languageFacade: '@EzSystems\BehatBundle\API\Facade\LanguageFacade'
                 - EzSystems\BehatBundle\Context\ConfigurationContext:
                       projectDir: '%paths.base%'
+setup:
+    suites:
+        richtext_configuration:
+            paths:
+                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/richtextConfiguration/custom_tags.feature
+                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/richtextConfiguration/custom_styles.feature
+            contexts:
+                - EzSystems\BehatBundle\Context\ConfigurationContext:
+                      projectDir: '%paths.base%'
+                - EzSystems\BehatBundle\Context\FileContext:
+                      basePath: '%paths.base%'

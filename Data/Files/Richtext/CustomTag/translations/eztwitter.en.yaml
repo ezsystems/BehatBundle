@@ -1,0 +1,11 @@
+
+ezrichtext.custom_tags.eztwitter_test.label: Twitter
+ezrichtext.custom_tags.eztwitter_test.description: ''
+ezrichtext.custom_tags.eztwitter_test.attributes.cards.label: Cards
+ezrichtext.custom_tags.eztwitter_test.attributes.conversation.label: Conversation
+ezrichtext.custom_tags.eztwitter_test.attributes.dnt.label: DNT
+ezrichtext.custom_tags.eztwitter_test.attributes.lang.label: Lang
+ezrichtext.custom_tags.eztwitter_test.attributes.link_color.label: 'Link color'
+ezrichtext.custom_tags.eztwitter_test.attributes.theme.label: Theme
+ezrichtext.custom_tags.eztwitter_test.attributes.tweet_url.label: 'Tweet url'
+ezrichtext.custom_tags.eztwitter_test.attributes.width.label: Width
