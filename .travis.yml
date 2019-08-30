@@ -31,7 +31,9 @@ matrix:
       env: BEHAT_OPTS="--profile=behat --suite=examples"
     - name: "AdminUI Modules tests"
       php: 7.3
-      env: BEHAT_OPTS="--profile=adminui --suite=adminuimodules"
+      env:
+        -SETUP_BEHAT_OPTS="--mode=behat --profile=setup --suite=richtext_configuration"
+        -BEHAT_OPTS="--mode=behat --profile=adminui --suite=adminuimodules"
 
 git:
   depth: 30
@@ -59,7 +61,10 @@ install:
   # Prepare whole environment if needed
   - if [ "${BEHAT_OPTS}" != "" ]; then ./bin/.travis/prepare_ezplatform.sh ; fi
 
+before_script:
+  - if [ "${SETUP_BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/ezbehat $SETUP_BEHAT_OPTS" ; fi
+
 script:
   - if [ "${CHECK_CS}" == "1" ] ; then ./vendor/bin/php-cs-fixer fix -v --dry-run --show-progress=estimating ; fi
   - if [ "${PHPUNIT_CONFIG}" != '' ]; then ./vendor/bin/phpunit -c "${PHPUNIT_CONFIG}"; fi
-  - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/behat $BEHAT_OPTS" ; fi
+  - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/ezbehat $BEHAT_OPTS" ; fi

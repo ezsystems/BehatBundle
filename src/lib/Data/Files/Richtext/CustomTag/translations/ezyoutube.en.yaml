@@ -1,0 +1,8 @@
+ezrichtext.custom_tags.ezyoutube_test.label: Youtube
+ezrichtext.custom_tags.ezyoutube_test.description: ''
+ezrichtext.custom_tags.ezyoutube_test.attributes.autoplay.label: Autoplay
+ezrichtext.custom_tags.ezyoutube_test.attributes.height.label: Height
+ezrichtext.custom_tags.ezyoutube_test.attributes.title.label: Title
+ezrichtext.custom_tags.ezyoutube_test.attributes.video_url.label: Video url
+ezrichtext.custom_tags.ezyoutube_test.attributes.width.label: Width
+ezrichtext.custom_tags.ezyoutube_test.attributes.align.label: Align

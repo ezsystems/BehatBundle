@@ -22,3 +22,15 @@ behat:
                   languageFacade: '@EzSystems\Behat\API\Facade\LanguageFacade'
               - EzSystems\Behat\Core\Context\ConfigurationContext:
                   projectDir: '%paths.base%'
+
+setup:
+    suites:
+        richtext_configuration:
+            paths:
+                - vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_tags.feature
+                - vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_styles.feature
+            contexts:
+                - EzSystems\Behat\Core\Context\ConfigurationContext:
+                      projectDir: '%paths.base%'
+                - EzSystems\Behat\Core\Context\FileContext:
+                      basePath: '%paths.base%' 

@@ -67,13 +67,20 @@ class ConfigurationContext implements Context
      */
     public function iModifyConfigurationForSiteaccessUnderKey(string $mode, $siteaccessName, $keyName, PyStringNode $configFragment)
     {
+        $this->iModifyConfigurationUnderKey($mode, sprintf(self::SITEACCESS_KEY_FORMAT, $siteaccessName, $keyName), $configFragment);
+    }
+
+    /**
+     * @Given I :mode configuration to :parentNode
+     */
+    public function iModifyConfigurationUnderKey(string $mode, $parentNode, PyStringNode $configFragment)
+    {
         $appendToExisting = $this->shouldAppendValue($mode);
 
         $configurationEditor = new ConfigurationEditor();
 
         $config = $configurationEditor->getConfigFromFile($this->ezplatformConfigFilePath);
         $parsedConfig = $this->parseConfig($configFragment);
-        $parentNode = sprintf(self::SITEACCESS_KEY_FORMAT, $siteaccessName, $keyName);
 
         $config = $appendToExisting ?
             $configurationEditor->append($config, $parentNode, $parsedConfig) :
