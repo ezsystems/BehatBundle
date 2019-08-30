@@ -1,0 +1,24 @@
+{% if align is defined %}
+    {% if align == 'left' %}
+        {% set justify_content = 'flex-start' %}
+    {% elseif align == 'right' %}
+        {% set justify_content = 'flex-end' %}
+    {% elseif align == 'center' %}
+        {% set justify_content = 'center' %}
+    {% endif %}
+{% endif %}
+<div
+        class="fb-post"
+        style="display: flex;{% if justify_content is defined %} justify-content: {{ justify_content }};{% endif %}"
+        data-href="{{ params.post_url }}"
+        data-width="{{ params.width is defined ? params.width : '' }}">
+</div>
+<script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_EN/sdk.js#xfbml=1&version=v2.11';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>

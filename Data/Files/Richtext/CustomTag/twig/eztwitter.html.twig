@@ -1,0 +1,38 @@
+<div class="tweet-container" data-url="{{ params.tweet_url }}"></div>
+<script>
+    (function (global, doc) {
+        global.twttr = global.twttr || (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = global.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://platform.twitter.com/widgets.js';
+            fjs.parentNode.insertBefore(js, fjs);
+            t._e = [];
+            t.ready = function (f) {
+                t._e.push(f);
+            };
+            return t;
+        }(doc, 'script', 'twitter-wjs'));
+        const tweetContainer = doc.querySelector('.tweet-container[data-url="{{ params.tweet_url }}"]');
+        const tweetUrlParts = tweetContainer.dataset.url.split('/');
+        const tweetId = tweetUrlParts[tweetUrlParts.length - 1];
+        global.twttr.ready(function () {
+            global.twttr.widgets.createTweet(
+                tweetId,
+                tweetContainer,
+                {
+                    'cards': '{{ params.cards is defined ? params.cards : '' }}',
+                    'conversation': '{{ params.conversation is defined ? params.conversation : '' }}',
+                    'theme': '{{ params.theme is defined ? params.theme : '' }}',
+                    'linkColor': '{{ params.link_color is defined ? params.link_color : '' }}',
+                    'width': '{{ params.width is defined ? params.width : '' }}',
+                    'align': '{{ align is defined ? align : '' }}',
+                    'lang': '{{ params.lang is defined ? params.lang : '' }}',
+                    'dnt': '{{ params.dnt is defined ? params.dnt : '' }}',
+                }
+            );
+        });
+    })(window, window.document);
+</script>
