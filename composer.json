@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": "^7.1",
-        "ezsystems/ezpublish-kernel": "^7.5@dev",
+        "ezsystems/ezpublish-kernel": "^7.5",
         "fzaninotto/faker": "^1.8",
         "symfony/property-access": "^3.1"
     },
