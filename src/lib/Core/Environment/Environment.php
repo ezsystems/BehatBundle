@@ -6,19 +6,13 @@
  */
 namespace EzSystems\Behat\Core\Environment;
 
-use EzSystems\PlatformInstallerBundle\Installer\Installer;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Environment
 {
     /** @var \Symfony\Component\DependencyInjection\ContainerInterface Symfony DI service container */
     private $serviceContainer;
-
-    /** @var array Names of available installer services in Studio */
-    private $installerServices = ['platform' => 'ezplatform.installer.clean_installer',
-        'platform-demo' => 'app.installer.demo_installer',
-        'platform-ee' => 'ezstudio.installer.studio_installer',
-        'platform-ee-demo' => 'App\Installer\PlatformEEDemoInstaller', ];
 
     /**
      * Environment constructor.
@@ -32,20 +26,19 @@ class Environment
 
     public function getInstallType(): int
     {
-        if ($this->serviceContainer->has($this->installerServices['platform-ee-demo'])) {
-            return InstallType::ENTERPRISE_DEMO;
+        $projectDir = $this->serviceContainer->getParameter('kernel.project_dir');
+        $composerJsonPath = realpath($projectDir . '/composer.json');
+        if (false === $composerJsonPath) {
+            throw new RuntimeException(
+                "Unable to find composer.json in {$projectDir} to determine meta repository and installation type"
+            );
         }
 
-        if ($this->serviceContainer->has($this->installerServices['platform-ee'])) {
-            return InstallType::ENTERPRISE;
+        $composerConfig = json_decode(file_get_contents($composerJsonPath));
+        if (!isset(InstallType::PACKAGE_NAME_MAP[$composerConfig->name])) {
+            throw new RuntimeException("Unknown installation type for the package: {$composerConfig->name}");
         }
 
-        if ($this->serviceContainer->has($this->installerServices['platform-demo'])) {
-            return InstallType::PLATFORM_DEMO;
-        }
-
-        if ($this->serviceContainer->has($this->installerServices['platform'])) {
-            return InstallType::PLATFORM;
-        }
+        return InstallType::PACKAGE_NAME_MAP[$composerConfig->name];
     }
 }

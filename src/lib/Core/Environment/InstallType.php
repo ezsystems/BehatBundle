@@ -12,4 +12,11 @@ abstract class InstallType
     public const PLATFORM_DEMO = 2;
     public const ENTERPRISE = 3;
     public const ENTERPRISE_DEMO = 4;
+
+    public const PACKAGE_NAME_MAP = [
+        'ezsystems/ezplatform' => InstallType::PLATFORM,
+        'ezsystems/ezplatform-ee' => InstallType::ENTERPRISE,
+        'ezsystems/ezplatform-demo' => InstallType::PLATFORM_DEMO,
+        'ezsystems/ezplatform-ee-demo' => InstallType::ENTERPRISE_DEMO,
+    ];
 }
