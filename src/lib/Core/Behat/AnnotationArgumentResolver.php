@@ -70,7 +70,7 @@ class AnnotationArgumentResolver implements ArgumentResolver
         // parse array from (numeric key => 'annotation <value>') to (annotation => value)
         $methodServices = [];
         foreach ($annotations as $annotation) {
-            if (!preg_match('/^(\w+)\s+\$(\w+)\s+([\w\.\@\%]+)/', $annotation, $matches)) {
+            if (!preg_match('/^(\w+)\s+\$(\w+)\s+([\w\.\\\@\%]+)/', $annotation, $matches)) {
                 continue;
             }
 
