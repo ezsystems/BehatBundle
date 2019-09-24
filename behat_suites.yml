@@ -16,8 +16,10 @@ behat:
                   contentTypeFacade: '@EzSystems\Behat\API\Facade\ContentTypeFacade'
               - EzSystems\Behat\API\Context\UserContext:
                   userFacade: '@EzSystems\Behat\API\Facade\UserFacade'
+                  argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
               - EzSystems\Behat\API\Context\RoleContext:
                   roleFacade: '@EzSystems\Behat\API\Facade\RoleFacade'
+                  argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
               - EzSystems\Behat\API\Context\LanguageContext:
                   languageFacade: '@EzSystems\Behat\API\Facade\LanguageFacade'
               - EzSystems\Behat\Core\Context\ConfigurationContext:
@@ -34,3 +36,21 @@ setup:
                       projectDir: '%paths.base%'
                 - EzSystems\Behat\Core\Context\FileContext:
                       basePath: '%paths.base%' 
+        personas:
+              paths:
+                - '%paths.base%/vendor/ezsystems/behatbundle/features/personas'
+              contexts:
+                - EzSystems\Behat\API\Context\TestContext:
+                    userService: '@ezpublish.api.service.user'
+                    permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
+                - EzSystems\Behat\API\Context\UserContext:
+                    userFacade: '@EzSystems\Behat\API\Facade\UserFacade'
+                    argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
+                - EzSystems\Behat\API\Context\RoleContext:
+                    roleFacade: '@EzSystems\Behat\API\Facade\RoleFacade'
+                    argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
+                - EzSystems\Behat\API\Context\ContentContext:
+                    contentFacade: '@EzSystems\Behat\API\Facade\ContentFacade'
+                    argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
+                - EzSystems\Behat\API\Context\ContentTypeContext:
+                    contentTypeFacade: '@EzSystems\Behat\API\Facade\ContentTypeFacade'

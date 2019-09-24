@@ -32,6 +32,8 @@ services:
 
     EzSystems\Behat\Core\Behat\ArgumentParser:
         public: true
+        arguments:
+            - '@EzSystems\Behat\API\Facade\RoleFacade'
 
     ezbehatbundle.controller.exception:
         class: EzSystems\BehatBundle\Controller\ExceptionController

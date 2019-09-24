@@ -5,7 +5,7 @@
  */
 namespace EzSystems\Behat\Test\Core\Behat;
 
-
+use EzSystems\Behat\API\Facade\RoleFacade;
 use EzSystems\Behat\Core\Behat\ArgumentParser;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
@@ -17,7 +17,9 @@ class ArgumentParserTest extends TestCase
      */
     public function testParserGivenUrlCorrectly(string $valueToParse, string $expectedResult)
     {
-        $parser = new ArgumentParser();
+        $roleFacadeStub = $this->createMock(RoleFacade::class);
+
+        $parser = new ArgumentParser($roleFacadeStub);
 
         $actualResult = $parser->parseUrl($valueToParse);
 

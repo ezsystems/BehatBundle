@@ -12,6 +12,7 @@ use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\UserService;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use eZ\Publish\API\Repository\Values\User\Limitation\RoleLimitation;
 use eZ\Publish\API\Repository\Values\User\UserGroup;
 use EzSystems\Behat\API\ContentData\ContentDataProvider;
 use EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider;
@@ -49,7 +50,7 @@ class UserFacade
         $this->userService->createUserGroup($userGroupStruct, $parentGroup);
     }
 
-    public function createUser($userName, $userGroupName = null, $languageCode = 'eng-GB')
+    public function createUser($userName, $userLastName, $userGroupName = null, $languageCode = 'eng-GB')
     {
         $userCreateStruct = $this->userService->newUserCreateStruct(
             $userName,
@@ -59,7 +60,7 @@ class UserFacade
             $this->contentTypeService->loadContentTypeByIdentifier(self::USER_CONTENT_TYPE_IDENTIFIER));
 
         $userCreateStruct->setField('first_name', $userName);
-        $userCreateStruct->setField('last_name', $this->contentDataProvider->getRandomFieldData('ezstring', $languageCode));
+        $userCreateStruct->setField('last_name', $userLastName);
 
         $parentGroup = $userGroupName !== null ?
             $this->loadUserGroupByName($userGroupName) :
@@ -76,12 +77,12 @@ class UserFacade
         $this->roleService->assignRoleToUser($role, $user);
     }
 
-    public function assignUserGroupToRole($userGroupName, $roleName)
+    public function assignUserGroupToRole($userGroupName, $roleName, ?RoleLimitation $roleLimitation = null)
     {
         $group = $this->loadUserGroupByName($userGroupName);
         $role = $this->roleService->loadRoleByIdentifier($roleName);
 
-        $this->roleService->assignRoleToUserGroup($role, $group);
+        $this->roleService->assignRoleToUserGroup($role, $group, $roleLimitation);
     }
 
     public function getDefaultPassword(): string

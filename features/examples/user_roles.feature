@@ -49,8 +49,8 @@ Feature: Example scenarios showing how to use steps involving Roles and Users
   @admin
   Scenario: Create Users, User groups and assign them to Roles
     Given I create a user group "MyGroup"
-    And I create a user "TestUser"
-    And I create a user "AnotherTestUser" in group "MyGroup"
+    And I create a user "TestUser" with last name "TestLastName"
+    And I create a user "AnotherTestUser" with last name "TestLastName" in group "MyGroup"
     And I assign user "TestUser" to role "simpleRole"
     And I assign user group "MyGroup" to role "complexRole"
 

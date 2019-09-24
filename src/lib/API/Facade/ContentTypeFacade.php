@@ -19,11 +19,12 @@ class ContentTypeFacade
         $this->contentTypeService = $contentTypeService;
     }
 
-    public function createContentType(string $contentTypeName, string $contentTypeIdentifier, string $contentTypeGroupName, string $mainLanguageCode, array $fieldDefinitions)
+    public function createContentType(string $contentTypeName, string $contentTypeIdentifier, string $contentTypeGroupName, string $mainLanguageCode, bool $isContainer, array $fieldDefinitions)
     {
         $contentTypeCreateStruct = $this->contentTypeService->newContentTypeCreateStruct($contentTypeIdentifier);
         $contentTypeCreateStruct->names = [$mainLanguageCode => $contentTypeName];
         $contentTypeCreateStruct->mainLanguageCode = $mainLanguageCode;
+        $contentTypeCreateStruct->isContainer = $isContainer;
 
         foreach ($fieldDefinitions as $definition) {
             $contentTypeCreateStruct->addFieldDefinition($definition);

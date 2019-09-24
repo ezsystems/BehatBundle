@@ -16,6 +16,7 @@ services:
         arguments:
             - '@ezpublish.api.service.url_alias'
             - '@ezpublish.api.service.location'
+            - '@EzSystems\Behat\Core\Behat\ArgumentParser'
 
     EzSystems\Behat\API\Context\LimitationParser\NewSectionLimitationParser:
         arguments:
