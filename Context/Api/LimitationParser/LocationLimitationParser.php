@@ -10,16 +10,19 @@ use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\User\Limitation;
 use eZ\Publish\API\Repository\Values\User\Limitation\LocationLimitation;
+use EzSystems\BehatBundle\Helper\ArgumentParser;
 
 class LocationLimitationParser implements LimitationParserInterface
 {
     private $locationService;
     private $urlAliasService;
+    private $argumentParser;
 
-    public function __construct(URLAliasService $urlAliasService, LocationService $locationService)
+    public function __construct(URLAliasService $urlAliasService, LocationService $locationService, ArgumentParser $argumentParser)
     {
         $this->urlAliasService = $urlAliasService;
         $this->locationService = $locationService;
+        $this->argumentParser = $argumentParser;
     }
 
     public function supports(string $limitationType): bool
@@ -32,7 +35,8 @@ class LocationLimitationParser implements LimitationParserInterface
         $values = [];
 
         foreach (explode(',', $limitationValues) as $limitationValue) {
-            $urlAlias = $this->urlAliasService->lookup($limitationValue);
+            $parsedUrl = $this->argumentParser->parseUrl($limitationValue);
+            $urlAlias = $this->urlAliasService->lookup($parsedUrl);
             $location = $this->locationService->loadLocation($urlAlias->destination);
             $values[] = $location->id;
         }

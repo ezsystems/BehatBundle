@@ -11,8 +11,10 @@ behat:
                       permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
                 - EzSystems\BehatBundle\Context\Object\UserContext:
                       userFacade: '@EzSystems\BehatBundle\API\Facade\UserFacade'
+                      argumentParser: '@EzSystems\BehatBundle\Helper\ArgumentParser'
                 - EzSystems\BehatBundle\Context\Object\RoleContext:
                       roleFacade: '@EzSystems\BehatBundle\API\Facade\RoleFacade'
+                      argumentParser: '@EzSystems\BehatBundle\Helper\ArgumentParser'
                 - EzSystems\BehatBundle\Context\Object\LanguageContext:
                       languageFacade: '@EzSystems\BehatBundle\API\Facade\LanguageFacade'
                 - EzSystems\BehatBundle\Context\Object\ObjectStateContext:
@@ -64,3 +66,21 @@ setup:
                       projectDir: '%paths.base%'
                 - EzSystems\BehatBundle\Context\FileContext:
                       basePath: '%paths.base%'
+        personas:
+              paths:
+                - '%paths.base%/vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/personas'
+              contexts:
+                - EzSystems\BehatBundle\Context\Api\TestContext:
+                    userService: '@ezpublish.api.service.user'
+                    permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
+                - EzSystems\BehatBundle\Context\Object\UserContext:
+                    userFacade: '@EzSystems\BehatBundle\API\Facade\UserFacade'
+                    argumentParser: '@EzSystems\BehatBundle\Helper\ArgumentParser'
+                - EzSystems\BehatBundle\Context\Object\RoleContext:
+                    roleFacade: '@EzSystems\BehatBundle\API\Facade\RoleFacade'
+                    argumentParser: '@EzSystems\BehatBundle\Helper\ArgumentParser'
+                - EzSystems\BehatBundle\Context\Object\ContentContext:
+                    contentFacade: '@EzSystems\BehatBundle\API\Facade\ContentFacade'
+                    argumentParser: '@EzSystems\BehatBundle\Helper\ArgumentParser'
+                - EzSystems\BehatBundle\Context\Object\ContentTypeContext:
+                    contentTypeFacade: '@EzSystems\BehatBundle\API\Facade\ContentTypeFacade'

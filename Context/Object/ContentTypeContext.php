@@ -31,7 +31,7 @@ class ContentTypeContext implements Context
         }
 
         $fieldDefinitions = $this->parseFieldDefinitions($fieldDetails);
-        $this->contentTypeFacade->createContentType($contentTypeName, $contentTypeIdentifier, $contentTypeGroupName, 'eng-GB', $fieldDefinitions);
+        $this->contentTypeFacade->createContentType($contentTypeName, $contentTypeIdentifier, $contentTypeGroupName, 'eng-GB', true, $fieldDefinitions);
     }
 
     private function parseFieldDefinitions(TableNode $fieldDetails): array

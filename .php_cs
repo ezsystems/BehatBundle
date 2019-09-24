@@ -26,6 +26,15 @@ return PhpCsFixer\Config::create()
         ],
         'yoda_style' => false,
         'no_break_comment' => false,
+        'native_function_invocation' => false,
+        'native_constant_invocation' => false,
+        'phpdoc_types_order' => false,
+        'php_unit_mock_short_will_return' => false,
+        'php_unit_construct' => false,
+        'php_unit_dedicate_assert' => true,
+        'php_unit_dedicate_assert_internal_type' => true,
+        'standardize_increment' => false,
+        'fopen_flags' => false,
         'self_accessor' => false,
     ])
     ->setRiskyAllowed(true)

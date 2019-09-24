@@ -9,15 +9,20 @@ namespace EzSystems\BehatBundle\Context\Object;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use EzSystems\BehatBundle\API\Facade\RoleFacade;
+use EzSystems\BehatBundle\Helper\ArgumentParser;
 
 class RoleContext implements Context
 {
     /** @var RoleFacade */
     private $roleFacade;
 
-    public function __construct(RoleFacade $roleFacade)
+    /** @var ArgumentParser */
+    private $argumentParser;
+
+    public function __construct(RoleFacade $roleFacade, ArgumentParser $argumentParser)
     {
         $this->roleFacade = $roleFacade;
+        $this->argumentParser = $argumentParser;
     }
 
     /**
@@ -63,24 +68,7 @@ class RoleContext implements Context
      */
     public function addPolicyToRoleWithLimitation(string $module, string $function, $roleName, TableNode $limitations): void
     {
-        $parsedLimitations = $this->parseLimitations($limitations);
+        $parsedLimitations = $this->argumentParser->parseLimitations($limitations);
         $this->roleFacade->addPolicyToRole($roleName, $module, $function, $parsedLimitations);
-    }
-
-    private function parseLimitations(TableNode $limitations)
-    {
-        $parsedLimitations = [];
-        $limitationParsers = $this->roleFacade->getLimitationParsers();
-
-        foreach ($limitations->getHash() as $rawLimitation) {
-            foreach ($limitationParsers as $parser) {
-                if ($parser->supports($rawLimitation['limitationType'])) {
-                    $parsedLimitations[] = $parser->parse($rawLimitation['limitationValue']);
-                    break;
-                }
-            }
-        }
-
-        return $parsedLimitations;
     }
 }
