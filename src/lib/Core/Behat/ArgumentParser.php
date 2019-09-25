@@ -8,7 +8,7 @@ namespace EzSystems\Behat\Core\Behat;
 
 use Behat\Gherkin\Node\TableNode;
 use EzSystems\Behat\API\Facade\RoleFacade;
-use EzSystems\EzPlatformAdminUi\Behat\Helper\EzEnvironmentConstants;
+use EzSystems\Behat\Core\Environment\EnvironmentConstants;
 
 class ArgumentParser
 {
@@ -68,6 +68,6 @@ class ArgumentParser
      */
     public function replaceRootKeyword(string $path): string
     {
-        return str_replace(self::ROOT_KEYWORD, EzEnvironmentConstants::get('ROOT_CONTENT_NAME'), $path);
+        return str_replace(self::ROOT_KEYWORD, EnvironmentConstants::get('ROOT_CONTENT_NAME'), $path);
     }
 }
