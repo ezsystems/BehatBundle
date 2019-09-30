@@ -13,7 +13,7 @@
     "require": {
         "php": "^7.3",
         "ext-json": "*",
-        "ezsystems/ezpublish-kernel": "^8.0@dev",
+        "ezsystems/ezpublish-kernel": "^8.0",
         "fzaninotto/faker": "^1.8",
         "behat/behat": "^3.5",
         "behat/mink": "^1.7",
