@@ -10,6 +10,9 @@ use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 
+/**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ */
 class User extends Base
 {
     const DEFAULT_LANGUAGE = 'eng-GB';

@@ -9,6 +9,9 @@ namespace EzSystems\BehatBundle\ObjectManager;
 use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
 
+/**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ */
 class Role extends Base
 {
     /**

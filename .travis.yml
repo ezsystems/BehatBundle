@@ -26,9 +26,9 @@ matrix:
       env: CHECK_CS=1
     - name: "Unit tests"
       env: PHPUNIT_CONFIG='phpunit.xml'
-    - name: "BehatBundle examples tests"
+    - name: "BehatBundle examples"
       php: 7.3
-      env: BEHAT_OPTS="--profile=behat"
+      env: BEHAT_OPTS="--profile=behat --suite=examples"
     - name: "BehatBundle personas tests"
       php: 7.3
       env: BEHAT_OPTS="--mode=behat --profile=setup --suite=personas"

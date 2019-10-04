@@ -17,7 +17,7 @@ The standard behat configuration file is [behat.yml.dist](https://github.com/ezs
   - enable Symfony debug (`debug` parameter)
   - See [Symfony2Extension documentation](https://github.com/Behat/Symfony2Extension/blob/master/doc/index.rst) for more information
 
-Behat profiles and suites are not defined in this file, but imported from files specified at the bottom. If you want to add your own profiles you can follow the same convention to avoid clutter.
+Behat profiles and suites are not defined in this file, but imported from files specified at the bottom.
 
 ### Running browser tests
 
@@ -57,7 +57,7 @@ Running Behat feature files in parallel (on the available number of CPUs) is the
 
 ## Existing test profiles and suites
 
-By convention profiles and suites are defined in `behat_suites.yml` file in each bundle. See [BehatBundle suites](../behat_suites.yml) and [AdminUI suites](https://github.com/ezsystems/ezplatform-admin-ui/blob/1.5/behat_suites.yml) for an example.
+By convention profiles and suites are defined in `behat_suites.yml` file in each bundle, if they exist. See [BehatBundle suites](../behat_suites.yml) and [AdminUI suites](https://github.com/ezsystems/ezplatform-admin-ui/blob/1.5/behat_suites.yml) for examples.
 
 In order to run them you should execute:
 - `bin/ezbehat --profile=behat --suite=examples` (BehatBundle usage examples)

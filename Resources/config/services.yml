@@ -8,8 +8,7 @@ services:
         autoconfigure: true
         public: false
 
-    behatbundle.context_argument_resolver:
-        class: EzSystems\BehatBundle\Context\Resolver\AnnotationArgumentResolver
+    EzSystems\BehatBundle\Context\Resolver\AnnotationArgumentResolver:
         tags:
             -  { name: context.argument_resolver }
 
@@ -29,7 +28,7 @@ services:
     EzSystems\BehatBundle\API\Facade\RoleFacade:
         public: true
 
-    EzSystems\BehatBundle\API\Facade\UserFacade:
+    EzSystems\BehatBundle\API\Facade\UserFacade: 
         public: true
 
     EzSystems\BehatBundle\API\Facade\LanguageFacade:

@@ -9,8 +9,10 @@ namespace EzSystems\BehatBundle\Helper;
 use Behat\Mink\Session;
 
 /**
+ * @deprecated
+ *
  * This class eases the xpath creation and handling also has methods to easy search for certain
- * content.
+ * content
  */
 class Xpath
 {

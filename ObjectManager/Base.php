@@ -9,6 +9,9 @@ namespace EzSystems\BehatBundle\ObjectManager;
 use eZ\Publish\API\Repository\Values\ValueObject;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 
+/**
+ * @deprecated
+ */
 abstract class Base implements ObjectManagerInterface
 {
     /**

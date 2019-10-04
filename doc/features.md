@@ -3,7 +3,7 @@
 ## Example usages
 
 ### API examples
-See [BehatBundle examples](https://github.com/ezsystems/BehatBundle/tree/master/features/examples) to see how to use Behat sentences to:
+See [BehatBundle examples](https://github.com/ezsystems/BehatBundle/tree/7.0/features/examples) to see how to use Behat sentences to:
 - create Languages, Content Items, Content Types
 - create Users with complex permissions
 - set given YAML configuration
@@ -14,13 +14,13 @@ Use the [TestContext](../Context/Api/TestContext.php) to login into repository a
 
 ### Browser examples
 
-Look at [AdminUI feature files](https://github.com/ezsystems/ezplatform-admin-ui/tree/master/features/standard) to see example browser tests for AdminUI. If you want to reuse these Steps in your code in addition to the Context that defines them you also need to include:
-- EzSystems\EzPlatformAdminUi\Behat\Helper\Hooks
-- EzSystems\EzPlatformAdminUi\Behat\Helper\UtilityContext
+Look at [AdminUI feature files](https://github.com/ezsystems/ezplatform-admin-ui/tree/1.5/features/standard) to see example browser tests for AdminUI. If you want to reuse these Steps in your code in addition to the Context that defines them you also need to include:
+- `EzSystems\EzPlatformAdminUi\Behat\Helper\Hooks`
+- `EzSystems\EzPlatformAdminUi\Behat\Helper\UtilityContext`
 
 ## BehatBundle extension
 
-With `EzBehatExtension` Behat extension enabled you can inject services into your Context classes using annotations.
+With `EzBehatExtension` Behat extension enabled you can inject services into your Context classes using`@injectService` annotation.
 
 Instead of writing:
 ```
@@ -89,7 +89,3 @@ This makes maintenence easier when the same Context is used in multiple Behat su
 ## Debugging tools
 
 Use [Hooks](https://github.com/ezsystems/ezplatform-admin-ui/blob/1.5/src/lib/Behat/Helper/Hooks.php) Context class for access to browser and server logs after Scenario failure, which combined together with screenshots feature makes debugging failures (even on CI) much easier.
-
-
-
-

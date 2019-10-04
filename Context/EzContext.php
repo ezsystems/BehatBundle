@@ -16,6 +16,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 
 /**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ *
  * EzContext has all the needed methods and helpers that are globaly used in contexts.
  */
 class EzContext implements KernelAwareContext

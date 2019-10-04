@@ -10,12 +10,17 @@ use Behat\Behat\Context\Context;
 
 class FileContext implements Context
 {
-    private $basePath;
+    /** @var string */
+    private $projectDirectory;
+
     private const SOURCE_FILE_DIRECTORY = 'vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Data';
 
-    public function __construct($basePath)
+    /**
+     * @injectService $projectDirectory %kernel.project_dir%
+     */
+    public function __construct($projectDirectory)
     {
-        $this->basePath = $basePath;
+        $this->projectDirectory = $projectDirectory;
     }
 
     /**
@@ -23,8 +28,8 @@ class FileContext implements Context
      */
     public function createFile($path, $sourceFile): void
     {
-        $content = file_get_contents(sprintf('%s/%s/%s', $this->basePath, self::SOURCE_FILE_DIRECTORY, $sourceFile));
-        $destinationPath = sprintf('%s/%s', $this->basePath, $path);
+        $content = file_get_contents(sprintf('%s/%s/%s', $this->projectDirectory, self::SOURCE_FILE_DIRECTORY, $sourceFile));
+        $destinationPath = sprintf('%s/%s', $this->projectDirectory, $path);
         $this->createDirectoryStructure($destinationPath);
         file_put_contents($destinationPath, $content);
     }
@@ -34,7 +39,7 @@ class FileContext implements Context
      */
     public function appendToFile($file, $sourceFile): void
     {
-        $content = file_get_contents(sprintf('%s/%s/%s', $this->basePath, self::SOURCE_FILE_DIRECTORY, $sourceFile));
+        $content = file_get_contents(sprintf('%s/%s/%s', $this->projectDirectory, self::SOURCE_FILE_DIRECTORY, $sourceFile));
         file_put_contents($file, $content, FILE_APPEND | LOCK_EX);
     }
 

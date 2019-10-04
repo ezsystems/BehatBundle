@@ -19,6 +19,9 @@ class ConfigurationContext implements Context
 
     private $ezplatformConfigFilePath;
 
+    /**
+     * @injectService $projectDir %kernel.project_dir%
+     */
     public function __construct(string $projectDir)
     {
         $this->ezplatformConfigFilePath = sprintf('%s/app/config/ezplatform.yml', $projectDir);
@@ -72,6 +75,8 @@ class ConfigurationContext implements Context
 
     /**
      * @Given I :mode configuration to :parentNode
+     *
+     * string $mode Available: append|set - whether the new config will be appended (resulting in an array) or replace the current value if it exists
      */
     public function iModifyConfigurationUnderKey(string $mode, $parentNode, PyStringNode $configFragment)
     {

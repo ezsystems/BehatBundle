@@ -9,6 +9,8 @@ namespace EzSystems\BehatBundle\Context\Object;
 use Behat\Gherkin\Node\TableNode;
 
 /**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ *
  * Sentences for Fields.
  */
 trait FieldType

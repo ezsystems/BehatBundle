@@ -13,6 +13,8 @@ use Behat\MinkExtension\Context\MinkAwareContext;
 use PHPUnit\Framework\Assert;
 
 /**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ *
  * Context has wide (generic) browser helper methods and classes.
  */
 class Context extends EzContext implements MinkAwareContext

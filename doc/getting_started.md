@@ -10,7 +10,7 @@ This bundle has higher testing levels (system testing and acceptance testing) in
   - set required YAML configuration using code
   - put required code examples in place
 * test your system with a browser
-  - make use of our browser test framework to s speed up your development
+  - make use of our browser test framework to speed up your development
   - in case of test failure get access to browser and server logs and take automatic screenshots
 
 # More reading
@@ -21,5 +21,3 @@ eZ Platform uses following libraries for Behat Development:
 - [Faker](https://github.com/fzaninotto/Faker) for random data generation
 - [PHPUnit](https://phpunit.de/) for test assertions
 - [Fastest](https://github.com/liuggio/fastest) as a parallel test runner
-
-## Next chapter: [Running tests](running_tests.md)
