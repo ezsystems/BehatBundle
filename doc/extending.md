@@ -2,7 +2,7 @@
 
 There are two extension points:
 - ## Support for custom Field Types
-If you want BehatBundle to support your custom Field Type when generating Content Items you need to implement `EzSystems\BehatBundle\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface` and tag the service with `ezplatform.behat.fieldtype_data_provider` tag.
+If you want BehatBundle to support your custom Field Type when generating Content items you need to implement `EzSystems\BehatBundle\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface` and tag the service with the `ezplatform.behat.fieldtype_data_provider` tag.
 
 Example service definition:
 ```
@@ -32,8 +32,8 @@ class CustomFieldTypeProvider extends AbstractFieldTypeDataProvider
 }
 ```
 
-- ## Support for custom limitations
-If you want to create Roles with permissions containing custom Limitations you need to implement `LimitationParserInterface` and tag your service with `ezplatform.behat.limitation_parser` tag. This will allow you to parse values passed in Gherkin tables into Limitation objects.
+- ## Support for custom Limitations
+If you want to create Roles with permissions containing custom Limitations, you need to implement `LimitationParserInterface` and tag your service with the `ezplatform.behat.limitation_parser` tag. This will allow you to parse values passed in Gherkin tables into Limitation objects.
 
 Example service definition:
 ```

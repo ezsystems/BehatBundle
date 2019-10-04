@@ -6,7 +6,7 @@ In order to use BehatBundle you need to use `behat` Symfony environment (which i
 
 The standard behat configuration file is [behat.yml.dist](https://github.com/ezsystems/ezplatform/blob/2.5/behat.yml.dist), located in eZ Platform's main directory. There you can:
 - in the `Behat\MinkExtension` section:
-  - set URL of your website for browser testing (`base_url` parameter)
+  - set the URL of your website for browser testing (`base_url` parameter)
   - set driver configuration (for example `wd_host` for Selenium Server)
   - see [MinkExtension documentation](https://github.com/Behat/MinkExtension/blob/master/doc/index.rst) for more information
 - in the `Bex\Behat\ScreenshotExtension` section:
@@ -23,7 +23,7 @@ Behat profiles and suites are not defined in this file, but imported from files 
 
 If you want to run browser tests you need to have Selenium Server runnning. One way of doing this is running our Docker stack, which has built-in support for it: see [eZ Platform Docker blueprints](https://github.com/ezsystems/ezplatform/blob/2.5/doc/docker/README.md#behat-and-selenium-use) documentation for more information.
 
-Other way is to use the Selenium Server Docker container and setting it up manually. Look at [ezplatform's .env file](https://github.com/ezsystems/ezplatform/blob/2.5/.env#L17) for the currently used version.
+Another way is to use the Selenium Server Docker container and setting it up manually. Look at [ezplatform's .env file](https://github.com/ezsystems/ezplatform/blob/2.5/.env#L17) for the currently used version.
 
 It can be set up using:
 `docker run -p 4444:4444 -p 5900:5900 --shm-size=1gb -d --name=containerName selenium/standalone-chrome-debug:3.141.59`
@@ -39,7 +39,7 @@ After the container is set up correctly you need to adjust the configuration of 
 
 ### Running standard Behat tests
 
-BehatBundle comes with wrapper for standard Behat runner: [ezbehat](../bin/ezbehat.sh) to make running tests in parallel easier.
+BehatBundle comes with a wrapper for the standard Behat runner: [ezbehat](../bin/ezbehat.sh) to make running tests in parallel easier.
 
 Use:
 ```
@@ -53,18 +53,18 @@ bin/ezbehat -m=parallel -p=profileName -s=suiteName
 bin/ezbehat --profile=profileName --suite=suiteName
 ```
 
-Running Behat feature files in parallel (on the available number of CPUs) is the default option when mode is not specified. See the scipt documentation for more examples.
+Running Behat feature files in parallel (on the available number of CPUs) is the default option when mode is not specified. See the script documentation for more examples.
 
 ## Existing test profiles and suites
 
-By convention profiles and suites are defined in `behat_suites.yml` file in each bundle, if they exist. See [BehatBundle suites](../behat_suites.yml) and [AdminUI suites](https://github.com/ezsystems/ezplatform-admin-ui/blob/1.5/behat_suites.yml) for examples.
+By convention profiles and suites are defined in the `behat_suites.yml` file in each bundle, if they exist. See [BehatBundle suites](../behat_suites.yml) and [AdminUI suites](https://github.com/ezsystems/ezplatform-admin-ui/blob/1.5/behat_suites.yml) for examples.
 
-In order to run them you should execute:
+In order to run them, execute:
 - `bin/ezbehat --profile=behat --suite=examples` (BehatBundle usage examples)
 - `bin/ezbehat --profile=adminui --suite=adminui` (all AdminUI tests)
 
-## Prewieving browser tests
+## Previewing browser tests
 
-The Selenium Server container comes with VNC server that allows you to preview browser tests when they're running. It's running on port 5900 and is protected by password `secret`. 
+The Selenium Server container comes with VNC server that allows you to preview browser tests when they're running. It runs on port 5900 and is protected by password `secret`. 
 
 See [Docker Selenium documentation on debugging](https://github.com/SeleniumHQ/docker-selenium#debugging) for more details.

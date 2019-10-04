@@ -6,8 +6,8 @@ eZ Platform BehatBundle is a bundle created to make development of [Behat](https
 
 This bundle has higher testing levels (system testing and acceptance testing) in mind. You can use it to:
 * put your system under test in the desired state
-  - create neccesary Content Types, Content Items, Users etc.
-  - set required YAML configuration using code
+  - create necessary Content Types, Content items, Users etc.
+  - create required YAML configuration using code
   - put required code examples in place
 * test your system with a browser
   - make use of our browser test framework to speed up your development
