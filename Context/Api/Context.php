@@ -9,6 +9,7 @@ namespace EzSystems\BehatBundle\Context\Api;
 use EzSystems\BehatBundle\Context\EzContext;
 use Behat\Behat\Context\Context as BehatContext;
 
+/** @deprecated  */
 class Context extends EzContext implements BehatContext
 {
 }

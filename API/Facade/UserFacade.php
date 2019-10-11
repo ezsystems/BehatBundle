@@ -19,15 +19,24 @@ use EzSystems\BehatBundle\API\ContentData\FieldTypeData\PasswordProvider;
 
 class UserFacade
 {
+    /** @var \eZ\Publish\API\Repository\UserService */
     private $userService;
+
+    /** @var \eZ\Publish\API\Repository\ContentTypeService */
     private $contentTypeService;
+
+    /** @var \eZ\Publish\API\Repository\RoleService */
     private $roleService;
+
+    /** @var \eZ\Publish\API\Repository\SearchService */
     private $searchService;
+
+    /** @var EzSystems\BehatBundle\API\ContentData\ContentDataProvider */
     private $contentDataProvider;
 
     public const USER_CONTENT_TYPE_IDENTIFIER = 'user';
     public const USERGROUP_CONTENT_IDENTIFIER = 'user_group';
-    public const ROOT_USERGROUP_CONTENTID = 4;
+    public const ROOT_USERGROUP_CONTENT_ID = 4;
 
     public function __construct(UserService $userService, ContentTypeService $contentTypeService, RoleService $roleService, SearchService $searchService, ContentDataProvider $contentDataProvider)
     {
@@ -45,7 +54,7 @@ class UserFacade
         $userGroupStruct = $this->userService->newUserGroupCreateStruct('eng-GB', $userGroupContentType);
         $userGroupStruct->setField('name', $groupName);
 
-        $parentGroup = $this->userService->loadUserGroup(self::ROOT_USERGROUP_CONTENTID);
+        $parentGroup = $this->userService->loadUserGroup(self::ROOT_USERGROUP_CONTENT_ID);
 
         $this->userService->createUserGroup($userGroupStruct, $parentGroup);
     }
@@ -64,7 +73,7 @@ class UserFacade
 
         $parentGroup = $userGroupName !== null ?
             $this->loadUserGroupByName($userGroupName) :
-            $this->userService->loadUserGroup(self::ROOT_USERGROUP_CONTENTID);
+            $this->userService->loadUserGroup(self::ROOT_USERGROUP_CONTENT_ID);
 
         $this->userService->createUser($userCreateStruct, [$parentGroup]);
     }

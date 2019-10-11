@@ -8,7 +8,7 @@ namespace EzSystems\BehatBundle\API\ContentData\FieldTypeData;
 
 interface FieldTypeDataProviderInterface
 {
-    public const SERVICE_TAG = 'ezsystems.behat.fieldtype_data_provider';
+    public const SERVICE_TAG = 'ezplatform.behat.fieldtype_data_provider';
 
     public function supports(string $fieldTypeIdentifier): bool;
 

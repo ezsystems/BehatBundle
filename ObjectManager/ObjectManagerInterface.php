@@ -10,6 +10,8 @@ use eZ\Publish\API\Repository\Values\ValueObject;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 
 /**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ *
  * Base interface for the object managers.
  */
 interface ObjectManagerInterface

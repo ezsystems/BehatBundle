@@ -10,6 +10,8 @@ use eZ\Publish\API\Repository\Values\ValueObject as ValueObjectInterface;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 
 /**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ *
  * Helper class for value objects handling.
  * Provides methods to:
  *  - set/get properties
@@ -67,7 +69,7 @@ class ValueObject
     public static function setProperties(ValueObjectInterface $object, array $values)
     {
         foreach ($values as $property => $value) {
-            $this->setProperty($object, $property, $value);
+            self::setProperty($object, $property, $value);
         }
     }
 

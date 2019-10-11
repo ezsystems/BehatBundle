@@ -15,6 +15,10 @@ class TestContext implements Context
     private $permissionResolver;
     private $userService;
 
+    /**
+     * @injectService $userService @ezpublish.api.service.user
+     * @injectService $permissionResolver @eZ\Publish\API\Repository\PermissionResolver
+     */
     public function __construct(UserService $userService, PermissionResolver $permissionResolver)
     {
         $this->userService = $userService;

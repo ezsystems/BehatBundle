@@ -12,6 +12,7 @@ use EzSystems\EzPlatformAdminUi\Behat\PageElement\Fields\EzFieldElement;
 
 class ContentTypeFacade
 {
+    /** @var \eZ\Publish\API\Repository\ContentTypeService */
     private $contentTypeService;
 
     public function __construct(ContentTypeService $contentTypeService)

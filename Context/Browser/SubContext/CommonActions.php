@@ -12,6 +12,8 @@ use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
 
 /**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ *
  * Class with the simple actions you can do in a browser.
  *
  * @method \Behat\Mink\Session getSession

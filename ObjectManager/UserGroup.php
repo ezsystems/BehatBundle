@@ -11,6 +11,9 @@ use eZ\Publish\API\Repository\Exceptions as ApiExceptions;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 
+/**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ */
 class UserGroup extends Base
 {
     /**

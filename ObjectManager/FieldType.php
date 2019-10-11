@@ -8,6 +8,9 @@ namespace EzSystems\BehatBundle\ObjectManager;
 
 use eZ\Publish\API\Repository\Values\ValueObject;
 
+/**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ */
 class FieldType extends Base
 {
     /**

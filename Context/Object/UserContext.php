@@ -13,10 +13,16 @@ use EzSystems\BehatBundle\Helper\ArgumentParser;
 
 class UserContext implements Context
 {
+    /** @var \EzSystems\BehatBundle\API\Facade\UserFacade */
     private $userFacade;
 
+    /** @var \EzSystems\BehatBundle\Helper\ArgumentParser */
     private $argumentParser;
 
+    /**
+     * @injectService $userFacade @EzSystems\BehatBundle\API\Facade\UserFacade
+     * @injectService $argumentParser @EzSystems\BehatBundle\Helper\ArgumentParser
+     */
     public function __construct(UserFacade $userFacade, ArgumentParser $argumentParser)
     {
         $this->userFacade = $userFacade;

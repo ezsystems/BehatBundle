@@ -9,6 +9,8 @@ namespace EzSystems\BehatBundle\Context\Object;
 use PHPUnit\Framework\Assert;
 
 /**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ *
  * Sentences for Roles.
  */
 trait Role

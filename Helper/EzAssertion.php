@@ -9,6 +9,8 @@ namespace EzSystems\BehatBundle\Helper;
 use PHPUnit\Framework\Assert;
 
 /**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ *
  * eZ specific assertions.
  */
 class EzAssertion

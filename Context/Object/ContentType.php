@@ -15,6 +15,8 @@ use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
 
 /**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ *
  * Sentences for Content Types.
  */
 class ContentType implements Context

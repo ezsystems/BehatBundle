@@ -10,6 +10,8 @@ use Behat\Mink\Mink;
 
 /**
  * This makes possible for (mink) contexts to extend other classes than (Raw)MinkContext.
+ *
+ * * @deprecated in 7.0, will be removed in 8.0.
  */
 trait MinkTrait
 {

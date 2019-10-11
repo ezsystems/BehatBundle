@@ -1,86 +1,36 @@
 behat:
     suites:
-        user:
+        examples:
             paths:
-                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/user.feature
-                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/user_group.feature
+                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/examples/user.feature
+                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/examples/content.feature
+                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/examples/configuration.feature
             contexts:
-                - EzSystems\BehatBundle\Context\EzContext
-                - EzSystems\BehatBundle\Context\Api\TestContext:
-                      userService: '@ezpublish.api.service.user'
-                      permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
-                - EzSystems\BehatBundle\Context\Object\UserContext:
-                      userFacade: '@EzSystems\BehatBundle\API\Facade\UserFacade'
-                      argumentParser: '@EzSystems\BehatBundle\Helper\ArgumentParser'
-                - EzSystems\BehatBundle\Context\Object\RoleContext:
-                      roleFacade: '@EzSystems\BehatBundle\API\Facade\RoleFacade'
-                      argumentParser: '@EzSystems\BehatBundle\Helper\ArgumentParser'
-                - EzSystems\BehatBundle\Context\Object\LanguageContext:
-                      languageFacade: '@EzSystems\BehatBundle\API\Facade\LanguageFacade'
-                - EzSystems\BehatBundle\Context\Object\ObjectStateContext:
-                    objectStateService: '@ezpublish.api.service.object_state'
-        contenttype_group:
-            paths:
-                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/contenttype_group.feature
-            contexts:
-                - EzSystems\BehatBundle\Context\Object\ContentTypeGroup
-        contenttype:
-            paths:
-                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/contenttype.feature
-            contexts:
+                - EzSystems\BehatBundle\Context\Api\TestContext
+                - EzSystems\BehatBundle\Context\Object\UserContext
+                - EzSystems\BehatBundle\Context\Object\RoleContext
                 - EzSystems\BehatBundle\Context\Object\ContentType
-        content:
-            paths:
-                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/content.feature
-            contexts:
-                - EzSystems\BehatBundle\Context\Api\TestContext:
-                    userService: '@ezpublish.api.service.user'
-                    permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
-                - EzSystems\BehatBundle\Context\Object\ContentType
-                - EzSystems\BehatBundle\Context\Object\ContentContext:
-                      contentFacade: '@EzSystems\BehatBundle\API\Facade\ContentFacade'
-                      argumentParser: '@EzSystems\BehatBundle\Helper\ArgumentParser'
-                - EzSystems\BehatBundle\Context\Object\ContentTypeContext:
-                      contentTypeFacade: '@EzSystems\BehatBundle\API\Facade\ContentTypeFacade'
-                - EzSystems\BehatBundle\Context\Object\LanguageContext:
-                      languageFacade: '@EzSystems\BehatBundle\API\Facade\LanguageFacade'
-        configuration:
-            paths:
-                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/configuration.feature
-            contexts:
-                - EzSystems\BehatBundle\Context\Api\TestContext:
-                      userService: '@ezpublish.api.service.user'
-                      permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
-                - EzSystems\BehatBundle\Context\Object\LanguageContext:
-                      languageFacade: '@EzSystems\BehatBundle\API\Facade\LanguageFacade'
-                - EzSystems\BehatBundle\Context\ConfigurationContext:
-                      projectDir: '%paths.base%'
+                - EzSystems\BehatBundle\Context\Object\ContentContext
+                - EzSystems\BehatBundle\Context\Object\ContentTypeContext
+                - EzSystems\BehatBundle\Context\Object\LanguageContext
+                - EzSystems\BehatBundle\Context\Object\ObjectStateContext
+                - EzSystems\BehatBundle\Context\ConfigurationContext
+
 setup:
     suites:
         richtext_configuration:
             paths:
-                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/richtextConfiguration/custom_tags.feature
-                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/richtextConfiguration/custom_styles.feature
+                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/richtextConfiguration/custom_tags.feature
+                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/richtextConfiguration/custom_styles.feature
             contexts:
-                - EzSystems\BehatBundle\Context\ConfigurationContext:
-                      projectDir: '%paths.base%'
-                - EzSystems\BehatBundle\Context\FileContext:
-                      basePath: '%paths.base%'
+                - EzSystems\BehatBundle\Context\ConfigurationContext
+                - EzSystems\BehatBundle\Context\FileContext
         personas:
               paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/EzSystems/BehatBundle/Features/personas'
+                - '%paths.base%/vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/personas'
               contexts:
-                - EzSystems\BehatBundle\Context\Api\TestContext:
-                    userService: '@ezpublish.api.service.user'
-                    permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
-                - EzSystems\BehatBundle\Context\Object\UserContext:
-                    userFacade: '@EzSystems\BehatBundle\API\Facade\UserFacade'
-                    argumentParser: '@EzSystems\BehatBundle\Helper\ArgumentParser'
-                - EzSystems\BehatBundle\Context\Object\RoleContext:
-                    roleFacade: '@EzSystems\BehatBundle\API\Facade\RoleFacade'
-                    argumentParser: '@EzSystems\BehatBundle\Helper\ArgumentParser'
-                - EzSystems\BehatBundle\Context\Object\ContentContext:
-                    contentFacade: '@EzSystems\BehatBundle\API\Facade\ContentFacade'
-                    argumentParser: '@EzSystems\BehatBundle\Helper\ArgumentParser'
-                - EzSystems\BehatBundle\Context\Object\ContentTypeContext:
-                    contentTypeFacade: '@EzSystems\BehatBundle\API\Facade\ContentTypeFacade'
+                - EzSystems\BehatBundle\Context\Api\TestContext
+                - EzSystems\BehatBundle\Context\Object\UserContext
+                - EzSystems\BehatBundle\Context\Object\RoleContext
+                - EzSystems\BehatBundle\Context\Object\ContentContext
+                - EzSystems\BehatBundle\Context\Object\ContentTypeContext

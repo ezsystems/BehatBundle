@@ -19,6 +19,10 @@ class ContentContext implements Context
     /** @var ArgumentParser */
     private $argumentParser;
 
+    /**
+     * @injectService $contentFacade @EzSystems\BehatBundle\API\Facade\ContentFacade
+     * @injectService $argumentParser @EzSystems\BehatBundle\Helper\ArgumentParser
+     */
     public function __construct(ContentFacade $contentFacade, ArgumentParser $argumentParser)
     {
         $this->contentFacade = $contentFacade;

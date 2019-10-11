@@ -7,6 +7,8 @@
 namespace EzSystems\BehatBundle\Context\Browser\SubContext;
 
 /**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ *
  * Authentication methods.
  */
 trait Authentication

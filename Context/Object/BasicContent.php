@@ -7,6 +7,8 @@
 namespace EzSystems\BehatBundle\Context\Object;
 
 /**
+ * * @deprecated in 7.0, will be removed in 8.0.
+ *
  * Sentences for Fields.
  *
  * @method \EzSystems\BehatBundle\ObjectManager\BasicContent getBasicContentManager

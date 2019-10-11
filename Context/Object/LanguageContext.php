@@ -11,8 +11,14 @@ use EzSystems\BehatBundle\API\Facade\LanguageFacade;
 
 class LanguageContext implements Context
 {
+    /**
+     * @var \EzSystems\BehatBundle\API\Facade\LanguageFacade
+     */
     private $languageFacade;
 
+    /**
+     * @injectService $languageFacade @EzSystems\BehatBundle\API\Facade\LanguageFacade
+     */
     public function __construct(LanguageFacade $languageFacade)
     {
         $this->languageFacade = $languageFacade;

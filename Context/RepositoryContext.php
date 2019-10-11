@@ -21,7 +21,6 @@ trait RepositoryContext
      * Default Administrator user id.
      */
     private $adminUserId = 14;
-
     /**
      * @var Repository
      */

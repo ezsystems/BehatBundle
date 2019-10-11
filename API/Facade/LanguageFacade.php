@@ -11,6 +11,7 @@ use eZ\Publish\API\Repository\LanguageService;
 
 class LanguageFacade
 {
+    /** @var \eZ\Publish\API\Repository\LanguageService */
     private $languageService;
 
     public function __construct(LanguageService $languageService)

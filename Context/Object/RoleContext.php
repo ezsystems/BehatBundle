@@ -13,12 +13,16 @@ use EzSystems\BehatBundle\Helper\ArgumentParser;
 
 class RoleContext implements Context
 {
-    /** @var RoleFacade */
+    /** @var \EzSystems\BehatBundle\API\Facade\RoleFacade */
     private $roleFacade;
 
-    /** @var ArgumentParser */
+    /** @var \EzSystems\BehatBundle\Helper\ArgumentParser */
     private $argumentParser;
 
+    /**
+     * @injectService $roleFacade @EzSystems\BehatBundle\API\Facade\RoleFacade
+     * @injectService $argumentParser @EzSystems\BehatBundle\Helper\ArgumentParser
+     */
     public function __construct(RoleFacade $roleFacade, ArgumentParser $argumentParser)
     {
         $this->roleFacade = $roleFacade;
