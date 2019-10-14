@@ -6,7 +6,7 @@ services:
         
     _instanceof:
         EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface:
-            tags: ['ezsystems.behat.limitation_parser']
+            tags: ['ezplatform.behat.limitation_parser']
             
     EzSystems\Behat\API\Context\LimitationParser\ContentTypeLimitationParser:
         arguments:

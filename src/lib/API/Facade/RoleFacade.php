@@ -13,6 +13,7 @@ use EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface;
 
 class RoleFacade
 {
+    /** @var \eZ\Publish\API\Repository\RoleService */
     private $roleService;
 
     /** @var LimitationParsersCollector */

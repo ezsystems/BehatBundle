@@ -4,26 +4,14 @@ behat:
             paths:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/examples'
             contexts:
-              - EzSystems\Behat\API\Context\TestContext:
-                  userService: '@ezpublish.api.service.user'
-                  permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
-              - EzSystems\Behat\API\Context\ObjectStateContext:
-                  objectStateService: '@ezpublish.api.service.object_state'
-              - EzSystems\Behat\API\Context\ContentContext:
-                  contentFacade: '@EzSystems\Behat\API\Facade\ContentFacade'
-                  argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
-              - EzSystems\Behat\API\Context\ContentTypeContext:
-                  contentTypeFacade: '@EzSystems\Behat\API\Facade\ContentTypeFacade'
-              - EzSystems\Behat\API\Context\UserContext:
-                  userFacade: '@EzSystems\Behat\API\Facade\UserFacade'
-                  argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
-              - EzSystems\Behat\API\Context\RoleContext:
-                  roleFacade: '@EzSystems\Behat\API\Facade\RoleFacade'
-                  argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
-              - EzSystems\Behat\API\Context\LanguageContext:
-                  languageFacade: '@EzSystems\Behat\API\Facade\LanguageFacade'
-              - EzSystems\Behat\Core\Context\ConfigurationContext:
-                  projectDir: '%paths.base%'
+              - EzSystems\Behat\API\Context\TestContext
+              - EzSystems\Behat\API\Context\ObjectStateContext
+              - EzSystems\Behat\API\Context\ContentContext
+              - EzSystems\Behat\API\Context\ContentTypeContext
+              - EzSystems\Behat\API\Context\UserContext
+              - EzSystems\Behat\API\Context\RoleContext
+              - EzSystems\Behat\API\Context\LanguageContext
+              - EzSystems\Behat\Core\Context\ConfigurationContext
 
 setup:
     suites:
@@ -32,25 +20,14 @@ setup:
                 - vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_tags.feature
                 - vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_styles.feature
             contexts:
-                - EzSystems\Behat\Core\Context\ConfigurationContext:
-                      projectDir: '%paths.base%'
-                - EzSystems\Behat\Core\Context\FileContext:
-                      basePath: '%paths.base%' 
+                - EzSystems\Behat\Core\Context\ConfigurationContext
+                - EzSystems\Behat\Core\Context\FileContext
         personas:
               paths:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/personas'
               contexts:
-                - EzSystems\Behat\API\Context\TestContext:
-                    userService: '@ezpublish.api.service.user'
-                    permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
-                - EzSystems\Behat\API\Context\UserContext:
-                    userFacade: '@EzSystems\Behat\API\Facade\UserFacade'
-                    argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
-                - EzSystems\Behat\API\Context\RoleContext:
-                    roleFacade: '@EzSystems\Behat\API\Facade\RoleFacade'
-                    argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
-                - EzSystems\Behat\API\Context\ContentContext:
-                    contentFacade: '@EzSystems\Behat\API\Facade\ContentFacade'
-                    argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
-                - EzSystems\Behat\API\Context\ContentTypeContext:
-                    contentTypeFacade: '@EzSystems\Behat\API\Facade\ContentTypeFacade'
+                - EzSystems\Behat\API\Context\TestContext
+                - EzSystems\Behat\API\Context\UserContext
+                - EzSystems\Behat\API\Context\RoleContext
+                - EzSystems\Behat\API\Context\ContentContext
+                - EzSystems\Behat\API\Context\ContentTypeContext

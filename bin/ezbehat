@@ -2,11 +2,11 @@
 # Examples of use:
 #
 # for the 1-thread, pure behat tests:
-#   bin/ezbehat --mode=behat --profile=repository-forms --tags=~@broken
-#   bin/ezbehat -m=behat -p=rest -s=fullXml -t=~@broken
+#   bin/ezbehat --mode=standard --profile=repository-forms --tags=~@broken
+#   bin/ezbehat -m=standard -p=rest -s=fullXml -t=~@broken
 #
 # for the multi-thread fastest tests:
-#   bin/ezbehat -m=fastest -p=regression -s=demoRegression
+#   bin/ezbehat -m=parallel -p=regression -s=demoRegression
 #   bin/ezbehat --profile=adminui --suite=adminui
 #
 # for getting features list for given profiles/suites:
@@ -16,7 +16,7 @@
 PROFILE=''
 SUITE=''
 TAGS=''
-MODE='fastest'
+MODE='parallel'
 STRICT='--strict'
 
 
@@ -28,7 +28,7 @@ Usage:
 
 Options:
 
-\t -m, --mode=MODE; 'get-features', 'behat' or 'fastest' ('fastest' by default);
+\t -m, --mode=MODE; 'get-features', 'standard' or 'parallel' ('fastest' by default);
 \t -p, --profile=PROFILE; Behat tests profile;
 \t -s, --suite=SUITE; Behat tests suite;
 \t -t, --tags=TAGS; Behat tags filter;
@@ -51,7 +51,7 @@ fastest(){
     get_behat_features | bin/fastest -o -v "bin/behat {} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT}"
 }
 
- # Fastest option 'list-features' gives us the list of all features from given context in random order, which are later
+# Fastest option 'list-features' gives us the list of all features from given context in random order, which are later
 # run in this order in few threads and dynamically distributed between these threads. That gives us different test build
 # times each build, often non optimal. To make this optimal we sort features by the number of scenarios in them
 # (ascending because Fastest reverse the queue order, and we want this queue to run descending) and run them in that order,
@@ -74,8 +74,8 @@ esac
 done
 
 case "${MODE}" in
-    behat) behat;;
-    fastest) fastest;;
+    behat|standard) behat;;
+    fastest|parallel) fastest;;
     get-features) get_behat_features;;
     *) error $MODE
 esac

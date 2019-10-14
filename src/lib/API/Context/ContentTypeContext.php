@@ -16,6 +16,9 @@ class ContentTypeContext implements Context
     /** @var ContentTypeFacade */
     private $contentTypeFacade;
 
+    /**
+     * @injectService $contentTypeFacade @EzSystems\Behat\API\Facade\ContentTypeFacade
+     */
     public function __construct(ContentTypeFacade $contentTypeFacade)
     {
         $this->contentTypeFacade = $contentTypeFacade;

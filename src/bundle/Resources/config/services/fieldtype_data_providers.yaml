@@ -6,7 +6,7 @@ services:
         
     _instanceof:
       EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface:
-        tags: ['ezsystems.behat.fieldtype_data_provider']
+        tags: ['ezplatform.behat.fieldtype_data_provider']
 
     EzSystems\Behat\API\ContentData\FieldTypeData\RandomDataGenerator:
       arguments:

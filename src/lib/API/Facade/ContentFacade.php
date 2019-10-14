@@ -15,16 +15,16 @@ use PHPUnit\Framework\Assert;
 
 class ContentFacade
 {
-    /** @var ContentService */
+    /** @var \eZ\Publish\API\Repository\ContentService */
     private $contentService;
 
-    /** @var LocationService */
+    /** @var \eZ\Publish\API\Repository\LocationService */
     private $locationService;
 
-    /** @var URLAliasService */
+    /** @var \eZ\Publish\API\Repository\URLAliasService */
     private $urlAliasService;
 
-    /** @var ContentDataProvider */
+    /** @var \EzSystems\Behat\API\ContentData\ContentDataProvider */
     private $contentDataProvider;
 
     public function __construct(ContentService $contentService, LocationService $locationService, URLAliasService $urlAliasService, ContentDataProvider $contentDataProvider)

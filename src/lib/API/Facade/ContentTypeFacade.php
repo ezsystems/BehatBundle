@@ -12,6 +12,7 @@ use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 
 class ContentTypeFacade
 {
+    /** @var \eZ\Publish\API\Repository\ContentTypeService */
     private $contentTypeService;
 
     public function __construct(ContentTypeService $contentTypeService)
