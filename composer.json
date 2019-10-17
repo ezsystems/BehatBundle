@@ -35,5 +35,5 @@
         }
     },
 
-    "bin": ["bin/ezbehat"]
+    "bin": ["bin/ezbehat", "bin/ezreport"]
 }
