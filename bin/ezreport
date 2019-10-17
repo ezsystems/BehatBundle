@@ -1,0 +1,90 @@
+#!/bin/bash
+# Examples of use:
+#
+# Default use in Travis builds:
+#   bin/ezreport
+#
+# Specify non-default SSH key and tested bundle name (required to run script outside Travis runs)
+#   bin/ezreport -i=path/to/sshkey -r=BehatBundle
+# Reports generated in this way will be hosted on the server in BehatBundle/manual/time_stamp directory
+
+SSH_KEY_PATH="$HOME/rsa_allure"
+HOST_NAME='allure.ez.no'
+
+ # Help command output
+usage(){
+echo -e "\
+Usage:
+\t ezreport [OPTIONS...]
+
+Options:
+
+\t -i=PATH; path to SSH Key for non-default ssh keys or manual script runs outside Travis machines;
+\t -r, --repository=REPOSITORY_NAME; tested repository name - only for manual script runs outside Travis machines;
+\t -h; show this help message;
+" | column -t -s ";"
+}
+
+ # Error message
+error(){
+    echo "ezreport: invalid option -- '$1'";
+    echo "Try 'ezreport -h' for more information.";
+    exit 1;
+}
+
+fix_allure_suites_names(){
+cd ./build/allure/
+# replacing the suite name with the feature files executed in each XML file
+for dir in *; do
+ tempNames=($(head -n 6 ${dir} | awk '/<name>/ {gsub(/[<>]/, " "); print $2}'))
+ suiteName=${tempNames[0]}
+ featureName=($( echo ${tempNames[1]} | awk -F "[/.:]" '{ print $(NF-2)}'))
+
+ sudo sed -i "s/<name>${suiteName}</<name>${featureName}</g" ${dir}
+done
+}
+
+zip_report_files(){
+TIMESTAMP=$(date "+h%H-m%M")
+if [ -z $REPOSITORY_NAME ];
+then
+    REPORT_NAME="$(echo $TRAVIS_REPO_SLUG | cut -d'/' -f 2).$TRAVIS_JOB_NUMBER";
+else
+    DATESTAMP=$(date "+%Y-%m-%d")
+    REPORT_NAME="$REPOSITORY_NAME.manual.$DATESTAMP";
+fi
+ZIP_FILENAME="$REPORT_NAME-$TIMESTAMP"
+ZIP_FILENAME_EX="$ZIP_FILENAME.zip"
+sudo zip $ZIP_FILENAME_EX *
+}
+
+send_report_to_server(){
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -i $SSH_KEY_PATH $ZIP_FILENAME_EX allure@$HOST_NAME:~/incoming 1> /dev/null
+
+if [ $? -ne 0 ];
+then echo "Failure occured when uploading the report";
+else
+    ADDRESS_PATH="$(echo $ZIP_FILENAME | sed 's/\./\//g')"
+    WEB_ADDRESS="http://$HOST_NAME/$ADDRESS_PATH"
+    echo "See the report on ${WEB_ADDRESS}"
+fi
+}
+
+process_report(){
+fix_allure_suites_names 1> /dev/null;
+zip_report_files 1> /dev/null;
+send_report_to_server;
+}
+
+
+for i in "$@"
+do
+case $i in
+    -i=*)                   SSH_KEY_PATH="${i#*=}"; shift;;
+    -r=*|--repository=*)    REPOSITORY_NAME="${i#*=}"; shift;;
+    -h|--help)              usage; exit 1;;
+    *)                      error $1;;
+esac
+done
+
+process_report;
