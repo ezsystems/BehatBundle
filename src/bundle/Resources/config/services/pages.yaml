@@ -1,0 +1,26 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    EzSystems\Behat\Test\Factory\ElementFactory: ~
+
+    EzSystems\Behat\Test\Factory\PageObjectFactory: ~
+
+    EzSystems\Behat\Test\Factory\ElementFactoryInterface: '@EzSystems\Behat\Test\Factory\ElementFactory'
+
+    EzSystems\Behat\Test\Factory\PageObjectFactoryInterface: '@EzSystems\Behat\Test\Factory\PageObjectFactory'
+
+#    Behat\Mink\Session:
+#        class: EzSystems\Behat\Test\Session
+
+# todo
+    EzSystems\Behat\Test\Session:
+        decorates: Behat\Mink\Session
+        arguments: ['@EzSystems\Behat\Test\Session.inner']
+        lazy: true
+
+# session traci parametry?????
+# pozwala nam uzywac webasserta z waitami, bo nadpisujemy find() i session->getPage
+

@@ -1,0 +1,43 @@
+1. Zacząć korzystać z https://github.com/FriendsOfBehat/SymfonyExtension i porejestrować Contexty jako serwisy - done
+a) skorzystać z https://github.com/FriendsOfBehat/ServiceContainerExtension ?
+b) TODO: sprawdzić czy mozna je dekorowac i jak sie to zachowuje - TODO
+
+2. Zarejestrować fabryki jako serwisy i wstrzykiwać je przez konstruktor, w definicji serwisu - done
+- page/element factory
+- pozbyć się const factory na rzecz parametrów Symfony
+
+3. Drobny refactor: - semi done
+- wprowadzić interfejsy dla:
+Page, Element, PageFactory, ElementFactory, 
+- rename:
+verifyElements -> verifyIsLoaded
+BusinessContext -> WebBrowserContext/WebTestingContext
+
+4. Rozdzielić tworzenie Page/Elementow i ustawianie ich parametrów - done :D
+
+5. Do Page/ELementow powinno byc wstrzykiwane Session, nie Context. Udekorować sesję Minka naszym rozwiązaniem
+a) nadpisać ELementy zeby korzystały z ExtendedSession?
+
+6. Dodać autokonfigurację, zeby nie trzeba bylo tagowac kazdego serwisu:  - JAK? :D
+
+7. Dodać Page'e jako serwisy i je autokonfigurować - done
+
+8. Introduce NullElement to make handling not found objects easier.
+
+
+TODO:
+1) autokonfiguracja - https://github.com/ezsystems/ezpublish-kernel/pull/2834 - pogadać z kimś :D
+2) dekoracja Contextu - da się nadpisać pojedyczny step
+3) definiowanie serwisów - as long as są prywatne mozemy to robic, right?
+4) dekoracja Sesji
+
+-> @admin : @repository-user:admin
+
+declare(strict_types=1);
+
+- pozbycie się zahardodowanych nazw fieldtype'ow z behatbundle
+
+
+PO CO:
+1 - usunąć BaseElement z getElementByText
+2 - waitFor 
