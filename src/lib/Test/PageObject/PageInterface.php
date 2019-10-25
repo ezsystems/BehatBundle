@@ -8,6 +8,8 @@ interface PageInterface
 
     public function open(): void;
 
+    public function tryToOpen(): void;
+
     public function verifyIsLoaded(): void;
 
     public function getName(): string;

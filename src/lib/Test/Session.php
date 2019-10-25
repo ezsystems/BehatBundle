@@ -7,6 +7,7 @@ use Behat\Mink\Driver\DriverInterface;
 use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Session as MinkSession;
 use EzSystems\Behat\Test\MinkElementDecorator\DocumentElement;
+use EzSystems\Behat\Test\MinkElementDecorator\ExtendedElementActions;
 
 class Session extends MinkSession
 {
@@ -15,8 +16,8 @@ class Session extends MinkSession
         parent::__construct($session->getDriver(), $session->getSelectorsHandler());
     }
 
-    public function getPage()
+    public function getPage(): DocumentElement
     {
-        return new DocumentElement(parent::getPage());
+        return new DocumentElement(new ExtendedElementActions(parent::getPage()));
     }
 }

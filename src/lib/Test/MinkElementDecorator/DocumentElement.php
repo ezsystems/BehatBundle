@@ -3,103 +3,45 @@
 
 namespace EzSystems\Behat\Test\MinkElementDecorator;
 
-use Behat\Mink\Element\DocumentElement as MinkDocomentElement;
 use Behat\Mink\Element\DocumentElement as MinkDocumentElement;
-use Behat\Mink\Element\NodeElement;
-use EzSystems\Behat\Test\MinkElementDecorator\NodeElement as TestNodeElement;
-use EzSystems\Behat\Test\Session;
 
-class DocumentElement extends MinkDocumentElement
+class DocumentElement extends MinkDocumentElement implements ExtendedElementInterface
 {
-    public $timeout;
-
-    /**
-     * @var MinkDocumentElement
-     */
-    protected $decoratedDocumentElement;
-
-    public function __construct(MinkDocomentElement $decoratedDocumentElement)
+    public function getSession()
     {
-        parent::__construct($decoratedDocumentElement->getSession());
-        $this->decoratedDocumentElement = $decoratedDocumentElement;
-        $this->timeout = 10;
+        return $this->extendedActions->getSession();
     }
 
-    public function waitFor($timeoutSeconds, $callback)
+    private $extendedActions;
+
+    public function __construct(ExtendedElementActions $extendedActions)
     {
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('Given callback is not a valid callable');
-        }
+        $this->extendedActions = $extendedActions;
+    }
 
-        $start = time();
-        $end = $start + $timeoutSeconds;
-        do {
-            try {
-                $result = $callback($this);
-                if ($result) {
-                    return $result;
-                }
-            } catch (\Exception $e) {
-            }
-            usleep(250 * 1000);
-        } while (time() < $end);
-
-        return null;
+    public function find($selector, $locator): ExtendedElementInterface
+    {
+        return $this->extendedActions->find($selector, $locator);
     }
 
     public function findAll($selector, $locator): NodeElementCollection
     {
-        $elements = $this->waitFor($this->timeout, function () use ($selector, $locator) {
-            $elements = $this->decoratedDocumentElement->findAll($selector, $locator);
-            foreach ($elements as $element) {
-                if (!$element->isValid()) {
-                    return false;
-                }
-            }
-
-            return $elements;
-        });
-
-        $wrappedElements = [];
-
-        foreach ($elements as $element) {
-            $wrappedElements[] = new TestNodeElement($element);
-        }
-
-        return new NodeElementCollection($wrappedElements);
+        return $this->extendedActions->findAll($selector, $locator);
     }
 
-    public function find($selector, $locator): NodeElement
+    public function findVisible(string $selector, string $locator): ExtendedElementInterface
     {
-        return $this->waitFor($this->timeout,
-                function () use ($selector, $locator) {
-                    return $this->decoratedDocumentElement->find($selector, $locator);
-                });
-//            ?? new NullElement(); cannot use null element if webassert is used
+        return $this->extendedActions->findVisible($selector, $locator);
     }
 
-    public function findAllVisible($selector, $locator): NodeElementCollection
+    public function findAllVisible(string $selector, string $locator): NodeElementCollection
     {
-        return $this->findAll($selector, $locator)->getVisibleElements();
+        return $this->extendedActions->findAllVisible($selector, $locator);
     }
-
-    public function findVisible($selector, $locator): NodeElement
-    {
-        return current($this->findAll($selector, $locator)->getVisibleElements());
-    }
-
-    // needs to override wait for as it does not take exceptions into account
 
     public function waitForElementToDisappear($selector, $locator): void
     {
-        $currentTimeoutValue = $this->timeout;
-
-        $this->waitFor($this->timeout, function () use ($selector, $locator) {
-            $this->timeout = 1;
-            return $this->find($selector, $locator)->isVisible() === false;
-            });
-
-        $this->timeout = $currentTimeoutValue;
+        $this->extendedActions->waitForElementToDisappear($selector, $locator);
     }
 
     /**
@@ -109,7 +51,7 @@ class DocumentElement extends MinkDocumentElement
      *
      * @return string
      */
-    public function uploadFileToRemoteSpace(string $localFileName): string
+    public function uploadFile(string $localFileName): string
     {
         // if not instance of selenium2driver return/throw
 

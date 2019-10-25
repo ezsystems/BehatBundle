@@ -3,6 +3,8 @@
 
 namespace EzSystems\Behat\Test\MinkElementDecorator;
 
+use Behat\Mink\Element\ElementInterface;
+use Behat\Mink\Element\TraversableElement;
 use Countable;
 use Iterator;
 
@@ -40,12 +42,6 @@ class NodeElementCollection implements Iterator, Countable
         return isset($this->elements[$this->key()]);
     }
 
-    /**
-     * Rewind the Iterator to the first element
-     * @link https://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
-     * @since 5.0.0
-     */
     public function rewind()
     {
         $this->index = 0;
@@ -53,7 +49,7 @@ class NodeElementCollection implements Iterator, Countable
 
     public function getVisibleElements(): NodeElementCollection
     {
-        $visibleElements =  array_filter($this->elements, function (NodeElement $element) { return $element->isVisible(); });
+        $visibleElements =  array_filter($this->elements, function (TraversableElement $element) { return $element->isVisible(); });
 
         return new NodeElementCollection($visibleElements);
     }

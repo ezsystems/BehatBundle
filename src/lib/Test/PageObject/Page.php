@@ -3,9 +3,9 @@
 namespace EzSystems\Behat\Test\PageObject;
 
 
-use Behat\Mink\Session;
 use Behat\Mink\WebAssert;
 use EzSystems\Behat\Test\MinkElementDecorator\DocumentElement;
+use EzSystems\Behat\Test\Session;
 use FriendsOfBehat\SymfonyExtension\Mink\MinkParameters;
 
 abstract class Page implements PageInterface
@@ -24,7 +24,7 @@ abstract class Page implements PageInterface
     /** @var WebAssert */
     private $webAssert;
 
-    public function __construct(Session $session, MinkParameters $minkParameters = null)
+    public function __construct(Session $session, MinkParameters $minkParameters)
     {
         $this->session = $session;
         $this->minkParameters = $minkParameters;
