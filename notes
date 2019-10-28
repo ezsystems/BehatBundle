@@ -1,43 +1,31 @@
-1. Zacząć korzystać z https://github.com/FriendsOfBehat/SymfonyExtension i porejestrować Contexty jako serwisy - done
-a) skorzystać z https://github.com/FriendsOfBehat/ServiceContainerExtension ?
-b) TODO: sprawdzić czy mozna je dekorowac i jak sie to zachowuje - TODO
+Problemy:
 
-2. Zarejestrować fabryki jako serwisy i wstrzykiwać je przez konstruktor, w definicji serwisu - done
-- page/element factory
-- pozbyć się const factory na rzecz parametrów Symfony
+Factory:
+1. Page/Element factory są meczące, trzeba je zmieniać za kazdym razem - przez to jest więcej PRów i trochę boilerplate'u
+2. Nie mamy sensownych typehintów w Stormie
+3. Nie są rozszerzalne dla innych, tylko dla naszych potrzeb
 
-3. Drobny refactor: - semi done
-- wprowadzić interfejsy dla:
-Page, Element, PageFactory, ElementFactory, 
-- rename:
-verifyElements -> verifyIsLoaded
-BusinessContext -> WebBrowserContext/WebTestingContext
+UtilityContext/BrowserContext:
+1. Nie powinien być Contextem, to się nie zgadza znaczeniowo - on nie definuje stepów tak naprawdę, jest tylko wrapperem 
+2. Problematyczne jest, ze dziedziczy po MinkContext - zmniejsza rozszerzalnosc rozwiązania
+3. Nie powinno być tak, ze kazda suite'a musi miec dodane UtilityContext/Hooks zeby dzialac
+4. To, ze utilityContext jest domyslnie w kazdym Contexcie nie wspiera dobrej architektury (nic nie stoi na przeszkodzie, zeby bezpośrednio w Contextach robić $this->utilityContext->findElement('')->click()), a tego nie polecamy
+5. UtilityContext jest trochę workiem na rózne funkcje, `getVisibleElements` na pewno tam nie pasuje
+6. Nie jestem fanem przekazywania baseElementu jako parametr, fajnie byloby moc korzystać z tych metod bezpośrednio na zwracanych Elementach
 
-4. Rozdzielić tworzenie Page/Elementow i ustawianie ich parametrów - done :D
+Inne:
+Nie ma jak nadpisywać definicji w Contexcie
 
-5. Do Page/ELementow powinno byc wstrzykiwane Session, nie Context. Udekorować sesję Minka naszym rozwiązaniem
-a) nadpisać ELementy zeby korzystały z ExtendedSession?
+POC krótki opis:
+1) Korzystamy z https://github.com/FriendsOfBehat/SymfonyExtension , rejestrujemy Contexty jako serwisy
+2) Rejestrujemy wszystkie Page'e i Elementy jako serwisy
+3) Wstrzykujemy Page'e bezpośrednio do Contextów jeśli jest to mozliwe
+4) Jesli potrzebne sa parametry zdefniowane w stpeie, to trzeba zrobic $page->setParameters, bo nie sa ustawione
+5) Zastepujac definicje serwisu w kontenerze mozna nadpisac definicje stepa
+6) Nadpisujemy sesję minka, zeby moc korzystac z własnych zmodyfikowanych Elementów - to daje nam mozliwosc rozbudowania API Minka, wbudowania domyślnego czekania na elementy, odpalania naszych metod na zwracanych elementach, uzywania WebAsserta
+7) EzplatformConstFactory trzeba zaorać na rzecz definiowania Symfony parameters, zeby uproscic
+8) Z Elementami nic nie robiłem, bo będzie identycznie jak z Pagem
 
-6. Dodać autokonfigurację, zeby nie trzeba bylo tagowac kazdego serwisu:  - JAK? :D
-
-7. Dodać Page'e jako serwisy i je autokonfigurować - done
-
-8. Introduce NullElement to make handling not found objects easier.
-
-
-TODO:
-1) autokonfiguracja - https://github.com/ezsystems/ezpublish-kernel/pull/2834 - pogadać z kimś :D
-2) dekoracja Contextu - da się nadpisać pojedyczny step
-3) definiowanie serwisów - as long as są prywatne mozemy to robic, right?
-4) dekoracja Sesji
-
--> @admin : @repository-user:admin
-
-declare(strict_types=1);
-
-- pozbycie się zahardodowanych nazw fieldtype'ow z behatbundle
-
-
-PO CO:
-1 - usunąć BaseElement z getElementByText
-2 - waitFor 
+Potencjalne problemy:
+- API Minka nie podaje timeoutu w swoich funkcjach, trzeba je ustawiać osobnym callem zeby miec zgodnosc interfejsu
+-

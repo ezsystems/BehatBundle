@@ -7,6 +7,8 @@ use Behat\Mink\Element\DocumentElement as MinkDocumentElement;
 
 class DocumentElement extends MinkDocumentElement implements ExtendedElementInterface
 {
+    // zamiast wstrzykiwania ExtendedElementActions mozna pomyslec o Traicie, ale no nie wiem : D
+
     public function getSession()
     {
         return $this->extendedActions->getSession();

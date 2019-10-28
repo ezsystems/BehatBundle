@@ -3,8 +3,6 @@
 
 namespace EzSystems\Behat\Test;
 
-use Behat\Mink\Driver\DriverInterface;
-use Behat\Mink\Selector\SelectorsHandler;
 use Behat\Mink\Session as MinkSession;
 use EzSystems\Behat\Test\MinkElementDecorator\DocumentElement;
 use EzSystems\Behat\Test\MinkElementDecorator\ExtendedElementActions;

@@ -10,6 +10,8 @@ use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
 
 class NullElement extends NodeElement
 {
+    // nieuzywane, bo WebAssert bazuje na porownaniach z nullem, do usuniecia pewnie
+    
     public function __construct()
     {
         parent::__construct('', null);
