@@ -15,7 +15,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class ConfigurationContext implements Context
 {
-    private const SITEACCESS_KEY_FORMAT = 'ezpublish.system.%s.%s';
+    private const SITEACCESS_KEY_FORMAT = 'ezplatform.system.%s.%s';
 
     private $ezplatformConfigFilePath;
 
@@ -36,8 +36,8 @@ class ConfigurationContext implements Context
 
         $config = $configurationEditor->getConfigFromFile($this->ezplatformConfigFilePath);
 
-        $config = $configurationEditor->append($config, 'ezpublish.siteaccess.list', $siteaccessName);
-        $config = $configurationEditor->append($config, sprintf('ezpublish.siteaccess.groups.%s', $siteaccessGroup), $siteaccessName);
+        $config = $configurationEditor->append($config, 'ezplatform.siteaccess.list', $siteaccessName);
+        $config = $configurationEditor->append($config, sprintf('ezplatform.siteaccess.groups.%s', $siteaccessGroup), $siteaccessName);
 
         foreach ($settings->getHash() as $setting) {
             $key = $setting['key'];
