@@ -9,6 +9,7 @@ class ExtendedElementActions implements ExtendedElementInterface
 {
     protected $decoratedElement;
 
+    // TODO: Add timeout setting. If fluent interface - also set the timeout for new element, to be consistent?
     private $timeout;
 
     public function __construct(TraversableElement $decoratedElement)
