@@ -8,8 +8,10 @@
 #   bin/ezreport -i=path/to/sshkey -r=BehatBundle
 # Reports generated in this way will be hosted on the server in BehatBundle/manual/time_stamp directory
 
-SSH_KEY_PATH="$HOME/rsa_allure"
+SSH_KEY_PATH='bin/.travis/rsa_allure'
+ALLURE_BUILD_PATH='build/allure/'
 HOST_NAME='allure.ez.no'
+EZ_ROOT_PATH=''
 
  # Help command output
 usage(){
@@ -33,7 +35,8 @@ error(){
 }
 
 fix_allure_suites_names(){
-cd ./build/allure/
+EZ_ROOT_PATH=$(pwd)
+cd ${ALLURE_BUILD_PATH}
 # replacing the suite name with the feature files executed in each XML file
 for dir in *; do
  tempNames=($(head -n 6 ${dir} | awk '/<name>/ {gsub(/[<>]/, " "); print $2}'))
@@ -59,7 +62,9 @@ sudo zip $ZIP_FILENAME_EX *
 }
 
 send_report_to_server(){
-scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -i $SSH_KEY_PATH $ZIP_FILENAME_EX allure@$HOST_NAME:~/incoming 1> /dev/null
+cd ${EZ_ROOT_PATH}
+
+sftp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -i $SSH_KEY_PATH allure@$HOST_NAME:incoming/ <<< $"put ${ALLURE_BUILD_PATH}${ZIP_FILENAME_EX}" 1> /dev/null
 
 if [ $? -ne 0 ];
 then echo "Failure occured when uploading the report";
