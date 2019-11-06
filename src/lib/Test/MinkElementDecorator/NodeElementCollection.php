@@ -3,14 +3,13 @@
 
 namespace EzSystems\Behat\Test\MinkElementDecorator;
 
-use Behat\Mink\Element\ElementInterface;
 use Behat\Mink\Element\TraversableElement;
 use Countable;
 use Iterator;
 
 class NodeElementCollection implements Iterator, Countable
 {
-    /** @var NodeElement[] */
+    /** @var ExtendedNodeElement[] */
     private $elements;
 
     private $index;

@@ -18,6 +18,12 @@ class ExtendedNodeElement extends NodeElement implements ExtendedElementInterfac
         $this->extendedActions = $extendedActions;
     }
 
+    public function withTimeout(int $timeoutSeconds): ExtendedElementInterface
+    {
+        $this->extendedActions->setTimeout($timeoutSeconds);
+        return $this;
+    }
+
     public function find($selector, $locator): ExtendedElementInterface
     {
         return $this->extendedActions->find($selector, $locator);

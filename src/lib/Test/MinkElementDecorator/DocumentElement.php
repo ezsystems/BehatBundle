@@ -14,11 +14,18 @@ class DocumentElement extends MinkDocumentElement implements ExtendedElementInte
         return $this->extendedActions->getSession();
     }
 
+    /** @var ExtendedElementActions  */
     private $extendedActions;
 
     public function __construct(ExtendedElementActions $extendedActions)
     {
         $this->extendedActions = $extendedActions;
+    }
+
+    public function withTimeout(int $timeoutSeconds): DocumentElement
+    {
+        $this->extendedActions->setTimeout($timeoutSeconds);
+        return $this;
     }
 
     public function find($selector, $locator): ExtendedElementInterface
