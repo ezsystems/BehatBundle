@@ -52,7 +52,7 @@ abstract class Page implements PageInterface
         return $this->session->getPage();
     }
 
-    protected function getWebAssert(): WebAssert
+    protected function assert(): WebAssert
     {
         return $this->webAssert;
     }
