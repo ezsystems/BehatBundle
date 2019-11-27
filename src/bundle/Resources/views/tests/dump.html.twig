@@ -2,4 +2,8 @@
 
 <p>Result of <pre style="display: inline">dump()</pre>:</p>
 
-{{ dump() }}
+<ol class="dump">
+    {% for key, value in _context  %}
+            <li class="item"><var class="variable">{{ key }}</var>:<var class="type">{{ value|php_type }}</var></li>
+    {% endfor %}
+</ol>
