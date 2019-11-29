@@ -26,11 +26,39 @@ setup:
                 - EzSystems\BehatBundle\Context\ConfigurationContext
                 - EzSystems\BehatBundle\Context\FileContext
         personas:
-              paths:
+            paths:
                 - '%paths.base%/vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/personas'
-              contexts:
+            contexts:
                 - EzSystems\BehatBundle\Context\Api\TestContext
                 - EzSystems\BehatBundle\Context\Object\UserContext
                 - EzSystems\BehatBundle\Context\Object\RoleContext
                 - EzSystems\BehatBundle\Context\Object\ContentContext
                 - EzSystems\BehatBundle\Context\Object\ContentTypeContext
+        URIElement:
+            paths:
+                - '%paths.base%/vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/setup/siteaccessMatcher/URIElement.feature'
+            contexts:
+                - EzSystems\BehatBundle\Context\Api\TestContext
+                - EzSystems\BehatBundle\Context\Object\LanguageContext
+                - EzSystems\BehatBundle\Context\ConfigurationContext
+        MapHost:
+            paths:
+                - '%paths.base%/vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/setup/siteaccessMatcher/MapHost.feature'
+            contexts:
+                - EzSystems\BehatBundle\Context\Api\TestContext
+                - EzSystems\BehatBundle\Context\Object\LanguageContext
+                - EzSystems\BehatBundle\Context\ConfigurationContext
+        MapURI:
+            paths:
+                - '%paths.base%/vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/setup/siteaccessMatcher/MapURI.feature'
+            contexts:
+                - EzSystems\BehatBundle\Context\Api\TestContext
+                - EzSystems\BehatBundle\Context\Object\LanguageContext
+                - EzSystems\BehatBundle\Context\ConfigurationContext
+        CompoundMapURIMapHost:
+            paths:
+                - '%paths.base%/vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/setup/siteaccessMatcher/CompoundMapURIMapHost.feature'
+            contexts:
+                - EzSystems\BehatBundle\Context\Api\TestContext
+                - EzSystems\BehatBundle\Context\Object\LanguageContext
+                - EzSystems\BehatBundle\Context\ConfigurationContext
