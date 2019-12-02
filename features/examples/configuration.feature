@@ -11,53 +11,12 @@ Feature: Example scenarios showing how to set configuration
       | languages                    | pol-PL |
       | page_builder.siteaccess_list | pol    |
 
-  Scenario: Create specified workflows
-    Given I set configuration to "default" siteaccess under "workflows" key
+  Scenario: Configure Varnish as http cache
+    Given I set configuration to "ezplatform.http_cache"
     """
-      article_workflow:
-          name: 'Article Workflow'
-          matchers:
-              content_type: article
-          stages:
-              draft:
-                  label: 'Draft'
-                  color: '#4a69bd'
-              done:
-                  color: '#0f0'
-                  last_stage: true
-          initial_stage: draft
-          transitions:
-              done:
-                  from: draft
-                  to: done
-                  icon: '/bundles/ezplatformadminui/img/ez-icons.svg#approved'
-                  label: 'Back to Done'
-              back_to_draft:
-                  reverse: done
-                  icon: '/bundles/ezplatformadminui/img/ez-icons.svg#rejected'
-                  label: 'Back to Draft'
+        purge_type: 'http'
     """
-    And I append configuration to "default" siteaccess under "workflows" key
+    And  I append configuration to "default" siteaccess under "http_cache" key
     """
-    folder_workflow:
-        name: 'Folder Workflow'
-        matchers:
-            content_type: folder
-        stages:
-            draft:
-                label: 'Draft'
-                color: '#0f0'
-            done:
-                color: '#4a69bd'
-                last_stage: true
-        initial_stage: draft
-        transitions:
-            done:
-                from: draft
-                to: done
-                icon: '/bundles/ezplatformadminui/img/ez-icons.svg#approved'
-            back_to_draft:
-                reverse: done
-                icon: '/bundles/ezplatformadminui/img/ez-icons.svg#rejected'
-                label: 'Back to Draft'
+        purge_servers: ['http://my_purge_server']
     """
