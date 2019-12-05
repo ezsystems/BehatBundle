@@ -1,7 +1,7 @@
 Feature: Example scenarios showing how to set configuration
 
   @admin
-  Scenario: Add a language. Create a siteaccess using it and add it to PageBuilder
+  Scenario: Add a language. Create a siteaccess using it.
     Given Language "Polski" with code "pol-PL" exists
     And I add a siteaccess "pol" to "site_group" with settings
       | key       | value         |
@@ -9,7 +9,6 @@ Feature: Example scenarios showing how to set configuration
     And I append configuration to "admin_group" siteaccess
       | key                          | value  |
       | languages                    | pol-PL |
-      | page_builder.siteaccess_list | pol    |
 
   Scenario: Configure Varnish as http cache
     Given I set configuration to "ezplatform.http_cache"
