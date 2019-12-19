@@ -28,15 +28,15 @@ matrix:
       env: PHPUNIT_CONFIG='phpunit.xml'
     - name: "BehatBundle examples"
       php: 7.3
-      env: BEHAT_OPTS="--profile=behat --suite=examples"
+      env: BEHAT_OPTS="--mode=standard --profile=behat --suite=examples"
     - name: "BehatBundle personas tests"
       php: 7.3
-      env: BEHAT_OPTS="--mode=behat --profile=setup --suite=personas"
+      env: BEHAT_OPTS="--mode=standard --profile=setup --suite=personas"
     - name: "AdminUI Modules tests"
       php: 7.3
       env:
-        -SETUP_BEHAT_OPTS="--mode=behat --profile=setup --suite=richtext_configuration"
-        -BEHAT_OPTS="--mode=behat --profile=adminui --suite=adminuimodules"
+        -SETUP_BEHAT_OPTS="--mode=standard --profile=setup --suite=richtext_configuration"
+        -BEHAT_OPTS="--mode=standard --profile=adminui --suite=adminuimodules"
 
 git:
   depth: 30
