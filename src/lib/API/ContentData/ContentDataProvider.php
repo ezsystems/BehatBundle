@@ -10,7 +10,6 @@ use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\Content\ContentCreateStruct;
 use eZ\Publish\API\Repository\Values\Content\ContentStruct;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 use EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface;
 
 class ContentDataProvider
@@ -46,7 +45,7 @@ class ContentDataProvider
 
         $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, $language);
 
-        $fieldDefinitions = $contentType->getFieldDefinitions();
+        $fieldDefinitions = $contentType->getFieldDefinitions()->toArray();
 
         foreach ($fieldDefinitions as $field) {
             $fieldData = $this->getRandomFieldData($field->fieldTypeIdentifier, $language);
@@ -59,18 +58,15 @@ class ContentDataProvider
     public function getFilledContentDataStruct(ContentStruct $contentStruct, $contentItemData, $language): ContentStruct
     {
         $contentType = $this->contentTypeService->loadContentTypeByIdentifier($this->contentTypeIdentifier);
-        $fieldDefinitions = $contentType->getFieldDefinitions();
 
         foreach ($contentItemData as $fieldIdentifier => $value) {
-            $fieldDefinition = array_values(array_filter($fieldDefinitions, function (FieldDefinition $fieldDefinition) use ($fieldIdentifier) {
-                return $fieldDefinition->identifier === $fieldIdentifier;
-            }));
+            $fieldDefinition = $contentType->getFieldDefinition($fieldIdentifier);
 
-            if (empty($fieldDefinition)) {
+            if ($fieldDefinition === null) {
                 throw new \Exception(sprintf('Could not find fieldIdentifier: %s in content type: %s', $fieldIdentifier, $this->contentTypeIdentifier));
             }
 
-            $fieldData = $this->getFieldDataFromString($fieldDefinition[0]->fieldTypeIdentifier, $value);
+            $fieldData = $this->getFieldDataFromString($fieldDefinition->fieldTypeIdentifier, $value);
             $contentStruct->setField($fieldIdentifier, $fieldData, $language);
         }
 
