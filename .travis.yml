@@ -42,7 +42,6 @@ git:
   depth: 30
 
 notifications:
-  email: false
   slack:
     rooms:
       - secure: "XctNpZ4q36oCCn60DWxt0+E1C6hlr1f5Ry9dMSLgS9jsoz0M2dBb0aNrIJS1dOFDCV+SjQFmY53daIVJKxbDVpCM6/byd0rA5VGByD24NoxuzlQsR6JBHi1/nxDAGBsXUM0IpLl252x8kLjnRCAHfW1OoUjWFGhbK/mAY/ocl6A="
