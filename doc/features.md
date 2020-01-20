@@ -20,9 +20,9 @@ Look at [AdminUI feature files](https://github.com/ezsystems/ezplatform-admin-ui
 
 #### Improved drag and drop
 
-Selenium does not support drag and drop interactions between iframes. To achieve that you can use the `UtilityContext::moveWithHover` method (which also supports hover simulation between the actions). The method accepts JS expression such as `document.evaluate` or `document.querySelector` to find elements between which the interaction will happen.
+Selenium does not support drag and drop interactions between iframes. To achieve that you can use the `UtilityContext::moveWithHover` method (which also supports hover simulation between the actions). See the [drag-mock documentation](https://github.com/andywer/drag-mock#browser) (the library we use behind the scenes) for more information.
 
-Before you start using that you need to inject the [dragMock script](../Resources/public/js/scripts/drag-mock.js) into your templates: one way of doing this is described in [Webpack Encore configuration doc](https://doc.ezplatform.com/en/latest/guide/bundles/#configuration-from-a-bundle). See [ez.config.manager.js](../Resources/encore/ez.config.manager.js) for an example.
+Before you start using that you need to inject the [drag-mock script](../Resources/public/js/scripts/drag-mock.js) into your templates: one way of doing this is described in [Webpack Encore configuration doc](https://doc.ezplatform.com/en/latest/guide/bundles/#configuration-from-a-bundle). For an example see [ez.config.manager.js](../Resources/encore/ez.config.manager.js).
 
 ## BehatBundle extension
 
