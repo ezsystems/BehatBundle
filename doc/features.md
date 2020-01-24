@@ -8,7 +8,7 @@ See [BehatBundle examples](https://github.com/ezsystems/BehatBundle/tree/7.0/fea
 - create Users with complex permissions
 - create given YAML configuration
 
-## Logging into the repository
+### Logging into the repository
 
 Use the [TestContext](../Context/Api/TestContext.php) to log in to the Repository and perform API calls as given user. You can tag your scenario with `@admin` to be automatically logged in as admin user before the scenario starts.
 
@@ -17,6 +17,12 @@ Use the [TestContext](../Context/Api/TestContext.php) to log in to the Repositor
 Look at [AdminUI feature files](https://github.com/ezsystems/ezplatform-admin-ui/tree/1.5/features/standard) to see example browser tests for AdminUI. If you want to reuse these Steps in your code in addition to the Context that defines them you also need to include:
 - `EzSystems\EzPlatformAdminUi\Behat\Helper\Hooks`
 - `EzSystems\EzPlatformAdminUi\Behat\Helper\UtilityContext`
+
+#### Improved drag and drop
+
+Selenium does not support drag and drop interactions between iframes. To achieve that you can use the `UtilityContext::moveWithHover` method (which also supports hover simulation between the actions). See the [drag-mock documentation](https://github.com/andywer/drag-mock#browser) (the library we use behind the scenes) for more information.
+
+Before you start using that you need to inject the [drag-mock script](../Resources/public/js/scripts/drag-mock.js) into your templates: one way of doing this is described in [Webpack Encore configuration doc](https://doc.ezplatform.com/en/latest/guide/bundles/#configuration-from-a-bundle). For an example see [ez.config.manager.js](../Resources/encore/ez.config.manager.js).
 
 ## BehatBundle extension
 
