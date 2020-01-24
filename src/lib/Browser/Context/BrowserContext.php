@@ -338,7 +338,7 @@ class BrowserContext extends MinkContext
         if (!$this->isDraggingLibraryLoaded()) {
             throw new \Exception('drag-mock library has to be added to the page in order to use this method. Refer to README in BehatBundle for more information.');
         }
-        
+
         $movingScript = sprintf('dragMock.dragStart(%s).dragOver(%s).delay(100).drop(%s);', $startExpression, $hoverExpression, $placeholderExpression);
         $this->getSession()->getDriver()->executeScript($movingScript);
     }
