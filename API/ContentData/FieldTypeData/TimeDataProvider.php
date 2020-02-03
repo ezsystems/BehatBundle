@@ -16,7 +16,7 @@ class TimeDataProvider extends AbstractFieldTypeDataProvider
         return $fieldTypeIdentifier === 'eztime';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
         return Value::fromDateTime($this->getFaker()->dateTimeThisCentury());
     }

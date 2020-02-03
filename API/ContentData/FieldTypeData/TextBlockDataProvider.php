@@ -6,17 +6,17 @@
  */
 namespace EzSystems\BehatBundle\API\ContentData\FieldTypeData;
 
-class StringDataProvider extends AbstractFieldTypeDataProvider
+class TextBlockDataProvider extends AbstractFieldTypeDataProvider
 {
     public function supports(string $fieldTypeIdentifier): bool
     {
-        return $fieldTypeIdentifier === 'ezstring';
+        return $fieldTypeIdentifier === 'eztext';
     }
 
-    public function generateData(string $language = 'eng-GB'): string
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB'): string
     {
         $this->setLanguage($language);
 
-        return $this->getFaker()->realText(80, 1);
+        return $this->getFaker()->paragraphs(5, true);
     }
 }

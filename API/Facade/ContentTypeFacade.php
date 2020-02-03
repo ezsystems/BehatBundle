@@ -26,6 +26,7 @@ class ContentTypeFacade
         $contentTypeCreateStruct->names = [$mainLanguageCode => $contentTypeName];
         $contentTypeCreateStruct->mainLanguageCode = $mainLanguageCode;
         $contentTypeCreateStruct->isContainer = $isContainer;
+        $contentTypeCreateStruct->nameSchema = $this->getNameSchema($fieldDefinitions);
 
         foreach ($fieldDefinitions as $definition) {
             $contentTypeCreateStruct->addFieldDefinition($definition);
@@ -51,5 +52,12 @@ class ContentTypeFacade
     public function getFieldTypeIdentifierByName(string $fieldtypeName)
     {
         return EzFieldElement::getFieldInternalNameByName($fieldtypeName);
+    }
+
+    private function getNameSchema(array $fieldDefinitions): string
+    {
+        $fieldDefinitionIdentifiers = array_column($fieldDefinitions, 'identifier');
+
+        return sprintf('<%s>', implode('|', $fieldDefinitionIdentifiers));
     }
 }

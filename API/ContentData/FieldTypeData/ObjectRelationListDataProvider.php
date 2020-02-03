@@ -15,7 +15,7 @@ class ObjectRelationListDataProvider extends ObjectRelationDataProvider
         return $fieldTypeIdentifier === 'ezobjectrelationlist';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
         return new Value($this->getRandomContentIds(3));
     }

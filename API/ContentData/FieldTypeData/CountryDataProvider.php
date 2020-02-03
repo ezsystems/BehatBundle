@@ -30,7 +30,7 @@ class CountryDataProvider implements FieldTypeDataProviderInterface
         return $fieldTypeIdentifier === 'ezcountry';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
         $randomCountry = array_rand(self::COUNTRY_DATA, 1);
 

@@ -38,7 +38,7 @@ class MapDataProvider implements FieldTypeDataProviderInterface
         return $fieldTypeIdentifier === 'ezgmaplocation';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
         return new Value(self::LOCATION_DATA[array_rand(self::LOCATION_DATA, 1)]);
     }

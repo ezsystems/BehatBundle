@@ -13,7 +13,7 @@ class IntegerDataProvider extends AbstractFieldTypeDataProvider
         return $fieldTypeIdentifier === 'ezinteger';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
         return (int) $this->getFaker()->numerify('########');
     }
