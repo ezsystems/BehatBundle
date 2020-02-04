@@ -45,7 +45,7 @@ services:
 
     EzSystems\Behat\API\ContentData\FieldTypeData\ISBNDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\\MatrixDataProvider:
+    EzSystems\Behat\API\ContentData\FieldTypeData\MatrixDataProvider:
       arguments:
         - '@EzSystems\Behat\API\ContentData\RandomDataGenerator'
         - '@eZ\Publish\API\Repository\ContentTypeService'
