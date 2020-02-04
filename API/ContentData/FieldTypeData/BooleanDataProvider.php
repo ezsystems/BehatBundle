@@ -6,17 +6,34 @@
  */
 namespace EzSystems\BehatBundle\API\ContentData\FieldTypeData;
 
-class BooleanDataProvider implements FieldTypeDataProviderInterface
+use eZ\Publish\API\Repository\ContentTypeService;
+use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
+
+class BooleanDataProvider extends AbstractFieldTypeDataProvider
 {
+    /** @var ContentTypeService */
+    private $contentTypeService;
+
+    public function __construct(RandomDataGenerator $randomDataGenerator, ContentTypeService $contentTypeService)
+    {
+        parent::__construct($randomDataGenerator);
+        $this->contentTypeService = $contentTypeService;
+    }
+
     public function supports(string $fieldTypeIdentifier): bool
     {
         return $fieldTypeIdentifier === 'ezboolean';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
-        // if the field is required then the value has to be true.
-        return true;
+        $contentType = $this->contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
+        if ($contentType->getFieldDefinition($fieldIdentifier)->isRequired) {
+            // if the field is required then the value has to be true.
+            return true;
+        }
+
+        return $this->getFaker()->boolean;
     }
 
     public function parseFromString(string $value)

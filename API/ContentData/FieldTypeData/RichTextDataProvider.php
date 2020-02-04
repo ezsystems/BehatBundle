@@ -18,7 +18,7 @@ class RichTextDataProvider extends AbstractFieldTypeDataProvider
         return $fieldTypeIdentifier === 'ezrichtext';
     }
 
-    public function generateData(string $language = 'eng-GB'): string
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB'): string
     {
         $this->setLanguage($language);
 

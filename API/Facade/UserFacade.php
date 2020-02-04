@@ -14,8 +14,8 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\User\Limitation\RoleLimitation;
 use eZ\Publish\API\Repository\Values\User\UserGroup;
-use EzSystems\BehatBundle\API\ContentData\ContentDataProvider;
 use EzSystems\BehatBundle\API\ContentData\FieldTypeData\PasswordProvider;
+use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
 
 class UserFacade
 {
@@ -31,20 +31,22 @@ class UserFacade
     /** @var \eZ\Publish\API\Repository\SearchService */
     private $searchService;
 
-    /** @var EzSystems\BehatBundle\API\ContentData\ContentDataProvider */
-    private $contentDataProvider;
+    /**
+     * @var \EzSystems\BehatBundle\API\ContentData\RandomDataGenerator
+     */
+    private $randomDataGenerator;
 
     public const USER_CONTENT_TYPE_IDENTIFIER = 'user';
     public const USERGROUP_CONTENT_IDENTIFIER = 'user_group';
     public const ROOT_USERGROUP_CONTENT_ID = 4;
 
-    public function __construct(UserService $userService, ContentTypeService $contentTypeService, RoleService $roleService, SearchService $searchService, ContentDataProvider $contentDataProvider)
+    public function __construct(UserService $userService, ContentTypeService $contentTypeService, RoleService $roleService, SearchService $searchService, RandomDataGenerator $randomDataGenerator)
     {
         $this->userService = $userService;
         $this->contentTypeService = $contentTypeService;
         $this->roleService = $roleService;
         $this->searchService = $searchService;
-        $this->contentDataProvider = $contentDataProvider;
+        $this->randomDataGenerator = $randomDataGenerator;
     }
 
     public function createUserGroup(string $groupName)
@@ -63,7 +65,7 @@ class UserFacade
     {
         $userCreateStruct = $this->userService->newUserCreateStruct(
             $userName,
-            $this->contentDataProvider->getRandomFieldData('email', $languageCode),
+            $this->randomDataGenerator->getFaker()->email,
             $this->getDefaultPassword(),
             $languageCode,
             $this->contentTypeService->loadContentTypeByIdentifier(self::USER_CONTENT_TYPE_IDENTIFIER));

@@ -49,7 +49,7 @@ class ContentDataProvider
         $fieldDefinitions = $contentType->getFieldDefinitions();
 
         foreach ($fieldDefinitions as $field) {
-            $fieldData = $this->getRandomFieldData($field->fieldTypeIdentifier, $language);
+            $fieldData = $this->getRandomFieldData($this->contentTypeIdentifier, $field->identifier, $field->fieldTypeIdentifier, $language);
             $contentCreateStruct->setField($field->identifier, $fieldData, $language);
         }
 
@@ -77,11 +77,11 @@ class ContentDataProvider
         return $contentStruct;
     }
 
-    public function getRandomFieldData($fieldIdentifier, $language = 'eng-GB')
+    public function getRandomFieldData(string $contentTypeIdentifier, string $fieldIdentifier, string $fieldTypeIdentifier, $language = 'eng-GB')
     {
         foreach ($this->fieldTypeDataProviders as $provider) {
-            if ($provider->supports($fieldIdentifier)) {
-                return $provider->generateData($language);
+            if ($provider->supports($fieldTypeIdentifier)) {
+                return $provider->generateData($contentTypeIdentifier, $fieldIdentifier, $language);
             }
         }
     }

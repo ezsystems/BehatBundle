@@ -24,9 +24,33 @@ services:
 
   EzSystems\BehatBundle\API\ContentData\FieldTypeData\AuthorDataProvider: ~
 
-  EzSystems\BehatBundle\API\ContentData\FieldTypeData\BinaryFileDataProvider: ~
+  EzSystems\BehatBundle\API\ContentData\FieldTypeData\BinaryFileDataProvider:
+    arguments:
+      $projectDir: '%kernel.project_dir%'
 
-  EzSystems\BehatBundle\API\ContentData\FieldTypeData\BooleanDataProvider: ~
+  EzSystems\BehatBundle\API\ContentData\FieldTypeData\BooleanDataProvider:
+    arguments:
+      - '@EzSystems\BehatBundle\API\ContentData\RandomDataGenerator'
+      - '@eZ\Publish\API\Repository\ContentTypeService'
+
+  EzSystems\BehatBundle\API\ContentData\FieldTypeData\MatrixDataProvider:
+    arguments:
+      - '@EzSystems\BehatBundle\API\ContentData\RandomDataGenerator'
+      - '@eZ\Publish\API\Repository\ContentTypeService'
+
+  EzSystems\BehatBundle\API\ContentData\FieldTypeData\SelectionDataProvider:
+    arguments:
+      - '@eZ\Publish\API\Repository\ContentTypeService'
+
+  EzSystems\BehatBundle\API\ContentData\FieldTypeData\ImageAssetDataProvider:
+    arguments:
+      - '@EzSystems\BehatBundle\API\ContentData\RandomDataGenerator'
+      - '@eZ\Publish\Core\FieldType\ImageAsset\AssetMapper'
+      - '@EzSystems\BehatBundle\API\ContentData\FieldTypeData\ImageDataProvider'
+      - '@EzSystems\BehatBundle\Helper\ArgumentParser'
+      - '@eZ\Publish\API\Repository\LocationService'
+      - '@eZ\Publish\API\Repository\URLAliasService'
+      - '$fieldtypes.ezimageasset.mappings$'
 
   EzSystems\BehatBundle\API\ContentData\FieldTypeData\CountryDataProvider: ~
 
@@ -40,21 +64,25 @@ services:
 
   EzSystems\BehatBundle\API\ContentData\FieldTypeData\ISBNDataProvider: ~
 
-  EzSystems\BehatBundle\API\ContentData\FieldTypeData\ImageDataProvider: ~
+  EzSystems\BehatBundle\API\ContentData\FieldTypeData\ImageDataProvider:
+    arguments:
+      $projectDir: '%kernel.project_dir%'
 
   EzSystems\BehatBundle\API\ContentData\FieldTypeData\IntegerDataProvider: ~
 
   EzSystems\BehatBundle\API\ContentData\FieldTypeData\MapDataProvider: ~
 
-  EzSystems\BehatBundle\API\ContentData\FieldTypeData\MediaDataProvider: ~
+  EzSystems\BehatBundle\API\ContentData\FieldTypeData\MediaDataProvider:
+    arguments:
+      $projectDir: '%kernel.project_dir%'
 
   EzSystems\BehatBundle\API\ContentData\FieldTypeData\PasswordProvider: ~
 
   EzSystems\BehatBundle\API\ContentData\FieldTypeData\RichTextDataProvider: ~
 
-  EzSystems\BehatBundle\API\ContentData\FieldTypeData\StringDataProvider: ~
-
   EzSystems\BehatBundle\API\ContentData\FieldTypeData\TextLineDataProvider: ~
+
+  EzSystems\BehatBundle\API\ContentData\FieldTypeData\TextBlockDataProvider: ~
 
   EzSystems\BehatBundle\API\ContentData\FieldTypeData\TimeDataProvider: ~
 
