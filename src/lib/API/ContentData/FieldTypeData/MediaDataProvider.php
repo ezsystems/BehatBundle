@@ -17,12 +17,19 @@ class MediaDataProvider implements FieldTypeDataProviderInterface
 
     const VIDEOS_PATH = '../../../Data/Videos';
 
+    private $projectDir;
+
+    public function __construct($projectDir)
+    {
+        $this->projectDir = $projectDir;
+    }
+
     public function supports(string $fieldTypeIdentifier): bool
     {
         return $fieldTypeIdentifier === 'ezmedia';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
         $filename = self::VIDEOS[array_rand(self::VIDEOS, 1)];
         $filePath = sprintf('%s/%s/%s', __DIR__, self::VIDEOS_PATH, $filename);
@@ -37,7 +44,8 @@ class MediaDataProvider implements FieldTypeDataProviderInterface
 
     public function parseFromString(string $value)
     {
-        $mediaValue = new Value(['inputUri' => $value]);
+        $filePath = sprintf('%s/%s', $this->projectDir, $value);
+        $mediaValue = new Value(['inputUri' => $filePath]);
         $mediaValue->hasController = true;
         $mediaValue->autoplay = true;
         $mediaValue->loop = true;

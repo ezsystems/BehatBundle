@@ -12,7 +12,7 @@ interface FieldTypeDataProviderInterface
 
     public function supports(string $fieldTypeIdentifier): bool;
 
-    public function generateData(string $language = 'eng-GB');
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB');
 
     public function parseFromString(string $value);
 }

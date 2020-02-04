@@ -13,7 +13,7 @@ class URLDataProvider extends AbstractFieldTypeDataProvider
         return $fieldTypeIdentifier === 'ezurl';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
         return $this->getFaker()->url;
     }

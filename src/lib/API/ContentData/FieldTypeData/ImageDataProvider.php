@@ -7,6 +7,7 @@
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
 use eZ\Publish\Core\FieldType\Image\Value;
+use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 
 class ImageDataProvider extends AbstractFieldTypeDataProvider
 {
@@ -23,12 +24,20 @@ class ImageDataProvider extends AbstractFieldTypeDataProvider
 
     private const IMAGES_PATH = '../../../Data/Images';
 
+    private $projectDir;
+
+    public function __construct(RandomDataGenerator $randomDataGenerator, $projectDir)
+    {
+        parent::__construct($randomDataGenerator);
+        $this->projectDir = $projectDir;
+    }
+
     public function supports(string $fieldTypeIdentifier): bool
     {
         return $fieldTypeIdentifier === 'ezimage';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
         $this->setLanguage($language);
 
@@ -47,12 +56,14 @@ class ImageDataProvider extends AbstractFieldTypeDataProvider
 
     public function parseFromString(string $value)
     {
+        $filePath = sprintf('%s/%s', $this->projectDir, $value);
+
         return new Value(
             [
-                'path' => $value,
+                'path' => $filePath,
                 'fileSize' => filesize($value),
                 'fileName' => basename($value),
-                'alternativeText' => $value,
+                'alternativeText' => $this->getFaker()->sentence,
             ]
         );
     }

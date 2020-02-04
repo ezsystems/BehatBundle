@@ -16,7 +16,7 @@ class DateDataProvider extends AbstractFieldTypeDataProvider
         return $fieldTypeIdentifier === 'ezdate';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
         return new Value($this->getFaker()->dateTimeThisCentury());
     }

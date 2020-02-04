@@ -16,12 +16,19 @@ class BinaryFileDataProvider implements FieldTypeDataProviderInterface
     ];
     private const FILES_PATH = '../../../Data/Files';
 
+    private $projectDir;
+
+    public function __construct($projectDir)
+    {
+        $this->projectDir = $projectDir;
+    }
+
     public function supports(string $fieldTypeIdentifier): bool
     {
         return $fieldTypeIdentifier === 'ezbinaryfile';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
         $filename = self::FILES[array_rand(self::FILES, 1)];
         $filePath = sprintf('%s/%s/%s', __DIR__, self::FILES_PATH, $filename);
@@ -31,6 +38,8 @@ class BinaryFileDataProvider implements FieldTypeDataProviderInterface
 
     public function parseFromString(string $value)
     {
-        return new Value(['inputUri' => $value]);
+        $filePath = sprintf('%s/%s', $this->projectDir, $value);
+
+        return new Value(['inputUri' => $filePath]);
     }
 }

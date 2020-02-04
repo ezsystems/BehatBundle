@@ -46,7 +46,7 @@ class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
         return $fieldTypeIdentifier === 'ezobjectrelation';
     }
 
-    public function generateData(string $language = 'eng-GB')
+    public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
         return new Value($this->getRandomContentIds(1));
     }
