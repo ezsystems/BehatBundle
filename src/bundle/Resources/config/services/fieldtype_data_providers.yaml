@@ -50,7 +50,7 @@ services:
         - '@EzSystems\Behat\API\ContentData\RandomDataGenerator'
         - '@eZ\Publish\API\Repository\ContentTypeService'
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\\SelectionDataProvider:
+    EzSystems\Behat\API\ContentData\FieldTypeData\SelectionDataProvider:
       arguments:
         - '@eZ\Publish\API\Repository\ContentTypeService'
 
