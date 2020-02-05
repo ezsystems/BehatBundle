@@ -11,6 +11,7 @@ class FieldTypeNameConverter
     private static $FIELD_TYPE_MAPPING = [
         'ezauthor' => 'Authors',
         'ezboolean' => 'Checkbox',
+        'ezcontentquery' => 'Content query',
         'ezobjectrelation' => 'Content relation (single)',
         'ezobjectrelationlist' => 'Content relations (multiple)',
         'ezcountry' => 'Country',

@@ -37,6 +37,7 @@ Feature: Example scenarios showing how to use steps involving Languages, Content
       | Matrix CT            | MatrixCT              | Matrix                       | Min_rows:5,Columns:col1-col2-col3                                     |
       | Selection CT         | SelectionCT           | Selection                    | is_multiple:false,options:A first-Bielefeld-TestValue-Turtles-Zombies |
       | ImageAsset CT        | ImageAssetCT          | Image Asset                  |                                                                       |
+      | ContentQuery CT      | ContentQueryCT        | Content query                | QueryType-EzPlatformAdminUi:MediaSubtree,ContentType-folder           |
 
   @admin
   Scenario Outline: Create a Content item and edit specified field

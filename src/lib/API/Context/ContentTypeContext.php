@@ -74,29 +74,51 @@ class ContentTypeContext implements Context
         $parsedSettings = [];
         // TODO: Clean this up in the future if needed
         switch ($fieldTypeIdentifier) {
+            case 'ezcontentquery':
+                return $this->parseContentQuerySettings($settings);
             case 'ezmatrix':
-                //Example: min_rows:5,Columns:col1-col2-col3
-                $fields = explode(',', $settings);
-                $minRows = (int) explode(':', $fields[0])[1];
-                $parsedSettings['minimum_rows'] = $minRows;
-                $columns = explode('-', explode(':', $fields[1])[1]);
-                foreach ($columns as $column) {
-                    $parsedSettings['columns'][] = ['identifier' => $column, 'name' => $column];
-                }
-
-                return $parsedSettings;
+                return $this->parseMatrixSettings($settings);
             case 'ezselection':
-                // Example: "is_multiple:false,options:Value1-Value2-Value3"
-                $fields = explode(',', $settings);
-                $isMultiple = $this->parseBool(explode(':', $fields[0])[1]);
-                $options = explode(':', $fields[1])[1];
-                $parsedOptions = array_values(explode('-', $options));
-                $parsedSettings['isMultiple'] = $isMultiple;
-                $parsedSettings['options'] = $parsedOptions;
-
-                return $parsedSettings;
+                return $this->parseSelectionSettings($settings);
             default:
                 return $parsedSettings;
         }
+    }
+
+    private function parseMatrixSettings(string $settings): array
+    {
+        //Example: min_rows:5,Columns:col1-col2-col3
+        $fields = explode(',', $settings);
+        $minRows = (int) explode(':', $fields[0])[1];
+        $parsedSettings['minimum_rows'] = $minRows;
+        $columns = explode('-', explode(':', $fields[1])[1]);
+        foreach ($columns as $column) {
+            $parsedSettings['columns'][] = ['identifier' => $column, 'name' => $column];
+        }
+
+        return $parsedSettings;
+    }
+
+    private function parseSelectionSettings(string $settings): array
+    {
+        // Example: "is_multiple:false,options:Value1-Value2-Value3"
+        $fields = explode(',', $settings);
+        $isMultiple = $this->parseBool(explode(':', $fields[0])[1]);
+        $options = explode(':', $fields[1])[1];
+        $parsedOptions = array_values(explode('-', $options));
+        $parsedSettings['isMultiple'] = $isMultiple;
+        $parsedSettings['options'] = $parsedOptions;
+
+        return $parsedSettings;
+    }
+
+    private function parseContentQuerySettings(string $settings): array
+    {
+        // Example: "QueryType-EzPlatformAdminUi:MediaSubtree,ContentType-folder"
+        $fields = explode(',', $settings);
+        $parsedSettings['QueryType'] = explode('-', $fields[0])[1];
+        $parsedSettings['ReturnedType'] = explode('-', $fields[1])[1];
+
+        return $parsedSettings;
     }
 }
