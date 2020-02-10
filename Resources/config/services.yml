@@ -38,3 +38,5 @@ services:
         public: true
         arguments:
             - '@EzSystems\BehatBundle\API\Facade\RoleFacade'
+
+#    EzSystems\BehatBundle\Command\GetPullRequestDataCommand: ~
