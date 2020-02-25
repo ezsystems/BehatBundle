@@ -62,3 +62,8 @@ setup:
                 - EzSystems\BehatBundle\Context\Api\TestContext
                 - EzSystems\BehatBundle\Context\Object\LanguageContext
                 - EzSystems\BehatBundle\Context\ConfigurationContext
+        multirepository:
+            paths:
+                - '%paths.base%/vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/setup/multirepository'
+            contexts:
+                - EzSystems\BehatBundle\Context\ConfigurationContext
