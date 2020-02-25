@@ -118,7 +118,7 @@ then
   echo 'Prepared a branch in Page Builder repository ✔'
 
   hub pull-request -b $TARGET_PAGE_BUILDER_BRANCH -m "[DON'T MERGE] Running regression tests" -m "Add your description here." -l "Work in progress" --browse
-  echo '✔ Prepared a Pull Request in Page Builder triggering the build.'
+  echo 'Prepared a Pull Request in Page Builder triggering the build ✔'
   exit 0
 fi
 
