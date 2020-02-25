@@ -11,7 +11,7 @@ namespace EzSystems\BehatBundle\Command;
 use Buzz\Client\Curl;
 use Nyholm\Psr7\Factory\Psr17Factory as HttpFactory;
 use Nyholm\Psr7\Request;
-use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -51,10 +51,17 @@ class GetPullRequestDataCommand extends Command
                 'token',
                 InputArgument::REQUIRED,
                 'GitHub OAuth token')
-            ->setHelp('Help text here');
+            ->setHelp("This command outputs data in given order:
+            - repository URL
+            - name of the branch used in PR
+            - branch alias for the PR
+            - repository name
+            - corresponding metarepository branch to run tests on
+            - corresponding Page Builder branch to run tests on
+Command accepts two parameters: GitHub Pull request link and GitHub OATH Token.
+If you have configured Composer with your token it can be obtained by running 'composer config github-oauth.github.com --global'")
+            ->addUsage('https://github.com/ezsystems/ezplatform-admin-ui/pull/1250 ff34885a8624460a855540c6592698d2f1812843');
     }
-
-    //# - get target page-builder branch (dictionary, 2.5 -> 1.3, master -> master)
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
@@ -86,7 +93,7 @@ class GetPullRequestDataCommand extends Command
         $output->write($outputString);
     }
 
-    private function getPullRequestData(string $owner, string $repository, string $prNumber): Response
+    private function getPullRequestData(string $owner, string $repository, string $prNumber): ResponseInterface
     {
         $requestUrl = sprintf('https://api.github.com/repos/%s/%s/pulls/%s', $owner, $repository, $prNumber);
 
@@ -96,7 +103,17 @@ class GetPullRequestDataCommand extends Command
                         ->withHeader('Authorization', sprintf('token %s', $this->token))
                         ->withHeader('Accept', 'application/vnd.github.v3+json');
 
-        return $this->httpClient->sendRequest($request);
+        $response = $this->httpClient->sendRequest($request);
+
+        if ($response->getStatusCode() !== 200) {
+            throw new \Exception(
+                sprintf('GitHub API returned code %d, expected 200. Response reason: %s',
+                    $response->getStatusCode(),
+                    $response->getReasonPhrase())
+            );
+        }
+
+        return $response;
     }
 
     private function getComposerExtraData(string $owner, string $repository, string $branchName): array
@@ -128,7 +145,7 @@ class GetPullRequestDataCommand extends Command
         ];
     }
 
-    private function getPageBuilderBranchName(string $metarepositoryTargetBranch)
+    private function getPageBuilderBranchName(string $metarepositoryTargetBranch): string
     {
         $pageBuilderTargetBranches = [
             '2.5' => '1.3',
