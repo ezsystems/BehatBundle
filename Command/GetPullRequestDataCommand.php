@@ -41,7 +41,7 @@ class GetPullRequestDataCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ezsystems:github:get-pull-request-data')
+            ->setName('ezplatform:tools:get-pull-request-data')
             ->setDescription('Get data about a GitHub Pull Request')
             ->addArgument(
                 'pull-request-url',
