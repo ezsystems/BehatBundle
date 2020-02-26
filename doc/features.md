@@ -26,6 +26,12 @@ Before you start using that you need to inject the [drag-mock script](../Resourc
 
 ## BehatBundle extension
 
+### SiteAccess awareness
+
+With `EzBehatExtension` enabled Behat becomes SiteAccess aware. The SiteAccess used can be specified using `EZPLATFORM_SITEACCESS` environment variable, otherwise the default SiteAccess will be used.
+
+### Injecting services
+
 With `EzBehatExtension` enabled you can inject services into your Context classes using the `@injectService` annotation.
 
 Instead of writing:
