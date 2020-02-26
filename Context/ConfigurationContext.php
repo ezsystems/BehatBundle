@@ -18,13 +18,17 @@ class ConfigurationContext implements Context
     private const SITEACCESS_KEY_FORMAT = 'ezpublish.system.%s.%s';
     private const SITEACCESS_MATCHER_KEY = 'ezpublish.siteaccess.match';
     private $ezplatformConfigFilePath;
+    private $configFilePath;
+    private $projectDir;
 
     /**
      * @injectService $projectDir %kernel.project_dir%
      */
     public function __construct(string $projectDir)
     {
+        $this->projectDir = $projectDir;
         $this->ezplatformConfigFilePath = sprintf('%s/app/config/ezplatform.yml', $projectDir);
+        $this->configFilePath = sprintf('%s/app/config/config.yml', $projectDir);
     }
 
     /**
@@ -49,17 +53,36 @@ class ConfigurationContext implements Context
     }
 
     /**
-     * @Given I append configuration to :siteaccessName siteaccess
+     * @Given I add a new database connection called :connectionName
      */
-    public function iAppendConfigurationToSiteaccess($siteaccessName, TableNode $settings)
+    public function iAddNewDatabaseConnection(string $connectionName)
     {
+        $configurationEditor = new ConfigurationEditor();
+
+        $config = $configurationEditor->getConfigFromFile($this->configFilePath);
+        $connectionConfig = $configurationEditor->get($config, 'doctrine.dbal.connections.default');
+        $config = $configurationEditor->set($config, sprintf('doctrine.dbal.connections.%s', $connectionName), $connectionConfig);
+
+        $configurationEditor->saveConfigToFile($this->configFilePath, $config);
+    }
+
+    /**
+     * @Given I :mode configuration to :siteaccessName siteaccess
+     */
+    public function iAppendOrSetConfigurationToSiteaccess(string $mode, $siteaccessName, TableNode $settings)
+    {
+        $appendToExisting = $this->shouldAppendValue($mode);
+
         $configurationEditor = new ConfigurationEditor();
         $config = $configurationEditor->getConfigFromFile($this->ezplatformConfigFilePath);
 
         foreach ($settings->getHash() as $setting) {
             $key = $setting['key'];
             $value = $this->parseSetting($setting['value']);
-            $config = $configurationEditor->append($config, sprintf(self::SITEACCESS_KEY_FORMAT, $siteaccessName, $key), $value);
+
+            $config = $appendToExisting ?
+                $configurationEditor->append($config, sprintf(self::SITEACCESS_KEY_FORMAT, $siteaccessName, $key), $value) :
+                $configurationEditor->set($config, sprintf(self::SITEACCESS_KEY_FORMAT, $siteaccessName, $key), $value);
         }
 
         $configurationEditor->saveConfigToFile($this->ezplatformConfigFilePath, $config);
@@ -67,22 +90,25 @@ class ConfigurationContext implements Context
 
     /**
      * @Given I :mode configuration to :parentNode
+     * @Given I :mode configuration to :parentNode in :configFilePath
      *
      * string $mode Available: append|set - whether the new config will be appended (resulting in an array) or replace the current value if it exists
      */
-    public function iModifyConfigurationUnderKey(string $mode, $parentNode, PyStringNode $configFragment)
+    public function iModifyConfigurationUnderKey(string $mode, $parentNode, PyStringNode $configFragment, string $configFilePath = null)
     {
         $appendToExisting = $this->shouldAppendValue($mode);
 
         $configurationEditor = new ConfigurationEditor();
 
-        $config = $configurationEditor->getConfigFromFile($this->ezplatformConfigFilePath);
+        $configFilePath = $configFilePath ? sprintf('%s/%s', $this->projectDir, $configFilePath) : $this->ezplatformConfigFilePath;
+
+        $config = $configurationEditor->getConfigFromFile($configFilePath);
         $parsedConfig = $this->parseConfig($configFragment);
 
         $config = $appendToExisting ?
             $configurationEditor->append($config, $parentNode, $parsedConfig) :
             $configurationEditor->set($config, $parentNode, $parsedConfig);
-        $configurationEditor->saveConfigToFile($this->ezplatformConfigFilePath, $config);
+        $configurationEditor->saveConfigToFile($configFilePath, $config);
     }
 
     /**

@@ -257,4 +257,24 @@ class ConfigurationEditorTest extends TestCase
 
         Assert::assertEquals(['testKey' => ['nested' => 1]], $config);
     }
+
+    public function testGetSingleValue()
+    {
+        $configurationEditor = new ConfigurationEditor();
+        $initialConfig = ['initialKey' => 'initialValue'];
+
+        $value = $configurationEditor->get($initialConfig, 'initialKey');
+
+        Assert::assertEquals('initialValue', $value);
+    }
+
+    public function testGetMultipleValues()
+    {
+        $configurationEditor = new ConfigurationEditor();
+        $initialConfig = ['initialKey' => ['initialValue1', 'initialValue2']];
+
+        $value = $configurationEditor->get($initialConfig, 'initialKey');
+
+        Assert::assertEquals(['initialValue1', 'initialValue2'], $value);
+    }
 }
