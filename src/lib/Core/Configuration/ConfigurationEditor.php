@@ -43,6 +43,14 @@ class ConfigurationEditor
         return $config;
     }
 
+    public function get($config, string $key)
+    {
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        $key = $this->parseKey($key);
+
+        return $propertyAccessor->getValue($config, $key);
+    }
+
     private function modifyValue(&$config, string $key, $value, bool $appendToExisting): void
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
