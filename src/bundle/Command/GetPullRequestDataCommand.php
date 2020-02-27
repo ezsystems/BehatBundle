@@ -8,14 +8,15 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Command;
 
-use Buzz\Client\Curl;
-use Nyholm\Psr7\Factory\Psr17Factory as HttpFactory;
-use Nyholm\Psr7\Request;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use GuzzleHttp\Psr7\Request;
+use Http\Discovery\HttpClientDiscovery;
+use Http\Client\Common\HttpMethodsClient;
+use Http\Discovery\MessageFactoryDiscovery;
 
 class GetPullRequestDataCommand extends Command
 {
@@ -28,13 +29,9 @@ class GetPullRequestDataCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->httpClient = new Curl(
-            [
-                'verify' => false,
-                'timeout' => 90,
-                'allow_redirects' => true,
-            ],
-            new HttpFactory()
+        $this->httpClient = new HttpMethodsClient(
+            HttpClientDiscovery::find(),
+            MessageFactoryDiscovery::find()
         );
     }
 
@@ -97,11 +94,12 @@ If you have configured Composer with your token it can be obtained by running 'c
     {
         $requestUrl = sprintf('https://api.github.com/repos/%s/%s/pulls/%s', $owner, $repository, $prNumber);
 
-        $request = new Request('GET', $requestUrl);
-        $request = $request
-                        ->withHeader('User-Agent', 'ezrobot')
-                        ->withHeader('Authorization', sprintf('token %s', $this->token))
-                        ->withHeader('Accept', 'application/vnd.github.v3+json');
+        $headers = [
+            'User-Agent' => 'ezrobot',
+            'Authorization' => sprintf('token %s', $this->token),
+            'Accept', 'application/vnd.github.v3+json',
+        ];
+        $request = new Request('GET', $requestUrl, $headers);
 
         $response = $this->httpClient->sendRequest($request);
 

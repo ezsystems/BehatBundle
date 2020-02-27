@@ -43,6 +43,10 @@ services:
         tags:
             - { name: console.command }
 
+    EzSystems\BehatBundle\Command\GetPullRequestDataCommand:
+        tags:
+            - { name: console.command }
+
     EzSystems\BehatBundle\Templating\Twig\PHPTypeExtension:
         tags:
             - { name: twig.extension }
