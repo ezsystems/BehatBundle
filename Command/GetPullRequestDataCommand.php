@@ -97,29 +97,20 @@ If you have configured Composer with your token it can be obtained by running 'c
     {
         $requestUrl = sprintf('https://api.github.com/repos/%s/%s/pulls/%s', $owner, $repository, $prNumber);
 
-        $request = new Request('GET', $requestUrl);
-        $request = $request
-                        ->withHeader('User-Agent', 'ezrobot')
-                        ->withHeader('Authorization', sprintf('token %s', $this->token))
-                        ->withHeader('Accept', 'application/vnd.github.v3+json');
-
-        $response = $this->httpClient->sendRequest($request);
-
-        if ($response->getStatusCode() !== 200) {
-            throw new \Exception(
-                sprintf('GitHub API returned code %d, expected 200. Response reason: %s',
-                    $response->getStatusCode(),
-                    $response->getReasonPhrase())
-            );
-        }
-
-        return $response;
+        return $this->sendRequest($requestUrl, 'application/vnd.github.v3+json');
     }
 
     private function getComposerExtraData(string $owner, string $repository, string $branchName): array
     {
-        $composerJsonFileURL = sprintf('https://raw.githubusercontent.com/%s/%s/%s/composer.json', $owner, $repository, $branchName);
-        $data = json_decode(file_get_contents($composerJsonFileURL), true);
+        $requestUrl = sprintf(
+            'https://api.github.com/repos/%s/%s/contents/composer.json?ref=%s',
+            $owner,
+            $repository,
+            $branchName
+        );
+
+        $composerJsonFile = $this->sendRequest($requestUrl, 'application/vnd.github.v3.raw');
+        $data = json_decode($composerJsonFile->getBody()->getContents(), true);
 
         $branchAlias = $data['extra']['branch-alias']['dev-master'];
         $metarepositoryTargetBranch = array_key_exists('_ezplatform_branch_for_behat_tests', $data['extra'])
@@ -157,5 +148,27 @@ If you have configured Composer with your token it can be obtained by running 'c
         }
 
         return $pageBuilderTargetBranches[$metarepositoryTargetBranch];
+    }
+
+    private function sendRequest(string $requestUrl, string $acceptFormat): ResponseInterface
+    {
+        $headers = [
+            'User-Agent' => 'ezrobot',
+            'Authorization' => sprintf('token %s', $this->token),
+            'Accept' => $acceptFormat,
+        ];
+
+        $request = new Request('GET', $requestUrl, $headers);
+        $response = $this->httpClient->sendRequest($request);
+
+        if ($response->getStatusCode() !== 200) {
+            throw new \Exception(
+                sprintf('GitHub API returned code %d, expected 200. Reason: %s',
+                    $response->getStatusCode(),
+                    $response->getReasonPhrase())
+            );
+        }
+
+        return $response;
     }
 }
