@@ -138,7 +138,7 @@ read -p "Do you want to continue? " -n 1 -r
 echo ''
 
 if [[ ! $REPLY =~ ^[Yy]$ ]] ; then
-  printf 'Aborted.\n'
+  echo -e '\033[0;31mAborted.\033[0m'
   exit 1
 fi
 
