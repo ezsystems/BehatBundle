@@ -123,7 +123,7 @@ fi
 
 # Step 7: Prepare a commit in Page Builder
 
-sed -i '' -e 's/https:\/\/github.com\/ezsystems\/ezplatform-ee.git/https:\/\/github.com\/mnocon\/ezplatform-ee.git/g' .travis.yml
+sed -i.bak -e 's/https:\/\/github.com\/ezsystems\/ezplatform-ee.git/https:\/\/github.com\/mnocon\/ezplatform-ee.git/g' .travis.yml
 composer config extra._ezplatform_branch_for_behat_tests $METAREPOSITORY_BRANCH_NAME
 git add composer.json .travis.yml
 git commit -m "[TMP] Run regression" --quiet
