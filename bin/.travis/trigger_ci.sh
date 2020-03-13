@@ -33,6 +33,7 @@ GITHUB_OAUTH_TOKEN=$(composer config github-oauth.github.com --global)
 TARGET_METAREPOSITORY_BRANCH=""
 TARGET_PAGE_BUILDER_BRANCH=""
 HAS_PAGE_BUILDER_DEPENDENCY=0
+UNDEFINED_VALUE="undefined"
 
 # Step 1: ask for number of PRs and a link for each PR
 
@@ -68,9 +69,22 @@ do
   composerDependencyString=$(printf "ezsystems/%s:dev-%s as %s" $REPOSITORY_NAME $BRANCH_NAME $BRANCH_ALIAS)
   composerDependencyStrings+=("$composerDependencyString")
 
-  TARGET_METAREPOSITORY_BRANCH="${VALUES[4]}"
-  TARGET_PAGE_BUILDER_BRANCH="${VALUES[5]}"
+  PARSED_PR_METAREPOSITORY_BRANCH="${VALUES[4]}"
+  PARSED_PR_PAGE_BUILDER_BRANCH="${VALUES[5]}"
+
+  if [ "${PARSED_PR_METAREPOSITORY_BRANCH}" != "${UNDEFINED_VALUE}" ] ; then
+      TARGET_METAREPOSITORY_BRANCH=$PARSED_PR_METAREPOSITORY_BRANCH
+  fi
+
+  if [ "${PARSED_PR_PAGE_BUILDER_BRANCH}" != "${UNDEFINED_VALUE}" ] ; then
+      TARGET_PAGE_BUILDER_BRANCH=$PARSED_PR_PAGE_BUILDER_BRANCH
+  fi
 done
+
+if [ "${TARGET_METAREPOSITORY_BRANCH}" == "" ] || [ "${TARGET_PAGE_BUILDER_BRANCH}" == "" ] ; then
+    echo 'Could not determine target metarepository or Page Builder branch. Aborting.'
+    exit 1
+fi
 
 # Step 3: Prepare ezplatfom-ee repository
 rm -rf regression_setup
