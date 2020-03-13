@@ -25,6 +25,8 @@ class GetPullRequestDataCommand extends Command
     /** @var \Http\Client\HttpClient */
     private $httpClient;
 
+    private const UNDEFINED_VALUE = 'undefined';
+
     public function __construct()
     {
         parent::__construct();
@@ -87,8 +89,9 @@ If you have configured Composer with your token it can be obtained by running 'c
             $branchName,
             $branchAlias,
             $prUrlData['repository'],
-            $metarepositoryBranch,
-            $pageBuilderBranch);
+            $metarepositoryBranch ?: self::UNDEFINED_VALUE,
+            $pageBuilderBranch ?: self::UNDEFINED_VALUE
+        );
 
         $output->write($outputString);
     }
@@ -143,8 +146,12 @@ If you have configured Composer with your token it can be obtained by running 'c
             'master' => 'master',
         ];
 
+        if ($metarepositoryTargetBranch === '') {
+            return '';
+        }
+
         if (!array_key_exists($metarepositoryTargetBranch, $pageBuilderTargetBranches)) {
-            throw new \Exception(sprintf('Cannot find suitable PageBuilder branch for %s metareposiotry branch', $metarepositoryTargetBranch));
+            throw new \Exception(sprintf('Cannot find suitable PageBuilder branch for %s metarepository branch', $metarepositoryTargetBranch));
         }
 
         return $pageBuilderTargetBranches[$metarepositoryTargetBranch];
