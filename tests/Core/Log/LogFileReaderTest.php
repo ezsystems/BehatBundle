@@ -22,7 +22,7 @@ class LogFileReaderTest extends TestCase
     /** @var LogFileReader */
     private $logReader;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fileSystemRoot = vfsStream::setup();
         $this->logReader = new LogFileReader();
