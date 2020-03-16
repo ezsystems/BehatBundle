@@ -9,10 +9,10 @@ declare(strict_types=1);
 namespace EzSystems\BehatBundle;
 
 use Behat\Behat\EventDispatcher\ServiceContainer\EventDispatcherExtension;
-use Behat\Symfony2Extension\ServiceContainer\Symfony2Extension;
 use Behat\Testwork\ServiceContainer\Extension;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
 use EzSystems\BehatBundle\Initializer\BehatSiteAccessInitializer;
+use FriendsOfBehat\SymfonyExtension\ServiceContainer\SymfonyExtension;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -54,7 +54,7 @@ class BehatExtension implements Extension
     {
         $definition = new Definition(BehatSiteAccessInitializer::class);
         $definition->setArguments([
-            new Reference(Symfony2Extension::KERNEL_ID),
+            new Reference(SymfonyExtension::KERNEL_ID),
         ]);
         $definition->addTag(EventDispatcherExtension::SUBSCRIBER_TAG, ['priority' => 0]);
         $container->setDefinition(BehatSiteAccessInitializer::class, $definition);
