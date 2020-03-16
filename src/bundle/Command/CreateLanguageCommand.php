@@ -6,27 +6,37 @@
  */
 namespace EzSystems\BehatBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use eZ\Publish\API\Repository\LanguageService;
+use eZ\Publish\API\Repository\PermissionResolver;
+use eZ\Publish\API\Repository\UserService;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateLanguageCommand extends ContainerAwareCommand
+class CreateLanguageCommand extends Command
 {
-    /**
-     * @var \eZ\Publish\API\Repository\LanguageService
-     */
+    /** @var \eZ\Publish\API\Repository\LanguageService */
     private $languageService;
 
-    /**
-     * @var \eZ\Publish\API\Repository\UserService
-     */
+    /** @var \eZ\Publish\API\Repository\UserService */
     private $userService;
 
-    /**
-     * @var \eZ\Publish\API\Repository\PermissionResolver
-     */
+    /** @var \eZ\Publish\API\Repository\PermissionResolver */
     private $permissionResolver;
+
+    public function __construct(
+        LanguageService $languageService,
+        UserService $userService,
+        PermissionResolver $permissionResolver
+    ) {
+        $this->languageService = $languageService;
+        $this->userService = $userService;
+        $this->permissionResolver = $permissionResolver;
+
+        parent::__construct(null);
+    }
+
 
     protected function configure()
     {
@@ -43,17 +53,7 @@ class CreateLanguageCommand extends ContainerAwareCommand
             );
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-        parent::initialize($input, $output);
-
-        $repository = $this->getContainer()->get('ezpublish.api.repository');
-        $this->languageService = $repository->getContentLanguageService();
-        $this->permissionResolver = $repository->getPermissionResolver();
-        $this->userService = $repository->getUserService();
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // set user with proper permissions to create language (content / translations)
         $this->permissionResolver->setCurrentUserReference(
@@ -67,5 +67,7 @@ class CreateLanguageCommand extends ContainerAwareCommand
         $languageCreateStruct->name = $input->getArgument('language-name');
 
         $this->languageService->createLanguage($languageCreateStruct);
+
+        return 0;
     }
 }

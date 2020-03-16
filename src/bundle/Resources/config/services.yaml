@@ -40,6 +40,10 @@ services:
         public: true
 
     EzSystems\BehatBundle\Command\CreateLanguageCommand:
+        arguments:
+            $languageService: '@ezpublish.api.service.language'
+            $userService: '@ezpublish.api.service.user'
+            $permissionResolver: '@=service("ezpublish.api.repository").getPermissionResolver()'
         tags:
             - { name: console.command }
 
