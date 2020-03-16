@@ -16,9 +16,6 @@ class ObjectStateContext implements Context
     /** @var \eZ\Publish\API\Repository\ObjectStateService */
     private $objectStateService;
 
-    /**
-     * @injectService $objectStateService @eZ\Publish\API\Repository\ObjectStateService
-     */
     public function __construct(ObjectStateService $objectStateService)
     {
         $this->objectStateService = $objectStateService;

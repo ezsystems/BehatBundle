@@ -1,0 +1,71 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    EzSystems\Behat\API\Context\ContentContext:
+        public: true
+        arguments:
+            $contentFacade: '@EzSystems\Behat\API\Facade\ContentFacade'
+            $argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
+
+    EzSystems\Behat\API\Context\ContentTypeContext:
+        public: true
+        arguments:
+            $contentTypeFacade: '@EzSystems\Behat\API\Facade\ContentTypeFacade'
+
+    EzSystems\Behat\API\Context\LanguageContext:
+        public: true
+        arguments:
+            $languageFacade: '@EzSystems\Behat\API\Facade\LanguageFacade'
+
+    EzSystems\Behat\API\Context\ObjectStateContext:
+        public: true
+        arguments:
+            $objectStateService: '@ezpublish.api.service.object_state'
+
+    EzSystems\Behat\API\Context\RoleContext:
+        public: true
+        arguments:
+            $roleFacade: '@EzSystems\Behat\API\Facade\RoleFacade'
+            $argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
+
+    EzSystems\Behat\API\Context\TestContext:
+        public: true
+        arguments:
+            $userService: '@ezpublish.api.service.user'
+            $permissionResolver: '@=service("ezpublish.api.repository").getPermissionResolver()'
+
+    EzSystems\Behat\API\Context\UserContext:
+        public: true
+        arguments:
+            $userFacade: '@EzSystems\Behat\API\Facade\UserFacade'
+            $argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
+
+    EzSystems\Behat\Core\Context\ConfigurationContext:
+        public: true
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
+    EzSystems\Behat\Core\Context\FileContext:
+        public: true
+        arguments:
+            $projectDirectory: '%kernel.project_dir%'
+
+    EzSystems\Behat\Browser\Context\BrowserContext:
+        public: true
+        arguments:
+            $router: '@ezpublish.siteaccess_router'
+
+    EzSystems\Behat\Browser\Context\FrontendContext:
+        public: true
+        arguments:
+            $argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
+
+    EzSystems\Behat\Browser\Context\Hooks:
+        public: true
+        arguments:
+            $logger: '@logger'
+            $kernel: '@kernel'
+            $container: '@service_container'

@@ -1,6 +1,7 @@
 imports:
     - { resource: services/fieldtype_data_providers.yaml }
     - { resource: services/limitation_parsers.yaml }
+    - { resource: services/contexts.yaml }
 
 services:
     _defaults:

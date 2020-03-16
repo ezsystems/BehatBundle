@@ -16,9 +16,6 @@ class LanguageContext implements Context
      */
     private $languageFacade;
 
-    /**
-     * @injectService $languageFacade @EzSystems\Behat\API\Facade\LanguageFacade
-     */
     public function __construct(LanguageFacade $languageFacade)
     {
         $this->languageFacade = $languageFacade;
