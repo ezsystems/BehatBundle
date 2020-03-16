@@ -12,7 +12,6 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeStepScope;
 use Behat\Mink\Driver\Selenium2Driver;
 use Behat\MinkExtension\Context\RawMinkContext;
-use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Testwork\Tester\Result\TestResult;
 use EzSystems\Behat\Browser\Filter\BrowserLogFilter;
 use EzSystems\Behat\Browser\Factory\ElementFactory;
@@ -21,6 +20,8 @@ use EzSystems\Behat\Core\Environment\Environment;
 use EzSystems\Behat\Core\Environment\EnvironmentConstants;
 use EzSystems\Behat\Core\Log\LogFileReader;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use WebDriver\LogType;
 
 class Hooks extends RawMinkContext
@@ -29,21 +30,28 @@ class Hooks extends RawMinkContext
     private const APPLICATION_LOGS_LIMIT = 25;
     private const LOG_FILE_NAME = 'travis_test.log';
 
-    use KernelDictionary;
+    /** @var \Psr\Log\LoggerInterface */
+    private $logger;
 
-    /**
-     * @injectService $logger @logger
-     */
-    public function __construct(LoggerInterface $logger)
+    /** @var \Symfony\Component\HttpKernel\KernelInterface */
+    private $kernel;
+
+    /** @var \Symfony\Component\DependencyInjection\ContainerInterface */
+    private $container;
+
+    public function __construct(LoggerInterface $logger, KernelInterface $kernel, ContainerInterface $container)
     {
         $this->logger = $logger;
+        $this->kernel = $kernel;
+        $this->container = $container;
     }
 
     /** @BeforeScenario */
     public function setInstallTypeBeforeScenario()
     {
-        $container = $this->getContainer();
-        $container = $container->has('test.service_container') ? $container->get('test.service_container') : $container;
+        $container = $this->container->has('test.service_container')
+            ? $this->container->get('test.service_container')
+            : $this->container;
 
         $env = new Environment($container);
         $installType = $env->getInstallType();
@@ -91,7 +99,7 @@ class Hooks extends RawMinkContext
         }
 
         $logReader = new LogFileReader();
-        $applicationLogEntries = $logReader->getLastLines(sprintf('%s/%s', $this->getKernel()->getLogDir(), self::LOG_FILE_NAME), self::APPLICATION_LOGS_LIMIT);
+        $applicationLogEntries = $logReader->getLastLines(sprintf('%s/%s', $this->kernel->getLogDir(), self::LOG_FILE_NAME), self::APPLICATION_LOGS_LIMIT);
 
         $this->displayLogEntries('Application errors:', $applicationLogEntries);
     }
