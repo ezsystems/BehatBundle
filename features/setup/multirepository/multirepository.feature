@@ -13,6 +13,14 @@ Feature: Multirepository setup for testing
                     charset: '%database_charset%'
                     collate: '%database_collation%'
                 url: 'mysql://INVALID:INVALID@127.0.0.1/INVALID'
+            site_factory:
+                # configure these for your database server
+                driver: '%database_driver%'
+                charset: '%database_charset%'
+                default_table_options:
+                    charset: '%database_charset%'
+                    collate: '%database_collation%'
+                url: '%env(resolve:DATABASE_URL)%'
             second_connection:
                 driver: '%database_driver%'
                 charset: '%database_charset%'
