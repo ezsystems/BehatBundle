@@ -44,7 +44,7 @@ services:
         arguments:
             $languageService: '@ezpublish.api.service.language'
             $userService: '@ezpublish.api.service.user'
-            $permissionResolver: '@=service("ezpublish.api.repository").getPermissionResolver()'
+            $permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
         tags:
             - { name: console.command }
 
