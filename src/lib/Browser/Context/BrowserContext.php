@@ -22,9 +22,6 @@ class BrowserContext extends MinkContext
     /** @var \eZ\Publish\Core\MVC\Symfony\SiteAccess\Router */
     private $router;
 
-    /**
-     * @injectService $router @ezpublish.siteaccess_router
-     */
     public function __construct(Router $router)
     {
         $this->router = $router;

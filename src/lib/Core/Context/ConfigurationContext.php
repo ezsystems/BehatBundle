@@ -21,9 +21,6 @@ class ConfigurationContext implements Context
     private $configFilePath;
     private $projectDir;
 
-    /**
-     * @injectService $projectDir %kernel.project_dir%
-     */
     public function __construct(string $projectDir)
     {
         $this->projectDir = $projectDir;

@@ -10,7 +10,7 @@ Feature: Example scenarios showing how to use steps involving Languages, Content
     And I create "Folder" Content items in root in "pol-PL"
       | name              | short_name          |
       | <contentTypeName> | <contentTypeName>   |
-    And I create 50 "<contentTypeIdentifier>" Content items in "<contentTypeName>" in "pol-PL"
+    And I create 2 "<contentTypeIdentifier>" Content items in "<contentTypeName>" in "pol-PL"
 
     Examples:
       | contentTypeName      | contentTypeIdentifier | fieldType                    | fieldSettings                                                         |

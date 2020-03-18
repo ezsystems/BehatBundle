@@ -19,10 +19,6 @@ class UserContext implements Context
     /** @var \EzSystems\Behat\Core\Behat\ArgumentParser */
     private $argumentParser;
 
-    /**
-     * @injectService $userFacade @EzSystems\Behat\API\Facade\UserFacade
-     * @injectService $argumentParser @EzSystems\Behat\Core\Behat\ArgumentParser
-     */
     public function __construct(UserFacade $userFacade, ArgumentParser $argumentParser)
     {
         $this->userFacade = $userFacade;

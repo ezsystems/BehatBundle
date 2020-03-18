@@ -15,9 +15,6 @@ class FileContext implements Context
 
     private const SOURCE_FILE_DIRECTORY = 'vendor/ezsystems/behatbundle/src/lib/Data';
 
-    /**
-     * @injectService $projectDirectory %kernel.project_dir%
-     */
     public function __construct($projectDirectory)
     {
         $this->projectDirectory = $projectDirectory;

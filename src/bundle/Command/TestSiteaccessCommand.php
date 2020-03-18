@@ -36,8 +36,10 @@ class TestSiteaccessCommand extends Command
             ->setDescription('Outputs the name of the active siteaccess');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln($this->siteaccess->name);
+        
+        return 0;
     }
 }

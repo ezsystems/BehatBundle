@@ -1,6 +1,7 @@
 imports:
     - { resource: services/fieldtype_data_providers.yaml }
     - { resource: services/limitation_parsers.yaml }
+    - { resource: services/contexts.yaml }
 
 services:
     _defaults:
@@ -40,6 +41,10 @@ services:
         public: true
 
     EzSystems\BehatBundle\Command\CreateLanguageCommand:
+        arguments:
+            $languageService: '@ezpublish.api.service.language'
+            $userService: '@ezpublish.api.service.user'
+            $permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
         tags:
             - { name: console.command }
 

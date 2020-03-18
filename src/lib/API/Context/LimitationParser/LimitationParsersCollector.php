@@ -8,7 +8,17 @@ namespace EzSystems\Behat\API\Context\LimitationParser;
 
 class LimitationParsersCollector
 {
+    /** @var \EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface[] */
     private $limitationParsers;
+
+    /**
+     * @param \EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface[] $limitationParsers
+     */
+    public function __construct(array $limitationParsers = [])
+    {
+        $this->limitationParsers = $limitationParsers;
+    }
+
 
     public function addLimitationParser(LimitationParserInterface $limitationParser): void
     {
@@ -16,7 +26,7 @@ class LimitationParsersCollector
     }
 
     /**
-     * @return LimitationParserInterface[]
+     * @return \EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface[]
      */
     public function getLimitationParsers(): array
     {
