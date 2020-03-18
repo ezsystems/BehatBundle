@@ -8,12 +8,10 @@
             "homepage": "https://github.com/ezsystems/BehatBundle"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "php": "^7.3",
         "ext-json": "*",
-        "ezsystems/ezpublish-kernel": "dev-symfony5 as 8.0.x-dev",
+        "ezsystems/ezpublish-kernel": "^8.0@dev",
         "fzaninotto/faker": "^1.9",
         "guzzlehttp/psr7": "^1.6.1",
         "behat/behat": "^3.6",
