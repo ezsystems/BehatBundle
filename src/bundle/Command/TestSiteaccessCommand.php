@@ -39,7 +39,7 @@ class TestSiteaccessCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln($this->siteaccess->name);
-        
+
         return 0;
     }
 }

@@ -37,7 +37,6 @@ class CreateLanguageCommand extends Command
         parent::__construct(null);
     }
 
-
     protected function configure()
     {
         $this

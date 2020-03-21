@@ -19,7 +19,6 @@ class LimitationParsersCollector
         $this->limitationParsers = $limitationParsers;
     }
 
-
     public function addLimitationParser(LimitationParserInterface $limitationParser): void
     {
         $this->limitationParsers[] = $limitationParser;
