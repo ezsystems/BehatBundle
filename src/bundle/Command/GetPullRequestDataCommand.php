@@ -91,6 +91,8 @@ If you have configured Composer with your token it can be obtained by running 'c
         );
 
         $output->write($outputString);
+
+        return 0;
     }
 
     private function getPullRequestData(string $owner, string $repository, string $prNumber): ResponseInterface
