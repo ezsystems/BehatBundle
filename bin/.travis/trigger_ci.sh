@@ -114,7 +114,7 @@ echo -e 'Dependencies have been added \033[0;32m✔\033[0m'
 
 echo 'Preparing metarepository branch...'
 git add composer.json
-git commit -m "[Travis] Added dependencies]" --quiet
+git commit -m "[Travis] Added dependencies" --quiet
 git remote add regression-remote http://github.com/mnocon/ezplatform-ee.git
 git push --set-upstream regression-remote $METAREPOSITORY_BRANCH_NAME --quiet > /dev/null
 cd ..
