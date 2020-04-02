@@ -11,7 +11,7 @@
     "require": {
         "php": "^7.3",
         "ext-json": "*",
-        "ezsystems/ezplatform-kernel": "^1.0@dev",
+        "ezsystems/ezplatform-kernel": "^1.0",
         "fzaninotto/faker": "^1.9",
         "guzzlehttp/psr7": "^1.6.1",
         "behat/behat": "^3.6",
@@ -28,7 +28,7 @@
         "symfony/console": "^5.0"
     },
     "require-dev": {
-        "ezsystems/doctrine-dbal-schema": "^1.0@dev",
+        "ezsystems/doctrine-dbal-schema": "^1.0",
         "ezsystems/ezplatform-code-style": "^0.1.0",
         "friendsofphp/php-cs-fixer": "^2.16.0",
         "phpunit/phpunit": "^8.5",
