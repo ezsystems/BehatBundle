@@ -62,7 +62,6 @@ services:
         - '@EzSystems\Behat\Core\Behat\ArgumentParser'
         - '@eZ\Publish\API\Repository\LocationService'
         - '@eZ\Publish\API\Repository\URLAliasService'
-        - '$fieldtypes.ezimageasset.mappings$'
 
     EzSystems\Behat\API\ContentData\FieldTypeData\ImageDataProvider:
       arguments:

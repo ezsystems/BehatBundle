@@ -10,6 +10,7 @@ use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\Core\FieldType\ImageAsset\AssetMapper;
 use eZ\Publish\Core\FieldType\ImageAsset\Value;
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\Core\Behat\ArgumentParser;
 
@@ -24,7 +25,6 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
      */
     private $imageDataProvider;
 
-    private $mappings;
     /**
      * @var ArgumentParser
      */
@@ -38,13 +38,18 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
      */
     private $urlAliasService;
 
+    /**
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     */
+    private $configResolver;
+
     public function __construct(RandomDataGenerator $randomDataGenerator,
                                 AssetMapper $assetMapper,
                                 ImageDataProvider $imageDataProvider,
                                 ArgumentParser $argumentParser,
                                 LocationService $locationService,
                                 URLAliasService $urlAliasService,
-                                $mappings)
+                                ConfigResolverInterface $configResolver)
     {
         parent::__construct($randomDataGenerator);
         $this->assetMapper = $assetMapper;
@@ -52,7 +57,7 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
         $this->argumentParser = $argumentParser;
         $this->locationService = $locationService;
         $this->urlAliasService = $urlAliasService;
-        $this->mappings = $mappings;
+        $this->configResolver = $configResolver;
     }
 
     public function supports(string $fieldTypeIdentifier): bool
@@ -63,8 +68,9 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
     public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
         $this->setLanguage($language);
+        $mappings = $this->configResolver->getParameter('fieldtypes.ezimageasset.mappings');
 
-        $imageAssetContentTypeIdentifier = $this->mappings['content_type_identifier'];
+        $imageAssetContentTypeIdentifier = $mappings['content_type_identifier'];
         $imageAssetFieldIdentifier = $this->assetMapper->getContentFieldIdentifier();
 
         $imageAssetName = $this->getFaker()->realText(80, 1);
