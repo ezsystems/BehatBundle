@@ -35,7 +35,7 @@ services:
         public: true
         arguments:
             $userService: '@ezpublish.api.service.user'
-            $permissionResolver: '@=service("ezpublish.api.repository").getPermissionResolver()'
+            $permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
 
     EzSystems\Behat\API\Context\UserContext:
         public: true
