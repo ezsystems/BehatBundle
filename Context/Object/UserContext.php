@@ -66,7 +66,7 @@ class UserContext implements Context
             throw new \Exception('Passed more than one Role assignment limitation!');
         }
 
-        $roleLimitation = $parsedLimitations[0];
+        $roleLimitation = $parsedLimitations[0] ?? null;
 
         $this->userFacade->assignUserGroupToRole($userGroupName, $roleName, $roleLimitation);
     }
