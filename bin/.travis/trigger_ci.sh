@@ -20,6 +20,7 @@ fi
 if ! [ -x "$(command -v hub)" ]; then
    echo '"hub" command is not available.'
    echo 'Install the GitHub CLI client by going to https://github.com/github/hub and rerun the script.'
+   echo "If you're accessing your remotes using https, please configure hub running: git config --global hub.protocol https"
    echo 'Aborted.'
    exit 1
 fi
