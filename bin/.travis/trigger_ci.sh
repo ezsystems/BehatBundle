@@ -148,13 +148,12 @@ if [ "${HAS_PAGE_BUILDER_DEPENDENCY}" == 1 ] ; then
   echo -e "\033[1;33mThis is an existing branch that contains work done by someone else.\033[0m"
   echo -e "\033[1;33mRemember to talk with them that you are adding a commit to their branch and clearly mark the Pull Request as one containing temporary changes.\033[0m"
 fi
-read -p "Do you want to continue? " -n 1 -r
-echo ''
-
-if [[ ! $REPLY =~ ^[Yy]$ ]] ; then
-  echo -e '\033[0;31mAborted.\033[0m'
-  exit 1
-fi
+read -p "Do you want to continue? [y/N]" -r
+if [[ ! $REPLY =~ ^[Yy] ]] ; then
+   echo -e '\033[0;31mAborted.\033[0m'
+   exit 0
+fi   
+echo 'Continue.'
 
 # Push to Page Builder
 git push --set-upstream origin $PAGE_BUILDER_PR_BRANCH --quiet  > /dev/null
