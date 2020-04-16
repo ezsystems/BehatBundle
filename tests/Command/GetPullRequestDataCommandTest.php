@@ -25,7 +25,7 @@ class GetPullRequestDataCommandTest extends TestCase
 
     public function testProducesCorrectOutput()
     {
-        $expectedOutput = 'https://github.com/GrabowskiM/ezplatform-admin-ui EZP-31515-fix-flatpickr 2.0.x-dev ezplatform-admin-ui master master';
+        $expectedOutput = 'https://github.com/GrabowskiM/ezplatform-admin-ui EZP-31515-fix-flatpickr 2.1.x-dev ezplatform-admin-ui master master';
         $expectedReturnCode = 0;
 
         $this->commandTester->execute([
