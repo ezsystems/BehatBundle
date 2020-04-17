@@ -19,6 +19,8 @@ class TestLogProvider
     private const APPLICATION_LOGS_LIMIT = 25;
     private const LOG_FILE_NAME = 'travis_test.log';
 
+    private static $LOGS;
+
     /**
      * @var \Behat\Mink\Session
      */
@@ -37,9 +39,20 @@ class TestLogProvider
 
     public function getBrowserLogs(): array
     {
+        if ($this->hasCachedLogs()) {
+            $logs = $this->getCachedLogs();
+            $this->clearCachedLogs();
+
+            return $logs;
+        }
+
         $driver = $this->session->getDriver();
         if ($driver instanceof Selenium2Driver) {
-            return $this->parseBrowserLogs($driver->getWebDriverSession()->log(LogType::BROWSER));
+            $logs = $driver->getWebDriverSession()->log(LogType::BROWSER) ?? [];
+            $parsedLogs = $this->parseBrowserLogs($logs);
+            $this->cacheLogs($parsedLogs);
+
+            return $parsedLogs;
         }
 
         return [];
@@ -70,5 +83,25 @@ class TestLogProvider
         $errorMessages = $filter->filter($errorMessages);
 
         return \array_slice($errorMessages, 0, self::CONSOLE_LOGS_LIMIT);
+    }
+
+    private function hasCachedLogs(): bool
+    {
+        return !empty(self::$LOGS);
+    }
+
+    private function getCachedLogs(): array
+    {
+        return self::$LOGS;
+    }
+
+    private function clearCachedLogs(): void
+    {
+        self::$LOGS = [];
+    }
+
+    private function cacheLogs(array $logs): void
+    {
+        self::$LOGS = $logs;
     }
 }
