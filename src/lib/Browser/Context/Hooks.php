@@ -25,10 +25,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class Hooks extends RawMinkContext
 {
-    private const CONSOLE_LOGS_LIMIT = 10;
-    private const APPLICATION_LOGS_LIMIT = 25;
-    private const LOG_FILE_NAME = 'travis_test.log';
-
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
