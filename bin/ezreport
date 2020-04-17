@@ -11,7 +11,6 @@
 SSH_KEY_PATH='bin/.travis/rsa_allure'
 ALLURE_BUILD_PATH='build/allure/'
 HOST_NAME='allure.ez.no'
-EZ_ROOT_PATH=''
 
  # Help command output
 usage(){
@@ -34,20 +33,8 @@ error(){
     exit 1;
 }
 
-fix_allure_suites_names(){
-EZ_ROOT_PATH=$(pwd)
-cd ${ALLURE_BUILD_PATH}
-# replacing the suite name with the feature files executed in each XML file
-for dir in *; do
- tempNames=($(head -n 6 ${dir} | awk '/<name>/ {gsub(/[<>]/, " "); print $2}'))
- suiteName=${tempNames[0]}
- featureName=($( echo ${tempNames[1]} | awk -F "[/.:]" '{ print $(NF-2)}'))
-
- sudo sed -i "s/<name>${suiteName}</<name>${featureName}</g" ${dir}
-done
-}
-
 zip_report_files(){
+cd ${ALLURE_BUILD_PATH}
 TIMESTAMP=$(date "+h%H-m%M")
 if [ -z $REPOSITORY_NAME ];
 then
@@ -59,11 +46,10 @@ fi
 ZIP_FILENAME="$REPORT_NAME-$TIMESTAMP"
 ZIP_FILENAME_EX="$ZIP_FILENAME.zip"
 sudo zip $ZIP_FILENAME_EX *
+cd -
 }
 
 send_report_to_server(){
-cd ${EZ_ROOT_PATH}
-
 sftp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -i $SSH_KEY_PATH allure@$HOST_NAME:incoming/ <<< $"put ${ALLURE_BUILD_PATH}${ZIP_FILENAME_EX}" 1> /dev/null
 
 if [ $? -ne 0 ];
@@ -76,7 +62,6 @@ fi
 }
 
 process_report(){
-fix_allure_suites_names 1> /dev/null;
 zip_report_files 1> /dev/null;
 send_report_to_server;
 }
