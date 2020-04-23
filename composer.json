@@ -1,10 +1,10 @@
 {
     "name": "ezsystems/behatbundle",
     "description": "Behat bundle for help testing eZ Bundles and projects",
-    "license": "GPL-2.0",
+    "license": "GPL-2.0-only",
     "authors": [
         {
-            "name": "eZ Publish dev-team & eZ Community",
+            "name": "eZ Platform dev-team & eZ Community",
             "homepage": "https://github.com/ezsystems/BehatBundle/graphs/contributors"
         }
     ],
@@ -24,11 +24,17 @@
         "mikey179/vfsstream": "^1.6"
     },
     "autoload": {
-        "psr-0": {"EzSystems\\BehatBundle": ""}
+        "psr-4": {
+            "EzSystems\\BehatBundle\\": ""
+        }
     },
-    "target-dir": "EzSystems/BehatBundle",
+    "autoload-dev": {
+        "psr-4": {
+            "EzSystems\\BehatBundle\\Test\\": "tests/"
+        }
+    },
     "scripts": {
-        "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating", 
+        "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating",
         "test": "@php ./vendor/bin/phpunit -c phpunit.xml"
     },
     "extra": {
@@ -38,6 +44,8 @@
             "dev-tmp_ci_branch": "7.0.x-dev"
         }
     },
-
-    "bin": ["bin/ezbehat", "bin/ezreport"]
+    "bin": [
+        "bin/ezbehat",
+        "bin/ezreport"
+    ]
 }
