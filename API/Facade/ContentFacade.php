@@ -9,6 +9,7 @@ namespace EzSystems\BehatBundle\API\Facade;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\URLAliasService;
+use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\URLAlias;
 use EzSystems\BehatBundle\API\ContentData\ContentDataProvider;
 use PHPUnit\Framework\Assert;
@@ -35,7 +36,7 @@ class ContentFacade
         $this->contentDataProvider = $contentDataProvider;
     }
 
-    public function createContent($contentTypeIdentifier, $parentUrl, $language, $contentItemData = null)
+    public function createContentDraft($contentTypeIdentifier, $parentUrl, $language, $contentItemData = null): Content
     {
         $parentUrlAlias = $this->urlAliasService->lookup($parentUrl);
         Assert::assertEquals(URLAlias::LOCATION, $parentUrlAlias->type);
@@ -52,7 +53,15 @@ class ContentFacade
         }
 
         $draft = $this->contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
-        $this->contentService->publishVersion($draft->versionInfo);
+
+        return $draft;
+    }
+
+    public function createContent($contentTypeIdentifier, $parentUrl, $language, $contentItemData = null): Content
+    {
+        $draft = $this->createContentDraft($contentTypeIdentifier, $parentUrl, $language, $contentItemData);
+
+        return $this->contentService->publishVersion($draft->versionInfo);
     }
 
     public function editContent($locationURL, $language, $contentItemData)
