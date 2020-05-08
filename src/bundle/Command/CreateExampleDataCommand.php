@@ -42,7 +42,7 @@ class CreateExampleDataCommand extends Command
             InputArgument::REQUIRED
             )->addArgument(
                 'editors',
-                InputArgument::REQUIRED,
+                InputArgument::REQUIRED
             )->addArgument(
                 'language',
                 InputArgument::REQUIRED
