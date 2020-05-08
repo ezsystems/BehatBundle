@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    EzSystems\Behat\Subscriber\CreateContentDraft: ~
+
+    EzSystems\Behat\Subscriber\PublishDraft: ~
+
+    EzSystems\Behat\Subscriber\EditContent: ~
