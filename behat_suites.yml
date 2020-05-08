@@ -18,6 +18,17 @@ behat:
 
 setup:
     suites:
+        volume_testing:
+            paths:
+                - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/setup/volume/
+            contexts:
+                - EzSystems\BehatBundle\Context\Api\TestContext
+                - EzSystems\BehatBundle\Context\Object\UserContext
+                - EzSystems\BehatBundle\Context\Object\RoleContext
+                - EzSystems\BehatBundle\Context\Object\ContentType
+                - EzSystems\BehatBundle\Context\Object\ContentContext
+                - EzSystems\BehatBundle\Context\Object\ContentTypeContext
+                - EzSystems\BehatBundle\Context\Object\LanguageContext
         richtext_configuration:
             paths:
                 - vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/richtextConfiguration/custom_tags.feature
