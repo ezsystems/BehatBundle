@@ -8,8 +8,11 @@ namespace EzSystems\Behat\API\ContentData;
 
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
+use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\Content\ContentCreateStruct;
 use eZ\Publish\API\Repository\Values\Content\ContentStruct;
+use eZ\Publish\API\Repository\Values\Content\ContentUpdateStruct;
+use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 use EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface;
 
 class ContentDataProvider
@@ -42,17 +45,17 @@ class ContentDataProvider
     public function getRandomContentData($language): ContentCreateStruct
     {
         $contentType = $this->contentTypeService->loadContentTypeByIdentifier($this->contentTypeIdentifier);
-
         $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, $language);
 
-        $fieldDefinitions = $contentType->getFieldDefinitions()->toArray();
+        return $this->fillContentStructWithData($contentType, $language, $contentCreateStruct);
+    }
 
-        foreach ($fieldDefinitions as $field) {
-            $fieldData = $this->getRandomFieldData($this->contentTypeIdentifier, $field->identifier, $field->fieldTypeIdentifier, $language);
-            $contentCreateStruct->setField($field->identifier, $fieldData, $language);
-        }
+    public function getRandomContentUpdateData(string $language): ContentUpdateStruct
+    {
+        $contentType = $this->contentTypeService->loadContentTypeByIdentifier($this->contentTypeIdentifier);
+        $contentUpdateStruct = $this->contentService->newContentUpdateStruct();
 
-        return $contentCreateStruct;
+        return $this->fillContentStructWithData($contentType, $language, $contentUpdateStruct);
     }
 
     public function getFilledContentDataStruct(ContentStruct $contentStruct, $contentItemData, $language): ContentStruct
@@ -68,6 +71,18 @@ class ContentDataProvider
 
             $fieldData = $this->getFieldDataFromString($fieldDefinition->fieldTypeIdentifier, $value);
             $contentStruct->setField($fieldIdentifier, $fieldData, $language);
+        }
+
+        return $contentStruct;
+    }
+
+    private function fillContentStructWithData(ContentType $contentType, string $language, ContentStruct $contentStruct): ContentStruct
+    {
+        $fieldDefinitions = $contentType->getFieldDefinitions()->toArray();
+
+        foreach ($fieldDefinitions as $field) {
+            $fieldData = $this->getRandomFieldData($this->contentTypeIdentifier, $field->identifier, $field->fieldTypeIdentifier, $language);
+            $contentStruct->setField($field->identifier, $fieldData, $language);
         }
 
         return $contentStruct;
