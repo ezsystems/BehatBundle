@@ -17,6 +17,12 @@ Feature: Create Content Items used for volue testing
       | Malta       | Malta       |
       | Austria     | Austria     |
       | Switzerland | Switzerland |
+      | Ukraine     | Ukraine     |
+      | Sweden      | Sweden      |
+      | Norway      | Norway      |
+      | Finland     | Finland     |
+      | Denmark     | Denmark     |
+      | Crotia      | Crotia      |
     And I create "Folder" Content items in "Europe/France" in "eng-GB"
       | name        | short_name  |
       | Paris       | Paris       |
@@ -137,3 +143,81 @@ Feature: Create Content Items used for volue testing
       | Setubal    | Setubal    |
       | Queluz     | Queluz     |
       | Viseu      | Viseu      |
+    And I create "Folder" Content items in "Europe/Ukraine" in "ukr-UA"
+      | name       | short_name |
+      | Kyiv       | Kyiv       |
+      | Kharkiv    | Kharkiv    |
+      | Odessa     | Odessa     |
+      | Dnipro     | Dnipro     |
+      | Donetsk    | Donetsk    |
+      | Zaporizhia | Zaporizhia |
+      | Lviv       | Lviv       |
+      | Mykolaiv   | Mykolaiv   |
+      | Mariupol   | Mariupol   |
+      | Luhansk    | Luhansk    |
+    And I create "Folder" Content items in "Europe/Sweden" in "swe-SE"
+      | name        | short_name  |
+      | Stockholm   | Stockholm   |
+      | Gothenburg  | Gothenburg  |
+      | Norrkoping  | Norrkoping  |
+      | Karlskrona  | Karlskrona  |
+      | Malmo       | Malmo       |
+      | Helsingborg | Helsingborg |
+      | Gavle       | Gavle       |
+      | Uppsala     | Uppsala     |
+      | Lund        | Lund        |
+      | Halmstad    | Halmstad    |
+    And I create "Folder" Content items in "Europe/Norway" in "nor-NO"
+      | name         | short_name   |
+      | Oslo         | Oslo         |
+      | Bergen       | Bergen       |
+      | Trondheim    | Trondheim    |
+      | Stavanger    | Stavanger    |
+      | Kristiansand | Kristiansand |
+      | Fredrikstad  | Fredrikstad  |
+      | Sandnes      | Sandnes      |
+      | Skien        | Skien        |
+      | Drammen      | Drammen      |
+      | Sarpsborg    | Sarpsborg    |
+    And I create "Folder" Content items in "Europe/Finland" in "fin-FI"
+      | name         | short_name   |
+      | Helsinki     | Helsinki     |
+      | Espoo        | Espoo        |
+      | Tampere 	 | Tampere 	    |
+      | Vantaa       | Vantaa       |
+      | Oulu         | Oulu         |
+      | Turku        | Turku        |
+      | Lahti        | Lahti        |
+      | Kuopio       | Kuopio       |
+      | Pori 	     | Pori 	    |
+      | Kouvola      | Kouvola      |
+    And I create "Folder" Content items in "Europe/Denmark" in "dan-DK"
+      | name         | short_name   |
+      | Copenhagen      | Copenhagen      |
+      |  	Aarhus        |  	Aarhus        |
+      |  	Odense 	 |  	Odense 	    |
+      | Aalborg       | Aalborg       |
+      | Esbjerg         | Esbjerg         |
+      | Randers        | Randers        |
+      |  	Kolding        |  	Kolding        |
+      | Horsens       | Horsens       |
+      |  	Vejle 	     |  	Vejle 	    |
+      | Roskilde      | Roskilde      |
+    And I create "Folder" Content items in "Europe/Croatia" in "cro-HR"
+      | name         | short_name   |
+      | Zagreb       | Zagreb       |
+      | Split        | Split        |
+      | Rijeka 	     | Rijeka 	    |
+      | Osijek       | Osijek       |
+      | Zadar        | Zadar        |
+      | Pula         | Pula         |
+      | Karlovac     | Karlovac     |
+      | Sisak        | Sisak        |
+      | Vinkovci     | Vinkovci     |
+      | Dubrovnik    | Dubrovnik    |
+
+
+
+
+
+
