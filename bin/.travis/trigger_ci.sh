@@ -20,6 +20,7 @@ fi
 if ! [ -x "$(command -v hub)" ]; then
    echo '"hub" command is not available.'
    echo 'Install the GitHub CLI client by going to https://github.com/github/hub and rerun the script.'
+   echo "If you're accessing your remotes using https, please configure hub running: git config --global hub.protocol https"
    echo 'Aborted.'
    exit 1
 fi
@@ -89,7 +90,7 @@ fi
 # Step 3: Prepare ezplatfom-ee repository
 rm -rf regression_setup
 mkdir -p regression_setup && cd regression_setup
-git clone --quiet http://github.com/ezsystems/ezplatform-ee.git -b $TARGET_METAREPOSITORY_BRANCH
+hub clone --quiet ezsystems/ezplatform-ee -b $TARGET_METAREPOSITORY_BRANCH
 cd ezplatform-ee
 git remote remove origin 2> /dev/null
 METAREPOSITORY_BRANCH_NAME=$CONST_RANDOM_STRING
@@ -115,7 +116,7 @@ echo -e 'Dependencies have been added \033[0;32m✔\033[0m'
 echo 'Preparing metarepository branch...'
 git add composer.json
 git commit -m "[Travis] Added dependencies" --quiet
-git remote add regression-remote http://github.com/mnocon/ezplatform-ee.git
+hub remote add regression-remote mnocon/ezplatform-ee
 git push --set-upstream regression-remote $METAREPOSITORY_BRANCH_NAME --quiet > /dev/null
 cd ..
 
@@ -125,11 +126,11 @@ echo -e 'Prepared a branch with dependencies using ezplatform-ee repository \033
 
 if [ "${HAS_PAGE_BUILDER_DEPENDENCY}" == 1 ] ; then
   # If there is a Page Builder dependency then we need to add a commit there, not to a new branch
-  git clone --quiet http://github.com/ezsystems/ezplatform-page-builder.git -b $PAGE_BUILDER_PR_BRANCH
+  hub clone --quiet ezsystems/ezplatform-page-builder -b $PAGE_BUILDER_PR_BRANCH
   cd ezplatform-page-builder
 else
   # Without an existing Page Builder branch we base a new branch on the target branch
-  git clone --quiet http://github.com/ezsystems/ezplatform-page-builder.git -b $TARGET_PAGE_BUILDER_BRANCH
+  hub clone --quiet ezsystems/ezplatform-page-builder -b $TARGET_PAGE_BUILDER_BRANCH
   cd ezplatform-page-builder
   git checkout -b $PAGE_BUILDER_PR_BRANCH --quiet || exit 1
   git branch -D $TARGET_PAGE_BUILDER_BRANCH --quiet || exit 1
