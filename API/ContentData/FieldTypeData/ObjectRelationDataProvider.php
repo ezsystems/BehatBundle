@@ -55,23 +55,20 @@ class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
     {
         $query = new Query();
         $query->limit = 50;
+        $query->performCount = false;
 
-        $results = $this->searchService->findContent($query);
+        $results = $this->searchService->findContent($query)->searchHits;
 
-        $contentIDs = array_map(function (SearchHit $result) {
-            return $result->valueObject->contentInfo->id;
-        }, $results->searchHits);
-
-        $indices = array_rand($contentIDs, $number);
+        $indices = array_rand($results, $number);
 
         if ($number === 1) {
-            return $contentIDs[$indices];
+            return $results[$indices]->valueObject->contentInfo->id;
         }
 
         $randomContentIDs = [];
 
         foreach ($indices as $i) {
-            $randomContentIDs[] = $contentIDs[$i];
+            $randomContentIDs[] = $results[$i]->valueObject->contentInfo->id;
         }
 
         return $randomContentIDs;

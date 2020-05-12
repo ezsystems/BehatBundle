@@ -45,6 +45,7 @@ class SearchFacade
         $location = $this->locationService->loadLocation($urlAlias->destination);
 
         $query = new LocationQuery();
+        $query->performCount = false;
         $query->filter = new LogicalAnd([
             new Subtree($location->pathString),
             new LogicalNot(new LocationId($location->id)),
