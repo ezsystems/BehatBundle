@@ -11,6 +11,7 @@ namespace EzSystems\BehatBundle\Subscriber;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
+use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\TransitionEvent;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -27,16 +28,16 @@ class PublishDraft extends AbstractProcessStage implements EventSubscriberInterf
     protected function getTransitions(): array
     {
         return [
-            TransitionEvent::PUBLISH_TO_END => 0.3,
-            TransitionEvent::PUBLISH_TO_EDIT => 0.7,
+            Events::PUBLISH_TO_END => 0.3,
+            Events::PUBLISH_TO_EDIT => 0.7,
         ];
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            TransitionEvent::DRAFT_TO_PUBLISH => 'publishDraft',
-            TransitionEvent::EDIT_TO_PUBLISH => 'publishDraft',
+            Events::DRAFT_TO_PUBLISH => 'publishDraft',
+            Events::EDIT_TO_PUBLISH => 'publishDraft',
         ];
     }
 
@@ -51,7 +52,7 @@ class PublishDraft extends AbstractProcessStage implements EventSubscriberInterf
         try {
             $event->content = $this->contentService->publishVersion($event->content->versionInfo);
             $this->transitionToNextStage($event);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $this->logger->log(LogLevel::ERROR, sprintf('Error occured during CreateContentDraft Stage: %s', $ex->getMessage()));
         }
     }

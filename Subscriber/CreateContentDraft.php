@@ -12,6 +12,7 @@ use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
 use EzSystems\BehatBundle\API\Facade\ContentFacade;
 use EzSystems\BehatBundle\API\Facade\SearchFacade;
+use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\TransitionEvent;
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
@@ -28,14 +29,14 @@ class CreateContentDraft extends AbstractProcessStage implements EventSubscriber
 
     public static function getSubscribedEvents()
     {
-        return [TransitionEvent::START => 'onProcessStarted'];
+        return [Events::START => 'onProcessStarted'];
     }
 
     protected function getTransitions(): array
     {
         return [
-            TransitionEvent::DRAFT_TO_END => 0.1,
-            TransitionEvent::DRAFT_TO_PUBLISH => 0.9,
+            Events::DRAFT_TO_END => 0.1,
+            Events::DRAFT_TO_PUBLISH => 0.9,
         ];
     }
 
@@ -60,7 +61,7 @@ class CreateContentDraft extends AbstractProcessStage implements EventSubscriber
             $content = $this->contentFacade->createContentDraft($eventData->contentTypeIdentifier, $parentPath, $eventData->language);
             $eventData->content = $content;
             $this->transitionToNextStage($eventData);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $this->logger->log(LogLevel::ERROR, sprintf('Error occured during CreateContentDraft Stage: %s', $ex->getMessage()));
         }
     }

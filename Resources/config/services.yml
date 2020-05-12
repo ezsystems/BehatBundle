@@ -51,4 +51,5 @@ services:
     EzSystems\BehatBundle\Command\CreateExampleDataManagerCommand:
         arguments:
             - '%kernel.environment%'
+            - '%kernel.project_dir%'
 

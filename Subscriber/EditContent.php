@@ -12,6 +12,7 @@ use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
 use EzSystems\BehatBundle\API\ContentData\ContentDataProvider;
+use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\TransitionEvent;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -32,17 +33,17 @@ class EditContent extends AbstractProcessStage implements EventSubscriberInterfa
     protected function getTransitions(): array
     {
         return [
-            TransitionEvent::EDIT_TO_END => 0.4,
-            TransitionEvent::EDIT_TO_PUBLISH => 0.5,
-            TransitionEvent::EDIT_TO_EDIT => 0.1,
+            Events::EDIT_TO_END => 0.4,
+            Events::EDIT_TO_PUBLISH => 0.5,
+            Events::EDIT_TO_EDIT => 0.1,
         ];
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            TransitionEvent::EDIT_TO_EDIT => 'editContent',
-            TransitionEvent::PUBLISH_TO_EDIT => 'editContent',
+            Events::EDIT_TO_EDIT => 'editContent',
+            Events::PUBLISH_TO_EDIT => 'editContent',
         ];
     }
 
@@ -64,7 +65,7 @@ class EditContent extends AbstractProcessStage implements EventSubscriberInterfa
             $event->content = $updatedDraft;
 
             $this->transitionToNextStage($event);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $this->logger->log(LogLevel::ERROR, sprintf('Error occured during EditContent Stage: %s', $ex->getMessage()));
         }
     }
