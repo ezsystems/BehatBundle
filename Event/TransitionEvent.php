@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\Event;
 class TransitionEvent extends Event
 {
     /** @var string */
-    public $parentPath;
+    public $locationPath;
 
     /** @var string */
     public $contentTypeIdentifier;
@@ -22,16 +22,23 @@ class TransitionEvent extends Event
     public $content;
 
     /** @var array */
-    private $availableLanguages;
+    public $availableLanguages;
 
     /** @var array */
-    private $potentialReviewers;
+    public $editors;
 
-    public function __construct(array $potentialReviewers, string $contentTypeIdentifier, string $parentPath, array $availableLanguages)
+    /** @var string */
+    public $author;
+
+    /** @var string */
+    public $mainLanguage;
+
+    public function __construct(array $editors, string $contentTypeIdentifier, string $locationPath, array $availableLanguages, string $mainLanguage)
     {
-        $this->parentPath = $parentPath;
+        $this->locationPath = $locationPath;
         $this->availableLanguages = $availableLanguages;
         $this->contentTypeIdentifier = $contentTypeIdentifier;
-        $this->potentialReviewers = $potentialReviewers;
+        $this->editors = $editors;
+        $this->mainLanguage = $mainLanguage;
     }
 }

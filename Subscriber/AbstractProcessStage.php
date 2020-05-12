@@ -39,7 +39,7 @@ abstract class AbstractProcessStage
 
     abstract protected function getTransitions(): array;
 
-    protected function transitionToNextStage($eventData)
+    protected function transitionToNextStage($event)
     {
         $threshold = 0;
         $randomValue = $this->getRandomNumber();
@@ -58,7 +58,7 @@ abstract class AbstractProcessStage
             Assert::fail('No event was chosen, possible error in transition logic.');
         }
 
-        $this->eventDispatcher->dispatch($chosenEvent, $eventData);
+        $this->eventDispatcher->dispatch($chosenEvent, $event);
     }
 
     protected function setCurrentUser(string $user): void
@@ -80,5 +80,11 @@ abstract class AbstractProcessStage
     protected function getRandomNumber(): float
     {
         return random_int(0, 999) / 1000;
+    }
+
+    protected function getRandomValue(array $values): string
+    {
+        return current($values); // TODO: remove
+        return $values[array_rand($values, 1)];
     }
 }

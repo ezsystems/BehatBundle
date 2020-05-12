@@ -131,7 +131,7 @@ class CreateExampleDataManagerCommand extends Command
         $country = array_key_first($dataRow);
         $dataRow = $dataRow[$country];
 
-        return new InitialEvent($country, $dataRow['editors'], $dataRow['subtreePath'], $dataRow['languages'], $dataRow['contentTypes']);
+        return new InitialEvent($country, $dataRow['mainLanguage'], $dataRow['editors'], $dataRow['subtreePath'], $dataRow['languages'], $dataRow['contentTypes']);
     }
 
     private function serialize(InitialEvent $eventData): string

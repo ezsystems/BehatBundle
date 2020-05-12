@@ -11,7 +11,6 @@ namespace EzSystems\BehatBundle\Subscriber;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
 use EzSystems\BehatBundle\API\Facade\ContentFacade;
-use EzSystems\BehatBundle\API\Facade\SearchFacade;
 use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\TransitionEvent;
 use Psr\Log\LogLevel;
@@ -24,12 +23,9 @@ class CreateContentDraft extends AbstractProcessStage implements EventSubscriber
     /** @var \EzSystems\BehatBundle\API\Facade\ContentFacade */
     private $contentFacade;
 
-    /** @var \EzSystems\BehatBundle\API\Facade\SearchFacade */
-    private $searchFacade;
-
     public static function getSubscribedEvents()
     {
-        return [Events::START => 'onProcessStarted'];
+        return [Events::START_TO_DRAFT => 'createDraft'];
     }
 
     protected function getTransitions(): array
@@ -44,23 +40,21 @@ class CreateContentDraft extends AbstractProcessStage implements EventSubscriber
                                 UserService $userService,
                                 PermissionResolver $permissionResolver,
                                 LoggerInterface $logger,
-                                ContentFacade $contentFacade,
-                                SearchFacade $searchFacade)
+                                ContentFacade $contentFacade)
     {
         parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger);
         $this->contentFacade = $contentFacade;
-        $this->searchFacade = $searchFacade;
     }
 
-    public function onProcessStarted(TransitionEvent $eventData): void
+    public function createDraft(TransitionEvent $event): void
     {
-        $this->setCurrentUser($eventData->userName);
+        $event->author = $this->getRandomValue($event->editors);
+        $this->setCurrentUser($event->author);
 
         try {
-            $parentPath = $this->searchFacade->getRandomChildFromPath($eventData->parentPath);
-            $content = $this->contentFacade->createContentDraft($eventData->contentTypeIdentifier, $parentPath, $eventData->language);
-            $eventData->content = $content;
-            $this->transitionToNextStage($eventData);
+            $content = $this->contentFacade->createContentDraft($event->contentTypeIdentifier, $event->locationPath, $event->mainLanguage);
+            $event->content = $content;
+            $this->transitionToNextStage($event);
         } catch (\Exception $ex) {
             $this->logger->log(LogLevel::ERROR, sprintf('Error occured during CreateContentDraft Stage: %s', $ex->getMessage()));
         }

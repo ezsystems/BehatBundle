@@ -3,143 +3,159 @@ countries:
         editors: ['FrenchEditor1', 'FrenchEditor2', 'FrenchEditor3', 'FrenchEditor4', 'FrenchEditor5', 'FrenchEditor6', 'FrenchEditor7', 'FrenchEditor8', 'FrenchEditor9', 'FrenchEditor10']
         subtreePath: '/Europe/France'
         languages: ['fre-FR', 'eng-GB']
+        mainLanguage: 'fre-FR'
         contentTypes:
-            - shortArticle:
+            - short_article:
                 probability: 0.75
-            - longArticle:
+            - long_article:
                 probability: 0.25
     - germany:
         editors: ['GermanEditor1', 'GermanEditor2', 'GermanEditor3', 'GermanEditor4', 'GermanEditor5', 'GermanEditor6', 'GermanEditor7', 'GermanEditor8', 'GermanEditor9', 'GermanEditor10']
         subtreePath: '/Europe/Germany'
         languages: ['ger-DE', 'eng-GB']
+        mainLanguage: 'ger-DE'
         contentTypes:
-            - shortArticle:
+            - short_article:
                 probability: 0.75
-            - longArticle:
+            - long_article:
                 probability: 0.25
     - england:
         editors: ['EnglishEditor1', 'EnglishEditor2', 'EnglishEditor3', 'EnglishEditor4', 'EnglishEditor5', 'EnglishEditor6', 'EnglishEditor7', 'EnglishEditor8', 'EnglishEditor9', 'EnglishEditor10']
         subtreePath: '/Europe/England'
         languages: ['eng-GB']
+        mainLanguage: 'eng-GB'
         contentTypes:
-            - shortArticle:
+            - short_article:
                 probability: 0.75
-            - longArticle:
+            - long_article:
                 probability: 0.25
     - poland:
         editors: ['PolishEditor1', 'PolishEditor2', 'PolishEditor3', 'PolishEditor4', 'PolishEditor5', 'PolishEditor6', 'PolishEditor7', 'PolishEditor8', 'PolishEditor9', 'PolishEditor10']
         subtreePath: '/Europe/Poland'
         languages: ['pol-PL', 'eng-GB']
+        mainLanguage: 'pol-PL'
         contentTypes:
-            - shortArticle:
+            - short_article:
                 probability: 0.75
-            - longArticle:
+            - long_article:
                 probability: 0.25
     - italy:
         editors: ['ItalianEditor1', 'ItalianEditor2', 'ItalianEditor3', 'ItalianEditor4', 'ItalianEditor5', 'ItalianEditor6', 'ItalianEditor7', 'ItalianEditor8', 'ItalianEditor9', 'ItalianEditor10']
         subtreePath: '/Europe/Italy'
         languages: ['ita-IT', 'eng-GB']
+        mainLanguage: 'ita-IT'
         contentTypes:
-            - shortArticle:
+            - short_article:
                 probability: 0.75
-            - longArticle:
+            - long_article:
                 probability: 0.25
     - spain:
         editors: ['SpanishEditor1', 'SpanishEditor2', 'SpanishEditor3', 'SpanishEditor4', 'SpanishEditor5', 'SpanishEditor6', 'SpanishEditor7', 'SpanishEditor8', 'SpanishEditor9', 'SpanishEditor10']
         subtreePath: '/Europe/Spain'
         languages: ['esl-ES', 'eng-GB']
+        mainLanguage: 'esl-ES'
         contentTypes:
-            - shortArticle:
+            - short_article:
                 probability: 0.75
-            - longArticle:
+            - long_article:
                 probability: 0.25
     - malta:
         editors: ['MalteseEditor1', 'MalteseEditor2', 'MalteseEditor3', 'MalteseEditor4', 'MalteseEditor5', 'MalteseEditor6', 'MalteseEditor7', 'MalteseEditor8', 'MalteseEditor9', 'MalteseEditor10']
         subtreePath: '/Europe/Malta'
         languages: ['eng-GB']
+        mainLanguage: 'eng-GB'
         contentTypes:
-            - shortArticle:
+            - short_article:
                 probability: 0.75
-            - longArticle:
+            - long_article:
                 probability: 0.25
     - austria:
         editors: ['AustrianEditor1', 'AustrianEditor2', 'AustrianEditor3', 'AustrianEditor4', 'AustrianEditor5', 'AustrianEditor6', 'AustrianEditor7', 'AustrianEditor8', 'AustrianEditor9', 'AustrianEditor10']
         subtreePath: '/Europe/Austria'
         languages: ['ger-DE', 'eng-GB']
+        mainLanguage: 'ger-DE'
         contentTypes:
-            - shortArticle:
+            - short_article:
                 probability: 0.75
-            - longArticle:
+            - long_article:
                 probability: 0.25
     - switzerland:
         editors: ['SwissEditor1', 'SwissEditor2', 'SwissEditor3', 'SwissEditor4', 'SwissEditor5', 'SwissEditor6', 'SwissEditor7', 'SwissEditor8', 'SwissEditor9', 'SwissEditor10']
         subtreePath: '/Europe/Switzerland'
         languages: ['ger-DE', 'eng-GB']
+        mainLanguage: 'ger-DE'
         contentTypes:
-            - shortArticle:
+            - short_article:
                 probability: 0.75
-            - longArticle:
+            - long_article:
                 probability: 0.25
     - portugal:
         editors: ['PortugueseEditor1', 'PortugueseEditor2', 'PortugueseEditor3', 'PortugueseEditor4', 'PortugueseEditor5', 'PortugueseEditor6', 'PortugueseEditor7', 'PortugueseEditor8', 'PortugueseEditor9', 'PortugueseEditor10']
         subtreePath: '/Europe/Portugal'
         languages: ['por-PT', 'eng-GB']
+        mainLanguage: 'por-PT'
         contentTypes:
-            - shortArticle:
+            - short_article:
                 probability: 0.75
-            - longArticle:
+            - long_article:
                 probability: 0.25
-    - ukraine:
-        editors: ['UkrainianEditor1', 'UkrainianEditor2', 'UkrainianEditor3', 'UkrainianEditor4', 'UkrainianEditor5', 'UkrainianEditor6', 'UkrainianEditor7', 'UkrainianEditor8', 'UkrainianEditor9', 'UkrainianEditor10']
-        subtreePath: '/Europe/Ukraine'
-        languages: ['ukr-UA', 'eng-GB']
-        contentTypes:
-            - shortArticle:
-                probability: 0.75
-            - longArticle:
-                probability: 0.25
-    - sweden:
-        editors: ['SwedishEditor1', 'SwedishEditor2', 'SwedishEditor3', 'SwedishEditor4', 'SwedishEditor5', 'SwedishEditor6', 'SwedishEditor7', 'SwedishEditor8', 'SwedishEditor9', 'SwedishEditor10']
-        subtreePath: '/Europe/Sweden'
-        languages: ['swe-SE', 'eng-GB']
-        contentTypes:
-            - shortArticle:
-                probability: 0.75
-            - longArticle:
-                probability: 0.25
-    - norway:
-        editors: ['NorwegianEditor1', 'NorwegianEditor2', 'NorwegianEditor3', 'NorwegianEditor4', 'NorwegianEditor5', 'NorwegianEditor6', 'NorwegianEditor7', 'NorwegianEditor8', 'NorwegianEditor9', 'NorwegianEditor10']
-        subtreePath: '/Europe/Norway'
-        languages: ['nor-NO', 'eng-GB']
-        contentTypes:
-            - shortArticle:
-                probability: 0.75
-            - longArticle:
-                probability: 0.25
-    - finland:
-        editors: ['FinnishEditor1', 'FinnishEditor2', 'FinnishEditor3', 'FinnishEditor4', 'FinnishEditor5', 'FinnishEditor6', 'FinnishEditor7', 'FinnishEditor8', 'FinnishEditor9', 'FinnishEditor10']
-        subtreePath: '/Europe/Finland'
-        languages: ['fin-FI', 'eng-GB']
-        contentTypes:
-            - shortArticle:
-                probability: 0.75
-            - longArticle:
-                probability: 0.25
-    - denmark:
-        editors: ['DanishEditor1', 'DanishEditor2', 'DanishEditor3', 'DanishEditor4', 'DanishEditor5', 'DanishEditor6', 'DanishEditor7', 'DanishEditor8', 'DanishEditor9', 'DanishEditor10']
-        subtreePath: '/Europe/Denmark'
-        languages: ['dan-DK', 'eng-GB']
-        contentTypes:
-            - shortArticle:
-                probability: 0.75
-            - longArticle:
-                probability: 0.25
-    - croatia:
-        editors: ['CroatianEditor1', 'CroatianEditor2', 'CroatianEditor3', 'CroatianEditor4', 'CroatianEditor5', 'CroatianEditor6', 'CroatianEditor7', 'CroatianEditor8', 'CroatianEditor9', 'CroatianEditor10']
-        subtreePath: '/Europe/Crotia'
-        languages: ['cro-HR', 'eng-GB']
-        contentTypes:
-            - shortArticle:
-                probability: 0.75
-            - longArticle:
-                probability: 0.25
+    # - ukraine:
+    #     editors: ['UkrainianEditor1', 'UkrainianEditor2', 'UkrainianEditor3', 'UkrainianEditor4', 'UkrainianEditor5', 'UkrainianEditor6', 'UkrainianEditor7', 'UkrainianEditor8', 'UkrainianEditor9', 'UkrainianEditor10']
+    #     subtreePath: '/Europe/Ukraine'
+    #     languages: ['ukr-UA', 'eng-GB']
+        # mainLanguage: 'ukr-UA'
+    #     contentTypes:
+    #         - short_article:
+    #             probability: 0.75
+    #         - long_article:
+    #             probability: 0.25
+    # - sweden:
+    #     editors: ['SwedishEditor1', 'SwedishEditor2', 'SwedishEditor3', 'SwedishEditor4', 'SwedishEditor5', 'SwedishEditor6', 'SwedishEditor7', 'SwedishEditor8', 'SwedishEditor9', 'SwedishEditor10']
+    #     subtreePath: '/Europe/Sweden'
+    #     languages: ['swe-SE', 'eng-GB']
+            # mainLanguage: 'swe-SE'
+    #     contentTypes:
+    #         - short_article:
+    #             probability: 0.75
+    #         - long_article:
+    #             probability: 0.25
+    # - norway:
+    #     editors: ['NorwegianEditor1', 'NorwegianEditor2', 'NorwegianEditor3', 'NorwegianEditor4', 'NorwegianEditor5', 'NorwegianEditor6', 'NorwegianEditor7', 'NorwegianEditor8', 'NorwegianEditor9', 'NorwegianEditor10']
+    #     subtreePath: '/Europe/Norway'
+    #     languages: ['nor-NO', 'eng-GB']
+            # mainLanguage: 'nor-NO'
+    #     contentTypes:
+    #         - short_article:
+    #             probability: 0.75
+    #         - long_article:
+    #             probability: 0.25
+    # - finland:
+    #     editors: ['FinnishEditor1', 'FinnishEditor2', 'FinnishEditor3', 'FinnishEditor4', 'FinnishEditor5', 'FinnishEditor6', 'FinnishEditor7', 'FinnishEditor8', 'FinnishEditor9', 'FinnishEditor10']
+    #     subtreePath: '/Europe/Finland'
+    #     languages: ['fin-FI', 'eng-GB']
+                # mainLanguage: 'fin-FI'
+    #     contentTypes:
+    #         - short_article:
+    #             probability: 0.75
+    #         - long_article:
+    #             probability: 0.25
+    # - denmark:
+    #     editors: ['DanishEditor1', 'DanishEditor2', 'DanishEditor3', 'DanishEditor4', 'DanishEditor5', 'DanishEditor6', 'DanishEditor7', 'DanishEditor8', 'DanishEditor9', 'DanishEditor10']
+    #     subtreePath: '/Europe/Denmark'
+    #     languages: ['dan-DK', 'eng-GB']
+                # mainLanguage: 'dan-DK'
+    #     contentTypes:
+    #         - short_article:
+    #             probability: 0.75
+    #         - long_article:
+    #             probability: 0.25
+    # - croatia:
+    #     editors: ['CroatianEditor1', 'CroatianEditor2', 'CroatianEditor3', 'CroatianEditor4', 'CroatianEditor5', 'CroatianEditor6', 'CroatianEditor7', 'CroatianEditor8', 'CroatianEditor9', 'CroatianEditor10']
+    #     subtreePath: '/Europe/Crotia'
+    #     languages: ['cro-HR', 'eng-GB']
+                # mainLanguage: 'cro-HR'
+    #     contentTypes:
+    #         - short_article:
+    #             probability: 0.75
+    #         - long_article:
+    #             probability: 0.25
