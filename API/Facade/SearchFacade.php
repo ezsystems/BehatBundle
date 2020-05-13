@@ -12,6 +12,7 @@ use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
+use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LocationId;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalNot;
@@ -52,6 +53,7 @@ class SearchFacade
         ]);
 
         $query->limit = 100;
+        $query->offset = random_int(0, 1000);
 
         $results = $this->searchService->findLocations($query)->searchHits;
 
@@ -61,5 +63,29 @@ class SearchFacade
         $location = $results[$randomInt]->valueObject;
 
         return $this->urlAliasService->reverseLookup($location)->path;
+    }
+
+    public function getRandomContentIds(int $number)
+    {
+        $query = new Query();
+        $query->limit = 50;
+        $query->performCount = false;
+        $query->offset = random_int(0, 1000);
+
+        $results = $this->searchService->findContent($query)->searchHits;
+
+        $indices = array_rand($results, $number);
+
+        if ($number === 1) {
+            return $results[$indices]->valueObject->contentInfo->id;
+        }
+
+        $randomContentIDs = [];
+
+        foreach ($indices as $i) {
+            $randomContentIDs[] = $results[$i]->valueObject->contentInfo->id;
+        }
+
+        return $randomContentIDs;
     }
 }

@@ -13,6 +13,7 @@ use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\Core\FieldType\Relation\Value;
+use EzSystems\BehatBundle\API\Facade\SearchFacade;
 use EzSystems\BehatBundle\Helper\ArgumentParser;
 
 class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
@@ -32,13 +33,16 @@ class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
     /** @var ArgumentParser */
     private $argumentParser;
 
+    /** @var SearchFacade */
+    protected $searchFacade;
+
     public function __construct(SearchService $searchService, ContentService $contentService, LocationService $locationSerice, URLAliasService $urlAliasSerivce, ArgumentParser $argumentParser)
     {
-        $this->searchService = $searchService;
         $this->contentService = $contentService;
         $this->locationService = $locationSerice;
         $this->urlAliasService = $urlAliasSerivce;
         $this->argumentParser = $argumentParser;
+        $this->searchFacade = $searchFacade;
     }
 
     public function supports(string $fieldTypeIdentifier): bool
@@ -48,30 +52,7 @@ class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
 
     public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
-        return new Value($this->getRandomContentIds(1));
-    }
-
-    protected function getRandomContentIds(int $number)
-    {
-        $query = new Query();
-        $query->limit = 50;
-        $query->performCount = false;
-
-        $results = $this->searchService->findContent($query)->searchHits;
-
-        $indices = array_rand($results, $number);
-
-        if ($number === 1) {
-            return $results[$indices]->valueObject->contentInfo->id;
-        }
-
-        $randomContentIDs = [];
-
-        foreach ($indices as $i) {
-            $randomContentIDs[] = $results[$i]->valueObject->contentInfo->id;
-        }
-
-        return $randomContentIDs;
+        return new Value($this->searchFacade->getRandomContentIds(1));
     }
 
     public function parseFromString(string $value)
