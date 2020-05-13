@@ -58,7 +58,8 @@ class EditContent extends AbstractProcessStage implements EventSubscriberInterfa
     {
         try {
             $this->contentDataProvider->setContentTypeIdentifier($event->contentTypeIdentifier);
-            $contentUpdateStruct = $this->contentDataProvider->getRandomContentUpdateData($this->getRandomValue($event->availableLanguages));
+            $this->setCurrentUser($this->getRandomValue($event->editors));
+            $contentUpdateStruct = $this->contentDataProvider->getRandomContentUpdateData($event->mainLanguage, $this->getRandomValue($event->availableLanguages));
 
             $contentDraft = $this->contentService->createContentDraft($event->content->contentInfo);
             $updatedDraft = $this->contentService->updateContent($contentDraft->getVersionInfo(), $contentUpdateStruct);

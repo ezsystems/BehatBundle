@@ -50,17 +50,18 @@ class ContentDataProvider
     {
         $contentType = $this->contentTypeService->loadContentTypeByIdentifier($this->contentTypeIdentifier);
         $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, $language);
-        $contentCreateStruct->modificationDate = $this->randomDataGenerator->getRandomDate();
+        $contentCreateStruct->modificationDate = $this->randomDataGenerator->getRandomDateFromThePast();
 
-        return $this->fillContentStructWithData($contentType, $language, $contentCreateStruct);
+        return $this->fillContentStructWithData($contentType, $language, $language, $contentCreateStruct);
     }
 
-    public function getRandomContentUpdateData(string $language): ContentUpdateStruct
+    public function getRandomContentUpdateData(string $mainLanguage, string $language): ContentUpdateStruct
     {
         $contentType = $this->contentTypeService->loadContentTypeByIdentifier($this->contentTypeIdentifier);
         $contentUpdateStruct = $this->contentService->newContentUpdateStruct();
+        $contentUpdateStruct->initialLanguageCode = $language;
 
-        return $this->fillContentStructWithData($contentType, $language, $contentUpdateStruct);
+        return $this->fillContentStructWithData($contentType, $mainLanguage, $language, $contentUpdateStruct);
     }
 
     public function getFilledContentDataStruct(ContentStruct $contentStruct, $contentItemData, $language): ContentStruct
@@ -84,11 +85,14 @@ class ContentDataProvider
         return $contentStruct;
     }
 
-    private function fillContentStructWithData(ContentType $contentType, string $language, ContentStruct $contentStruct): ContentStruct
+    private function fillContentStructWithData(ContentType $contentType, string $mainLanguage, string $language, ContentStruct $contentStruct): ContentStruct
     {
         $fieldDefinitions = $contentType->getFieldDefinitions();
 
         foreach ($fieldDefinitions as $field) {
+            if (!$field->isTranslatable && $mainLanguage !== $language) {
+                continue;
+            }
             $fieldData = $this->getRandomFieldData($this->contentTypeIdentifier, $field->identifier, $field->fieldTypeIdentifier, $language);
             $contentStruct->setField($field->identifier, $fieldData, $language);
         }
