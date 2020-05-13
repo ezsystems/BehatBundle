@@ -22,7 +22,7 @@ Feature: Create Content Items used for volue testing
       | Norway      | Norway      |
       | Finland     | Finland     |
       | Denmark     | Denmark     |
-      | Crotia      | Crotia      |
+      | Croatia     | Croatia     |
     And I create "Folder" Content items in "Europe/France" in "eng-GB"
       | name        | short_name  |
       | Paris       | Paris       |
@@ -131,7 +131,7 @@ Feature: Create Content Items used for volue testing
       | Vernier    | Vernier    |
       | Chur       | Chur       |
       | Thun       | Thun       |
-    And I create "Folder" Content items in "Europe/Portugal" in "por-PT"
+    And I create "Folder" Content items in "Europe/Portugal" in "eng-GB"
       | name       | short_name |
       | Lisbon     | Lisbon     |
       | Porto      | Porto      |
@@ -143,7 +143,7 @@ Feature: Create Content Items used for volue testing
       | Setubal    | Setubal    |
       | Queluz     | Queluz     |
       | Viseu      | Viseu      |
-    And I create "Folder" Content items in "Europe/Ukraine" in "ukr-UA"
+    And I create "Folder" Content items in "Europe/Ukraine" in "eng-GB"
       | name       | short_name |
       | Kyiv       | Kyiv       |
       | Kharkiv    | Kharkiv    |
@@ -155,7 +155,7 @@ Feature: Create Content Items used for volue testing
       | Mykolaiv   | Mykolaiv   |
       | Mariupol   | Mariupol   |
       | Luhansk    | Luhansk    |
-    And I create "Folder" Content items in "Europe/Sweden" in "swe-SE"
+    And I create "Folder" Content items in "Europe/Sweden" in "eng-GB"
       | name        | short_name  |
       | Stockholm   | Stockholm   |
       | Gothenburg  | Gothenburg  |
@@ -167,7 +167,7 @@ Feature: Create Content Items used for volue testing
       | Uppsala     | Uppsala     |
       | Lund        | Lund        |
       | Halmstad    | Halmstad    |
-    And I create "Folder" Content items in "Europe/Norway" in "nor-NO"
+    And I create "Folder" Content items in "Europe/Norway" in "eng-GB"
       | name         | short_name   |
       | Oslo         | Oslo         |
       | Bergen       | Bergen       |
@@ -179,31 +179,31 @@ Feature: Create Content Items used for volue testing
       | Skien        | Skien        |
       | Drammen      | Drammen      |
       | Sarpsborg    | Sarpsborg    |
-    And I create "Folder" Content items in "Europe/Finland" in "fin-FI"
+    And I create "Folder" Content items in "Europe/Finland" in "eng-GB"
       | name         | short_name   |
       | Helsinki     | Helsinki     |
       | Espoo        | Espoo        |
-      | Tampere 	 | Tampere 	    |
+      | Tampere 	   | Tampere 	    |
       | Vantaa       | Vantaa       |
       | Oulu         | Oulu         |
       | Turku        | Turku        |
       | Lahti        | Lahti        |
       | Kuopio       | Kuopio       |
-      | Pori 	     | Pori 	    |
+      | Pori 	       | Pori 	      |
       | Kouvola      | Kouvola      |
-    And I create "Folder" Content items in "Europe/Denmark" in "dan-DK"
+    And I create "Folder" Content items in "Europe/Denmark" in "eng-GB"
       | name         | short_name   |
-      | Copenhagen      | Copenhagen      |
-      |  	Aarhus        |  	Aarhus        |
-      |  	Odense 	 |  	Odense 	    |
-      | Aalborg       | Aalborg       |
-      | Esbjerg         | Esbjerg         |
-      | Randers        | Randers        |
-      |  	Kolding        |  	Kolding        |
-      | Horsens       | Horsens       |
-      |  	Vejle 	     |  	Vejle 	    |
-      | Roskilde      | Roskilde      |
-    And I create "Folder" Content items in "Europe/Croatia" in "cro-HR"
+      | Copenhagen   | Copenhagen   |
+      | Aarhus       | Aarhus       |
+      | Odense 	     | Odense 	    |
+      | Aalborg      | Aalborg      |
+      | Esbjerg      | Esbjerg      |
+      | Randers      | Randers      |
+      | Kolding      | Kolding      |
+      | Horsens      | Horsens      |
+      | Vejle 	     | Vejle 	      |
+      | Roskilde     | Roskilde     |
+    And I create "Folder" Content items in "Europe/Croatia" in "eng-GB"
       | name         | short_name   |
       | Zagreb       | Zagreb       |
       | Split        | Split        |

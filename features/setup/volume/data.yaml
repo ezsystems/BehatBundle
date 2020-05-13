@@ -33,20 +33,28 @@ countries:
         languages: ['eng-GB']
         mainLanguage: 'eng-GB'
         contentTypes:
-            - short_article:
-                probability: 0.75
-            - long_article:
+            - volume_short_article:
+                probability: 0.6
+            - volume_long_article:
                 probability: 0.25
+            - volume_page:
+                probability: 0.10
+            - volume_form:
+                probability: 0.05
     - poland:
         editors: ['PolishEditor1', 'PolishEditor2', 'PolishEditor3', 'PolishEditor4', 'PolishEditor5', 'PolishEditor6', 'PolishEditor7', 'PolishEditor8', 'PolishEditor9', 'PolishEditor10']
         subtreePath: '/Europe/Poland'
         languages: ['pol-PL', 'eng-GB']
         mainLanguage: 'pol-PL'
         contentTypes:
-            - short_article:
-                probability: 0.75
-            - long_article:
+            - volume_short_article:
+                probability: 0.6
+            - volume_long_article:
                 probability: 0.25
+            - volume_page:
+                probability: 0.10
+            - volume_form:
+                probability: 0.05
     - italy:
         editors: ['ItalianEditor1', 'ItalianEditor2', 'ItalianEditor3', 'ItalianEditor4', 'ItalianEditor5', 'ItalianEditor6', 'ItalianEditor7', 'ItalianEditor8', 'ItalianEditor9', 'ItalianEditor10']
         subtreePath: '/Europe/Italy'
@@ -149,7 +157,7 @@ countries:
         editors: ['SwedishEditor1', 'SwedishEditor2', 'SwedishEditor3', 'SwedishEditor4', 'SwedishEditor5', 'SwedishEditor6', 'SwedishEditor7', 'SwedishEditor8', 'SwedishEditor9', 'SwedishEditor10']
         subtreePath: '/Europe/Sweden'
         languages: ['swe-SE', 'eng-GB']
-            mainLanguage: 'swe-SE'
+        mainLanguage: 'swe-SE'
         contentTypes:
             - volume_short_article:
                 probability: 0.6
@@ -163,7 +171,7 @@ countries:
         editors: ['NorwegianEditor1', 'NorwegianEditor2', 'NorwegianEditor3', 'NorwegianEditor4', 'NorwegianEditor5', 'NorwegianEditor6', 'NorwegianEditor7', 'NorwegianEditor8', 'NorwegianEditor9', 'NorwegianEditor10']
         subtreePath: '/Europe/Norway'
         languages: ['nor-NO', 'eng-GB']
-            mainLanguage: 'nor-NO'
+        mainLanguage: 'nor-NO'
         contentTypes:
             - volume_short_article:
                 probability: 0.6
@@ -177,7 +185,7 @@ countries:
         editors: ['FinnishEditor1', 'FinnishEditor2', 'FinnishEditor3', 'FinnishEditor4', 'FinnishEditor5', 'FinnishEditor6', 'FinnishEditor7', 'FinnishEditor8', 'FinnishEditor9', 'FinnishEditor10']
         subtreePath: '/Europe/Finland'
         languages: ['fin-FI', 'eng-GB']
-                mainLanguage: 'fin-FI'
+        mainLanguage: 'fin-FI'
         contentTypes:
             - volume_short_article:
                 probability: 0.6
@@ -191,7 +199,7 @@ countries:
         editors: ['DanishEditor1', 'DanishEditor2', 'DanishEditor3', 'DanishEditor4', 'DanishEditor5', 'DanishEditor6', 'DanishEditor7', 'DanishEditor8', 'DanishEditor9', 'DanishEditor10']
         subtreePath: '/Europe/Denmark'
         languages: ['dan-DK', 'eng-GB']
-                mainLanguage: 'dan-DK'
+        mainLanguage: 'dan-DK'
         contentTypes:
             - volume_short_article:
                 probability: 0.6
@@ -203,9 +211,9 @@ countries:
                 probability: 0.05
     - croatia:
         editors: ['CroatianEditor1', 'CroatianEditor2', 'CroatianEditor3', 'CroatianEditor4', 'CroatianEditor5', 'CroatianEditor6', 'CroatianEditor7', 'CroatianEditor8', 'CroatianEditor9', 'CroatianEditor10']
-        subtreePath: '/Europe/Crotia'
+        subtreePath: '/Europe/Croatia'
         languages: ['cro-HR', 'eng-GB']
-                mainLanguage: 'cro-HR'
+        mainLanguage: 'cro-HR'
         contentTypes:
             - volume_short_article:
                 probability: 0.6
@@ -215,3 +223,4 @@ countries:
                 probability: 0.10
             - volume_form:
                 probability: 0.05
+

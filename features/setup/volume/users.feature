@@ -52,6 +52,6 @@ Feature: Create languages required for volume testing
     | UkrainianEditors  | UkrainianEditor  | UkrainianEditorRole  | Ukraine      |
     | SwedishEditors    | SwedishEditor    | SwedishEditorRole    | Sweden       |
     | NorwegianeEditors | NorwegianEditor  | NorwegianEditorRole  | Norway       |
-    | FinnishEditors    | FinnisheEditor   | FinnishEditorRole    | Finland      |
-    | DanishEditors     | DanishdEditor    | DanishEditorRole     | Denmark      |
-    | CrotianEditors    | CrotiamEditor    | CroatianEditorRole   | Croatia      |
+    | FinnishEditors    | FinnishEditor    | FinnishEditorRole    | Finland      |
+    | DanishEditors     | DanishEditor     | DanishEditorRole     | Denmark      |
+    | CroatianEditors   | CroatianEditor   | CroatianEditorRole   | Croatia      |
