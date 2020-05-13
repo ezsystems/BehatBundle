@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\API\Facade;
 
+use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\URLAliasService;
@@ -30,12 +31,17 @@ class SearchFacade
 
     /** @var \eZ\Publish\API\Repository\SearchService */
     private $searchService;
+    /**
+     * @var ContentService
+     */
+    private $contentService;
 
-    public function __construct(URLAliasService $urlAliasService, LocationService $locationService, SearchService $searchService)
+    public function __construct(URLAliasService $urlAliasService, LocationService $locationService, SearchService $searchService, ContentService $contentService)
     {
         $this->urlAliasService = $urlAliasService;
         $this->locationService = $locationService;
         $this->searchService = $searchService;
+        $this->contentService = $contentService;
     }
 
     public function getRandomChildFromPath(string $path): string
@@ -53,7 +59,7 @@ class SearchFacade
         ]);
 
         $query->limit = 100;
-        $query->offset = random_int(0, 1000);
+//        $query->offset = random_int(0, 1000);
 
         $results = $this->searchService->findLocations($query)->searchHits;
 
@@ -70,7 +76,7 @@ class SearchFacade
         $query = new Query();
         $query->limit = 50;
         $query->performCount = false;
-        $query->offset = random_int(0, 1000);
+//        $query->offset = random_int(0, 10);
 
         $results = $this->searchService->findContent($query)->searchHits;
 
@@ -87,5 +93,12 @@ class SearchFacade
         }
 
         return $randomContentIDs;
+    }
+
+    public function getRandomLocationID(): int
+    {
+        $contentId = $this->getRandomContentIds(1);
+
+        return $this->contentService->loadContent($contentId)->contentInfo->mainLocationId;
     }
 }

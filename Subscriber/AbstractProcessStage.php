@@ -10,6 +10,7 @@ namespace EzSystems\BehatBundle\Subscriber;
 
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
+use eZ\Publish\API\Repository\Values\User\User;
 use PHPUnit\Framework\Assert;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -67,6 +68,12 @@ abstract class AbstractProcessStage
         $this->permissionResolver->setCurrentUserReference($user);
     }
 
+    protected function getCurrentUser(): User
+    {
+        $userRef = $this->permissionResolver->getCurrentUserReference();
+        return $this->userService->loadUser($userRef->getUserId());
+    }
+
     protected function validateTransitions(): void
     {
         $sum = 0;
@@ -84,7 +91,6 @@ abstract class AbstractProcessStage
 
     protected function getRandomValue(array $values): string
     {
-        return current($values); // TODO: remove
         return $values[array_rand($values, 1)];
     }
 }

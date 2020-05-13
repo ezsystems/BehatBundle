@@ -18,9 +18,6 @@ use EzSystems\BehatBundle\Helper\ArgumentParser;
 
 class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
 {
-    /** @var SearchService */
-    private $searchService;
-
     /** @var ContentService */
     private $contentService;
 
@@ -36,7 +33,7 @@ class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
     /** @var SearchFacade */
     protected $searchFacade;
 
-    public function __construct(SearchService $searchService, ContentService $contentService, LocationService $locationSerice, URLAliasService $urlAliasSerivce, ArgumentParser $argumentParser)
+    public function __construct(SearchFacade $searchFacade, ContentService $contentService, LocationService $locationSerice, URLAliasService $urlAliasSerivce, ArgumentParser $argumentParser)
     {
         $this->contentService = $contentService;
         $this->locationService = $locationSerice;
