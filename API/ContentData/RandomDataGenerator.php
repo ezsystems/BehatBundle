@@ -42,4 +42,9 @@ class RandomDataGenerator
 
         return self::$faker;
     }
+
+    public function getRandomDate(): DateTime
+    {
+        return $this->getFaker()->dateTimeThisCentury();
+    }
 }

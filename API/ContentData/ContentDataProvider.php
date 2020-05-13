@@ -26,10 +26,14 @@ class ContentDataProvider
     /** @var FieldTypeDataProviderInterface[] */
     private $fieldTypeDataProviders;
 
-    public function __construct(ContentTypeService $contentTypeService, ContentService $contentService)
+    /** @var RandomDataGenerator */
+    private $randomDataGenerator;
+
+    public function __construct(ContentTypeService $contentTypeService, ContentService $contentService, RandomDataGenerator $randomDataGenerator)
     {
         $this->contentTypeService = $contentTypeService;
         $this->contentService = $contentService;
+        $this->randomDataGenerator = $randomDataGenerator;
     }
 
     public function addFieldTypeDataProvider(FieldTypeDataProviderInterface $fieldTypeDataProvider)
@@ -46,6 +50,7 @@ class ContentDataProvider
     {
         $contentType = $this->contentTypeService->loadContentTypeByIdentifier($this->contentTypeIdentifier);
         $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, $language);
+        $contentCreateStruct->modificationDate = $this->randomDataGenerator->getRandomDate();
 
         return $this->fillContentStructWithData($contentType, $language, $contentCreateStruct);
     }
