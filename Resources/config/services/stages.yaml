@@ -19,3 +19,7 @@ services:
     EzSystems\BehatBundle\Subscriber\InitialStage:
         tags:
             - kernel.event_subscriber
+
+    EzSystems\BehatBundle\Subscriber\Review:
+        tags:
+            - kernel.event_subscriber

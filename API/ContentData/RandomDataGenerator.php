@@ -48,4 +48,14 @@ class RandomDataGenerator
     {
         return $this->getFaker()->dateTimeThisCentury();
     }
+
+    public function getRandomTextLine(): string
+    {
+        return $this->getFaker()->text();
+    }
+
+    public function getRandomNumberForProbability(): float
+    {
+        return random_int(0, 999) / 1000;
+    }
 }

@@ -20,7 +20,7 @@ class RichTextDataProvider extends AbstractFieldTypeDataProvider
     private const COMPLEX_RICHTEXT_XML = '<section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ez.no/xmlns/ezpublish/docbook/xhtml" xmlns:ezcustom="http://ez.no/xmlns/ezpublish/docbook/custom" version="5.0-variant ezpublish-1.0">
 <title ezxhtml:level="2">%s</title>
 <para>Example embed: <ezembedinline xlink:href="ezcontent://%d" view="embed-inline"/></para>
-<para xml:id="anchor" ezxhtml:class="ez-has-anchor">Example link: <link xlink:href="ezlocation://%d" xlink:show="none">%s</link></para>
+<para><link xlink:href="%s" xlink:show="none" xlink:title="%s">%s</link></para>
 </section>';
 
     /**
@@ -43,13 +43,22 @@ class RichTextDataProvider extends AbstractFieldTypeDataProvider
     {
         $this->setLanguage($language);
 
-        return sprintf(
-            self::COMPLEX_RICHTEXT_XML,
-            $this->getFaker()->realText(),
-            $this->searchFacade->getRandomContentIds(1),
-            $this->searchFacade->getRandomLocationId(),
-            $this->getFaker()->realText()
-        );
+        $randomNumber = $this->randomDataGenerator->getRandomNumberForProbability();
+
+//        if ($randomNumber <= 0.6) {
+            return sprintf(self::SIMPLE_RICHTEXT_XML, $this->getFaker()->realText());
+//        }
+
+        $urlDescription = $this->getFaker()->realText();
+
+//        return sprintf(
+//            self::COMPLEX_RICHTEXT_XML,
+//            $this->getFaker()->realText(),
+//            $this->searchFacade->getRandomContentIds(1),
+//            $this->getFaker()->url,
+//            $urlDescription,
+//            $urlDescription
+//        );
     }
 
     public function parseFromString(string $value)

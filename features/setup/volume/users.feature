@@ -33,6 +33,7 @@ Feature: Create languages required for volume testing
       | content     | edit               |
       | section     | view               |
       | content     | reverserelatedlist |
+      | workflow    | change_stage      |
     And I assign user group "<groupName>" to role "<roleName>Limited" with limitations:
       | limitationType      | limitationValue        |
       | Subtree             | /Europe/<rootItemName> |
