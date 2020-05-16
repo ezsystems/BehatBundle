@@ -94,7 +94,7 @@ class ContentDataProvider
                 continue;
             }
             $fieldData = $this->getRandomFieldData($this->contentTypeIdentifier, $field->identifier, $field->fieldTypeIdentifier, $language);
-            $contentStruct->setField($field->identifier, $fieldData, $language);
+            $contentStruct->setField($field->identifier, $fieldData);
         }
 
         return $contentStruct;

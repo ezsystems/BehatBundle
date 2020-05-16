@@ -15,6 +15,7 @@ class Events
 
     public const REVIEW_TO_REVIEW = 'volume_testing.transition.review_to_review';
     public const REVIEW_TO_PUBLISH = 'volume_testing.transition.review_to_publish';
+    public const REVIEW_TO_PUBLISH_LATER = 'volume_testing.transition.review_to_publish_later';
     public const REVIEW_TO_END = 'volume_testing.transition.review_to_end';
 
     public const PUBLISH_TO_END = 'volume_testing.transition.publish_to_end';
@@ -22,4 +23,6 @@ class Events
 
     public const EDIT_TO_REVIEW = 'volume_testing.transition.edit_to_review';
     public const EDIT_TO_END = 'volume_testing.transition.edit_to_end';
+
+    public const PUBLISH_LATER_TO_END = 'volume_testing.transition.publish_later_to_end';
 }

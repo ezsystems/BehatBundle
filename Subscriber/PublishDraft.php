@@ -12,6 +12,7 @@ use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
 use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
+use EzSystems\BehatBundle\API\Facade\WorkflowFacade;
 use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\TransitionEvent;
 use EzSystems\EzPlatformWorkflow\Registry\WorkflowRegistryInterface;
@@ -27,31 +28,24 @@ class PublishDraft extends AbstractProcessStage implements EventSubscriberInterf
      * @var \eZ\Publish\API\Repository\ContentService
      */
     private $contentService;
+
     /**
-     * @var WorkflowService
+     * @var WorkflowFacade
      */
-    private $workflowService;
-    /**
-     * @var WorkflowRegistryInterface
-     */
-    private $workflowRegistry;
-    /**
-     * @var RandomDataGenerator
-     */
-    private $randomDataGenerator;
+    private $workflowFacade;
 
     protected function getTransitions(): array
     {
         return [
-            Events::PUBLISH_TO_END => 0.7,
-            Events::PUBLISH_TO_EDIT => 0.3,
+            Events::PUBLISH_TO_END => 0.8,
+            Events::PUBLISH_TO_EDIT => 0.2,
         ];
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            Events::REVIEW_TO_PUBLISH => 'publishDraft',
+            Events::REVIEW_TO_PUBLISH => 'execute',
         ];
     }
 
@@ -60,31 +54,19 @@ class PublishDraft extends AbstractProcessStage implements EventSubscriberInterf
                                 PermissionResolver $permissionResolver,
                                 LoggerInterface $logger,
                                 ContentService $contentService,
-                                WorkflowService $workflowService,
-                                WorkflowRegistryInterface $workflowRegistry,
+                                WorkflowFacade $workflowFacade,
                                 RandomDataGenerator $randomDataGenerator)
     {
-        parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger);
+        parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger, $randomDataGenerator);
         $this->contentService = $contentService;
-        $this->workflowService = $workflowService;
-        $this->workflowRegistry = $workflowRegistry;
         $this->randomDataGenerator = $randomDataGenerator;
+        $this->workflowFacade = $workflowFacade;
     }
 
-    public function publishDraft(TransitionEvent $event)
+    protected function doExecute(TransitionEvent $event): void
     {
-        try {
-            $transitionName = 'done';
-            $workflows = $this->workflowRegistry->getSupportedWorkflows($event->content);
-            $workflow = array_shift($workflows);
-            $workflowMetadata = $this->workflowService->loadWorkflowMetadataForContent($event->content, $workflow->getName());
-            $this->workflowService->apply($workflowMetadata, $transitionName, $this->randomDataGenerator->getRandomTextLine());
-            $event->content = $this->contentService->publishVersion($event->content->versionInfo);
-        } catch (\Exception $ex) {
-            $this->logger->log(LogLevel::ERROR, sprintf('Error occured during CreateContentDraft Stage: %s', $ex->getMessage()));
-            return;
-        }
-
-        $this->transitionToNextStage($event);
+        $transitionName = 'done';
+        $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
+        $event->content = $this->contentService->publishVersion($event->content->versionInfo);
     }
 }

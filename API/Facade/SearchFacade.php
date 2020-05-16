@@ -36,6 +36,8 @@ class SearchFacade
      */
     private $contentService;
 
+    private const ROOT_LOCATION_ID = 2;
+
     public function __construct(URLAliasService $urlAliasService, LocationService $locationService, SearchService $searchService, ContentService $contentService)
     {
         $this->urlAliasService = $urlAliasService;
@@ -59,7 +61,6 @@ class SearchFacade
         ]);
 
         $query->limit = 100;
-//        $query->offset = random_int(0, 1000);
 
         $results = $this->searchService->findLocations($query)->searchHits;
 
@@ -76,7 +77,7 @@ class SearchFacade
         $query = new Query();
         $query->limit = 50;
         $query->performCount = false;
-//        $query->offset = random_int(0, 10);
+        $query->filter = new LogicalNot(new LocationId(self::ROOT_LOCATION_ID));
 
         $results = $this->searchService->findContent($query)->searchHits;
 

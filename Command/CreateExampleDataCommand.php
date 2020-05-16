@@ -60,6 +60,7 @@ class CreateExampleDataCommand extends Command
         $stats = sprintf('Starting: %s', $initialData->country);
 
         $this->logger->log(LogLevel::INFO, $stats);
+        $output->writeln($stats);
         $this->stopwatch->start('phase');
 
         for ($i = 0; $i < $iterations; ++$i) {
@@ -68,8 +69,9 @@ class CreateExampleDataCommand extends Command
 
         $event = $this->stopwatch->stop('phase');
 
-        $statsEnd = sprintf('Ending, duration: %d s, memory: %s MB', $event->getDuration() / 1000, $event->getMemory() / 1024 / 1024);
+        $statsEnd = sprintf('Ending %s, duration: %d s, memory: %s MB', $initialData->country, $event->getDuration() / 1000, $event->getMemory() / 1024 / 1024);
         $this->logger->log(LogLevel::INFO, $statsEnd);
+        $output->writeln($statsEnd);
     }
 
     private function parseInputData(string $serializedTransitionEvent): InitialEvent

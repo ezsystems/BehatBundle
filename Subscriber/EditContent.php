@@ -13,6 +13,7 @@ use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
 use EzSystems\BehatBundle\API\ContentData\ContentDataProvider;
 use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
+use EzSystems\BehatBundle\API\Facade\WorkflowFacade;
 use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\TransitionEvent;
 use EzSystems\EzPlatformWorkflow\Registry\WorkflowRegistryInterface;
@@ -33,31 +34,23 @@ class EditContent extends AbstractProcessStage implements EventSubscriberInterfa
      * @var ContentService
      */
     private $contentService;
+
     /**
-     * @var WorkflowServiceInterface
+     * @var WorkflowFacade
      */
-    private $workflowService;
-    /**
-     * @var WorkflowRegistryInterface
-     */
-    private $workflowRegistry;
-    /**
-     * @var RandomDataGenerator
-     */
-    private $randomDataGenerator;
+    private $workflowFacade;
 
     protected function getTransitions(): array
     {
         return [
-            Events::EDIT_TO_END => 0.1,
-            Events::EDIT_TO_REVIEW => 0.9,
+            Events::EDIT_TO_REVIEW => 1,
         ];
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            Events::PUBLISH_TO_EDIT => 'editContent',
+            Events::PUBLISH_TO_EDIT => 'execute',
         ];
     }
 
@@ -67,40 +60,27 @@ class EditContent extends AbstractProcessStage implements EventSubscriberInterfa
                                 EventDispatcher $eventDispatcher,
                                 UserService $userService,
                                 PermissionResolver $permissionResolver,
-                                WorkflowServiceInterface $workflowService,
-                                WorkflowRegistryInterface $workflowRegistry,
+                                WorkflowFacade $workflowFacade,
                                 RandomDataGenerator $randomDataGenerator)
     {
-        parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger);
+        parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger, $randomDataGenerator);
         $this->contentDataProvider = $contentDataProvider;
         $this->contentService = $contentService;
-        $this->workflowService = $workflowService;
-        $this->workflowRegistry = $workflowRegistry;
-        $this->randomDataGenerator = $randomDataGenerator;
+        $this->workflowFacade = $workflowFacade;
     }
 
-    public function editContent(TransitionEvent $event)
+    protected function doExecute(TransitionEvent $event): void
     {
-        try {
-            $this->contentDataProvider->setContentTypeIdentifier($event->contentTypeIdentifier);
-            $this->setCurrentUser($this->getRandomValue($event->editors));
-            $language = $this->getRandomValue($event->availableLanguages);
-            $this->randomDataGenerator->setLanguage($language);
+        $this->contentDataProvider->setContentTypeIdentifier($event->contentTypeIdentifier);
+        $this->setCurrentUser($this->getRandomValue($event->editors));
+        $language = $this->getRandomValue($event->availableLanguages);
+        $this->randomDataGenerator->setLanguage($language);
 
-            $contentDraft = $this->contentService->createContentDraft($event->content->contentInfo);
-            $contentUpdateStruct = $this->contentDataProvider->getRandomContentUpdateData($event->mainLanguage, $language);
-            $updatedDraft = $this->contentService->updateContent($contentDraft->getVersionInfo(), $contentUpdateStruct);
+        $contentDraft = $this->contentService->createContentDraft($event->content->contentInfo);
+        $contentUpdateStruct = $this->contentDataProvider->getRandomContentUpdateData($event->mainLanguage, $language);
+        $event->content = $this->contentService->updateContent($contentDraft->getVersionInfo(), $contentUpdateStruct);
 
-            $event->content = $updatedDraft;
-            $transitionName = 'to_review';
-            $workflows = $this->workflowRegistry->getSupportedWorkflows($updatedDraft);
-            $workflow = array_shift($workflows);
-            $workflowMetadata = $this->workflowService->loadWorkflowMetadataForContent($updatedDraft, $workflow->getName());
-            $this->workflowService->apply($workflowMetadata, $transitionName, $this->randomDataGenerator->getRandomTextLine());
-
-            $this->transitionToNextStage($event);
-        } catch (\Exception $ex) {
-            $this->logger->log(LogLevel::ERROR, sprintf('Error occured during EditContent Stage: %s', $ex->getMessage()));
-        }
+        $transitionName = 'to_review';
+        $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
     }
 }

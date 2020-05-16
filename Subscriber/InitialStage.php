@@ -5,11 +5,14 @@ namespace EzSystems\BehatBundle\Subscriber;
 
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
+use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
 use EzSystems\BehatBundle\API\Facade\SearchFacade;
 use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\InitialEvent;
 use EzSystems\BehatBundle\Event\TransitionEvent;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
+use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -32,25 +35,20 @@ class InitialStage extends AbstractProcessStage implements EventSubscriberInterf
         ];
     }
 
-    public function __construct(EventDispatcher $eventDispatcher, UserService $userService, PermissionResolver $permissionResolver, LoggerInterface $logger, SearchFacade $searchFacade)
+    public function __construct(EventDispatcher $eventDispatcher,
+                                UserService $userService,
+                                PermissionResolver $permissionResolver,
+                                LoggerInterface $logger,
+                                SearchFacade $searchFacade,
+                                RandomDataGenerator $randomDataGenerator)
     {
-        parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger);
+        parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger, $randomDataGenerator);
         $this->searchFacade = $searchFacade;
-    }
-
-    public function onStart(InitialEvent $event)
-    {
-        $contentTypeIdentifier = $this->getContentType($event->contentTypes);
-        $locationPath = $this->getLocationPath($event->subtreePath);
-
-        $transitionEvent = new TransitionEvent($event->editors, $contentTypeIdentifier, $locationPath, $event->languages, $event->mainLanguage);
-
-        $this->transitionToNextStage($transitionEvent);
     }
 
     private function getContentType($contentTypesData): string
     {
-        $randomNumber = $this->getRandomNumber();
+        $randomNumber = $this->randomDataGenerator->getRandomNumberForProbability();
         $threshold = 0;
         foreach ($contentTypesData as $contentTypeData) {
             $contentTypeIdentifier = array_key_first($contentTypeData);
@@ -68,5 +66,20 @@ class InitialStage extends AbstractProcessStage implements EventSubscriberInterf
     private function getLocationPath(string $subtreePath): string
     {
         return $this->searchFacade->getRandomChildFromPath($subtreePath);
+    }
+
+    public function onStart(InitialEvent $event): void
+    {
+        $contentTypeIdentifier = $this->getContentType($event->contentTypes);
+        $locationPath = $this->getLocationPath($event->subtreePath);
+
+        $transitionEvent = new TransitionEvent($event->editors, $contentTypeIdentifier, $locationPath, $event->languages, $event->mainLanguage);
+
+        $this->transitionToNextStage($transitionEvent);
+    }
+
+    protected function doExecute(TransitionEvent $event): void
+    {
+
     }
 }

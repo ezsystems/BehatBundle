@@ -8,6 +8,8 @@ use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
 use EzSystems\BehatBundle\API\ContentData\ContentDataProvider;
+use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
+use EzSystems\BehatBundle\API\Facade\WorkflowFacade;
 use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\TransitionEvent;
 use EzSystems\EzPlatformWorkflow\Service\WorkflowService;
@@ -20,29 +22,33 @@ class Review extends AbstractProcessStage implements EventSubscriberInterface
 
     /** @var ContentDataProvider */
     private $contentDataProvider;
+
     /**
      * @var ContentService
      */
     private $contentService;
+
     /**
-     * @var WorkflowService
+     * @var WorkflowFacade
      */
-    private $workflowService;
+    private $workflowFacade;
 
     protected function getTransitions(): array
     {
         return [
-            Events::REVIEW_TO_END => 0.1,
-            Events::REVIEW_TO_REVIEW => 0.2,
-            Events::REVIEW_TO_PUBLISH => 0.7,
+            Events::REVIEW_TO_END => 0.01,
+            Events::REVIEW_TO_REVIEW => 0.18,
+            Events::REVIEW_TO_PUBLISH_LATER => 0.01,
+            Events::REVIEW_TO_PUBLISH => 0.80,
         ];
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            Events::DRAFT_TO_REVIEW => 'reviewDraft',
-            Events::REVIEW_TO_REVIEW => 'reviewDraft',
+            Events::DRAFT_TO_REVIEW => 'execute',
+            Events::REVIEW_TO_REVIEW => 'execute',
+            Events::EDIT_TO_REVIEW => 'execute',
         ];
     }
 
@@ -52,25 +58,23 @@ class Review extends AbstractProcessStage implements EventSubscriberInterface
                                 LoggerInterface $logger,
                                 ContentDataProvider $contentDataProvider,
                                 ContentService $contentService,
-                                WorkflowService $workflowService)
+                                RandomDataGenerator $randomDataGenerator,
+                                WorkflowFacade $workflowFacade)
     {
-        parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger);
+        parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger, $randomDataGenerator);
         $this->contentDataProvider = $contentDataProvider;
         $this->contentService = $contentService;
-        $this->workflowService = $workflowService;
+        $this->workflowFacade = $workflowFacade;
     }
 
-    public function reviewDraft(TransitionEvent $event)
+    protected function doExecute(TransitionEvent $event): void
     {
         $this->contentDataProvider->setContentTypeIdentifier($event->contentTypeIdentifier);
         $this->setCurrentUser($this->getRandomValue($event->editors));
         $contentUpdateStruct = $this->contentDataProvider->getRandomContentUpdateData($event->mainLanguage, $event->mainLanguage);
+        $event->content = $this->contentService->updateContent($event->content->getVersionInfo(), $contentUpdateStruct);
 
-        $updatedDraft = $this->contentService->updateContent($event->content->getVersionInfo(), $contentUpdateStruct);
-        $event->content = $updatedDraft;
-
-        $workflowMetadata = $this->workflowService->loadWorkflowMetadataForContent($updatedDraft);
-        $this->workflowService->apply($workflowMetadata, 're_review', 'Please have a look again');
-        $this->transitionToNextStage($event);
+        $transitionName = 're_review';
+        $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
     }
 }

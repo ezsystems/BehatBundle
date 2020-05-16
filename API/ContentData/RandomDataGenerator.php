@@ -46,12 +46,17 @@ class RandomDataGenerator
 
     public function getRandomDateFromThePast(): DateTime
     {
-        return $this->getFaker()->dateTimeThisCentury();
+        return $this->getFaker()->dateTimeThisDecade();
     }
 
     public function getRandomTextLine(): string
     {
         return $this->getFaker()->text();
+    }
+
+    public function getRandomDateInTheFuture(): DateTime
+    {
+        return $this->getFaker()->dateTimeBetween('now', '+10 years');
     }
 
     public function getRandomNumberForProbability(): float
