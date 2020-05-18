@@ -61,7 +61,7 @@ class CreateContentDraft extends AbstractProcessStage implements EventSubscriber
         $this->randomDataGenerator->setLanguage($event->mainLanguage);
         $event->content = $this->contentFacade->createContentDraft($event->contentTypeIdentifier, $event->locationPath, $event->mainLanguage);
 
-        $transitionName = 'to_review';
-        $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
+        // $transitionName = 'to_review';
+        // $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
     }
 }

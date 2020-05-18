@@ -52,8 +52,8 @@ class PublishInTheFuture extends AbstractProcessStage implements EventSubscriber
 
     protected function doExecute(TransitionEvent $event): void
     {
-        $transitionName = 'done';
-        $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
+        // $transitionName = 'done';
+        // $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
 
         $urlRoot = 'http://v2.local/admin';
         $this->dateBasedPublisherService->scheduleVersion($event->content->versionInfo, $this->randomDataGenerator->getRandomDateInTheFuture(), $urlRoot);

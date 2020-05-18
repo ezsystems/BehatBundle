@@ -80,7 +80,7 @@ class EditContent extends AbstractProcessStage implements EventSubscriberInterfa
         $contentUpdateStruct = $this->contentDataProvider->getRandomContentUpdateData($event->mainLanguage, $language);
         $event->content = $this->contentService->updateContent($contentDraft->getVersionInfo(), $contentUpdateStruct);
 
-        $transitionName = 'to_review';
-        $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
+        // $transitionName = 'to_review';
+        // $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
     }
 }
