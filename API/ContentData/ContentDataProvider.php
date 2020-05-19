@@ -26,7 +26,7 @@ class ContentDataProvider
     /** @var FieldTypeDataProviderInterface[] */
     private $fieldTypeDataProviders;
 
-    /** @var RandomDataGenerator */
+    /** @var \EzSystems\BehatBundle\API\ContentData\RandomDataGenerator */
     private $randomDataGenerator;
 
     public function __construct(ContentTypeService $contentTypeService, ContentService $contentService, RandomDataGenerator $randomDataGenerator)

@@ -215,9 +215,3 @@ Feature: Create Content Items used for volue testing
       | Sisak        | Sisak        |
       | Vinkovci     | Vinkovci     |
       | Dubrovnik    | Dubrovnik    |
-
-
-
-
-
-

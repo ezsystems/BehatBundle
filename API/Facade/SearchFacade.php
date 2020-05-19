@@ -32,7 +32,7 @@ class SearchFacade
     /** @var \eZ\Publish\API\Repository\SearchService */
     private $searchService;
     /**
-     * @var ContentService
+     * @var \eZ\Publish\API\Repository\ContentService
      */
     private $contentService;
 

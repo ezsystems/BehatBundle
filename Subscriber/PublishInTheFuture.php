@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+declare(strict_types=1);
+
 
 namespace EzSystems\BehatBundle\Subscriber;
 
@@ -18,13 +24,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class PublishInTheFuture extends AbstractProcessStage implements EventSubscriberInterface
 {
-    /**
-     * @var DateBasedPublisherServiceInterface
-     */
+    /** @var DateBasedPublisherServiceInterface */
     private $dateBasedPublisherService;
-    /**
-     * @var WorkflowFacade
-     */
+
+    /** @var \EzSystems\BehatBundle\API\Facade\WorkflowFacade */
     private $workflowFacade;
 
     public function __construct(EventDispatcher $eventDispatcher,
@@ -54,9 +57,7 @@ class PublishInTheFuture extends AbstractProcessStage implements EventSubscriber
     {
         // $transitionName = 'done';
         // $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
-
-        $urlRoot = 'http://v2.local/admin';
-        $this->dateBasedPublisherService->scheduleVersion($event->content->versionInfo, $this->randomDataGenerator->getRandomDateInTheFuture(), $urlRoot);
+        $this->dateBasedPublisherService->scheduleVersion($event->content->versionInfo, $this->randomDataGenerator->getRandomDateInTheFuture(), '');
     }
 
     public static function getSubscribedEvents()

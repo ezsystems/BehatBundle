@@ -32,9 +32,8 @@ abstract class AbstractProcessStage
 
     /** @var EventDispatcher */
     private $eventDispatcher;
-    /**
-     * @var RandomDataGenerator
-     */
+
+    /** @var \EzSystems\BehatBundle\API\ContentData\RandomDataGenerator */
     protected $randomDataGenerator;
 
     public function __construct(EventDispatcher $eventDispatcher,
@@ -56,7 +55,7 @@ abstract class AbstractProcessStage
     protected function transitionToNextStage($event)
     {
         $threshold = 0;
-        $randomValue = $this->randomDataGenerator->getRandomNumberForProbability();
+        $randomValue = $this->randomDataGenerator->getRandomProbability();
 
         $chosenEvent = null;
 

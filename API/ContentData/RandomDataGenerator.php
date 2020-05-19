@@ -59,8 +59,11 @@ class RandomDataGenerator
         return $this->getFaker()->dateTimeBetween('now', '+10 years');
     }
 
-    public function getRandomNumberForProbability(): float
+    /**
+     * @return float Returns a number number between 0 and 1 (inclusive)
+     */
+    public function getRandomProbability(): float
     {
-        return random_int(0, 999) / 1000;
+        return random_int(0, 1000) / 1000;
     }
 }

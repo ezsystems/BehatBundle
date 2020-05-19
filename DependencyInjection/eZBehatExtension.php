@@ -8,11 +8,15 @@ namespace EzSystems\BehatBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\Yaml\Yaml;
 
-class eZBehatExtension extends Extension
+class eZBehatExtension extends Extension implements PrependExtensionInterface
 {
+    private const CONFIG_PREFIX = 'ez_platform_behat';
+
     public function load(array $config, ContainerBuilder $container)
     {
         $loader = new Loader\YamlFileLoader(
@@ -20,5 +24,18 @@ class eZBehatExtension extends Extension
             new FileLocator(__DIR__ . '/../Resources/config')
         );
         $loader->load('services.yml');
+
+        if ($container->getParameter('ezplatform_behat.is_enterprise')) {
+            $loader->load('services_enterprise.yaml');
+        }
+    }
+
+    public function prepend(ContainerBuilder $container)
+    {
+        $config = Yaml::parseFile(
+            __DIR__ . '/../Resources/config/settings.yaml'
+        );
+
+        $container->prependExtensionConfig(self::CONFIG_PREFIX, $config);
     }
 }

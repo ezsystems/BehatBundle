@@ -26,18 +26,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class EditContent extends AbstractProcessStage implements EventSubscriberInterface
 {
-    /**
-     * @var ContentDataProvider
-     */
+    /** @var \EzSystems\BehatBundle\API\ContentData\ContentDataProvider */
     private $contentDataProvider;
-    /**
-     * @var ContentService
-     */
+
+    /** @var \eZ\Publish\API\Repository\ContentService */
     private $contentService;
 
-    /**
-     * @var WorkflowFacade
-     */
+    /** @var \EzSystems\BehatBundle\API\Facade\WorkflowFacade */
     private $workflowFacade;
 
     protected function getTransitions(): array

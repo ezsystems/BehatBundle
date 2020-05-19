@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Subscriber;
-
 
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\PermissionResolver;
@@ -23,14 +27,10 @@ class Review extends AbstractProcessStage implements EventSubscriberInterface
     /** @var ContentDataProvider */
     private $contentDataProvider;
 
-    /**
-     * @var ContentService
-     */
+    /** @var \eZ\Publish\API\Repository\ContentService */
     private $contentService;
 
-    /**
-     * @var WorkflowFacade
-     */
+    /** @var \EzSystems\BehatBundle\API\Facade\WorkflowFacade */
     private $workflowFacade;
 
     protected function getTransitions(): array

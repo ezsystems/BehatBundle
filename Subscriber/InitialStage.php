@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Subscriber;
 
@@ -18,7 +23,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class InitialStage extends AbstractProcessStage implements EventSubscriberInterface
 {
-    /**  @var \EzSystems\BehatBundle\API\Facade\SearchFacade */
+    /** @var \EzSystems\BehatBundle\API\Facade\SearchFacade */
     private $searchFacade;
 
     protected function getTransitions(): array

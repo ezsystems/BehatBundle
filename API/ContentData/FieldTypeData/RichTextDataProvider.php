@@ -24,7 +24,7 @@ class RichTextDataProvider extends AbstractFieldTypeDataProvider
 </section>';
 
     /**
-     * @var SearchFacade
+     * @var \EzSystems\BehatBundle\API\Facade\SearchFacade
      */
     private $searchFacade;
 
@@ -43,7 +43,7 @@ class RichTextDataProvider extends AbstractFieldTypeDataProvider
     {
         $this->setLanguage($language);
 
-        $randomNumber = $this->randomDataGenerator->getRandomNumberForProbability();
+        $randomNumber = $this->randomDataGenerator->getRandomProbability();
 
         $text = $randomNumber <= 0.95 ?
             sprintf(self::SIMPLE_RICHTEXT_XML, $this->getFaker()->realText()) :

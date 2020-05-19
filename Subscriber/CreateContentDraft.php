@@ -24,9 +24,7 @@ class CreateContentDraft extends AbstractProcessStage implements EventSubscriber
     /** @var \EzSystems\BehatBundle\API\Facade\ContentFacade */
     private $contentFacade;
 
-    /**
-     * @var WorkflowFacade
-     */
+    /** @var \EzSystems\BehatBundle\API\Facade\WorkflowFacade */
     private $workflowFacade;
 
     public static function getSubscribedEvents()

@@ -1,7 +1,6 @@
 imports:
     - { resource: services/fieldtype_data_providers.yaml }
     - { resource: services/limitation_parsers.yaml }
-    - { resource: services/stages.yaml }
 
 services:
     _defaults:
@@ -35,9 +34,6 @@ services:
     EzSystems\BehatBundle\API\Facade\LanguageFacade:
         public: true
 
-    EzSystems\BehatBundle\API\Facade\WorkflowFacade:
-        public: true
-
     EzSystems\BehatBundle\API\Facade\SearchFacade:
         arguments:
             - '@eZ\Publish\API\Repository\URLAliasService'
@@ -48,11 +44,4 @@ services:
         public: true
         arguments:
             - '@EzSystems\BehatBundle\API\Facade\RoleFacade'
-
-    EzSystems\BehatBundle\Command\CreateExampleDataCommand: ~
-
-    EzSystems\BehatBundle\Command\CreateExampleDataManagerCommand:
-        arguments:
-            - '%kernel.environment%'
-            - '%kernel.project_dir%'
 
