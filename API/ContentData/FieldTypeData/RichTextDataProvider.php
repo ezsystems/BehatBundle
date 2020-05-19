@@ -45,7 +45,7 @@ class RichTextDataProvider extends AbstractFieldTypeDataProvider
 
         $randomNumber = $this->randomDataGenerator->getRandomProbability();
 
-        $text = $randomNumber <= 0.95 ?
+        $text = $randomNumber <= 0.9 ?
             sprintf(self::SIMPLE_RICHTEXT_XML, $this->getFaker()->realText()) :
             sprintf(
                 self::COMPLEX_RICHTEXT_XML,

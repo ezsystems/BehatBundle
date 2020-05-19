@@ -37,9 +37,9 @@ class Review extends AbstractProcessStage implements EventSubscriberInterface
     {
         return [
             Events::REVIEW_TO_END => 0.01,
-            // Events::REVIEW_TO_REVIEW => 0.18,
+            Events::REVIEW_TO_REVIEW => 0.18,
             Events::REVIEW_TO_PUBLISH_LATER => 0.01,
-            Events::REVIEW_TO_PUBLISH => 0.98,
+            Events::REVIEW_TO_PUBLISH => 0.80,
         ];
     }
 
@@ -47,7 +47,7 @@ class Review extends AbstractProcessStage implements EventSubscriberInterface
     {
         return [
             Events::DRAFT_TO_REVIEW => 'execute',
-            // Events::REVIEW_TO_REVIEW => 'execute',
+            Events::REVIEW_TO_REVIEW => 'execute',
             Events::EDIT_TO_REVIEW => 'execute',
         ];
     }
@@ -69,12 +69,12 @@ class Review extends AbstractProcessStage implements EventSubscriberInterface
 
     protected function doExecute(TransitionEvent $event): void
     {
-        // $this->contentDataProvider->setContentTypeIdentifier($event->contentTypeIdentifier);
-        // $this->setCurrentUser($this->getRandomValue($event->editors));
-        // $contentUpdateStruct = $this->contentDataProvider->getRandomContentUpdateData($event->mainLanguage, $event->mainLanguage);
-        // $event->content = $this->contentService->updateContent($event->content->getVersionInfo(), $contentUpdateStruct);
+        $this->contentDataProvider->setContentTypeIdentifier($event->contentTypeIdentifier);
+        $this->setCurrentUser($this->getRandomValue($event->editors));
+        $contentUpdateStruct = $this->contentDataProvider->getRandomContentUpdateData($event->mainLanguage, $event->mainLanguage);
+        $event->content = $this->contentService->updateContent($event->content->getVersionInfo(), $contentUpdateStruct);
 
-        // $transitionName = 're_review';
-        // $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
+        $transitionName = 're_review';
+        $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
     }
 }

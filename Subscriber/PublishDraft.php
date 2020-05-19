@@ -33,8 +33,8 @@ class PublishDraft extends AbstractProcessStage implements EventSubscriberInterf
     protected function getTransitions(): array
     {
         return [
-            Events::PUBLISH_TO_END => 0.7,
-            Events::PUBLISH_TO_EDIT => 0.3,
+            Events::PUBLISH_TO_END => 0.8,
+            Events::PUBLISH_TO_EDIT => 0.2,
         ];
     }
 
@@ -61,8 +61,8 @@ class PublishDraft extends AbstractProcessStage implements EventSubscriberInterf
 
     protected function doExecute(TransitionEvent $event): void
     {
-        // $transitionName = 'done';
-        // $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
+        $transitionName = 'done';
+        $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
         $event->content = $this->contentService->publishVersion($event->content->versionInfo);
     }
 }
