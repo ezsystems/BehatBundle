@@ -51,7 +51,7 @@ class InitialStage extends AbstractProcessStage implements EventSubscriberInterf
 
     private function getContentType($contentTypesData): string
     {
-        $randomNumber = $this->randomDataGenerator->getRandomNumberForProbability();
+        $randomNumber = $this->randomDataGenerator->getRandomProbability();
         $threshold = 0;
         foreach ($contentTypesData as $contentTypeData) {
             $contentTypeIdentifier = array_key_first($contentTypeData);

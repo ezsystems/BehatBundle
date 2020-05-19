@@ -1,5 +1,5 @@
 # File meant for services using services available in Enterprise Edition
-# Loaded based on parameter: ezplatform_behat.is_enterprise
+# Loaded based on parameter: ezplatform.behat.enable_enterprise_services
 
 imports:
     - { resource: services/stages.yaml }

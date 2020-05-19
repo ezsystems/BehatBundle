@@ -60,10 +60,10 @@ class RandomDataGenerator
     }
 
     /**
-     * @return float Returns a number number between 0 and 1 (inclusive)
+     * @return float Returns a random number between 0 and 1, left-inclusive
      */
     public function getRandomProbability(): float
     {
-        return random_int(0, 1000) / 1000;
+        return random_int(0, 999) / 1000;
     }
 }
