@@ -25,7 +25,7 @@ class CreateExampleDataCommand extends Command
 {
     public const NAME = 'ezplatform:tools:create-data';
 
-    /** @var EventDispatcher  */
+    /** @var EventDispatcher */
     private $eventDispatcher;
 
     /** @var LoggerInterface */

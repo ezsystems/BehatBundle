@@ -83,6 +83,7 @@ abstract class AbstractProcessStage
     protected function getCurrentUser(): User
     {
         $userRef = $this->permissionResolver->getCurrentUserReference();
+
         return $this->userService->loadUser($userRef->getUserId());
     }
 
@@ -106,7 +107,8 @@ abstract class AbstractProcessStage
         try {
             $this->doExecute($event);
         } catch (\Exception $ex) {
-            $this->logger->log(LogLevel::ERROR, sprintf('Error occured during %s Stage: %s', get_class($this),  $ex->getMessage()));
+            $this->logger->log(LogLevel::ERROR, sprintf('Error occured during %s Stage: %s', get_class($this), $ex->getMessage()));
+
             return;
         }
         $this->transitionToNextStage($event);

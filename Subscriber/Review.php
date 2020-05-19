@@ -16,14 +16,12 @@ use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
 use EzSystems\BehatBundle\API\Facade\WorkflowFacade;
 use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\TransitionEvent;
-use EzSystems\EzPlatformWorkflow\Service\WorkflowService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class Review extends AbstractProcessStage implements EventSubscriberInterface
 {
-
     /** @var ContentDataProvider */
     private $contentDataProvider;
 

@@ -16,8 +16,6 @@ use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\InitialEvent;
 use EzSystems\BehatBundle\Event\TransitionEvent;
 use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -85,6 +83,5 @@ class InitialStage extends AbstractProcessStage implements EventSubscriberInterf
 
     protected function doExecute(TransitionEvent $event): void
     {
-
     }
 }

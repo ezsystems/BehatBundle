@@ -8,10 +8,7 @@ namespace EzSystems\BehatBundle\API\ContentData\FieldTypeData;
 
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\URLAliasService;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\Core\FieldType\Relation\Value;
 use EzSystems\BehatBundle\API\Facade\SearchFacade;
 use EzSystems\BehatBundle\Helper\ArgumentParser;

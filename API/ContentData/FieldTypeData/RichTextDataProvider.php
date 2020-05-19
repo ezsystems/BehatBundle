@@ -6,7 +6,6 @@
  */
 namespace EzSystems\BehatBundle\API\ContentData\FieldTypeData;
 
-use eZ\Publish\API\Repository\URLService;
 use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
 use EzSystems\BehatBundle\API\Facade\SearchFacade;
 

@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Event;
 
-
 class Events
 {
     public const START = 'volume_testing.start';

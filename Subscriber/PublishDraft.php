@@ -15,10 +15,7 @@ use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
 use EzSystems\BehatBundle\API\Facade\WorkflowFacade;
 use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\TransitionEvent;
-use EzSystems\EzPlatformWorkflow\Registry\WorkflowRegistryInterface;
-use EzSystems\EzPlatformWorkflow\Service\WorkflowService;
 use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

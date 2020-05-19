@@ -6,13 +6,10 @@
  */
 declare(strict_types=1);
 
-
 namespace EzSystems\BehatBundle\Subscriber;
-
 
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\Router;
 use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
 use EzSystems\BehatBundle\API\Facade\WorkflowFacade;
 use EzSystems\BehatBundle\Event\Events;
@@ -44,7 +41,6 @@ class PublishInTheFuture extends AbstractProcessStage implements EventSubscriber
         $this->workflowFacade = $workflowFacade;
     }
 
-
     protected function getTransitions(): array
     {
         return [
@@ -52,12 +48,11 @@ class PublishInTheFuture extends AbstractProcessStage implements EventSubscriber
         ];
     }
 
-
     protected function doExecute(TransitionEvent $event): void
     {
-         $transitionName = 'done';
-         $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
-         $this->dateBasedPublisherService->scheduleVersion($event->content->versionInfo, $this->randomDataGenerator->getRandomDateInTheFuture(), '');
+        $transitionName = 'done';
+        $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
+        $this->dateBasedPublisherService->scheduleVersion($event->content->versionInfo, $this->randomDataGenerator->getRandomDateInTheFuture(), '');
     }
 
     public static function getSubscribedEvents()

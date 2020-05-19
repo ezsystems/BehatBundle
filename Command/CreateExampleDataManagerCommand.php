@@ -111,7 +111,7 @@ class CreateExampleDataManagerCommand extends Command
     {
         foreach ($data as $row) {
             $eventData = $this->parseData($row);
-            $command = sprintf('%s %d %s',  CreateExampleDataCommand::NAME, self::BATCH_SIZE, $this->serialize($eventData));
+            $command = sprintf('%s %d %s', CreateExampleDataCommand::NAME, self::BATCH_SIZE, $this->serialize($eventData));
             $this->processes[] = $this->executeCommand($output, $command);
         }
 
