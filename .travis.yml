@@ -44,7 +44,7 @@ git:
 notifications:
   slack:
     rooms:
-      - secure: "XctNpZ4q36oCCn60DWxt0+E1C6hlr1f5Ry9dMSLgS9jsoz0M2dBb0aNrIJS1dOFDCV+SjQFmY53daIVJKxbDVpCM6/byd0rA5VGByD24NoxuzlQsR6JBHi1/nxDAGBsXUM0IpLl252x8kLjnRCAHfW1OoUjWFGhbK/mAY/ocl6A="
+      - secure: "VN+f12HODgUVSjhXwku8wNMk8+el3ZXscHSqcs2LWqSYhj4Riv9WKypr23LQrADyC36Vbv5+T0zGMXVfOqR7p3FYfg3Us43zTGA32RlkDvZDt3AG+mvVDeEThQrE3eJgLIp3TIe4SpT2qGLvq+nTcjNQCk5FDfrW54ooGB8jFCI="
     on_success: change
     on_failure: always
     on_pull_requests: false
