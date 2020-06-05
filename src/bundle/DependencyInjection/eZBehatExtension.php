@@ -13,6 +13,8 @@ use Symfony\Component\DependencyInjection\Loader;
 
 class eZBehatExtension extends Extension
 {
+    private const ENABLE_ENTERPRISE_SERVICES = 'ezplatform.behat.enable_enterprise_services';
+
     public function load(array $config, ContainerBuilder $container)
     {
         $loader = new Loader\YamlFileLoader(
@@ -20,5 +22,18 @@ class eZBehatExtension extends Extension
             new FileLocator(__DIR__ . '/../Resources/config')
         );
         $loader->load('services.yaml');
+
+        if ($this->shouldLoadEnterpriseServices($container)) {
+            $loader->load('services_enterprise.yaml');
+        }
+    }
+
+    private function shouldLoadEnterpriseServices(ContainerBuilder $container): bool
+    {
+        if (!$container->hasParameter(self::ENABLE_ENTERPRISE_SERVICES)) {
+            return false;
+        }
+
+        return (bool)$container->getParameter(self::ENABLE_ENTERPRISE_SERVICES);
     }
 }
