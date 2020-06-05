@@ -8,18 +8,13 @@ namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\URLAliasService;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
-use eZ\Publish\Core\FieldType\Relation\Value;
+use EzSystems\Behat\API\Facade\SearchFacade;
 use EzSystems\Behat\Core\Behat\ArgumentParser;
+use eZ\Publish\Core\FieldType\Relation\Value;
 
 class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
 {
-    /** @var SearchService */
-    private $searchService;
-
     /** @var ContentService */
     private $contentService;
 
@@ -32,13 +27,16 @@ class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
     /** @var ArgumentParser */
     private $argumentParser;
 
-    public function __construct(SearchService $searchService, ContentService $contentService, LocationService $locationSerice, URLAliasService $urlAliasSerivce, ArgumentParser $argumentParser)
+    /** @var SearchFacade */
+    protected $searchFacade;
+
+    public function __construct(SearchFacade $searchFacade, ContentService $contentService, LocationService $locationSerice, URLAliasService $urlAliasSerivce, ArgumentParser $argumentParser)
     {
-        $this->searchService = $searchService;
         $this->contentService = $contentService;
         $this->locationService = $locationSerice;
         $this->urlAliasService = $urlAliasSerivce;
         $this->argumentParser = $argumentParser;
+        $this->searchFacade = $searchFacade;
     }
 
     public function supports(string $fieldTypeIdentifier): bool
@@ -48,33 +46,7 @@ class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
 
     public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
-        return new Value($this->getRandomContentIds(1));
-    }
-
-    protected function getRandomContentIds(int $number)
-    {
-        $query = new Query();
-        $query->limit = 50;
-
-        $results = $this->searchService->findContent($query);
-
-        $contentIDs = array_map(function (SearchHit $result) {
-            return $result->valueObject->contentInfo->id;
-        }, $results->searchHits);
-
-        $indices = array_rand($contentIDs, $number);
-
-        if ($number === 1) {
-            return $contentIDs[$indices];
-        }
-
-        $randomContentIDs = [];
-
-        foreach ($indices as $i) {
-            $randomContentIDs[] = $contentIDs[$i];
-        }
-
-        return $randomContentIDs;
+        return new Value($this->searchFacade->getRandomContentIds(1));
     }
 
     public function parseFromString(string $value)

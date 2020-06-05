@@ -8,58 +8,57 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\Subscriber;
 
-use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\API\Facade\WorkflowFacade;
 use EzSystems\Behat\Event\Events;
 use EzSystems\Behat\Event\TransitionEvent;
+use EzSystems\DateBasedPublisher\API\Repository\DateBasedPublishServiceInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class PublishDraft extends AbstractProcessStage implements EventSubscriberInterface
+class PublishInTheFuture extends AbstractProcessStage implements EventSubscriberInterface
 {
-    /** @var \eZ\Publish\API\Repository\ContentService */
-    private $contentService;
+    /** @var \EzSystems\DateBasedPublisher\API\Repository\DateBasedPublishServiceInterface */
+    private $dateBasedPublisherService;
 
     /** @var \EzSystems\Behat\API\Facade\WorkflowFacade */
     private $workflowFacade;
-
-    protected function getTransitions(): array
-    {
-        return [
-            Events::PUBLISH_TO_END => 0.8,
-            Events::PUBLISH_TO_EDIT => 0.2,
-        ];
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return [
-            Events::REVIEW_TO_PUBLISH => 'execute',
-        ];
-    }
 
     public function __construct(EventDispatcherInterface $eventDispatcher,
                                 UserService $userService,
                                 PermissionResolver $permissionResolver,
                                 LoggerInterface $logger,
-                                ContentService $contentService,
-                                WorkflowFacade $workflowFacade,
-                                RandomDataGenerator $randomDataGenerator)
+                                RandomDataGenerator $randomDataGenerator,
+                                DateBasedPublishServiceInterface $dateBasedPublisherService,
+                                WorkflowFacade $workflowFacade)
     {
         parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger, $randomDataGenerator);
-        $this->contentService = $contentService;
-        $this->randomDataGenerator = $randomDataGenerator;
+
+        $this->dateBasedPublisherService = $dateBasedPublisherService;
         $this->workflowFacade = $workflowFacade;
+    }
+
+    protected function getTransitions(): array
+    {
+        return [
+            Events::PUBLISH_LATER_TO_END => 1,
+        ];
     }
 
     protected function doExecute(TransitionEvent $event): void
     {
         $transitionName = 'done';
         $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
-        $event->content = $this->contentService->publishVersion($event->content->versionInfo);
+        $this->dateBasedPublisherService->schedulePublish($event->content->versionInfo, $this->randomDataGenerator->getRandomDateInTheFuture());
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            Events::REVIEW_TO_PUBLISH_LATER => 'execute',
+        ];
     }
 }

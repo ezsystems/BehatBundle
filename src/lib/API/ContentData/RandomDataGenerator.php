@@ -9,6 +9,7 @@ namespace EzSystems\Behat\API\ContentData;
 use eZ\Publish\Core\MVC\Symfony\Locale\LocaleConverterInterface;
 use Faker;
 use Faker\Generator;
+use DateTime;
 
 class RandomDataGenerator
 {
@@ -41,5 +42,28 @@ class RandomDataGenerator
         gc_collect_cycles();
 
         return self::$faker;
+    }
+
+    public function getRandomDateFromThePast(): DateTime
+    {
+        return $this->getFaker()->dateTimeThisDecade();
+    }
+
+    public function getRandomTextLine(): string
+    {
+        return $this->getFaker()->text();
+    }
+
+    public function getRandomDateInTheFuture(): DateTime
+    {
+        return $this->getFaker()->dateTimeBetween('now', '+10 years');
+    }
+
+    /**
+     * @return float Returns a random number between 0 and 1, left-inclusive
+     */
+    public function getRandomProbability(): float
+    {
+        return random_int(0, 999) / 1000;
     }
 }

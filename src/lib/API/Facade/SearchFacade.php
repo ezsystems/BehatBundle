@@ -8,10 +8,12 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Facade;
 
+use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
+use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LocationId;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalNot;
@@ -29,12 +31,19 @@ class SearchFacade
 
     /** @var \eZ\Publish\API\Repository\SearchService */
     private $searchService;
+    /**
+     * @var \eZ\Publish\API\Repository\ContentService
+     */
+    private $contentService;
 
-    public function __construct(URLAliasService $urlAliasService, LocationService $locationService, SearchService $searchService)
+    private const ROOT_LOCATION_ID = 2;
+
+    public function __construct(URLAliasService $urlAliasService, LocationService $locationService, SearchService $searchService, ContentService $contentService)
     {
         $this->urlAliasService = $urlAliasService;
         $this->locationService = $locationService;
         $this->searchService = $searchService;
+        $this->contentService = $contentService;
     }
 
     public function getRandomChildFromPath(string $path): string
@@ -45,6 +54,7 @@ class SearchFacade
         $location = $this->locationService->loadLocation($urlAlias->destination);
 
         $query = new LocationQuery();
+        $query->performCount = false;
         $query->filter = new LogicalAnd([
             new Subtree($location->pathString),
             new LogicalNot(new LocationId($location->id)),
@@ -60,5 +70,36 @@ class SearchFacade
         $location = $results[$randomInt]->valueObject;
 
         return $this->urlAliasService->reverseLookup($location)->path;
+    }
+
+    public function getRandomContentIds(int $number)
+    {
+        $query = new Query();
+        $query->limit = 50;
+        $query->performCount = false;
+        $query->filter = new LogicalNot(new LocationId(self::ROOT_LOCATION_ID));
+
+        $results = $this->searchService->findContent($query)->searchHits;
+
+        $indices = array_rand($results, $number);
+
+        if ($number === 1) {
+            return $results[$indices]->valueObject->contentInfo->id;
+        }
+
+        $randomContentIDs = [];
+
+        foreach ($indices as $i) {
+            $randomContentIDs[] = $results[$i]->valueObject->contentInfo->id;
+        }
+
+        return $randomContentIDs;
+    }
+
+    public function getRandomLocationID(): int
+    {
+        $contentId = $this->getRandomContentIds(1);
+
+        return $this->contentService->loadContent($contentId)->contentInfo->mainLocationId;
     }
 }
