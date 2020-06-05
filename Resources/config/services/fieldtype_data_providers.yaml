@@ -8,18 +8,16 @@ services:
     EzSystems\BehatBundle\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface:
       tags: ['ezplatform.behat.fieldtype_data_provider']
 
-  EzSystems\BehatBundle\API\ContentData\FieldTypeData\RandomDataGenerator:
-    arguments:
-      - '@ezpublish.api.service.search'
+  EzSystems\BehatBundle\API\ContentData\FieldTypeData\RandomDataGenerator: ~
 
   EzSystems\BehatBundle\API\ContentData\FieldTypeData\ObjectRelationDataProvider:
     arguments:
-      - '@ezpublish.api.service.search'
+      - '@EzSystems\BehatBundle\API\Facade\SearchFacade'
       - '@ezpublish.api.service.content'
 
   EzSystems\BehatBundle\API\ContentData\FieldTypeData\ObjectRelationListDataProvider:
     arguments:
-      - '@ezpublish.api.service.search'
+      - '@EzSystems\BehatBundle\API\Facade\SearchFacade'
       - '@ezpublish.api.service.content'
 
   EzSystems\BehatBundle\API\ContentData\FieldTypeData\AuthorDataProvider: ~

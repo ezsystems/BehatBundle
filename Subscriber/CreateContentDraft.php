@@ -10,10 +10,11 @@ namespace EzSystems\BehatBundle\Subscriber;
 
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
+use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
 use EzSystems\BehatBundle\API\Facade\ContentFacade;
-use EzSystems\BehatBundle\API\Facade\SearchFacade;
+use EzSystems\BehatBundle\API\Facade\WorkflowFacade;
+use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\TransitionEvent;
-use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -23,19 +24,18 @@ class CreateContentDraft extends AbstractProcessStage implements EventSubscriber
     /** @var \EzSystems\BehatBundle\API\Facade\ContentFacade */
     private $contentFacade;
 
-    /** @var \EzSystems\BehatBundle\API\Facade\SearchFacade */
-    private $searchFacade;
+    /** @var \EzSystems\BehatBundle\API\Facade\WorkflowFacade */
+    private $workflowFacade;
 
     public static function getSubscribedEvents()
     {
-        return [TransitionEvent::START => 'onProcessStarted'];
+        return [Events::START_TO_DRAFT => 'execute'];
     }
 
     protected function getTransitions(): array
     {
         return [
-            TransitionEvent::DRAFT_TO_END => 0.1,
-            TransitionEvent::DRAFT_TO_PUBLISH => 0.9,
+            Events::DRAFT_TO_REVIEW => 1,
         ];
     }
 
@@ -44,24 +44,22 @@ class CreateContentDraft extends AbstractProcessStage implements EventSubscriber
                                 PermissionResolver $permissionResolver,
                                 LoggerInterface $logger,
                                 ContentFacade $contentFacade,
-                                SearchFacade $searchFacade)
+                                RandomDataGenerator $randomDataGenerator,
+                                WorkflowFacade $workflowFacade)
     {
-        parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger);
+        parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger, $randomDataGenerator);
         $this->contentFacade = $contentFacade;
-        $this->searchFacade = $searchFacade;
+        $this->workflowFacade = $workflowFacade;
     }
 
-    public function onProcessStarted(TransitionEvent $eventData): void
+    public function doExecute(TransitionEvent $event): void
     {
-        $this->setCurrentUser($eventData->userName);
+        $event->author = $this->getRandomValue($event->editors);
+        $this->setCurrentUser($event->author);
+        $this->randomDataGenerator->setLanguage($event->mainLanguage);
+        $event->content = $this->contentFacade->createContentDraft($event->contentTypeIdentifier, $event->locationPath, $event->mainLanguage);
 
-        try {
-            $parentPath = $this->searchFacade->getRandomChildFromPath($eventData->parentPath);
-            $content = $this->contentFacade->createContentDraft($eventData->contentTypeIdentifier, $parentPath, $eventData->language);
-            $eventData->content = $content;
-            $this->transitionToNextStage($eventData);
-        } catch (Exception $ex) {
-            $this->logger->log(LogLevel::ERROR, sprintf('Error occured during CreateContentDraft Stage: %s', $ex->getMessage()));
-        }
+        $transitionName = 'to_review';
+        $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
     }
 }

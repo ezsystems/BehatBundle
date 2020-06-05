@@ -12,48 +12,33 @@ use Symfony\Component\EventDispatcher\Event;
 
 class TransitionEvent extends Event
 {
-    public const START = 'start';
+    /** @var string */
+    public $locationPath;
 
-    public const DRAFT_TO_PUBLISH = 'transition.draft_to_publish';
-
-    public const DRAFT_TO_END = 'transition.draft_to_end';
-
-    public const PUBLISH_TO_END = 'transition.publish_to_end';
-
-    public const PUBLISH_TO_EDIT = 'transition.publish_to_edit';
-
-    public const EDIT_TO_PUBLISH = 'transition.edit_to_publish';
-
-    public const EDIT_TO_END = 'transition.edit_to_end';
-
-    public const EDIT_TO_EDIT = 'transition.edit_to_edit';
-
-    /**
-     * @var string
-     */
-    public $userName;
-    /**
-     * @var string
-     */
-    public $parentPath;
-    /**
-     * @var string
-     */
-    public $language;
-    /**
-     * @var string
-     */
+    /** @var string */
     public $contentTypeIdentifier;
-    /**
-     * @var \eZ\Publish\API\Repository\Values\Content\Content
-     */
+
+    /** @var \eZ\Publish\API\Repository\Values\Content\Content */
     public $content;
 
-    public function __construct(string $userName, string $contentTypeIdentifier, string $parentPath, string $language)
+    /** @var array */
+    public $availableLanguages;
+
+    /** @var array */
+    public $editors;
+
+    /** @var string */
+    public $author;
+
+    /** @var string */
+    public $mainLanguage;
+
+    public function __construct(array $editors, string $contentTypeIdentifier, string $locationPath, array $availableLanguages, string $mainLanguage)
     {
-        $this->userName = $userName;
-        $this->parentPath = $parentPath;
-        $this->language = $language;
+        $this->locationPath = $locationPath;
+        $this->availableLanguages = $availableLanguages;
         $this->contentTypeIdentifier = $contentTypeIdentifier;
+        $this->editors = $editors;
+        $this->mainLanguage = $mainLanguage;
     }
 }

@@ -17,7 +17,7 @@ class ObjectRelationListDataProvider extends ObjectRelationDataProvider
 
     public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
     {
-        return new Value($this->getRandomContentIds(3));
+        return new Value($this->searchFacade->getRandomContentIds(5));
     }
 
     public function parseFromString(string $value)

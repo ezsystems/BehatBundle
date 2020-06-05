@@ -1,0 +1,21 @@
+# File meant for services using services available in Enterprise Edition
+# Loaded based on parameter: ezplatform.behat.enable_enterprise_services
+
+imports:
+    - { resource: services/stages.yaml }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    EzSystems\BehatBundle\API\Facade\WorkflowFacade:
+      public: true
+
+    EzSystems\BehatBundle\Command\CreateExampleDataCommand: ~
+
+    EzSystems\BehatBundle\Command\CreateExampleDataManagerCommand:
+      arguments:
+        - '%kernel.environment%'
+        - '%kernel.project_dir%'

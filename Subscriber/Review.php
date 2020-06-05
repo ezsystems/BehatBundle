@@ -11,6 +11,7 @@ namespace EzSystems\BehatBundle\Subscriber;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
+use EzSystems\BehatBundle\API\ContentData\ContentDataProvider;
 use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
 use EzSystems\BehatBundle\API\Facade\WorkflowFacade;
 use EzSystems\BehatBundle\Event\Events;
@@ -19,8 +20,11 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class PublishDraft extends AbstractProcessStage implements EventSubscriberInterface
+class Review extends AbstractProcessStage implements EventSubscriberInterface
 {
+    /** @var ContentDataProvider */
+    private $contentDataProvider;
+
     /** @var \eZ\Publish\API\Repository\ContentService */
     private $contentService;
 
@@ -30,15 +34,19 @@ class PublishDraft extends AbstractProcessStage implements EventSubscriberInterf
     protected function getTransitions(): array
     {
         return [
-            Events::PUBLISH_TO_END => 0.8,
-            Events::PUBLISH_TO_EDIT => 0.2,
+            Events::REVIEW_TO_END => 0.01,
+            Events::REVIEW_TO_REVIEW => 0.18,
+            Events::REVIEW_TO_PUBLISH_LATER => 0.01,
+            Events::REVIEW_TO_PUBLISH => 0.80,
         ];
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            Events::REVIEW_TO_PUBLISH => 'execute',
+            Events::DRAFT_TO_REVIEW => 'execute',
+            Events::REVIEW_TO_REVIEW => 'execute',
+            Events::EDIT_TO_REVIEW => 'execute',
         ];
     }
 
@@ -46,20 +54,25 @@ class PublishDraft extends AbstractProcessStage implements EventSubscriberInterf
                                 UserService $userService,
                                 PermissionResolver $permissionResolver,
                                 LoggerInterface $logger,
+                                ContentDataProvider $contentDataProvider,
                                 ContentService $contentService,
-                                WorkflowFacade $workflowFacade,
-                                RandomDataGenerator $randomDataGenerator)
+                                RandomDataGenerator $randomDataGenerator,
+                                WorkflowFacade $workflowFacade)
     {
         parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger, $randomDataGenerator);
+        $this->contentDataProvider = $contentDataProvider;
         $this->contentService = $contentService;
-        $this->randomDataGenerator = $randomDataGenerator;
         $this->workflowFacade = $workflowFacade;
     }
 
     protected function doExecute(TransitionEvent $event): void
     {
-        $transitionName = 'done';
+        $this->contentDataProvider->setContentTypeIdentifier($event->contentTypeIdentifier);
+        $this->setCurrentUser($this->getRandomValue($event->editors));
+        $contentUpdateStruct = $this->contentDataProvider->getRandomContentUpdateData($event->mainLanguage, $event->mainLanguage);
+        $event->content = $this->contentService->updateContent($event->content->getVersionInfo(), $contentUpdateStruct);
+
+        $transitionName = 're_review';
         $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
-        $event->content = $this->contentService->publishVersion($event->content->versionInfo);
     }
 }

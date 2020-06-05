@@ -8,75 +8,21 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Command;
 
+use EzSystems\BehatBundle\Event\InitialEvent;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Stopwatch\Stopwatch;
+use Symfony\Component\Yaml\Yaml;
 
 class CreateExampleDataManagerCommand extends Command
 {
-    // @TODO: Move to yaml?
-    private $DATA = [
-        'contentTypeIdentifiers' => [
-            ['short_article', 0.75],
-            ['long_article', 0.25],
-        ],
-        'country' => [
-            'france' => [
-                'editors' => ['FrenchEditor1', 'FrenchEditor2', 'FrenchEditor3', 'FrenchEditor4', 'FrenchEditor5'],
-                'subtreePath' => '/Europe/France',
-                'language' => 'fre-FR',
-            ],
-            'germany' => [
-                'editors' => ['GermanEditor1', 'GermanEditor2', 'GermanEditor3', 'GermanEditor4', 'GermanEditor5'],
-                'subtreePath' => '/Europe/Germany',
-                'language' => 'ger-DE',
-            ],
-            'england' => [
-                'editors' => ['EnglishEditor1', 'EnglishEditor2', 'EnglishEditor3', 'EnglishEditor4', 'EnglishEditor5'],
-                'subtreePath' => '/Europe/England',
-                'language' => 'eng-GB',
-            ],
-            'poland' => [
-                'editors' => ['PolishEditor1', 'PolishEditor2', 'PolishEditor3', 'PolishEditor4', 'PolishEditor5'],
-                'subtreePath' => '/Europe/Poland',
-                'language' => 'pol-PL',
-            ],
-            'italy' => [
-                'editors' => ['ItalianEditor1', 'ItalianEditor2', 'ItalianEditor3', 'ItalianEditor4', 'ItalianEditor5'],
-                'subtreePath' => '/Europe/Italy',
-                'language' => 'ita-IT',
-            ],
-            'spain' => [
-                'editors' => ['SpanishEditor1', 'SpanishEditor2', 'SpanishEditor3', 'SpanishEditor4', 'SpanishEditor5'],
-                'subtreePath' => '/Europe/Spain',
-                'language' => 'esl-ES',
-            ],
-            'malta' => [
-                'editors' => ['MalteseEditor1', 'MalteseEditor2', 'MalteseEditor3', 'MalteseEditor4', 'MalteseEditor5'],
-                'subtreePath' => '/Europe/Malta',
-                'language' => 'eng-GB',
-            ],
-            'austria' => [
-                'editors' => ['AustrianEditor1', 'AustrianEditor2', 'AustrianEditor3', 'AustrianEditor4', 'AustrianEditor5'],
-                'subtreePath' => '/Europe/Austria',
-                'language' => 'ger-DE',
-            ],
-            'switzerland' => [
-                'editors' => ['SwissEditor1', 'SwissEditor2', 'SwissEditor3', 'SwissEditor4', 'SwissEditor5'],
-                'subtreePath' => '/Europe/Switzerland',
-                'language' => 'ger-DE',
-            ],
-            'portugal' => [
-                'editors' => ['PortugueseEditor1', 'PortugueseEditor2', 'PortugueseEditor3', 'PortugueseEditor4', 'PortugueseEditor5'],
-                'subtreePath' => '/Europe/Portugal',
-                'language' => 'por-PT',
-            ],
-        ],
-    ];
+    private const BATCH_SIZE = 100;
 
     /** @var Stopwatch */
     private $stopwatch;
@@ -84,66 +30,38 @@ class CreateExampleDataManagerCommand extends Command
     /** @var string */
     private $env;
 
-    /** @var EventDispatcher */
-    private $eventDispatcher;
+    /** @var string */
+    private $projectDir;
 
-    public function __construct(string $env, $name = null)
+    /** @var array */
+    private $processes;
+
+    /** @var Serializer */
+    private $serializer;
+
+    public function __construct(string $env, string $projectDir)
     {
-        parent::__construct($name);
+        parent::__construct('ezplatform:tools:generate-items');
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $this->serializer = new Serializer($normalizers, $encoders);
         $this->env = $env;
+        $this->projectDir = $projectDir;
         $this->stopwatch = new Stopwatch();
-    }
-
-    public function configure()
-    {
-        $this->setName('ezplatform:tools:generate-items');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $processes = [];
-
+        $data = $this->getData();
         $this->stopwatch->start('timer');
 
-        foreach ($this->DATA['country'] as $key => $values) {
-            $editors = implode(',', $values['editors']);
-            $parentPath = $values['subtreePath'];
-            $language = $values['language'];
-
-            $command = sprintf('%s %s %s %s %s %s',
-                'ezplatform:tools:create-data',
-                100,
-                $editors,
-                $language,
-                $parentPath,
-                $this->parseContentTypes($this->DATA['contentTypeIdentifiers'])
-            );
-            $processes[] = $this->executeCommand($output, $command);
-        }
-
-        while (count($processes)) {
-            foreach ($processes as $i => $runningProcess) {
-                // specific process is finished, so we remove it
-                if (!$runningProcess->isRunning()) {
-                    unset($processes[$i]);
-                }
-
-                // check every second
-                sleep(1);
-            }
-        }
+        $this->createProcesses($output, $data);
 
         $event = $this->stopwatch->stop('timer');
-
         $output->writeln(sprintf('Duration: %d s, memory: %s MB', $event->getDuration() / 1000, $event->getMemory() / 1024 / 1024));
     }
 
-    public function getRandomValue(array $values, int $count): string
-    {
-        return $values[random_int(0, $count - 1)];
-    }
-
-    private function executeCommand(OutputInterface $output, $cmd, $timeout = 1200)
+    private function executeCommand(OutputInterface $output, $cmd, float $timeout = 1200)
     {
         $phpFinder = new PhpExecutableFinder();
         if (!$phpPath = $phpFinder->find(false)) {
@@ -182,13 +100,41 @@ class CreateExampleDataManagerCommand extends Command
         return $process;
     }
 
-    private function parseContentTypes(array $contentTypeData): string
+    private function getData()
     {
-        $results = [];
-        foreach ($contentTypeData as $contentType) {
-            $results[] = implode(':', $contentType);
+        $data = Yaml::parseFile(sprintf('%s/vendor/ezsystems/behatbundle/EzSystems/BehatBundle/features/setup/volume/data.yaml', $this->projectDir));
+
+        return $data['countries'];
+    }
+
+    private function createProcesses(OutputInterface $output, $data)
+    {
+        foreach ($data as $row) {
+            $eventData = $this->parseData($row);
+            $command = sprintf('%s %d %s', CreateExampleDataCommand::NAME, self::BATCH_SIZE, $this->serialize($eventData));
+            $this->processes[] = $this->executeCommand($output, $command);
         }
 
-        return implode(',', $results);
+        while (count($this->processes)) {
+            foreach ($this->processes as $i => $runningProcess) {
+                if (!$runningProcess->isRunning()) {
+                    unset($this->processes[$i]);
+                }
+                sleep(1);
+            }
+        }
+    }
+
+    private function parseData($dataRow): InitialEvent
+    {
+        $country = array_key_first($dataRow);
+        $dataRow = $dataRow[$country];
+
+        return new InitialEvent($country, $dataRow['mainLanguage'], $dataRow['editors'], $dataRow['subtreePath'], $dataRow['languages'], $dataRow['contentTypes']);
+    }
+
+    private function serialize(InitialEvent $eventData): string
+    {
+        return base64_encode($this->serializer->serialize($eventData, 'json'));
     }
 }

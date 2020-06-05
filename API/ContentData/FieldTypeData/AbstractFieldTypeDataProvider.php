@@ -11,7 +11,7 @@ use Faker\Generator;
 
 abstract class AbstractFieldTypeDataProvider implements FieldTypeDataProviderInterface
 {
-    private $randomDataGenerator;
+    protected $randomDataGenerator;
 
     public function __construct(RandomDataGenerator $randomDataGenerator)
     {

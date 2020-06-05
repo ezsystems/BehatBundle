@@ -12,60 +12,66 @@ use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
 use EzSystems\BehatBundle\API\ContentData\ContentDataProvider;
+use EzSystems\BehatBundle\API\ContentData\RandomDataGenerator;
+use EzSystems\BehatBundle\API\Facade\WorkflowFacade;
+use EzSystems\BehatBundle\Event\Events;
 use EzSystems\BehatBundle\Event\TransitionEvent;
 use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class EditContent extends AbstractProcessStage implements EventSubscriberInterface
 {
-    /**
-     * @var ContentDataProvider
-     */
+    /** @var \EzSystems\BehatBundle\API\ContentData\ContentDataProvider */
     private $contentDataProvider;
-    /**
-     * @var ContentService
-     */
+
+    /** @var \eZ\Publish\API\Repository\ContentService */
     private $contentService;
+
+    /** @var \EzSystems\BehatBundle\API\Facade\WorkflowFacade */
+    private $workflowFacade;
 
     protected function getTransitions(): array
     {
         return [
-            TransitionEvent::EDIT_TO_END => 0.4,
-            TransitionEvent::EDIT_TO_PUBLISH => 0.5,
-            TransitionEvent::EDIT_TO_EDIT => 0.1,
+            Events::EDIT_TO_REVIEW => 1,
         ];
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            TransitionEvent::EDIT_TO_EDIT => 'editContent',
-            TransitionEvent::PUBLISH_TO_EDIT => 'editContent',
+            Events::PUBLISH_TO_EDIT => 'execute',
         ];
     }
 
-    public function __construct(LoggerInterface $logger, ContentDataProvider $contentDataProvider, ContentService $contentService, EventDispatcher $eventDispatcher, UserService $userService, PermissionResolver $permissionResolver)
+    public function __construct(LoggerInterface $logger,
+                                ContentDataProvider $contentDataProvider,
+                                ContentService $contentService,
+                                EventDispatcher $eventDispatcher,
+                                UserService $userService,
+                                PermissionResolver $permissionResolver,
+                                WorkflowFacade $workflowFacade,
+                                RandomDataGenerator $randomDataGenerator)
     {
-        parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger);
+        parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger, $randomDataGenerator);
         $this->contentDataProvider = $contentDataProvider;
         $this->contentService = $contentService;
+        $this->workflowFacade = $workflowFacade;
     }
 
-    public function editContent(TransitionEvent $event)
+    protected function doExecute(TransitionEvent $event): void
     {
-        try {
-            $this->contentDataProvider->setContentTypeIdentifier($event->contentTypeIdentifier);
-            $contentUpdateStruct = $this->contentDataProvider->getRandomContentUpdateData($event->language);
+        $this->contentDataProvider->setContentTypeIdentifier($event->contentTypeIdentifier);
+        $this->setCurrentUser($this->getRandomValue($event->editors));
+        $language = $this->getRandomValue($event->availableLanguages);
+        $this->randomDataGenerator->setLanguage($language);
 
-            $contentDraft = $this->contentService->createContentDraft($event->content->contentInfo);
-            $updatedDraft = $this->contentService->updateContent($contentDraft->getVersionInfo(), $contentUpdateStruct);
-            $event->content = $updatedDraft;
+        $contentDraft = $this->contentService->createContentDraft($event->content->contentInfo);
+        $contentUpdateStruct = $this->contentDataProvider->getRandomContentUpdateData($event->mainLanguage, $language);
+        $event->content = $this->contentService->updateContent($contentDraft->getVersionInfo(), $contentUpdateStruct);
 
-            $this->transitionToNextStage($event);
-        } catch (Exception $ex) {
-            $this->logger->log(LogLevel::ERROR, sprintf('Error occured during EditContent Stage: %s', $ex->getMessage()));
-        }
+        $transitionName = 'to_review';
+        $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
     }
 }

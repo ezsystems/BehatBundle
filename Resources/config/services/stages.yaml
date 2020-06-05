@@ -4,8 +4,26 @@ services:
         autoconfigure: true
         public: false
 
-    EzSystems\BehatBundle\Subscriber\CreateContentDraft: ~
+    EzSystems\BehatBundle\Subscriber\CreateContentDraft:
+        tags:
+            - kernel.event_subscriber
 
-    EzSystems\BehatBundle\Subscriber\PublishDraft: ~
+    EzSystems\BehatBundle\Subscriber\PublishDraft:
+        tags:
+            - kernel.event_subscriber
 
-    EzSystems\BehatBundle\Subscriber\EditContent: ~
+    EzSystems\BehatBundle\Subscriber\EditContent:
+        tags:
+            - kernel.event_subscriber
+
+    EzSystems\BehatBundle\Subscriber\InitialStage:
+        tags:
+            - kernel.event_subscriber
+
+    EzSystems\BehatBundle\Subscriber\Review:
+        tags:
+            - kernel.event_subscriber
+
+    EzSystems\BehatBundle\Subscriber\PublishInTheFuture:
+        tags:
+            - kernel.event_subscriber
