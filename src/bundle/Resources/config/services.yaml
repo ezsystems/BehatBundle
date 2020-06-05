@@ -2,7 +2,6 @@ imports:
     - { resource: services/fieldtype_data_providers.yaml }
     - { resource: services/limitation_parsers.yaml }
     - { resource: services/contexts.yaml }
-    - { resource: services/stages.yaml }
 
 services:
     _defaults:
@@ -66,16 +65,5 @@ services:
     EzSystems\BehatBundle\Command\TestSiteaccessCommand:
         arguments:
             $siteaccess: '@ezpublish.siteaccess'
-        tags:
-            - { name: console.command }
-
-    EzSystems\BehatBundle\Command\CreateExampleDataCommand:
-        tags:
-            - { name: console.command }
-
-
-    EzSystems\BehatBundle\Command\CreateExampleDataManagerCommand:
-        arguments:
-            - '%kernel.environment%'
         tags:
             - { name: console.command }

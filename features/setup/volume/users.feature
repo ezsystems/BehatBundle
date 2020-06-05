@@ -8,6 +8,11 @@ Feature: Create languages required for volume testing
     And I create a user "<userName>3" with last name "<userName>3" in group "<groupName>"
     And I create a user "<userName>4" with last name "<userName>4" in group "<groupName>"
     And I create a user "<userName>5" with last name "<userName>5" in group "<groupName>"
+    And I create a user "<userName>6" with last name "<userName>6" in group "<groupName>"
+    And I create a user "<userName>7" with last name "<userName>7" in group "<groupName>"
+    And I create a user "<userName>8" with last name "<userName>8" in group "<groupName>"
+    And I create a user "<userName>9" with last name "<userName>9" in group "<groupName>"
+    And I create a user "<userName>10" with last name "<userName>10" in group "<groupName>"
     And I create a role "<roleName>Basic" with policies
     | module      | function           |
     | user        | login              |
@@ -28,6 +33,7 @@ Feature: Create languages required for volume testing
       | content     | edit               |
       | section     | view               |
       | content     | reverserelatedlist |
+      | workflow    | change_stage      |
     And I assign user group "<groupName>" to role "<roleName>Limited" with limitations:
       | limitationType      | limitationValue        |
       | Subtree             | /Europe/<rootItemName> |
@@ -44,3 +50,9 @@ Feature: Create languages required for volume testing
     | SwissEditors      | SwissEditor      | SwissEditorsRole     | Switzerland  |
     | AustrianEditors   | AustrianEditor   | AustrianEditorROle   | Austria      |
     | PortugueseEditors | PortugueseEditor | PortugueseEditorRole | Portugal     |
+    | UkrainianEditors  | UkrainianEditor  | UkrainianEditorRole  | Ukraine      |
+    | SwedishEditors    | SwedishEditor    | SwedishEditorRole    | Sweden       |
+    | NorwegianeEditors | NorwegianEditor  | NorwegianEditorRole  | Norway       |
+    | FinnishEditors    | FinnishEditor    | FinnishEditorRole    | Finland      |
+    | DanishEditors     | DanishEditor     | DanishEditorRole     | Denmark      |
+    | CroatianEditors   | CroatianEditor   | CroatianEditorRole   | Croatia      |
