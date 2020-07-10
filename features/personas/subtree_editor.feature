@@ -6,17 +6,17 @@ Feature: Editor that has access only to a Subtree of Content Structure
       | Field Type  | Name         | Identifier        | Required | Searchable | Translatable |
       | Text line   | Name         | name	           | yes      | yes	       | yes          |
       | Text line   | Short name   | short_name        | yes      | no	       | yes          |
-    And I create "DedicatedFolder" Content items in root in "eng-GB"
+    And I create "dedicatedFolder" Content items in root in "eng-GB"
       | name              | short_name        |
       | FolderGrandParent | FolderGrandParent |
-    And I create "DedicatedFolder" Content items in "FolderGrandParent" in "eng-GB"
+    And I create "dedicatedFolder" Content items in "FolderGrandParent" in "eng-GB"
       | name         | short_name   |
       | FolderParent | FolderParent |
-    And I create "DedicatedFolder" Content items in "FolderGrandParent/FolderParent" in "eng-GB"
+    And I create "dedicatedFolder" Content items in "FolderGrandParent/FolderParent" in "eng-GB"
       | name         | short_name   |
       | FolderChild1 | FolderChild1 |
       | FolderChild2 | FolderChild2 |
-    And I create "DedicatedFolder" Content items in "FolderGrandParent/FolderParent/FolderChild1" in "eng-GB"
+    And I create "dedicatedFolder" Content items in "FolderGrandParent/FolderParent/FolderChild1" in "eng-GB"
       | name          | short_name    |
       | ContentToMove | ContentToMove |
     And I create a user group "SubtreeEditorsGroup"
