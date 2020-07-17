@@ -14,7 +14,7 @@ class GetPullRequestDataCommandTest extends TestCase
 {
     private $commandTester;
 
-    private const EXAMPLE_GITHUB_PR_LINK = 'https://github.com/ezsystems/ezplatform-admin-ui/pull/1313';
+    private const EXAMPLE_GITHUB_PR_LINK = 'https://github.com/ezsystems/BehatBundle/pull/99';
 
     private const EXAMPLE_GITHUB_TOKEN = 'd0285ed5c8644f30547572ead2ed897431c1fc09';
 
@@ -25,7 +25,7 @@ class GetPullRequestDataCommandTest extends TestCase
 
     public function testProducesCorrectOutput()
     {
-        $expectedOutput = 'https://github.com/GrabowskiM/ezplatform-admin-ui EZP-31515-fix-flatpickr 2.1.x-dev ezplatform-admin-ui master master';
+        $expectedOutput = 'https://github.com/katarzynazawada/BehatBundle EZP-30883 7.0.x-dev BehatBundle 2.5 1.3';
         $expectedReturnCode = 0;
 
         $this->commandTester->execute([
