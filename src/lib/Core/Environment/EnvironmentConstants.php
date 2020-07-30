@@ -48,6 +48,8 @@ class EnvironmentConstants
                 return new EnterpriseEnvironmentConstants();
             case InstallType::ENTERPRISE_DEMO:
                 return new EnterpriseDemoEnvironmentConstants();
+            case InstallType::COMMERCE:
+                return new EnterpriseEnvironmentConstants();
             default:
                 throw new \Exception('Unrecognised install type');
         }

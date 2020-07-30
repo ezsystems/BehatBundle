@@ -66,6 +66,8 @@ class ElementFactory
                 return new EnterpriseElementFactory();
             case InstallType::ENTERPRISE_DEMO:
                 return new DemoEnterpriseElementFactory();
+            case InstallType::COMMERCE:
+                return new EnterpriseElementFactory();
             default:
                 throw new \Exception('Unrecognised install type');
         }

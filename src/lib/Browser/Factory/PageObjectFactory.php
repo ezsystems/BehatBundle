@@ -70,6 +70,8 @@ class PageObjectFactory
                 return new EnterprisePageObjectFactory();
             case InstallType::ENTERPRISE_DEMO:
                 return new DemoEnterprisePageObjectFactory();
+            case InstallType::COMMERCE:
+                return new EnterprisePageObjectFactory();
             default:
                 throw new \Exception('Unrecognised install type');
         }
