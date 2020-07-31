@@ -34,7 +34,7 @@ class EnvironmentConstants
 
     public static function isEnterprise(): bool
     {
-        return in_array(self::getInstallType(), [InstallType::ENTERPRISE, InstallType::ENTERPRISE_DEMO]);
+        return in_array(self::getInstallType(), [InstallType::ENTERPRISE, InstallType::ENTERPRISE_DEMO, InstallType::COMMERCE]);
     }
 
     private static function getProperEnvironment(int $installType)
