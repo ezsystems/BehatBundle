@@ -34,7 +34,7 @@ class EnvironmentConstants
 
     public static function isEnterprise(): bool
     {
-        return in_array(self::getInstallType(), [InstallType::ENTERPRISE, InstallType::ENTERPRISE_DEMO]);
+        return in_array(self::getInstallType(), [InstallType::ENTERPRISE, InstallType::ENTERPRISE_DEMO, InstallType::COMMERCE]);
     }
 
     private static function getProperEnvironment(int $installType)
@@ -48,6 +48,8 @@ class EnvironmentConstants
                 return new EnterpriseEnvironmentConstants();
             case InstallType::ENTERPRISE_DEMO:
                 return new EnterpriseDemoEnvironmentConstants();
+            case InstallType::COMMERCE:
+                return new EnterpriseEnvironmentConstants();
             default:
                 throw new \Exception('Unrecognised install type');
         }
