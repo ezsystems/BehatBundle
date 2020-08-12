@@ -37,6 +37,9 @@ services:
     EzSystems\Behat\API\Facade\LanguageFacade:
         public: true
 
+    EzSystems\Behat\API\Facade\TrashFacade:
+        public: true
+
     EzSystems\Behat\Core\Behat\ArgumentParser:
         public: true
         arguments:
