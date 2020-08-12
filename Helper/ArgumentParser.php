@@ -27,7 +27,7 @@ class ArgumentParser
      *
      * @param string $url
      *
-     * @return mixed|string
+     * @return string
      */
     public function parseUrl(string $url)
     {

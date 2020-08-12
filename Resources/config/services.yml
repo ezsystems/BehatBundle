@@ -34,6 +34,9 @@ services:
     EzSystems\BehatBundle\API\Facade\LanguageFacade:
         public: true
 
+    EzSystems\BehatBundle\API\Facade\TrashFacade:
+        public: true
+
     EzSystems\BehatBundle\API\Facade\SearchFacade:
         arguments:
             - '@eZ\Publish\API\Repository\URLAliasService'
