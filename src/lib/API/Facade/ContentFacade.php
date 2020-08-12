@@ -79,4 +79,14 @@ class ContentFacade
         $updatedDraft = $this->contentService->updateContent($contentDraft->getVersionInfo(), $contentUpdateStruct);
         $this->contentService->publishVersion($updatedDraft->getVersionInfo());
     }
+
+    public function getContentByLocationURL($locationURL): Content
+    {
+        $urlAlias = $this->urlAliasService->lookup($locationURL);
+        Assert::assertEquals(URLAlias::LOCATION, $urlAlias->type);
+
+        return $this->locationService
+            ->loadLocation($urlAlias->destination)
+            ->getContent();
+    }
 }
