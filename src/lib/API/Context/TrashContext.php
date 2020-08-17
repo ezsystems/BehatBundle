@@ -18,10 +18,6 @@ class TrashContext implements Context
     /** @var ArgumentParser */
     private $argumentParser;
 
-    /**
-     * @injectService $trashFacade @EzSystems\Behat\API\Facade\TrashFacade
-     * @injectService $argumentParser @EzSystems\Behat\Core\Behat\ArgumentParser
-     */
     public function __construct(TrashFacade $trashFacade, ArgumentParser $argumentParser)
     {
         $this->trashFacade = $trashFacade;
