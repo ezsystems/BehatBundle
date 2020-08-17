@@ -10,6 +10,12 @@ services:
             $contentFacade: '@EzSystems\Behat\API\Facade\ContentFacade'
             $argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
 
+    EzSystems\Behat\API\Context\TrashContext:
+        public: true
+        arguments:
+            $trashFacade: '@EzSystems\Behat\API\Facade\TrashFacade'
+            $argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
+
     EzSystems\Behat\API\Context\ContentTypeContext:
         public: true
         arguments:
