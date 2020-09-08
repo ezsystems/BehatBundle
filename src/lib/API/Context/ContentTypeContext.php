@@ -117,12 +117,12 @@ class ContentTypeContext implements Context
         $parsedSettings['ReturnedType'] = explode('-', $fields[1])[1];
         $itemsPerPage = (int) explode('-', $fields[2])[1];
         $parsedSettings['ItemsPerPage'] = $itemsPerPage;
-        $parameters = (string) explode ('-', $fields[3])[1];
-        foreach (explode(';', $parameters) as $parameterDefinition)
-        {
+        $parameters = (string) explode('-', $fields[3])[1];
+        foreach (explode(';', $parameters) as $parameterDefinition) {
             [$parameterKey,$parameterValue] = explode(':', $parameterDefinition);
             $parsedSettings['Parameters'][$parameterKey] = $parameterValue;
         }
+
         return $parsedSettings;
     }
 }
