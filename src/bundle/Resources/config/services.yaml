@@ -70,3 +70,7 @@ services:
             $siteaccess: '@ezpublish.siteaccess'
         tags:
             - { name: console.command }
+
+    EzSystems\Behat\QueryType\FoldersUnderMediaQueryType: ~
+
+
