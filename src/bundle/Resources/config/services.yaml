@@ -72,5 +72,3 @@ services:
             - { name: console.command }
 
     EzSystems\Behat\QueryType\FoldersUnderMediaQueryType: ~
-
-
