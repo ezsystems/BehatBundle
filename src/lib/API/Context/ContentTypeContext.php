@@ -111,10 +111,23 @@ class ContentTypeContext implements Context
 
     private function parseContentQuerySettings(string $settings): array
     {
-        // Example: "QueryType-EzPlatformAdminUi:MediaSubtree,ContentType-folder"
+        // Example: "QueryType-EzPlatformAdminUi:MediaSubtree,ContentType-folder,ItemsPerPage-100,Parameters-contentTypeId:folder;locationId:43
         $fields = explode(',', $settings);
         $parsedSettings['QueryType'] = explode('-', $fields[0])[1];
         $parsedSettings['ReturnedType'] = explode('-', $fields[1])[1];
+
+        if (!empty($fields[2])) {
+            $itemsPerPage = (int)explode('-', $fields[2])[1];
+            $parsedSettings['ItemsPerPage'] = $itemsPerPage;
+        }
+
+        if (!empty($fields[3])) {
+            $parameters = (string)explode('-', $fields[3])[1];
+            foreach (explode(';', $parameters) as $parameterDefinition) {
+                [$parameterKey, $parameterValue] = explode(':', $parameterDefinition);
+                $parsedSettings['Parameters'][$parameterKey] = $parameterValue;
+            }
+        }
 
         return $parsedSettings;
     }
