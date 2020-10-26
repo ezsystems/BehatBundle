@@ -24,6 +24,9 @@ services:
 
     EzSystems\BehatBundle\API\Facade\ContentTypeFacade:
         public: true
+        arguments:
+        - '@ezpublish.api.service.content_type'
+        - '@ezpublish.cache_pool'
 
     EzSystems\BehatBundle\API\Facade\RoleFacade:
         public: true
