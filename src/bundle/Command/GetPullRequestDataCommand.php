@@ -144,6 +144,7 @@ If you have configured Composer with your token it can be obtained by running 'c
             '2.5' => '1.3',
             '3.0' => '2.0',
             '3.1' => '2.1',
+            '3.2' => '2.2',
             'master' => 'master',
         ];
 
