@@ -13,6 +13,7 @@ env:
 cache:
   directories:
     - $HOME/.composer/cache/files
+    - $HOME/.docker_images
 
 # test only master and stable branches (+ Pull requests)
 branches:
@@ -56,6 +57,9 @@ before_install:
   - travis_retry composer selfupdate
   # Avoid memory issues on composer install
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  # Load cached Docker images
+  - if [ "${BEHAT_OPTS}" != "" ] ; then docker load -i docker_images/$(echo ${COMPOSE_FILE} | md5sum | awk '{ print $1 }').tar || true ; fi 
+
 
 install:
   # Install packages if needed
@@ -71,6 +75,9 @@ script:
   - if [ "${CHECK_CS}" == "1" ] ; then ./vendor/bin/php-cs-fixer fix -v --dry-run --show-progress=estimating ; fi
   - if [ "${PHPUNIT_CONFIG}" != '' ]; then ./vendor/bin/phpunit -c "${PHPUNIT_CONFIG}"; fi
   - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/ezbehat $BEHAT_OPTS" ; fi
+
+before_cache:
+  -  if [ "${BEHAT_OPTS}" != "" ] ; then docker save -o $HOME/.docker_images/$(echo ${COMPOSE_FILE} | md5sum | awk '{ print $1 }').tar $(docker images -a -q) ; fi
 
 after_failure:
   # Will show us the last bit of the log of container's main processes
