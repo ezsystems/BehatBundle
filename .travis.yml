@@ -77,7 +77,7 @@ script:
   - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/ezbehat $BEHAT_OPTS" ; fi
 
 before_cache:
-  -  if [ "${BEHAT_OPTS}" != "" ] ; then docker save -o $HOME/.docker_images/$(echo ${COMPOSE_FILE} | md5sum | awk '{ print $1 }').tar $(docker images -a -q) ; fi
+  -  if [ "${BEHAT_OPTS}" != "" ] ; then docker save -o $HOME/.docker_images/$(echo ${COMPOSE_FILE} | md5sum | awk '{ print $1 }').tar $(docker images --format "{{.Repository}}:{{.Tag}}" | sed "s/:<none>//g") ; fi
 
 after_failure:
   # Will show us the last bit of the log of container's main processes
