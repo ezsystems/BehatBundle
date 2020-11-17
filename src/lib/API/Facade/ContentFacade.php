@@ -12,6 +12,7 @@ use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\URLAlias;
 use EzSystems\Behat\API\ContentData\ContentDataProvider;
+use FOS\HttpCacheBundle\CacheManager;
 use PHPUnit\Framework\Assert;
 
 class ContentFacade
@@ -28,12 +29,20 @@ class ContentFacade
     /** @var \EzSystems\Behat\API\ContentData\ContentDataProvider */
     private $contentDataProvider;
 
-    public function __construct(ContentService $contentService, LocationService $locationService, URLAliasService $urlAliasService, ContentDataProvider $contentDataProvider)
+    /** @var \FOS\HttpCacheBundle\CacheManager */
+    private $cacheManager;
+
+    public function __construct(ContentService $contentService,
+                                LocationService $locationService,
+                                URLAliasService $urlAliasService,
+                                ContentDataProvider $contentDataProvider,
+                                CacheManager $cacheManager)
     {
         $this->contentService = $contentService;
         $this->locationService = $locationService;
         $this->urlAliasService = $urlAliasService;
         $this->contentDataProvider = $contentDataProvider;
+        $this->cacheManager = $cacheManager;
     }
 
     public function createContentDraft($contentTypeIdentifier, $parentUrl, $language, $contentItemData = null): Content
@@ -61,10 +70,13 @@ class ContentFacade
     {
         $draft = $this->createContentDraft($contentTypeIdentifier, $parentUrl, $language, $contentItemData);
 
-        return $this->contentService->publishVersion($draft->versionInfo);
+        $publishedContent = $this->contentService->publishVersion($draft->versionInfo);
+        $this->flushHTTPcache();
+
+        return $publishedContent;
     }
 
-    public function editContent($locationURL, $language, $contentItemData)
+    public function editContent($locationURL, $language, $contentItemData): Content
     {
         $urlAlias = $this->urlAliasService->lookup($locationURL);
         Assert::assertEquals(URLAlias::LOCATION, $urlAlias->type);
@@ -77,7 +89,10 @@ class ContentFacade
         $this->contentDataProvider->getFilledContentDataStruct($contentUpdateStruct, $contentItemData, $language);
 
         $updatedDraft = $this->contentService->updateContent($contentDraft->getVersionInfo(), $contentUpdateStruct);
-        $this->contentService->publishVersion($updatedDraft->getVersionInfo());
+        $publishedContent = $this->contentService->publishVersion($updatedDraft->getVersionInfo());
+        $this->flushHTTPcache();
+
+        return $publishedContent;
     }
 
     public function getContentByLocationURL($locationURL): Content
@@ -88,5 +103,10 @@ class ContentFacade
         return $this->locationService
             ->loadLocation($urlAlias->destination)
             ->getContent();
+    }
+
+    private function flushHTTPcache(): void
+    {
+        $this->cacheManager->flush();
     }
 }
