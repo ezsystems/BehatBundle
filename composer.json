@@ -11,6 +11,8 @@
     "require": {
         "php": "^7.3",
         "ext-json": "*",
+        "dmore/chrome-mink-driver": "^2.7",
+        "ezsystems/ezplatform-http-cache": "^2.1",
         "ezsystems/ezplatform-kernel": "^1.3@dev",
         "fzaninotto/faker": "^1.9",
         "guzzlehttp/psr7": "^1.6.1",
@@ -55,6 +57,5 @@
             "dev-tmp_ci_branch": "8.3.x-dev"
         }
     },
-
     "bin": ["bin/ezbehat", "bin/ezreport"]
 }

@@ -6,6 +6,8 @@
  */
 namespace EzSystems\Behat\Browser\Page;
 
+use PHPUnit\Framework\Assert;
+
 class FrontendLoginPage extends Page
 {
     /** @var string Name by which Page is recognised */
@@ -26,5 +28,7 @@ class FrontendLoginPage extends Page
         $this->context->findElement('#username')->setValue($username);
         $this->context->findElement('#password')->setValue($password);
         $this->context->getElementByText('Login', 'button')->click();
+
+        Assert::assertNotEquals('/login', $this->context->getSession()->getCurrentUrl());
     }
 }
