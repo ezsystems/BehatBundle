@@ -16,6 +16,7 @@ use PHPUnit\Framework\Assert;
 use WebDriver\Exception\ElementNotVisible;
 use eZ\Publish\Core\MVC\Symfony\SiteAccess\Router;
 use eZ\Publish\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use DMore\ChromeDriver\ChromeDriver;
 
 class BrowserContext extends MinkContext
 {
@@ -346,8 +347,18 @@ class BrowserContext extends MinkContext
     public function responseHeadersContain(TableNode $expectedHeadersData): void
     {
         $responseHeaders = $this->getSession()->getDriver()->getResponseHeaders();
+
         foreach ($expectedHeadersData->getHash() as $row) {
-            Assert::assertEquals($row['Value'], $responseHeaders[$row['Header']][0]);
+            Assert::assertEquals($row['Value'], $this->getHeaderValue($responseHeaders, $row['Header']));
         }
+    }
+
+    private function getHeaderValue($responseHeaders, $header): string
+    {
+        if ($this->getSession()->getDriver() instanceof ChromeDriver) {
+            return $responseHeaders[$header];
+        }
+
+        return $responseHeaders[$header][0];
     }
 }
