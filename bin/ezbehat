@@ -16,9 +16,9 @@
 PROFILE=''
 SUITE=''
 TAGS=''
+OTHER_OPTIONS=''
 MODE='parallel'
 STRICT='--strict'
-
 
  # Help command output
 usage(){
@@ -28,7 +28,7 @@ Usage:
 
 Options:
 
-\t -m, --mode=MODE; 'get-features', 'standard' or 'parallel' ('fastest' by default);
+\t -m, --mode=MODE; 'get-features', 'standard' or 'parallel' ('parallel' by default);
 \t -p, --profile=PROFILE; Behat tests profile;
 \t -s, --suite=SUITE; Behat tests suite;
 \t -t, --tags=TAGS; Behat tags filter;
@@ -44,11 +44,11 @@ error(){
 }
 
 behat(){
-    bin/behat ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT}
+    bin/behat ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT} ${OTHER_OPTIONS}
 }
 
 fastest(){
-    get_behat_features | bin/fastest -o -v "bin/behat {} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT}"
+    get_behat_features | bin/fastest -o -v "bin/behat {} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT} ${OTHER_OPTIONS}"
 }
 
 # Fastest option 'list-features' gives us the list of all features from given context in random order, which are later
@@ -62,14 +62,15 @@ get_behat_features(){
 for i in "$@"
 do
 case $i in
-    -m=*|--mode=*)     MODE="${i#*=}"; shift;;
-    -p=*|--profile=*)  PROFILE="--profile=${i#*=} "; shift;;
-    -s=*|--suite=*)    SUITE="--suite=${i#*=} "; shift;;
-    -t=*|--tags=*)     TAGS="--tags=${i#*=} "; shift;;
-    --non-strict)      STRICT=''; shift;;
+    -m=*|--mode=*)     MODE="${i#*=}";;
+    -p=*|--profile=*)  PROFILE="--profile=${i#*=} "; ;;
+    -s=*|--suite=*)    SUITE="--suite=${i#*=} ";;
+    -t=*|--tags=*)     TAGS="--tags=${i#*=} ";;
+    --non-strict)      STRICT='';;
     -h|--help)         usage; exit 1;;
-    *)                 error $1;;
+    *)                 OTHER_OPTIONS="${OTHER_OPTIONS} ${i}";;
 esac
+shift
 done
 
 case "${MODE}" in
