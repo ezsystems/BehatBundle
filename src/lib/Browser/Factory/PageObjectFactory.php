@@ -11,7 +11,6 @@ use EzSystems\Behat\Browser\Page\FrontendLoginPage;
 use EzSystems\Behat\Core\Environment\InstallType;
 use EzSystems\EzPlatformAdminUi\Behat\PageObject\PlatformPageObjectFactory;
 use EzSystems\EzPlatformPageBuilder\Tests\Behat\PageObject\EnterprisePageObjectFactory;
-use Tests\App\Behat\PageObject\DemoEnterprisePageObjectFactory;
 
 class PageObjectFactory
 {
@@ -63,13 +62,10 @@ class PageObjectFactory
     private static function getFactory(int $installType)
     {
         switch ($installType) {
-            case InstallType::PLATFORM:
-            case InstallType::PLATFORM_DEMO:
+            case InstallType::OSS:
+            case InstallType::CONTENT:
                 return new PlatformPageObjectFactory();
-            case InstallType::ENTERPRISE:
-                return new EnterprisePageObjectFactory();
-            case InstallType::ENTERPRISE_DEMO:
-                return new DemoEnterprisePageObjectFactory();
+            case InstallType::EXPERIENCE:
             case InstallType::COMMERCE:
                 return new EnterprisePageObjectFactory();
             default:
