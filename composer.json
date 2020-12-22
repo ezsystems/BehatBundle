@@ -42,7 +42,6 @@
         "ezsystems/doctrine-dbal-schema": "^1.0@dev",
         "ezsystems/ezplatform-code-style": "^0.1.0",
         "friendsofphp/php-cs-fixer": "^2.16.0",
-        "phpunit/phpunit": "^8.5",
         "mikey179/vfsstream": "^1.6"
     },
     "autoload": {

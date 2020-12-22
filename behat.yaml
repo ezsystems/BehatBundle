@@ -30,7 +30,8 @@ default:
 
         DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
 
-        FriendsOfBehat\SymfonyExtension: ~
+        FriendsOfBehat\SymfonyExtension:
+            bootstrap: 'tests/bootstrap.php'
 
         EzSystems\BehatBundle\BehatExtension:
             mink:
