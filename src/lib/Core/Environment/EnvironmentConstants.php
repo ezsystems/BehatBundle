@@ -32,7 +32,7 @@ class EnvironmentConstants
 
     public static function isEnterprise(): bool
     {
-        return in_array(self::getInstallType(), [InstallType::ENTERPRISE, InstallType::ENTERPRISE_DEMO, InstallType::COMMERCE]);
+        return in_array(self::getInstallType(), [InstallType::CONTENT, InstallType::EXPERIENCE, InstallType::COMMERCE]);
     }
 
     private static function getProperEnvironment(int $installType)
@@ -41,7 +41,7 @@ class EnvironmentConstants
             case InstallType::OSS:
             case InstallType::CONTENT:
                 return new PlatformEnvironmentConstants();
-            case InstallType::ENTERPRISE:
+            case InstallType::EXPERIENCE:
             case InstallType::COMMERCE:
                 return new EnterpriseEnvironmentConstants();
             default:
