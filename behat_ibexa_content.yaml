@@ -1,0 +1,5 @@
+imports:
+    - behat_ibexa_oss.yaml
+    - vendor/ezsystems/ezplatform-workflow/behat_suites.yml
+    - vendor/ezsystems/date-based-publisher/behat_suites.yml
+

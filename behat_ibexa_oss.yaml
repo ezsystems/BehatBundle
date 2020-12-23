@@ -55,10 +55,7 @@ default:
         Allure\Behat\AllureFormatterExtension:
             image_attachment_limit: 5
 
-    suites:
-        default:
-            contexts:
-                - App\Tests\Behat\DemoContext
+    suites: ~
 
 imports:
     - vendor/ezsystems/ezplatform-kernel/eZ/Bundle/EzPublishCoreBundle/behat_suites.yml
