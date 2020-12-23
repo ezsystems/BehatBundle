@@ -35,6 +35,10 @@ class Environment
         }
 
         $composerConfig = json_decode(file_get_contents($composerJsonPath));
+        if ($this->isInstalledFromMetarepository($composerConfig)) {
+            return $this->getInstallTypeFromMetarepository($composerConfig);
+        }
+
         $packages = $composerConfig->require;
 
         $installTypeMap = [
@@ -49,5 +53,21 @@ class Environment
                 return $installType;
             }
         }
+    }
+
+    private function isInstalledFromMetarepository($composerConfig): bool
+    {
+        return property_exists($composerConfig, 'name');
+    }
+
+    private function getInstallTypeFromMetarepository($composerConfig): int
+    {
+        $packageNameMap = [
+            'ezsystems/ezplatform' => InstallType::OSS,
+            'ezsystems/ezplatform-ee' => InstallType::EXPERIENCE,
+            'ezsystems/ezcommerce' => InstallType::COMMERCE,
+        ];
+
+        return $packageNameMap[$composerConfig->name];
     }
 }
