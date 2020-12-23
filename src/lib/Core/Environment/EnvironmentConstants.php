@@ -8,8 +8,6 @@ namespace EzSystems\Behat\Core\Environment;
 
 use EzSystems\EzPlatformAdminUi\Behat\Environment\PlatformEnvironmentConstants;
 use EzSystems\EzPlatformPageBuilder\Tests\Behat\Environment\EnterpriseEnvironmentConstants;
-use Tests\AppBundle\Behat\PlatformDemoEnvironmentConstants;
-use Tests\App\Behat\EnterpriseDemoEnvironmentConstants;
 
 class EnvironmentConstants
 {
@@ -40,14 +38,10 @@ class EnvironmentConstants
     private static function getProperEnvironment(int $installType)
     {
         switch ($installType) {
-            case InstallType::PLATFORM:
+            case InstallType::OSS:
+            case InstallType::CONTENT:
                 return new PlatformEnvironmentConstants();
-            case InstallType::PLATFORM_DEMO:
-                return new PlatformDemoEnvironmentConstants();
             case InstallType::ENTERPRISE:
-                return new EnterpriseEnvironmentConstants();
-            case InstallType::ENTERPRISE_DEMO:
-                return new EnterpriseDemoEnvironmentConstants();
             case InstallType::COMMERCE:
                 return new EnterpriseEnvironmentConstants();
             default:

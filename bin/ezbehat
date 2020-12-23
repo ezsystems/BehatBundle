@@ -16,9 +16,10 @@
 PROFILE=''
 SUITE=''
 TAGS=''
+CONFIG=''
+OTHER_OPTIONS=''
 MODE='parallel'
 STRICT='--strict'
-
 
  # Help command output
 usage(){
@@ -28,7 +29,7 @@ Usage:
 
 Options:
 
-\t -m, --mode=MODE; 'get-features', 'standard' or 'parallel' ('fastest' by default);
+\t -m, --mode=MODE; 'get-features', 'standard' or 'parallel' ('parallel' by default);
 \t -p, --profile=PROFILE; Behat tests profile;
 \t -s, --suite=SUITE; Behat tests suite;
 \t -t, --tags=TAGS; Behat tags filter;
@@ -44,11 +45,11 @@ error(){
 }
 
 behat(){
-    bin/behat ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT}
+    ${BASH_SOURCE%/*}/behat ${CONFIG} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT} ${OTHER_OPTIONS}
 }
 
 fastest(){
-    get_behat_features | bin/fastest -o -v "bin/behat {} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT}"
+    get_behat_features | ${BASH_SOURCE%/*}/fastest -o -v "${BASH_SOURCE%/*}/behat {} ${CONFIG} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT} ${OTHER_OPTIONS}"
 }
 
 # Fastest option 'list-features' gives us the list of all features from given context in random order, which are later
@@ -56,20 +57,22 @@ fastest(){
 # times each build, often non optimal. To make this optimal we sort features by the number of scenarios in them
 # (descending) and run them in that order, to minimize final time gap between the threads.
 get_behat_features(){
-    bin/behat ${PROFILE}${SUITE}${TAGS} --list-scenarios | awk '{ gsub(/:[0-9]+/,"",$1); print $1 }' | uniq -c | sort --reverse | awk '{ print $2 }'
+     ${BASH_SOURCE%/*}/behat ${CONFIG} ${PROFILE}${SUITE}${TAGS} --list-scenarios | awk '{ gsub(/:[0-9]+/,"",$1); print $1 }' | uniq -c | sort --reverse | awk '{ print $2 }'
 }
 
 for i in "$@"
 do
 case $i in
-    -m=*|--mode=*)     MODE="${i#*=}"; shift;;
-    -p=*|--profile=*)  PROFILE="--profile=${i#*=} "; shift;;
-    -s=*|--suite=*)    SUITE="--suite=${i#*=} "; shift;;
-    -t=*|--tags=*)     TAGS="--tags=${i#*=} "; shift;;
-    --non-strict)      STRICT=''; shift;;
+    -m=*|--mode=*)     MODE="${i#*=}";;
+    -p=*|--profile=*)  PROFILE="--profile=${i#*=} "; ;;
+    -s=*|--suite=*)    SUITE="--suite=${i#*=} ";;
+    -t=*|--tags=*)     TAGS="--tags=${i#*=} ";;
+    -c=*|--config=*)   CONFIG="--config=${i#*=}";;
+    --non-strict)      STRICT='';;
     -h|--help)         usage; exit 1;;
-    *)                 error $1;;
+    *)                 OTHER_OPTIONS="${OTHER_OPTIONS} ${i}";;
 esac
+shift
 done
 
 case "${MODE}" in

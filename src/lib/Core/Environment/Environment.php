@@ -35,10 +35,39 @@ class Environment
         }
 
         $composerConfig = json_decode(file_get_contents($composerJsonPath));
-        if (!isset(InstallType::PACKAGE_NAME_MAP[$composerConfig->name])) {
-            throw new RuntimeException("Unknown installation type for the package: {$composerConfig->name}");
+        if ($this->isInstalledFromMetarepository($composerConfig)) {
+            return $this->getInstallTypeFromMetarepository($composerConfig);
         }
 
-        return InstallType::PACKAGE_NAME_MAP[$composerConfig->name];
+        $packages = $composerConfig->require;
+
+        $installTypeMap = [
+            'ibexa/oss' => InstallType::OSS,
+            'ibexa/content' => InstallType::CONTENT,
+            'ibexa/experience' => InstallType::EXPERIENCE,
+            'ibexa/commerce' => InstallType::COMMERCE,
+        ];
+
+        foreach ($installTypeMap as $expectedProperty => $installType) {
+            if (property_exists($packages, $expectedProperty)) {
+                return $installType;
+            }
+        }
+    }
+
+    private function isInstalledFromMetarepository($composerConfig): bool
+    {
+        return property_exists($composerConfig, 'name');
+    }
+
+    private function getInstallTypeFromMetarepository($composerConfig): int
+    {
+        $packageNameMap = [
+            'ezsystems/ezplatform' => InstallType::OSS,
+            'ezsystems/ezplatform-ee' => InstallType::EXPERIENCE,
+            'ezsystems/ezcommerce' => InstallType::COMMERCE,
+        ];
+
+        return $packageNameMap[$composerConfig->name];
     }
 }
