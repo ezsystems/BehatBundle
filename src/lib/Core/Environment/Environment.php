@@ -15,7 +15,7 @@ class Environment
     private $serviceContainer;
 
     /** @var array */
-    private $packageNameMap = [
+    private $metarepositoryPackageNameMap = [
         'ezsystems/ezplatform' => InstallType::OSS,
         'ezsystems/ezplatform-ee' => InstallType::EXPERIENCE,
         'ezsystems/ezcommerce' => InstallType::COMMERCE,
@@ -64,11 +64,11 @@ class Environment
 
     private function isInstalledFromMetarepository($composerConfig): bool
     {
-        return property_exists($composerConfig, 'name') && \in_array($composerConfig->name, \array_keys($this->packageNameMap));
+        return property_exists($composerConfig, 'name') && \in_array($composerConfig->name, \array_keys($this->metarepositoryPackageNameMap));
     }
 
     private function getInstallTypeFromMetarepository($composerConfig): int
     {
-        return $this->packageNameMap[$composerConfig->name];
+        return $this->metarepositoryPackageNameMap[$composerConfig->name];
     }
 }
