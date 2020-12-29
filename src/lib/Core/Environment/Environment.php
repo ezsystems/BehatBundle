@@ -14,6 +14,13 @@ class Environment
     /** @var \Symfony\Component\DependencyInjection\ContainerInterface Symfony DI service container */
     private $serviceContainer;
 
+    /** @var array */
+    private $packageNameMap = [
+        'ezsystems/ezplatform' => InstallType::OSS,
+        'ezsystems/ezplatform-ee' => InstallType::EXPERIENCE,
+        'ezsystems/ezcommerce' => InstallType::COMMERCE,
+    ];
+
     /**
      * Environment constructor.
      *
@@ -57,17 +64,11 @@ class Environment
 
     private function isInstalledFromMetarepository($composerConfig): bool
     {
-        return property_exists($composerConfig, 'name');
+        return property_exists($composerConfig, 'name') && \in_array($composerConfig->name, \array_keys($this->packageNameMap));
     }
 
     private function getInstallTypeFromMetarepository($composerConfig): int
     {
-        $packageNameMap = [
-            'ezsystems/ezplatform' => InstallType::OSS,
-            'ezsystems/ezplatform-ee' => InstallType::EXPERIENCE,
-            'ezsystems/ezcommerce' => InstallType::COMMERCE,
-        ];
-
-        return $packageNameMap[$composerConfig->name];
+        return $this->packageNameMap[$composerConfig->name];
     }
 }
