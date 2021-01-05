@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Command;
 
+use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
 use EzSystems\Behat\Event\InitialEvent;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +21,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Yaml\Yaml;
 
-class CreateExampleDataManagerCommand extends Command
+class CreateExampleDataManagerCommand extends Command implements BackwardCompatibleCommand
 {
     private const BATCH_SIZE = 100;
 
@@ -41,13 +42,19 @@ class CreateExampleDataManagerCommand extends Command
 
     public function __construct(string $env, string $projectDir)
     {
-        parent::__construct('ezplatform:tools:generate-items');
+        parent::__construct('ibexa:behat:generate-items');
+
         $encoders = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
         $this->serializer = new Serializer($normalizers, $encoders);
         $this->env = $env;
         $this->projectDir = $projectDir;
         $this->stopwatch = new Stopwatch();
+    }
+
+    protected function configure(): void
+    {
+        $this->setAliases(['ezplatform:tools:generate-items']);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -144,5 +151,13 @@ class CreateExampleDataManagerCommand extends Command
     private function serialize(InitialEvent $eventData): string
     {
         return base64_encode($this->serializer->serialize($eventData, 'json'));
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDeprecatedAliases(): array
+    {
+        return ['ezplatform:tools:generate-items'];
     }
 }

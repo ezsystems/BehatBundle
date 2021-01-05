@@ -6,15 +6,16 @@
  */
 namespace EzSystems\BehatBundle\Command;
 
+use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use eZ\Publish\Core\MVC\Symfony\SiteAccess;
 
-class TestSiteaccessCommand extends Command
+class TestSiteaccessCommand extends Command implements BackwardCompatibleCommand
 {
     /** @var string|null */
-    protected static $defaultName = 'ez:behat:siteaccess';
+    protected static $defaultName = 'ibexa:behat:test-siteaccess';
 
     /** @var \eZ\Publish\Core\MVC\Symfony\SiteAccess */
     private $siteaccess;
@@ -33,6 +34,7 @@ class TestSiteaccessCommand extends Command
     {
         $this
             ->setName(self::$defaultName)
+            ->setAliases(['ez:behat:siteaccess'])
             ->setDescription('Outputs the name of the active siteaccess');
     }
 
@@ -41,5 +43,13 @@ class TestSiteaccessCommand extends Command
         $output->writeln($this->siteaccess->name);
 
         return 0;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDeprecatedAliases(): array
+    {
+        return ['ez:behat:siteaccess'];
     }
 }
