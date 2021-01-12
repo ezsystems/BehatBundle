@@ -5,8 +5,10 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
+
 namespace EzSystems\BehatBundle\Command;
 
+use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
 use EzSystems\Behat\Event\Events;
 use EzSystems\Behat\Event\InitialEvent;
 use Psr\Log\LoggerInterface;
@@ -21,9 +23,9 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class CreateExampleDataCommand extends Command
+class CreateExampleDataCommand extends Command implements BackwardCompatibleCommand
 {
-    public const NAME = 'ezplatform:tools:create-data';
+    public const NAME = 'ibexa:behat:create-data';
 
     /** @var EventDispatcherInterface */
     private $eventDispatcher;
@@ -51,6 +53,7 @@ class CreateExampleDataCommand extends Command
     protected function configure()
     {
         $this
+            ->setAliases(['ezplatform:tools:create-data'])
             ->addArgument('iterations', InputArgument::REQUIRED)
             ->addArgument('serializedTransitionData', InputArgument::REQUIRED);
     }
@@ -82,5 +85,13 @@ class CreateExampleDataCommand extends Command
     private function parseInputData(string $serializedTransitionEvent): InitialEvent
     {
         return $this->serializer->deserialize(base64_decode($serializedTransitionEvent), InitialEvent::class, 'json');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDeprecatedAliases(): array
+    {
+        return ['ezplatform:tools:create-data'];
     }
 }

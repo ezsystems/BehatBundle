@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Command;
 
+use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,7 +19,7 @@ use Http\Discovery\HttpClientDiscovery;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Discovery\MessageFactoryDiscovery;
 
-class GetPullRequestDataCommand extends Command
+class GetPullRequestDataCommand extends Command implements BackwardCompatibleCommand
 {
     /** @var string */
     private $token;
@@ -40,7 +41,8 @@ class GetPullRequestDataCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ezplatform:tools:get-pull-request-data')
+            ->setName('ibexa:behat:get-pull-request-data')
+            ->setAliases(['ezplatform:tools:get-pull-request-data'])
             ->setDescription('Get data about a GitHub Pull Request')
             ->addArgument(
                 'pull-request-url',
@@ -179,5 +181,13 @@ If you have configured Composer with your token it can be obtained by running 'c
         }
 
         return $response;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDeprecatedAliases(): array
+    {
+        return ['ezplatform:tools:get-pull-request-data'];
     }
 }

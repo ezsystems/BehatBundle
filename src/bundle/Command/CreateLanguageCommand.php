@@ -6,6 +6,7 @@
  */
 namespace EzSystems\BehatBundle\Command;
 
+use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
 use eZ\Publish\API\Repository\LanguageService;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
@@ -14,7 +15,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateLanguageCommand extends Command
+class CreateLanguageCommand extends Command implements BackwardCompatibleCommand
 {
     /** @var \eZ\Publish\API\Repository\LanguageService */
     private $languageService;
@@ -34,13 +35,14 @@ class CreateLanguageCommand extends Command
         $this->userService = $userService;
         $this->permissionResolver = $permissionResolver;
 
-        parent::__construct(null);
+        parent::__construct();
     }
 
     protected function configure()
     {
         $this
-            ->setName('ez:behat:create-language')
+            ->setName('ibexa:behat:create-language')
+            ->setAliases(['ez:behat:create-language'])
             ->setDescription('Create a Language')
             ->addArgument('language-code', InputArgument::REQUIRED)
             ->addArgument('language-name', InputArgument::OPTIONAL, 'Language name', '')
@@ -68,5 +70,13 @@ class CreateLanguageCommand extends Command
         $this->languageService->createLanguage($languageCreateStruct);
 
         return 0;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDeprecatedAliases(): array
+    {
+        return ['ez:behat:create-language'];
     }
 }
