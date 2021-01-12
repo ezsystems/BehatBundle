@@ -14,9 +14,6 @@ use eZ\Publish\Core\MVC\Symfony\SiteAccess;
 
 class TestSiteaccessCommand extends Command implements BackwardCompatibleCommand
 {
-    /** @var string|null */
-    protected static $defaultName = 'ibexa:behat:test-siteaccess';
-
     /** @var \eZ\Publish\Core\MVC\Symfony\SiteAccess */
     private $siteaccess;
 
@@ -33,8 +30,8 @@ class TestSiteaccessCommand extends Command implements BackwardCompatibleCommand
     protected function configure()
     {
         $this
-            ->setName(self::$defaultName)
-            ->setAliases(['ez:behat:siteaccess'])
+            ->setName('ibexa:behat:test-siteaccess')
+            ->setAliases($this->getDeprecatedAliases())
             ->setDescription('Outputs the name of the active siteaccess');
     }
 
