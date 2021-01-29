@@ -50,7 +50,7 @@ echo 'Adding dependencies to Composer...'
 # Step 2: Parse data from the Pull Request
 for i in "${prLinks[@]}"
 do
-  read -r -a VALUES <<< "$(php bin/console ezplatform:tools:get-pull-request-data $i $GITHUB_OAUTH_TOKEN)"
+  read -r -a VALUES <<< "$(php bin/console ibexa:behat:get-pull-request-data $i $GITHUB_OAUTH_TOKEN)"
 
   REPOSITORY_URLS+=("${VALUES[0]}")
 
