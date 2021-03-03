@@ -17,7 +17,8 @@ class TestLogProvider
 {
     private const CONSOLE_LOGS_LIMIT = 10;
     private const APPLICATION_LOGS_LIMIT = 25;
-    private const LOG_FILE_NAME = 'travis_test.log';
+    private const OLD_LOG_FILE_NAME = 'travis_test.log';
+    private const LOG_FILE_NAME = 'behat.log';
 
     private static $LOGS;
 
@@ -63,6 +64,12 @@ class TestLogProvider
     {
         $logReader = new LogFileReader();
         $lines = $logReader->getLastLines(sprintf('%s/%s', $this->logDirectory, self::LOG_FILE_NAME), self::APPLICATION_LOGS_LIMIT);
+
+        if (empty($lines)) {
+            // Check file used for logs in metarepository installation
+            $lines = $logReader->getLastLines(sprintf('%s/%s', $this->logDirectory, self::OLD_LOG_FILE_NAME), self::APPLICATION_LOGS_LIMIT);
+        }
+
         $parsedLines = [];
         foreach ($lines as $line) {
             $parsedLine = str_replace([' app.ERROR: Behat:', '[] []'], '', $line);
