@@ -39,6 +39,7 @@
         "symfony/yaml": "^5.0"
     },
     "require-dev": {
+        "ibexa/ci-scripts": "^0.1@dev",
         "ezsystems/doctrine-dbal-schema": "^1.0@dev",
         "ezsystems/ezplatform-code-style": "^0.1.0",
         "friendsofphp/php-cs-fixer": "^2.16.0",

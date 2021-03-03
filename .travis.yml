@@ -5,7 +5,7 @@ php:
 
 env:
   global:
-    - EZPLATFORM_REPO="https://github.com/ezsystems/ezplatform.git"
+    - PROJECT_VERSION=^3.3.x-dev
     - COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
     - APP_ENV=behat
     - APP_DEBUG=1
@@ -13,7 +13,6 @@ env:
 cache:
   directories:
     - $HOME/.composer/cache/files
-    - $HOME/.docker_images
 
 # test only master and stable branches (+ Pull requests)
 branches:
@@ -29,15 +28,15 @@ jobs:
       env: PHPUNIT_CONFIG='phpunit.xml'
     - name: "BehatBundle examples"
       php: 7.3
-      env: BEHAT_OPTS="--mode=standard --profile=behat --suite=examples"
+      env: BEHAT_OPTS="--mode=standard --profile=behat --suite=examples -c=behat_ibexa_oss.yaml"
     - name: "BehatBundle personas tests"
       php: 7.3
-      env: BEHAT_OPTS="--mode=standard --profile=setup --suite=personas"
+      env: BEHAT_OPTS="--mode=standard --profile=setup --suite=personas -c=behat_ibexa_oss.yaml"
     - name: "AdminUI Modules tests"
       php: 7.3
       env:
-        -SETUP_BEHAT_OPTS="--mode=standard --profile=setup --suite=richtext_configuration"
-        -BEHAT_OPTS="--mode=standard --profile=adminui --suite=adminuimodules"
+        -SETUP_BEHAT_OPTS="--mode=standard --profile=setup --suite=richtext_configuration -c=behat_ibexa_oss.yaml"
+        -BEHAT_OPTS="--mode=standard --profile=adminui --suite=adminuimodules -c=behat_ibexa_oss.yaml"
 
 git:
   depth: 30
@@ -62,22 +61,18 @@ before_install:
 
 
 install:
-  # Install packages if needed
-  - if [ "${CHECK_CS}" == "1" -o "${PHPUNIT_CONFIG}" != "" ]; then travis_retry composer install --prefer-dist --no-interaction --no-suggest ; fi
+  - travis_retry composer install --prefer-dist --no-interaction --no-suggest
   # Prepare whole environment if needed
-  - if [ "${BEHAT_OPTS}" != "" ]; then ./bin/.travis/prepare_ezplatform.sh ; fi
+  - if [ "${BEHAT_OPTS}" != "" ]; then ./vendor/bin/prepare_project_edition.sh oss ${PROJECT_VERSION} ${COMPOSE_FILE} ; fi
 
 before_script:
-  - if [ "${SETUP_BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/ezbehat $SETUP_BEHAT_OPTS" ; fi
-  - if [ "${SETUP_BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "composer run post-install-cmd" ; fi
+  - if [ "${SETUP_BEHAT_OPTS}" != "" ]; then cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "vendor/bin/ezbehat $SETUP_BEHAT_OPTS" ; fi
+  - if [ "${SETUP_BEHAT_OPTS}" != "" ]; then cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "composer run post-install-cmd" ; fi
 
 script:
   - if [ "${CHECK_CS}" == "1" ] ; then ./vendor/bin/php-cs-fixer fix -v --dry-run --show-progress=estimating ; fi
   - if [ "${PHPUNIT_CONFIG}" != '' ]; then ./vendor/bin/phpunit -c "${PHPUNIT_CONFIG}"; fi
-  - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/ezbehat $BEHAT_OPTS" ; fi
-
-before_cache:
-  -  if [ "${BEHAT_OPTS}" != "" ] ; then docker save -o $HOME/.docker_images/$(echo ${COMPOSE_FILE} | md5sum | awk '{ print $1 }').tar $(docker images --format "{{.Repository}}:{{.Tag}}" | sed "s/:<none>//g") ; fi
+  - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "vendor/bin/ezbehat $BEHAT_OPTS" ; fi
 
 after_failure:
   # Will show us the last bit of the log of container's main processes
@@ -88,4 +83,4 @@ after_failure:
   - docker ps -s
 
 after_script:
-  - if [ "${BEHAT_OPTS}" != "" ] ; then bin/ezreport; fi
+  - if [ "${BEHAT_OPTS}" != "" ] ; then vendor/bin/ezreport; fi
