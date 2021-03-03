@@ -9,11 +9,35 @@ namespace EzSystems\BehatBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Ibexa\Platform\PostInstall\IbexaProductVersion;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Loader;
 
-class eZBehatExtension extends Extension
+class eZBehatExtension extends Extension implements PrependExtensionInterface, CompilerPassInterface
 {
     private const ENABLE_ENTERPRISE_SERVICES = 'ezplatform.behat.enable_enterprise_services';
+
+    private const OVERRIDE_CONFIGURATION = 'ezplatform.behat.override_configuration';
+
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container->getParameter(self::OVERRIDE_CONFIGURATION)) {
+            return;
+        }
+
+        $container->setParameter('ezsettings.admin_group.notifications.success.timeout', 20000);
+    }
+
+    public function prepend(ContainerBuilder $container)
+    {
+        $container->setParameter(self::OVERRIDE_CONFIGURATION, true);
+
+        $product = IbexaProductVersion::getInstalledProduct();
+        if ($product !== 'ibexa/oss') {
+            $container->setParameter(self::ENABLE_ENTERPRISE_SERVICES, true);
+        }
+    }
 
     public function load(array $config, ContainerBuilder $container)
     {
