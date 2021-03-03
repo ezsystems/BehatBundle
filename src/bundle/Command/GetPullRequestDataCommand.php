@@ -48,7 +48,7 @@ class GetPullRequestDataCommand extends Command
                 'GitHub Pull Request URL')
             ->addArgument(
                 'token',
-                InputArgument::REQUIRED,
+                InputArgument::OPTIONAL,
                 'GitHub OAuth token')
             ->setHelp("This command outputs data in given order:
             - repository URL
@@ -163,9 +163,12 @@ If you have configured Composer with your token it can be obtained by running 'c
     {
         $headers = [
             'User-Agent' => 'ezrobot',
-            'Authorization' => sprintf('token %s', $this->token),
             'Accept' => $acceptFormat,
         ];
+
+        if ($this->token) {
+            $headers['Authorization'] = sprintf('token %s', $this->token);
+        }
 
         $request = new Request('GET', $requestUrl, $headers);
         $response = $this->httpClient->sendRequest($request);
