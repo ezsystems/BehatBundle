@@ -63,16 +63,16 @@ before_install:
 install:
   - travis_retry composer install --prefer-dist --no-interaction --no-suggest
   # Prepare whole environment if needed
-  - if [ "${BEHAT_OPTS}" != "" ]; then ./vendor/bin/prepare_project_edition.sh oss ${PROJECT_VERSION} ${COMPOSE_FILE} ; fi
+  - if [ "${BEHAT_OPTS}" != "" ] ; then ./vendor/bin/prepare_project_edition.sh oss ${PROJECT_VERSION} ${COMPOSE_FILE} ; fi
 
 before_script:
-  - if [ "${SETUP_BEHAT_OPTS}" != "" ]; then cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "vendor/bin/ezbehat $SETUP_BEHAT_OPTS" ; fi
-  - if [ "${SETUP_BEHAT_OPTS}" != "" ]; then cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "composer run post-install-cmd" ; fi
+  - if [ "${SETUP_BEHAT_OPTS}" != "" ] ; then cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "vendor/bin/ezbehat $SETUP_BEHAT_OPTS" ; fi
+  - if [ "${SETUP_BEHAT_OPTS}" != "" ] ; then cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "composer run post-install-cmd" ; fi
 
 script:
   - if [ "${CHECK_CS}" == "1" ] ; then ./vendor/bin/php-cs-fixer fix -v --dry-run --show-progress=estimating ; fi
-  - if [ "${PHPUNIT_CONFIG}" != '' ]; then ./vendor/bin/phpunit -c "${PHPUNIT_CONFIG}"; fi
-  - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "vendor/bin/ezbehat $BEHAT_OPTS" ; fi
+  - if [ "${PHPUNIT_CONFIG}" != '' ] ; then ./vendor/bin/phpunit -c "${PHPUNIT_CONFIG}"; fi
+  - if [ "${BEHAT_OPTS}" != "" ] ; then cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "vendor/bin/ezbehat $BEHAT_OPTS" ; fi
 
 after_failure:
   # Will show us the last bit of the log of container's main processes
