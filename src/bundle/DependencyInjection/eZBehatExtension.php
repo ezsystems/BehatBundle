@@ -10,9 +10,10 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Ibexa\Platform\PostInstall\IbexaProductVersion;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Loader;
+use EzSystems\Behat\Core\Environment\Environment;
+use EzSystems\Behat\Core\Environment\InstallType;
 
 class eZBehatExtension extends Extension implements PrependExtensionInterface, CompilerPassInterface
 {
@@ -33,8 +34,10 @@ class eZBehatExtension extends Extension implements PrependExtensionInterface, C
     {
         $container->setParameter(self::OVERRIDE_CONFIGURATION, true);
 
-        $product = IbexaProductVersion::getInstalledProduct();
-        if ($product !== 'ibexa/oss') {
+        $env = new Environment($container);
+        $installType = $env->getInstallType();
+
+        if (\in_array($installType, [InstallType::CONTENT, InstallType::EXPERIENCE, InstallType::COMMERCE])) {
             $container->setParameter(self::ENABLE_ENTERPRISE_SERVICES, true);
         }
     }
