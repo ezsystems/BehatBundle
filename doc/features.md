@@ -33,3 +33,7 @@ With `EzBehatExtension` enabled Behat becomes SiteAccess aware. The SiteAccess u
 ## Debugging tools
 
 Use the `EzSystems\Behat\Browser\Context\Hooks` Context class to access browser and server logs after Scenario failure, which combined with the screenshots feature makes debugging failures (even on CI) much easier.
+
+## Default testing configuration
+
+BehatBundle might override some settings with values that are needed for testing. If you want to disable this behaviour you should set the `ezplatform.behat.override_configuration` parameter to `false`.
