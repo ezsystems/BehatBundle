@@ -10,7 +10,7 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Exception;
-use EzSystems\Behat\Core\Configuration\ConfigurationEditor;
+use EzSystems\Behat\Core\Configuration\ConfigurationEditorInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class ConfigurationContext implements Context
@@ -20,11 +20,16 @@ class ConfigurationContext implements Context
     private $ezplatformConfigFilePath;
     private $configFilePath;
     private $projectDir;
+    /**
+     * @var ConfigurationEditorInterface
+     */
+    private $configurationEditor;
 
-    public function __construct(string $projectDir)
+    public function __construct(string $projectDir, ConfigurationEditorInterface $configurationEditor)
     {
         $this->projectDir = $projectDir;
         $this->ezplatformConfigFilePath = sprintf('%s/config/packages/ezplatform.yaml', $projectDir);
+        $this->configurationEditor = $configurationEditor;
     }
 
     /**
@@ -32,20 +37,18 @@ class ConfigurationContext implements Context
      */
     public function iAddSiteaccessWithSettings($siteaccessName, $siteaccessGroup, TableNode $settings)
     {
-        $configurationEditor = new ConfigurationEditor();
+        $config = $this->configurationEditor->getConfigFromFile($this->ezplatformConfigFilePath);
 
-        $config = $configurationEditor->getConfigFromFile($this->ezplatformConfigFilePath);
-
-        $config = $configurationEditor->append($config, 'ezplatform.siteaccess.list', $siteaccessName);
-        $config = $configurationEditor->append($config, sprintf('ezplatform.siteaccess.groups.%s', $siteaccessGroup), $siteaccessName);
+        $config = $this->configurationEditor->append($config, 'ezplatform.siteaccess.list', $siteaccessName);
+        $config = $this->configurationEditor->append($config, sprintf('ezplatform.siteaccess.groups.%s', $siteaccessGroup), $siteaccessName);
 
         foreach ($settings->getHash() as $setting) {
             $key = $setting['key'];
             $value = $this->parseSetting($setting['value']);
-            $config = $configurationEditor->set($config, sprintf(self::SITEACCESS_KEY_FORMAT, $siteaccessName, $key), $value);
+            $config = $this->configurationEditor->set($config, sprintf(self::SITEACCESS_KEY_FORMAT, $siteaccessName, $key), $value);
         }
 
-        $configurationEditor->saveConfigToFile($this->ezplatformConfigFilePath, $config);
+        $this->configurationEditor->saveConfigToFile($this->ezplatformConfigFilePath, $config);
     }
 
     /**
@@ -55,19 +58,18 @@ class ConfigurationContext implements Context
     {
         $appendToExisting = $this->shouldAppendValue($mode);
 
-        $configurationEditor = new ConfigurationEditor();
-        $config = $configurationEditor->getConfigFromFile($this->ezplatformConfigFilePath);
+        $config = $this->configurationEditor->getConfigFromFile($this->ezplatformConfigFilePath);
 
         foreach ($settings->getHash() as $setting) {
             $key = $setting['key'];
             $value = $this->parseSetting($setting['value']);
 
             $config = $appendToExisting ?
-                $configurationEditor->append($config, sprintf(self::SITEACCESS_KEY_FORMAT, $siteaccessName, $key), $value) :
-                $configurationEditor->set($config, sprintf(self::SITEACCESS_KEY_FORMAT, $siteaccessName, $key), $value);
+                $this->configurationEditor->append($config, sprintf(self::SITEACCESS_KEY_FORMAT, $siteaccessName, $key), $value) :
+                $this->configurationEditor->set($config, sprintf(self::SITEACCESS_KEY_FORMAT, $siteaccessName, $key), $value);
         }
 
-        $configurationEditor->saveConfigToFile($this->ezplatformConfigFilePath, $config);
+        $this->configurationEditor->saveConfigToFile($this->ezplatformConfigFilePath, $config);
     }
 
     /**
@@ -80,17 +82,15 @@ class ConfigurationContext implements Context
     {
         $appendToExisting = $this->shouldAppendValue($mode);
 
-        $configurationEditor = new ConfigurationEditor();
-
         $configFilePath = $configFilePath ? sprintf('%s/%s', $this->projectDir, $configFilePath) : $this->ezplatformConfigFilePath;
 
-        $config = $configurationEditor->getConfigFromFile($configFilePath);
+        $config = $this->configurationEditor->getConfigFromFile($configFilePath);
         $parsedConfig = $this->parseConfig($configFragment);
 
         $config = $appendToExisting ?
-            $configurationEditor->append($config, $parentNode, $parsedConfig) :
-            $configurationEditor->set($config, $parentNode, $parsedConfig);
-        $configurationEditor->saveConfigToFile($configFilePath, $config);
+            $this->configurationEditor->append($config, $parentNode, $parsedConfig) :
+            $this->configurationEditor->set($config, $parentNode, $parsedConfig);
+        $this->configurationEditor->saveConfigToFile($configFilePath, $config);
     }
 
     /**
