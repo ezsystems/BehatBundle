@@ -16,8 +16,6 @@ class GetPullRequestDataCommandTest extends TestCase
 
     private const EXAMPLE_GITHUB_PR_LINK = 'https://github.com/ezsystems/BehatBundle/pull/99';
 
-    private const EXAMPLE_GITHUB_TOKEN = 'd0285ed5c8644f30547572ead2ed897431c1fc09';
-
     public function setUp(): void
     {
         $this->commandTester = new CommandTester(new GetPullRequestDataCommand());
@@ -30,7 +28,6 @@ class GetPullRequestDataCommandTest extends TestCase
 
         $this->commandTester->execute([
             'pull-request-url' => self::EXAMPLE_GITHUB_PR_LINK,
-            'token' => self::EXAMPLE_GITHUB_TOKEN,
         ]);
 
         $this->assertEquals($expectedOutput, $this->commandTester->getDisplay());
