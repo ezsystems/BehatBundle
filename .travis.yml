@@ -5,7 +5,7 @@ php:
 
 env:
   global:
-    - PROJECT_VERSION=^3.3.x-dev
+    - PROJECT_VERSION=^4.0.x-dev
     - COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/selenium.yml"
     - APP_ENV=behat
     - APP_DEBUG=1
