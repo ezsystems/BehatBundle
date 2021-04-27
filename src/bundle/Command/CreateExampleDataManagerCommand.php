@@ -12,6 +12,7 @@ use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
 use EzSystems\Behat\Event\InitialEvent;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -133,6 +134,11 @@ class CreateExampleDataManagerCommand extends Command implements BackwardCompati
         while (count($this->processes)) {
             foreach ($this->processes as $i => $runningProcess) {
                 if (!$runningProcess->isRunning()) {
+                    if (!$runningProcess->isSuccessful()) {
+                        $stderr = $output instanceof ConsoleOutputInterface ? $output->getErrorOutput() : $output;
+                        $stderr->writeln($runningProcess->getErrorOutput());
+                    }
+
                     unset($this->processes[$i]);
                 }
                 sleep(1);
