@@ -36,10 +36,10 @@
         "symfony/dependency-injection": "^5.0",
         "symfony/http-kernel": "^5.0",
         "symfony/property-access": "^5.0",
-        "symfony/yaml": "^5.0"
+        "symfony/yaml": "^5.0",
+        "ibexa/ci-scripts": "dev-export-php-image as 0.2.x-dev"
     },
     "require-dev": {
-        "ibexa/ci-scripts": "^0.2@dev",
         "ezsystems/doctrine-dbal-schema": "^2.0@dev",
         "ezsystems/ezplatform-rest": "^2.0@dev",
         "ezsystems/ezplatform-code-style": "^0.1.0",
@@ -65,5 +65,11 @@
             "dev-master": "9.0.x-dev"
         }
     },
-    "bin": ["bin/ezbehat", "bin/ezreport"]
+    "bin": ["bin/ezbehat", "bin/ezreport"],
+    "repositories": {
+        "60925d157d642": {
+            "type": "vcs",
+            "url": "https://github.com/ibexa/ci-scripts"
+        }
+    }
 }
