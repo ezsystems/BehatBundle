@@ -10,6 +10,7 @@ use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\Content;
+use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\URLAlias;
 use EzSystems\Behat\API\ContentData\ContentDataProvider;
 use FOS\HttpCacheBundle\CacheManager;
@@ -97,12 +98,15 @@ class ContentFacade
 
     public function getContentByLocationURL($locationURL): Content
     {
+        return $this->getLocationByLocationURL($locationURL)->getContent();
+    }
+
+    public function getLocationByLocationURL($locationURL): Location
+    {
         $urlAlias = $this->urlAliasService->lookup($locationURL);
         Assert::assertEquals(URLAlias::LOCATION, $urlAlias->type);
 
-        return $this->locationService
-            ->loadLocation($urlAlias->destination)
-            ->getContent();
+        return $this->locationService->loadLocation($urlAlias->destination);
     }
 
     private function flushHTTPcache(): void

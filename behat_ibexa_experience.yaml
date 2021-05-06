@@ -1,5 +1,6 @@
 imports:
     - behat_ibexa_content.yaml
     - vendor/ezsystems/ezplatform-page-builder/behat_suites.yml
+    - vendor/ezsystems/ezplatform-site-factory/behat_suites.yml
     - vendor/ezsystems/ezplatform-form-builder/behat_suites.yml
     - vendor/ezsystems/ezplatform-page-fieldtype/behat_suites.yml

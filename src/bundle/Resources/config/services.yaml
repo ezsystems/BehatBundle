@@ -75,3 +75,10 @@ services:
             - { name: console.command }
 
     EzSystems\Behat\QueryType\FoldersUnderMediaQueryType: ~
+
+    EzSystems\Behat\Core\Configuration\ConfigurationEditor: ~
+
+    EzSystems\Behat\Core\Configuration\LocationAwareConfigurationEditor:
+        decorates: EzSystems\Behat\Core\Configuration\ConfigurationEditor
+
+    EzSystems\Behat\Core\Configuration\ConfigurationEditorInterface: '@EzSystems\Behat\Core\Configuration\LocationAwareConfigurationEditor'

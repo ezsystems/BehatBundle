@@ -9,7 +9,7 @@ namespace EzSystems\Behat\Core\Configuration;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Yaml\Yaml;
 
-class ConfigurationEditor
+class ConfigurationEditor implements ConfigurationEditorInterface
 {
     /**
      * Appends given value under key, extending existing settings.
