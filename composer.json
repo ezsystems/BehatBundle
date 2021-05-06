@@ -58,7 +58,8 @@
         }
     },
     "scripts": {
-        "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"
+        "fix-cs": "php-cs-fixer fix -v --show-progress=estimating",
+        "test": "phpunit"
     },
     "extra": {
         "branch-alias": {
