@@ -75,3 +75,5 @@ services:
             $logger: '@logger'
             $kernel: '@kernel'
             $container: '@service_container'
+
+    EzSystems\Behat\Core\Context\TimeContext: ~
