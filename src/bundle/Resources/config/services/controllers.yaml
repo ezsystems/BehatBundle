@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  ezbehatbundle.controller.exception:
+    class: EzSystems\BehatBundle\Controller\ExceptionController
+    public: true
+
+  EzSystems\BehatBundle\Controller\RenderController: ~

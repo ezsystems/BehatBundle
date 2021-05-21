@@ -353,6 +353,20 @@ class BrowserContext extends MinkContext
         }
     }
 
+    /**
+     * @Given response headers match pattern
+     */
+    public function responseHeadersMatchPattern(TableNode $expectedHeadersData): void
+    {
+        $responseHeaders = $this->getSession()->getDriver()->getResponseHeaders();
+
+        foreach ($expectedHeadersData->getHash() as $row) {
+            $expectedValuePattern = $row['Pattern'];
+            $actualValue = $this->getHeaderValue($responseHeaders, $row['Header']);
+            Assert::assertEquals(1, preg_match($expectedValuePattern, $actualValue));
+        }
+    }
+
     private function getHeaderValue($responseHeaders, $header): string
     {
         if ($this->getSession()->getDriver() instanceof ChromeDriver) {
