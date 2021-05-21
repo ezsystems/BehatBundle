@@ -39,6 +39,7 @@ class FrontendContext implements Context
     /**
      * @Given I am viewing the pages on siteaccess :siteaccess as :username
      * @Given I am viewing the pages on siteaccess :siteaccess as :username :password
+     * @Given I am viewing the pages on siteaccess :siteaccess as :username with password :password
      */
     public function iAmViewingThePagesAsUserOnSiteaccess(string $siteaccess, string $username, string $password = null)
     {

@@ -2,6 +2,7 @@ imports:
     - { resource: services/fieldtype_data_providers.yaml }
     - { resource: services/limitation_parsers.yaml }
     - { resource: services/contexts.yaml }
+    - { resource: services/controllers.yaml }
 
 services:
     _defaults:
@@ -47,10 +48,6 @@ services:
         public: true
         arguments:
             - '@EzSystems\Behat\API\Facade\RoleFacade'
-
-    ezbehatbundle.controller.exception:
-        class: EzSystems\BehatBundle\Controller\ExceptionController
-        public: true
 
     EzSystems\BehatBundle\Command\CreateLanguageCommand:
         arguments:
