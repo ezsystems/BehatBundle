@@ -1,3 +1,4 @@
 imports:
     - behat_ibexa_experience.yaml
     - vendor/ezsystems/ezcommerce-shop/behat_suites.yml
+    - vendor/ezsystems/ezcommerce-admin-ui/behat_suites.yml
