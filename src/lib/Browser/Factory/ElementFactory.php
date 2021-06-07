@@ -10,6 +10,7 @@ use EzSystems\Behat\Browser\Context\BrowserContext;
 use EzSystems\Behat\Core\Environment\InstallType;
 use EzSystems\EzPlatformAdminUi\Behat\PageElement\PlatformElementFactory;
 use EzSystems\EzPlatformPageBuilder\Tests\Behat\PageElement\EnterpriseElementFactory;
+use Ibexa\Platform\Commerce\AdminUi\Behat\PageElement\CommerceElementFactory;
 
 class ElementFactory
 {
@@ -62,10 +63,9 @@ class ElementFactory
             case InstallType::CONTENT:
                 return new PlatformElementFactory();
             case InstallType::EXPERIENCE:
+                return new EnterpriseElementFactory();
             case InstallType::COMMERCE:
-                return new EnterpriseElementFactory();
-
-                return new EnterpriseElementFactory();
+                return new CommerceElementFactory();
             default:
                 throw new \Exception('Unrecognised install type');
         }
