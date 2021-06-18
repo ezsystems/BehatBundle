@@ -23,7 +23,7 @@ Feature: Editor user that has policies with Content Type limitation
     And I add policy "content" "versionread" to "AddLocation" with limitations
       | limitationType | limitationValue |
       | ContentType    | Article         |
-    And I add policy "content" "manage_location" to "AddLocation" with limitations
+    And I add policy "content" "manage_locations" to "AddLocation" with limitations
       | limitationType | limitationValue |
       | ContentType    | Article         |
     And I assign user group "AddLocationGroup" to role "AddLocation"
