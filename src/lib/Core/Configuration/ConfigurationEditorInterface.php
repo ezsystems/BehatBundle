@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\Core\Configuration;
 
 interface ConfigurationEditorInterface
@@ -12,8 +14,8 @@ interface ConfigurationEditorInterface
      * Appends given value under key, extending existing settings.
      *
      * @param $config
-     * @param string $key 'key' or 'nested.key'
-     * @param string|array $value
+     * @param string       $key   'key' or 'nested.key'
+     * @param array|string $value
      *
      * @return mixed YAML config
      */
@@ -23,8 +25,8 @@ interface ConfigurationEditorInterface
      * Sets given value under key. Existing settings are overwritten.
      *
      * @param $config
-     * @param string $key 'key' or 'nested.key'
-     * @param string|array $value
+     * @param string       $key   'key' or 'nested.key'
+     * @param array|string $value
      *
      * @return mixed YAML config
      */
@@ -33,8 +35,6 @@ interface ConfigurationEditorInterface
     public function get($config, string $key);
 
     /**
-     * @param string $filePath
-     *
      * @return mixed YAML config
      */
     public function getConfigFromFile(string $filePath);

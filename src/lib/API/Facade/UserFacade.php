@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Facade;
 
 use eZ\Publish\API\Repository\ContentTypeService;
@@ -19,6 +21,9 @@ use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 
 class UserFacade
 {
+    public const USER_CONTENT_TYPE_IDENTIFIER = 'user';
+    public const USERGROUP_CONTENT_IDENTIFIER = 'user_group';
+    public const ROOT_USERGROUP_CONTENT_ID = 4;
     /** @var \eZ\Publish\API\Repository\UserService */
     private $userService;
 
@@ -35,10 +40,6 @@ class UserFacade
      * @var \EzSystems\Behat\API\ContentData\RandomDataGenerator
      */
     private $randomDataGenerator;
-
-    public const USER_CONTENT_TYPE_IDENTIFIER = 'user';
-    public const USERGROUP_CONTENT_IDENTIFIER = 'user_group';
-    public const ROOT_USERGROUP_CONTENT_ID = 4;
 
     public function __construct(UserService $userService, ContentTypeService $contentTypeService, RoleService $roleService, SearchService $searchService, RandomDataGenerator $randomDataGenerator)
     {
@@ -68,12 +69,13 @@ class UserFacade
             $this->randomDataGenerator->getFaker()->email,
             $this->getDefaultPassword(),
             $languageCode,
-            $this->contentTypeService->loadContentTypeByIdentifier(self::USER_CONTENT_TYPE_IDENTIFIER));
+            $this->contentTypeService->loadContentTypeByIdentifier(self::USER_CONTENT_TYPE_IDENTIFIER)
+        );
 
         $userCreateStruct->setField('first_name', $userName);
         $userCreateStruct->setField('last_name', $userLastName);
 
-        $parentGroup = $userGroupName !== null ?
+        $parentGroup = null !== $userGroupName ?
             $this->loadUserGroupByName($userGroupName) :
             $this->userService->loadUserGroup(self::ROOT_USERGROUP_CONTENT_ID);
 
@@ -105,9 +107,9 @@ class UserFacade
     {
         $query = new Query();
         $query->filter = new Criterion\LogicalAnd([
-                new Criterion\ContentTypeIdentifier(self::USERGROUP_CONTENT_IDENTIFIER),
-                new Criterion\Field('name', Criterion\Operator::EQ, $userGroupName),
-            ]);
+            new Criterion\ContentTypeIdentifier(self::USERGROUP_CONTENT_IDENTIFIER),
+            new Criterion\Field('name', Criterion\Operator::EQ, $userGroupName),
+        ]);
 
         $result = $this->searchService->findContent($query);
 

@@ -59,21 +59,16 @@ services:
         arguments:
             $projectDirectory: '%kernel.project_dir%'
 
-    EzSystems\Behat\Browser\Context\BrowserContext:
-        public: true
-        arguments:
-            $router: '@ezpublish.siteaccess_router'
+    Ibexa\Behat\Browser\Context\AuthenticationContext: ~
 
-    EzSystems\Behat\Browser\Context\FrontendContext:
-        public: true
-        arguments:
-            $argumentParser: '@EzSystems\Behat\Core\Behat\ArgumentParser'
-
-    EzSystems\Behat\Browser\Context\Hooks:
+    Ibexa\Behat\Browser\Context\DebuggingContext:
         public: true
         arguments:
             $logger: '@logger'
-            $kernel: '@kernel'
-            $container: '@service_container'
+            $logDir: '%kernel.logs_dir%'
 
     EzSystems\Behat\Core\Context\TimeContext: ~
+
+    Ibexa\Behat\Browser\Context\ContentPreviewContext: ~
+
+    Ibexa\Behat\Browser\Context\BrowserContext: ~

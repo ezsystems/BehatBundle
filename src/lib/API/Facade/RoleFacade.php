@@ -1,22 +1,23 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Facade;
 
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\RoleService;
 use EzSystems\Behat\API\Context\LimitationParser\LimitationParsersCollector;
-use EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface;
 
 class RoleFacade
 {
     /** @var \eZ\Publish\API\Repository\RoleService */
     private $roleService;
 
-    /** @var LimitationParsersCollector */
+    /** @var \EzSystems\Behat\API\Context\LimitationParser\LimitationParsersCollector */
     private $limitationParsersCollector;
 
     public function __construct(RoleService $roleService, LimitationParsersCollector $limitationParsersCollector)
@@ -38,7 +39,7 @@ class RoleFacade
         $roleDraft = $this->roleService->createRoleDraft($role);
         $policyCreateStruct = $this->roleService->newPolicyCreateStruct($module, $function);
 
-        if ($limitations !== null) {
+        if (null !== $limitations) {
             foreach ($limitations as $limitation) {
                 $policyCreateStruct->addLimitation($limitation);
             }
@@ -61,7 +62,7 @@ class RoleFacade
     }
 
     /**
-     * @return LimitationParserInterface[]
+     * @return \EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface[]
      */
     public function getLimitationParsers(): array
     {

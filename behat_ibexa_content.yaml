@@ -1,5 +1,58 @@
 imports:
     - behat_ibexa_oss.yaml
-    - vendor/ezsystems/ezplatform-workflow/behat_suites.yml
-    - vendor/ezsystems/date-based-publisher/behat_suites.yml
+    - vendor/ezsystems/date-based-publisher/behat_suites_content.yml
+    - vendor/ezsystems/ezplatform-workflow/behat_suites_content.yml
 
+regression:
+    suites:
+        setup-content:
+            paths:
+                - '%paths.base%/vendor/ezsystems/behatbundle/features/personas'
+                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_styles.feature'
+                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_tags.feature'
+                - '%paths.base%/vendor/ezsystems/ezplatform-workflow/features/setup/setup_content.feature'
+            contexts:
+                - EzSystems\Behat\API\Context\ContentContext
+                - EzSystems\Behat\API\Context\ContentTypeContext
+                - EzSystems\Behat\API\Context\RoleContext
+                - EzSystems\Behat\API\Context\TestContext
+                - EzSystems\Behat\API\Context\UserContext
+                - EzSystems\Behat\Core\Context\ConfigurationContext
+                - EzSystems\Behat\Core\Context\FileContext
+        content:
+            paths:
+              - '%paths.base%/vendor/ezsystems/date-based-publisher/features'
+              - '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/features/personas'
+              - '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/features/standard'
+              - '%paths.base%/vendor/ezsystems/ezplatform-workflow/features/browser'
+            filters:
+                tags: "~@broken && @IbexaContent"
+            contexts: 
+                - EzSystems\Behat\API\Context\ContentContext
+                - EzSystems\Behat\API\Context\ContentTypeContext
+                - EzSystems\Behat\API\Context\TestContext
+                - EzSystems\Behat\API\Context\TrashContext
+                - Ibexa\AdminUi\Behat\BrowserContext\AdminUpdateContext
+                - Ibexa\AdminUi\Behat\BrowserContext\ContentPreviewContext
+                - Ibexa\AdminUi\Behat\BrowserContext\ContentTypeContext
+                - Ibexa\AdminUi\Behat\BrowserContext\ContentUpdateContext
+                - Ibexa\AdminUi\Behat\BrowserContext\ContentViewContext
+                - Ibexa\AdminUi\Behat\BrowserContext\DashboardContext
+                - Ibexa\AdminUi\Behat\BrowserContext\LanguageContext
+                - Ibexa\AdminUi\Behat\BrowserContext\NavigationContext
+                - Ibexa\AdminUi\Behat\BrowserContext\NotificationContext
+                - Ibexa\AdminUi\Behat\BrowserContext\ObjectStatesContext
+                - Ibexa\AdminUi\Behat\BrowserContext\RightMenuContext
+                - Ibexa\AdminUi\Behat\BrowserContext\RolesContext
+                - Ibexa\AdminUi\Behat\BrowserContext\SearchContext
+                - Ibexa\AdminUi\Behat\BrowserContext\SectionsContext
+                - Ibexa\AdminUi\Behat\BrowserContext\SystemInfoContext
+                - Ibexa\AdminUi\Behat\BrowserContext\TrashContext
+                - Ibexa\AdminUi\Behat\BrowserContext\UDWContext
+                - Ibexa\AdminUi\Behat\BrowserContext\UserNotificationContext
+                - Ibexa\AdminUi\Behat\BrowserContext\UserPreferencesContext
+                - Ibexa\Behat\Browser\Context\AuthenticationContext
+                - Ibexa\Behat\Browser\Context\DebuggingContext
+                - Ibexa\Scheduler\Behat\BrowserContext\DateBasedPublisherContext
+                - Ibexa\Workflow\Tests\Behat\Context\WorkflowAdminContext
+                - Ibexa\Workflow\Tests\Behat\Context\WorkflowContext

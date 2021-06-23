@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -12,9 +12,9 @@ use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\API\Facade\ContentFacade;
-use EzSystems\Behat\API\Facade\WorkflowFacade;
 use EzSystems\Behat\Event\Events;
 use EzSystems\Behat\Event\TransitionEvent;
+use Ibexa\Workflow\Tests\Behat\Facade\WorkflowFacade;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -24,7 +24,7 @@ class CreateContentDraft extends AbstractProcessStage implements EventSubscriber
     /** @var \EzSystems\Behat\API\Facade\ContentFacade */
     private $contentFacade;
 
-    /** @var \EzSystems\Behat\API\Facade\WorkflowFacade */
+    /** @var \Ibexa\Workflow\Tests\Behat\Facade\WorkflowFacade */
     private $workflowFacade;
 
     public static function getSubscribedEvents()
@@ -41,14 +41,15 @@ class CreateContentDraft extends AbstractProcessStage implements EventSubscriber
         ];
     }
 
-    public function __construct(EventDispatcherInterface $eventDispatcher,
-                                UserService $userService,
-                                PermissionResolver $permissionResolver,
-                                LoggerInterface $logger,
-                                ContentFacade $contentFacade,
-                                RandomDataGenerator $randomDataGenerator,
-                                WorkflowFacade $workflowFacade)
-    {
+    public function __construct(
+        EventDispatcherInterface $eventDispatcher,
+        UserService $userService,
+        PermissionResolver $permissionResolver,
+        LoggerInterface $logger,
+        ContentFacade $contentFacade,
+        RandomDataGenerator $randomDataGenerator,
+        WorkflowFacade $workflowFacade
+    ) {
         parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger, $randomDataGenerator);
         $this->contentFacade = $contentFacade;
         $this->workflowFacade = $workflowFacade;

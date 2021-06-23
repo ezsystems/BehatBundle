@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\Core\Context;
 
 use Behat\Behat\Context\Context;
@@ -11,10 +13,9 @@ use Behat\Gherkin\Node\PyStringNode;
 
 class FileContext implements Context
 {
+    private const SOURCE_FILE_DIRECTORY = 'vendor/ezsystems/behatbundle/src/lib/Data';
     /** @var string */
     private $projectDirectory;
-
-    private const SOURCE_FILE_DIRECTORY = 'vendor/ezsystems/behatbundle/src/lib/Data';
 
     public function __construct($projectDirectory)
     {
@@ -23,6 +24,9 @@ class FileContext implements Context
 
     /**
      * @Given I create a file :path with content from :sourceFile
+     *
+     * @param mixed $path
+     * @param mixed $sourceFile
      */
     public function createFileFromSourceFile($path, $sourceFile): void
     {
@@ -34,6 +38,9 @@ class FileContext implements Context
 
     /**
      * @Given I append to :file file :sourcePath
+     *
+     * @param mixed $file
+     * @param mixed $sourceFile
      */
     public function appendToFile($file, $sourceFile): void
     {

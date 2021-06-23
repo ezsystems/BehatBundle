@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+declare(strict_types=1);
+
+namespace Ibexa\Behat\Browser\Page\Preview;
+
+interface PagePreviewInterface
+{
+    public function setExpectedPreviewData(array $data);
+
+    public function verifyPreviewData();
+
+    public function supports(string $contentTypeIdentifier, string $viewType): bool;
+}

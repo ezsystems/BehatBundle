@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -10,7 +10,7 @@ namespace EzSystems\Behat\Core\Log;
 
 use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Mink\Session;
-use EzSystems\Behat\Browser\Filter\BrowserLogFilter;
+use Ibexa\Behat\Browser\Filter\BrowserLogFilter;
 use WebDriver\LogType;
 
 class TestLogProvider
@@ -64,11 +64,6 @@ class TestLogProvider
     {
         $logReader = new LogFileReader();
         $lines = $logReader->getLastLines(sprintf('%s/%s', $this->logDirectory, self::LOG_FILE_NAME), self::APPLICATION_LOGS_LIMIT);
-
-        if (empty($lines)) {
-            // Check file used for logs in metarepository installation
-            $lines = $logReader->getLastLines(sprintf('%s/%s', $this->logDirectory, self::OLD_LOG_FILE_NAME), self::APPLICATION_LOGS_LIMIT);
-        }
 
         $parsedLines = [];
         foreach ($lines as $line) {

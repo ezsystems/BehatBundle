@@ -1,20 +1,25 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\Test\Command;
 
 use EzSystems\BehatBundle\Command\GetPullRequestDataCommand;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class GetPullRequestDataCommandTest extends TestCase
 {
-    private $commandTester;
-
     private const EXAMPLE_GITHUB_PR_LINK = 'https://github.com/ezsystems/BehatBundle/pull/99';
+    private $commandTester;
 
     public function setUp(): void
     {

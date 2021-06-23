@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -21,7 +21,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractProcessStage
 {
-    /** @var LoggerInterface */
+    /** @var \Psr\Log\LoggerInterface */
     protected $logger;
 
     /** @var \eZ\Publish\API\Repository\UserService */
@@ -30,18 +30,19 @@ abstract class AbstractProcessStage
     /** @var \eZ\Publish\API\Repository\PermissionResolver */
     private $permissionResolver;
 
-    /** @var EventDispatcher */
+    /** @var \Symfony\Component\EventDispatcher\EventDispatcher */
     private $eventDispatcher;
 
     /** @var \EzSystems\Behat\API\ContentData\RandomDataGenerator */
     protected $randomDataGenerator;
 
-    public function __construct(EventDispatcherInterface $eventDispatcher,
-                                UserService $userService,
-                                PermissionResolver $permissionResolver,
-                                LoggerInterface $logger,
-                                RandomDataGenerator $randomDataGenerator)
-    {
+    public function __construct(
+        EventDispatcherInterface $eventDispatcher,
+        UserService $userService,
+        PermissionResolver $permissionResolver,
+        LoggerInterface $logger,
+        RandomDataGenerator $randomDataGenerator
+    ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->userService = $userService;
         $this->permissionResolver = $permissionResolver;
@@ -74,9 +75,9 @@ abstract class AbstractProcessStage
         $this->eventDispatcher->dispatch($event, $chosenEvent);
     }
 
-    protected function setCurrentUser(string $user): void
+    protected function setCurrentUser(string $userLogin): void
     {
-        $user = $this->userService->loadUserByLogin($user);
+        $user = $this->userService->loadUserByLogin($userLogin);
         $this->permissionResolver->setCurrentUserReference($user);
     }
 
