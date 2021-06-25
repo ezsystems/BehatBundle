@@ -28,3 +28,9 @@ Feature: Editor user that has policies with Content Type limitation
       | ContentType    | Article         |
     And I assign user group "AddLocationGroup" to role "AddLocation"
 
+  @setup @addLocation
+  Scenario: Create new article as "Add Location" user
+    Given I am using the API as "Add"
+    And I create "article" Content items in root in "eng-GB"
+      | title      | short_title | intro      |
+      | NewArticle | NewArticle  | NewArticle |
