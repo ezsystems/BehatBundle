@@ -49,10 +49,10 @@ class Environment
         $packages = $composerConfig->require;
 
         $installTypeMap = [
-            'ibexa/oss' => InstallType::OSS,
-            'ibexa/content' => InstallType::CONTENT,
-            'ibexa/experience' => InstallType::EXPERIENCE,
             'ibexa/commerce' => InstallType::COMMERCE,
+            'ibexa/experience' => InstallType::EXPERIENCE,
+            'ibexa/content' => InstallType::CONTENT,
+            'ibexa/oss' => InstallType::OSS,
         ];
 
         foreach ($installTypeMap as $expectedProperty => $installType) {
