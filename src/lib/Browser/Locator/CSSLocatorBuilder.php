@@ -12,29 +12,29 @@ class CSSLocatorBuilder
 {
     private $result;
 
-    protected function __construct(CssLocator $base)
+    protected function __construct(CSSLocator $base)
     {
         $this->result = $base;
     }
 
-    public static function base(CssLocator $baseElement): self
+    public static function base(CSSLocator $baseElement): self
     {
         return new CSSLocatorBuilder($baseElement);
     }
 
-    public function build(): CssLocator
+    public function build(): CSSLocator
     {
         return $this->result;
     }
 
-    public function withDescendant(CssLocator $locator): self
+    public function withDescendant(CSSLocator $locator): self
     {
         $this->result = self::combine('%s %s', $this->result, $locator);
 
         return $this;
     }
 
-    public function withParent(CssLocator $locator): self
+    public function withParent(CSSLocator $locator): self
     {
         $this->result = self::combine('%2$s %1$s', $this->result, $locator);
 

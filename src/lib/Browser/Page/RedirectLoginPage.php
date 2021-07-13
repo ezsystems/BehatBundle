@@ -19,7 +19,7 @@ class RedirectLoginPage extends LoginPage
 
     public function verifyIsLoaded(): void
     {
-        Assert::assertContains('/login', $this->getSession()->getCurrentUrl());
+        Assert::assertStringContainsString('/login', $this->getSession()->getCurrentUrl());
     }
 
     protected function getRoute(): string

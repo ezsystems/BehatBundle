@@ -31,7 +31,7 @@ class LoginPage extends Page
 
     public function verifyIsLoaded(): void
     {
-        Assert::assertContains($this->getRoute(), $this->getSession()->getCurrentUrl());
+        Assert::assertStringContainsString($this->getRoute(), $this->getSession()->getCurrentUrl());
     }
 
     public function getName(): string
