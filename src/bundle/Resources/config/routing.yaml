@@ -2,3 +2,13 @@ ez_platform_behat_repository_unauthorized_exception:
     path: '/platform-behat/exceptions/repository-unauthorized'
     defaults:
         _controller: 'ezbehatbundle.controller.exception:throwRepositoryUnauthorizedAction'
+
+ibexa_testing_current_user_data:
+    path: '/current_user_data'
+    defaults:
+        _controller: 'Ibexa\Bundle\Behat\Controller\CurrentUserDataController::showCurrentUserAction'
+
+ibexa_testing_login_redirect:
+    path: '/unauthenticated_login_redirect'
+    defaults:
+        _controller: 'Ibexa\Bundle\Behat\Controller\UnauthenticatedRedirectController::redirectAction'

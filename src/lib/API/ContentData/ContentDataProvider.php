@@ -1,17 +1,19 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\ContentData;
 
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\Content\ContentCreateStruct;
 use eZ\Publish\API\Repository\Values\Content\ContentStruct;
 use eZ\Publish\API\Repository\Values\Content\ContentUpdateStruct;
+use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface;
 
 class ContentDataProvider
@@ -22,7 +24,7 @@ class ContentDataProvider
 
     private $contentService;
 
-    /** @var FieldTypeDataProviderInterface[] */
+    /** @var \EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface[] */
     private $fieldTypeDataProviders;
 
     /** @var \EzSystems\Behat\API\ContentData\RandomDataGenerator */
@@ -70,27 +72,12 @@ class ContentDataProvider
         foreach ($contentItemData as $fieldIdentifier => $value) {
             $fieldDefinition = $contentType->getFieldDefinition($fieldIdentifier);
 
-            if ($fieldDefinition === null) {
+            if (null === $fieldDefinition) {
                 throw new \Exception(sprintf('Could not find fieldIdentifier: %s in content type: %s', $fieldIdentifier, $this->contentTypeIdentifier));
             }
 
             $fieldData = $this->getFieldDataFromString($fieldDefinition->fieldTypeIdentifier, $value);
             $contentStruct->setField($fieldIdentifier, $fieldData, $language);
-        }
-
-        return $contentStruct;
-    }
-
-    private function fillContentStructWithData(ContentType $contentType, string $mainLanguage, string $language, ContentStruct $contentStruct): ContentStruct
-    {
-        $fieldDefinitions = $contentType->getFieldDefinitions()->toArray();
-
-        foreach ($fieldDefinitions as $field) {
-            if (!$field->isTranslatable && $mainLanguage !== $language) {
-                continue;
-            }
-            $fieldData = $this->getRandomFieldData($this->contentTypeIdentifier, $field->identifier, $field->fieldTypeIdentifier, $language);
-            $contentStruct->setField($field->identifier, $fieldData);
         }
 
         return $contentStruct;
@@ -112,5 +99,20 @@ class ContentDataProvider
                 return $provider->parseFromString($value);
             }
         }
+    }
+
+    private function fillContentStructWithData(ContentType $contentType, string $mainLanguage, string $language, ContentStruct $contentStruct): ContentStruct
+    {
+        $fieldDefinitions = $contentType->getFieldDefinitions()->toArray();
+
+        foreach ($fieldDefinitions as $field) {
+            if (!$field->isTranslatable && $mainLanguage !== $language) {
+                continue;
+            }
+            $fieldData = $this->getRandomFieldData($this->contentTypeIdentifier, $field->identifier, $field->fieldTypeIdentifier, $language);
+            $contentStruct->setField($field->identifier, $fieldData);
+        }
+
+        return $contentStruct;
     }
 }

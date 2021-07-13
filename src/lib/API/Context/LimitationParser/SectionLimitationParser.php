@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Context\LimitationParser;
 
 use eZ\Publish\API\Repository\SectionService;
@@ -21,7 +23,7 @@ class SectionLimitationParser implements LimitationParserInterface
 
     public function supports(string $limitationType): bool
     {
-        return $limitationType === Limitation::SECTION;
+        return Limitation::SECTION === $limitationType;
     }
 
     public function parse(string $limitationValues): Limitation

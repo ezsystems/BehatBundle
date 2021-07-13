@@ -1,15 +1,21 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\Test\Core\Configuration;
 
 use EzSystems\Behat\Core\Configuration\ConfigurationEditor;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ConfigurationEditorTest extends TestCase
 {
     public function testAppendsValueToConfigWhenKeyDoesNotExistAndConfigIsEmpty()

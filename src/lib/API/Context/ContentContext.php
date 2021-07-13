@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
@@ -13,10 +15,10 @@ use EzSystems\Behat\Core\Behat\ArgumentParser;
 
 class ContentContext implements Context
 {
-    /** @var ContentFacade */
+    /** @var \EzSystems\Behat\API\Facade\ContentFacade */
     private $contentFacade;
 
-    /** @var ArgumentParser */
+    /** @var \EzSystems\Behat\Core\Behat\ArgumentParser */
     private $argumentParser;
 
     public function __construct(ContentFacade $contentFacade, ArgumentParser $argumentParser)
@@ -27,6 +29,8 @@ class ContentContext implements Context
 
     /**
      * @Given I create :number :contentTypeIdentifier Content items in :parentUrl in :language
+     *
+     * @param mixed $language
      */
     public function createMultipleContentItems(string $numberOfItems, string $contentTypeIdentifier, string $parentUrl, $language): void
     {
@@ -39,6 +43,10 @@ class ContentContext implements Context
 
     /**
      * @Given I create :contentTypeIdentifier Content items in :parentUrl in :language
+     *
+     * @param mixed $contentTypeIdentifier
+     * @param mixed $parentUrl
+     * @param mixed $language
      */
     public function createContentItems($contentTypeIdentifier, $parentUrl, $language, TableNode $contentItemsData): void
     {
@@ -51,7 +59,46 @@ class ContentContext implements Context
     }
 
     /**
+     * @Given I create :contentTypeIdentifier Content items
+     *
+     * @param mixed $contentTypeIdentifier
+     */
+    public function createContentItemsInDifferentLocations($contentTypeIdentifier, TableNode $contentItemsData): void
+    {
+        $parsedContentItemData = $this->parseData($contentItemsData);
+
+        foreach ($parsedContentItemData as $contentItemData) {
+            $parentUrl = $this->argumentParser->parseUrl($contentItemData['parentPath']);
+            $language = $contentItemData['language'];
+            unset($contentItemData['parentPath'], $contentItemData['language']);
+
+            $this->contentFacade->createContent($contentTypeIdentifier, $parentUrl, $language, $contentItemData);
+        }
+    }
+
+    /**
+     * @Given I create :contentTypeIdentifier Content drafts
+     *
+     * @param mixed $contentTypeIdentifier
+     */
+    public function createContentDraftsInDifferentLocations($contentTypeIdentifier, TableNode $contentItemsData): void
+    {
+        $parsedContentItemData = $this->parseData($contentItemsData);
+
+        foreach ($parsedContentItemData as $contentItemData) {
+            $parentUrl = $this->argumentParser->parseUrl($contentItemData['parentPath']);
+            $language = $contentItemData['language'];
+            unset($contentItemData['parentPath'], $contentItemData['language']);
+
+            $this->contentFacade->createContentDraft($contentTypeIdentifier, $parentUrl, $language, $contentItemData);
+        }
+    }
+
+    /**
      * @Given I edit :locationURL Content item in :language
+     *
+     * @param mixed $locationURL
+     * @param mixed $language
      */
     public function editContentItem($locationURL, $language, TableNode $contentItemsData): void
     {
@@ -60,6 +107,22 @@ class ContentContext implements Context
 
         foreach ($parsedContentItemData as $contentItemData) {
             $this->contentFacade->editContent($locationURL, $language, $contentItemData);
+        }
+    }
+
+    /**
+     * @Given I create a new Draft for :locationURL Content item in :language
+     *
+     * @param mixed $locationURL
+     * @param mixed $language
+     */
+    public function createNewDraftForExistingItem($locationURL, $language, TableNode $contentItemsData): void
+    {
+        $locationURL = $this->argumentParser->parseUrl($locationURL);
+        $parsedContentItemData = $this->parseData($contentItemsData);
+
+        foreach ($parsedContentItemData as $contentItemData) {
+            $this->contentFacade->createDraftForExistingContent($locationURL, $language, $contentItemData);
         }
     }
 

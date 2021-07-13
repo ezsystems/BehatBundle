@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
@@ -12,10 +14,10 @@ use EzSystems\Behat\Core\Behat\ArgumentParser;
 
 class TrashContext implements Context
 {
-    /** @var TrashFacade */
+    /** @var \EzSystems\Behat\API\Facade\TrashFacade */
     private $trashFacade;
 
-    /** @var ArgumentParser */
+    /** @var \EzSystems\Behat\Core\Behat\ArgumentParser */
     private $argumentParser;
 
     public function __construct(TrashFacade $trashFacade, ArgumentParser $argumentParser)
@@ -26,6 +28,8 @@ class TrashContext implements Context
 
     /**
      * @Then I send :locationURL to the Trash
+     *
+     * @param mixed $locationURL
      */
     public function iSendToTheTrash($locationURL)
     {

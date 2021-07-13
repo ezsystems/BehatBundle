@@ -1,13 +1,16 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Facade;
 
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
+use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\Location;
@@ -33,17 +36,23 @@ class ContentFacade
     /** @var \FOS\HttpCacheBundle\CacheManager */
     private $cacheManager;
 
-    public function __construct(ContentService $contentService,
-                                LocationService $locationService,
-                                URLAliasService $urlAliasService,
-                                ContentDataProvider $contentDataProvider,
-                                CacheManager $cacheManager)
-    {
+    /** @var \eZ\Publish\API\Repository\Repository */
+    private $repository;
+
+    public function __construct(
+        ContentService $contentService,
+        LocationService $locationService,
+        URLAliasService $urlAliasService,
+        ContentDataProvider $contentDataProvider,
+        CacheManager $cacheManager,
+        Repository $repository
+    ) {
         $this->contentService = $contentService;
         $this->locationService = $locationService;
         $this->urlAliasService = $urlAliasService;
         $this->contentDataProvider = $contentDataProvider;
         $this->cacheManager = $cacheManager;
+        $this->repository = $repository;
     }
 
     public function createContentDraft($contentTypeIdentifier, $parentUrl, $language, $contentItemData = null): Content
@@ -62,9 +71,7 @@ class ContentFacade
             $contentCreateStruct = $this->contentDataProvider->getFilledContentDataStruct($contentCreateStruct, $contentItemData, $language);
         }
 
-        $draft = $this->contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
-
-        return $draft;
+        return $this->contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
     }
 
     public function createContent($contentTypeIdentifier, $parentUrl, $language, $contentItemData = null): Content
@@ -79,6 +86,15 @@ class ContentFacade
 
     public function editContent($locationURL, $language, $contentItemData): Content
     {
+        $updatedDraft = $this->createDraftForExistingContent($locationURL, $language, $contentItemData);
+        $publishedContent = $this->contentService->publishVersion($updatedDraft->getVersionInfo());
+        $this->flushHTTPcache();
+
+        return $publishedContent;
+    }
+
+    public function createDraftForExistingContent($locationURL, $language, $contentItemData): Content
+    {
         $urlAlias = $this->urlAliasService->lookup($locationURL);
         Assert::assertEquals(URLAlias::LOCATION, $urlAlias->type);
 
@@ -89,11 +105,7 @@ class ContentFacade
         $this->contentDataProvider->setContentTypeIdentifier($contentDraft->getContentType()->identifier);
         $this->contentDataProvider->getFilledContentDataStruct($contentUpdateStruct, $contentItemData, $language);
 
-        $updatedDraft = $this->contentService->updateContent($contentDraft->getVersionInfo(), $contentUpdateStruct);
-        $publishedContent = $this->contentService->publishVersion($updatedDraft->getVersionInfo());
-        $this->flushHTTPcache();
-
-        return $publishedContent;
+        return $this->contentService->updateContent($contentDraft->getVersionInfo(), $contentUpdateStruct);
     }
 
     public function getContentByLocationURL($locationURL): Content
@@ -106,7 +118,9 @@ class ContentFacade
         $urlAlias = $this->urlAliasService->lookup($locationURL);
         Assert::assertEquals(URLAlias::LOCATION, $urlAlias->type);
 
-        return $this->locationService->loadLocation($urlAlias->destination);
+        return $this->repository->sudo(function () use ($urlAlias) {
+            return $this->locationService->loadLocation($urlAlias->destination);
+        });
     }
 
     private function flushHTTPcache(): void

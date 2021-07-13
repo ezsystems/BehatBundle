@@ -1,25 +1,30 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\Test\Core\Log;
 
 use EzSystems\Behat\Core\Log\LogFileReader;
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class LogFileReaderTest extends TestCase
 {
     private const FILENAME = 'application.logs';
 
-    /** @var vfsStreamDirectory */
+    /** @var \org\bovigo\vfs\vfsStreamDirectory */
     private $fileSystemRoot;
 
-    /** @var LogFileReader */
+    /** @var \EzSystems\Behat\Core\Log\LogFileReader */
     private $logReader;
 
     public function setUp(): void
@@ -31,7 +36,8 @@ class LogFileReaderTest extends TestCase
     public function testReturnsEmptyArrayWhenThereAreNoLogs()
     {
         $file = vfsStream::newFile(self::FILENAME)
-            ->at($this->fileSystemRoot);
+            ->at($this->fileSystemRoot)
+        ;
 
         $logEntries = $this->logReader->getLastLines($file->url(), 5);
 
@@ -41,7 +47,8 @@ class LogFileReaderTest extends TestCase
     public function testReturnsCorrectArrayWhenThereIsLessLogsThanLimit()
     {
         $file = vfsStream::newFile(self::FILENAME)
-            ->withContent(<<<EOD
+            ->withContent(
+                <<<'EOD'
 1
 2
 3
@@ -56,7 +63,8 @@ EOD
     public function testReturnsCorrectArrayWhenThereIsMoreLogsThanLimit()
     {
         $file = vfsStream::newFile(self::FILENAME)
-            ->withContent(<<<EOD
+            ->withContent(
+                <<<'EOD'
 1
 2
 3

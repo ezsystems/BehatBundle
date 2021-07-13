@@ -1,34 +1,35 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\URLAliasService;
+use eZ\Publish\Core\FieldType\Relation\Value;
 use EzSystems\Behat\API\Facade\SearchFacade;
 use EzSystems\Behat\Core\Behat\ArgumentParser;
-use eZ\Publish\Core\FieldType\Relation\Value;
 
 class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
 {
-    /** @var ContentService */
+    /** @var \EzSystems\Behat\API\Facade\SearchFacade */
+    protected $searchFacade;
+    /** @var \eZ\Publish\API\Repository\ContentService */
     private $contentService;
 
-    /** @var LocationService */
+    /** @var \eZ\Publish\API\Repository\LocationService */
     private $locationService;
 
-    /** @var URLAliasService */
+    /** @var \eZ\Publish\API\Repository\URLAliasService */
     private $urlAliasService;
 
-    /** @var ArgumentParser */
+    /** @var \EzSystems\Behat\Core\Behat\ArgumentParser */
     private $argumentParser;
-
-    /** @var SearchFacade */
-    protected $searchFacade;
 
     public function __construct(SearchFacade $searchFacade, ContentService $contentService, LocationService $locationSerice, URLAliasService $urlAliasSerivce, ArgumentParser $argumentParser)
     {
@@ -41,7 +42,7 @@ class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
 
     public function supports(string $fieldTypeIdentifier): bool
     {
-        return $fieldTypeIdentifier === 'ezobjectrelation';
+        return 'ezobjectrelation' === $fieldTypeIdentifier;
     }
 
     public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')

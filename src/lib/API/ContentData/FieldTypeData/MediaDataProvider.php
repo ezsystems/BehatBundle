@@ -1,21 +1,23 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
 use eZ\Publish\Core\FieldType\Media\Value;
 
 class MediaDataProvider implements FieldTypeDataProviderInterface
 {
-    const VIDEOS = [
+    public const VIDEOS = [
         'video1.mp4',
         'video2.mp4',
     ];
 
-    const VIDEOS_PATH = '../../../Data/Videos';
+    public const VIDEOS_PATH = '../../../Data/Videos';
 
     private $projectDir;
 
@@ -26,7 +28,7 @@ class MediaDataProvider implements FieldTypeDataProviderInterface
 
     public function supports(string $fieldTypeIdentifier): bool
     {
-        return $fieldTypeIdentifier === 'ezmedia';
+        return 'ezmedia' === $fieldTypeIdentifier;
     }
 
     public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')

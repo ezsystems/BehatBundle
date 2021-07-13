@@ -1,14 +1,16 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\BehatBundle\Controller;
 
 use eZ\Bundle\EzPublishCoreBundle\Controller;
-use eZ\Publish\Core\MVC\Symfony\View\ContentView;
 use eZ\Publish\API\Repository\ContentService;
+use eZ\Publish\Core\MVC\Symfony\View\ContentView;
 
 class RenderController extends Controller
 {

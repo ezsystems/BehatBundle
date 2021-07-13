@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\Core\Behat;
 
 use Behat\Gherkin\Node\TableNode;
@@ -12,11 +14,6 @@ class TableNodeExtension extends TableNode
 {
     /**
      * Adds a column (in form: ['header' => [values]] or ['header' => 'value']) to a given table.
-     *
-     * @param TableNode $table
-     * @param array $columnData
-     *
-     * @return TableNode
      *
      * @throws \Behat\Gherkin\Exception\NodeException
      */
@@ -39,5 +36,29 @@ class TableNodeExtension extends TableNode
         }
 
         return new self($newParameters);
+    }
+
+    /**
+     * Removes a column from a Table.
+     *
+     * @throws \Behat\Gherkin\Exception\NodeException
+     */
+    public static function removeColumn(TableNode $table, string $columnName): TableNode
+    {
+        $newTable = [];
+        $columns = array_flip(current($table->getTable()));
+
+        if (!in_array($columnName, $columns)) {
+            throw new \InvalidArgumentException(sprintf('Column: %s not found. Available columns are: %s', $columnName, implode(',', $columns)));
+        }
+
+        $columnPosition = $columns[$columnName];
+
+        foreach ($table->getTable() as $row) {
+            unset($row[$columnPosition]);
+            $newTable[] = array_values($row);
+        }
+
+        return new self($newTable);
     }
 }

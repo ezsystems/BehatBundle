@@ -30,7 +30,7 @@
         "guzzlehttp/psr7": "^1.6.1",
         "liuggio/fastest": "^1.7",
         "php-http/client-common": "^2.1",
-        "phpunit/phpunit": "^8.5",
+        "phpunit/phpunit": "^8.5 || ^9.0",
         "symfony/config": "^5.0",
         "symfony/console": "^5.0",
         "symfony/dependency-injection": "^5.0",
@@ -42,14 +42,16 @@
     "require-dev": {
         "ibexa/ci-scripts": "^0.1@dev",
         "ezsystems/doctrine-dbal-schema": "^1.0@dev",
-        "ezsystems/ezplatform-code-style": "^0.1.0",
+        "ezsystems/ezplatform-code-style": "^1.0.0",
         "friendsofphp/php-cs-fixer": "^2.16.0",
         "mikey179/vfsstream": "^1.6"
     },
     "autoload": {
         "psr-4": {
             "EzSystems\\BehatBundle\\": "src/bundle/",
-            "EzSystems\\Behat\\": "src/lib/"
+            "EzSystems\\Behat\\": "src/lib/",
+            "Ibexa\\Bundle\\Behat\\": "src/bundle/",
+            "Ibexa\\Behat\\": "src/lib/"
         }
     },
     "autoload-dev": {
@@ -62,10 +64,8 @@
         "test": "phpunit"
     },
     "extra": {
-        "_ezplatform_branch_for_behat_tests": "master",
         "branch-alias": {
-            "dev-master": "8.3.x-dev",
-            "dev-tmp_ci_branch": "8.3.x-dev"
+            "dev-master": "8.3.x-dev"
         }
     },
     "bin": ["bin/ezbehat", "bin/ezreport"]

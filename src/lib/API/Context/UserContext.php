@@ -1,15 +1,17 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\TableNode;
 use EzSystems\Behat\API\Facade\UserFacade;
 use EzSystems\Behat\Core\Behat\ArgumentParser;
-use Behat\Gherkin\Node\TableNode;
 
 class UserContext implements Context
 {
@@ -56,7 +58,7 @@ class UserContext implements Context
      */
     public function assignUserGroupToRole(string $userGroupName, string $roleName, TableNode $limitationData = null): void
     {
-        $parsedLimitations = $limitationData === null ? null : $this->argumentParser->parseLimitations($limitationData);
+        $parsedLimitations = null === $limitationData ? null : $this->argumentParser->parseLimitations($limitationData);
 
         if (is_array($parsedLimitations) && count($parsedLimitations) > 1) {
             throw new \Exception('Passed more than one Role assignment limitation!');

@@ -1,22 +1,28 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\Core\Behat;
 
 use Behat\Gherkin\Node\TableNode;
 use EzSystems\Behat\API\Facade\RoleFacade;
-use EzSystems\Behat\Core\Environment\EnvironmentConstants;
+use Ibexa\Behat\Browser\Environment\ParameterProviderInterface;
 
 class ArgumentParser
 {
     private const ROOT_KEYWORD = 'root';
 
-    public function __construct(RoleFacade $roleFacade)
+    /** @var \Ibexa\Behat\Browser\Environment\ParameterProviderInterface */
+    private $parameterProvider;
+
+    public function __construct(RoleFacade $roleFacade, ParameterProviderInterface $parameterProvider)
     {
         $this->roleFacade = $roleFacade;
+        $this->parameterProvider = $parameterProvider;
     }
 
     /**
@@ -25,19 +31,13 @@ class ArgumentParser
      * Example: Home/New Folder => /Home/New-Folder
      * Example: root => /
      *
-     * @param string $url
-     *
      * @return string
      */
     public function parseUrl(string $url)
     {
-        if ($url === 'root') {
-            return '/';
-        }
+        $url = str_replace([' ', '@', ',', ':', $this->parameterProvider->getParameter('root_content_name'), 'root'], ['-', '-', '', '-', '', ''], $url);
 
-        $url = str_replace(' ', '-', $url);
-
-        return strpos($url, '/') === 0 ? $url : sprintf('/%s', $url);
+        return 0 === strpos($url, '/') ? $url : sprintf('/%s', $url);
     }
 
     public function parseLimitations(TableNode $limitations)
@@ -49,6 +49,7 @@ class ArgumentParser
             foreach ($limitationParsers as $parser) {
                 if ($parser->supports($rawLimitation['limitationType'])) {
                     $parsedLimitations[] = $parser->parse($rawLimitation['limitationValue']);
+
                     break;
                 }
             }
@@ -61,13 +62,9 @@ class ArgumentParser
      * Replaces the 'root' keyword with the name of the real root Content Item.
      *
      * Example: root/MyItem1 => eZ Platform/MyItem1 on ezplatform and Home/MyItem1 on ezplatform-ee
-     *
-     * @param string $path
-     *
-     * @return string
      */
     public function replaceRootKeyword(string $path): string
     {
-        return str_replace(self::ROOT_KEYWORD, EnvironmentConstants::get('ROOT_CONTENT_NAME'), $path);
+        return str_replace(self::ROOT_KEYWORD, $this->parameterProvider->getParameter('root_content_name'), $path);
     }
 }

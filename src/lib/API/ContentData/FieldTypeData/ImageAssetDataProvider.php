@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
 use eZ\Publish\API\Repository\LocationService;
@@ -17,7 +19,7 @@ use EzSystems\Behat\Core\Behat\ArgumentParser;
 class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
 {
     /**
-     * @var AssetMapper
+     * @var \eZ\Publish\Core\FieldType\ImageAsset\AssetMapper
      */
     private $assetMapper;
     /**
@@ -26,15 +28,15 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
     private $imageDataProvider;
 
     /**
-     * @var ArgumentParser
+     * @var \EzSystems\Behat\Core\Behat\ArgumentParser
      */
     private $argumentParser;
     /**
-     * @var LocationService
+     * @var \eZ\Publish\API\Repository\LocationService
      */
     private $locationService;
     /**
-     * @var URLAliasService
+     * @var \eZ\Publish\API\Repository\URLAliasService
      */
     private $urlAliasService;
 
@@ -43,14 +45,15 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
      */
     private $configResolver;
 
-    public function __construct(RandomDataGenerator $randomDataGenerator,
-                                AssetMapper $assetMapper,
-                                ImageDataProvider $imageDataProvider,
-                                ArgumentParser $argumentParser,
-                                LocationService $locationService,
-                                URLAliasService $urlAliasService,
-                                ConfigResolverInterface $configResolver)
-    {
+    public function __construct(
+        RandomDataGenerator $randomDataGenerator,
+        AssetMapper $assetMapper,
+        ImageDataProvider $imageDataProvider,
+        ArgumentParser $argumentParser,
+        LocationService $locationService,
+        URLAliasService $urlAliasService,
+        ConfigResolverInterface $configResolver
+    ) {
         parent::__construct($randomDataGenerator);
         $this->assetMapper = $assetMapper;
         $this->imageDataProvider = $imageDataProvider;
@@ -62,7 +65,7 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
 
     public function supports(string $fieldTypeIdentifier): bool
     {
-        return $fieldTypeIdentifier === 'ezimageasset';
+        return 'ezimageasset' === $fieldTypeIdentifier;
     }
 
     public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')

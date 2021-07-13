@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
@@ -13,7 +15,7 @@ use EzSystems\Behat\API\Facade\ContentTypeFacade;
 
 class ContentTypeContext implements Context
 {
-    /** @var ContentTypeFacade */
+    /** @var \EzSystems\Behat\API\Facade\ContentTypeFacade */
     private $contentTypeFacade;
 
     public function __construct(ContentTypeFacade $contentTypeFacade)
@@ -23,6 +25,10 @@ class ContentTypeContext implements Context
 
     /**
      * @Given I create a :contentTypeName Content Type in :contentTypeGroupName with :contentTypeIdentifier identifier
+     *
+     * @param mixed $contentTypeName
+     * @param mixed $contentTypeGroupName
+     * @param mixed $contentTypeIdentifier
      */
     public function iCreateAContentTypeWithIdentifier($contentTypeName, $contentTypeGroupName, $contentTypeIdentifier, TableNode $fieldDetails): void
     {
@@ -63,7 +69,7 @@ class ContentTypeContext implements Context
     {
         $value = strtolower($value);
 
-        return $value === 'yes' || $value === 'true';
+        return 'yes' === $value || 'true' === $value;
     }
 
     private function parseFieldSettings(string $fieldTypeIdentifier, string $settings)
@@ -73,10 +79,13 @@ class ContentTypeContext implements Context
         switch ($fieldTypeIdentifier) {
             case 'ezcontentquery':
                 return $this->parseContentQuerySettings($settings);
+
             case 'ezmatrix':
                 return $this->parseMatrixSettings($settings);
+
             case 'ezselection':
                 return $this->parseSelectionSettings($settings);
+
             default:
                 return $parsedSettings;
         }
@@ -117,12 +126,12 @@ class ContentTypeContext implements Context
         $parsedSettings['ReturnedType'] = explode('-', $fields[1])[1];
 
         if (!empty($fields[2])) {
-            $itemsPerPage = (int)explode('-', $fields[2])[1];
+            $itemsPerPage = (int) explode('-', $fields[2])[1];
             $parsedSettings['ItemsPerPage'] = $itemsPerPage;
         }
 
         if (!empty($fields[3])) {
-            $parameters = (string)explode('-', $fields[3])[1];
+            $parameters = (string) explode('-', $fields[3])[1];
             foreach (explode(';', $parameters) as $parameterDefinition) {
                 [$parameterKey, $parameterValue] = explode(':', $parameterDefinition);
                 $parsedSettings['Parameters'][$parameterKey] = $parameterValue;

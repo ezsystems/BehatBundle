@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -27,16 +27,16 @@ class CreateExampleDataCommand extends Command implements BackwardCompatibleComm
 {
     public const NAME = 'ibexa:behat:create-data';
 
-    /** @var EventDispatcherInterface */
+    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
     private $eventDispatcher;
 
-    /** @var LoggerInterface */
+    /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
-    /** @var Serializer */
+    /** @var \Symfony\Component\Serializer\Serializer */
     private $serializer;
 
-    /** @var Stopwatch */
+    /** @var \Symfony\Component\Stopwatch\Stopwatch */
     private $stopwatch;
 
     public function __construct(EventDispatcherInterface $eventDispatcher, LoggerInterface $logger)

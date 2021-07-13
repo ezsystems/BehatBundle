@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\Core\Configuration;
 
 use EzSystems\Behat\API\Facade\ContentFacade;
@@ -62,10 +64,14 @@ class LocationAwareConfigurationEditor implements ConfigurationEditorInterface
 
     private function replaceSingleValue(&$value): void
     {
-        $pattern = "%location_id\((.*)\)%";
+        if (!is_string($value)) {
+            return;
+        }
+
+        $pattern = '%location_id\\((.*)\\)%';
         $matches = [];
 
-        if (preg_match($pattern, $value, $matches) === 1) {
+        if (1 === preg_match($pattern, $value, $matches)) {
             $value = $this->contentFacade->getLocationByLocationURL($matches[1])->id;
         }
     }

@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
@@ -55,6 +57,8 @@ class RoleContext implements Context
 
     /**
      * @Given I add policies to :roleName
+     *
+     * @param mixed $roleName
      */
     public function addPolicyToRole($roleName, TableNode $policies): void
     {
@@ -65,6 +69,8 @@ class RoleContext implements Context
 
     /**
      * @Given I add policy :module :function to :roleName with limitations
+     *
+     * @param mixed $roleName
      */
     public function addPolicyToRoleWithLimitation(string $module, string $function, $roleName, TableNode $limitations): void
     {

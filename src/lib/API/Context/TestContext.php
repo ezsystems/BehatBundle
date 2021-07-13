@@ -1,12 +1,15 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
 
@@ -36,5 +39,20 @@ class TestContext implements Context
     public function loginAdminBeforeScenarioHook()
     {
         $this->iAmLoggedAsUser('admin');
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function loginAPIUser(BeforeScenarioScope $scope)
+    {
+        $tags = $scope->getScenario()->getTags();
+        foreach ($tags as $tag) {
+            if (0 === strpos($tag, 'APIUser:')) {
+                $this->iAmLoggedAsUser(explode(':', $tag)[1]);
+
+                return;
+            }
+        }
     }
 }
