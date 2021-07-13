@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Context\LimitationParser;
 
 use eZ\Publish\API\Repository\ContentTypeService;
@@ -26,8 +28,8 @@ class ContentTypeLimitationParser implements LimitationParserInterface
 
     public function supports(string $limitationType): bool
     {
-        return $limitationType === Limitation::CONTENTTYPE ||
-            \in_array(strtolower($limitationType), ['content type', 'contenttype']);
+        return Limitation::CONTENTTYPE === $limitationType
+            || \in_array(strtolower($limitationType), ['content type', 'contenttype']);
     }
 
     public function parse(string $limitationValues): Limitation

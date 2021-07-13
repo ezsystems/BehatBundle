@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Facade;
 
 use eZ\Publish\API\Repository\LocationService;
@@ -20,7 +22,7 @@ class TrashFacade
     /** @var \eZ\Publish\API\Repository\URLAliasService */
     private $urlAliasService;
 
-    /** @var eZ\Publish\API\Repository\TrashService */
+    /** @var \eZ\Publish\API\Repository\TrashService */
     private $trashService;
 
     public function __construct(LocationService $locationService, URLAliasService $urlAliasService, TrashService $trashService)

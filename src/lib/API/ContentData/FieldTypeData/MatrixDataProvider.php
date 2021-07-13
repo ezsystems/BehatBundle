@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
 use eZ\Publish\API\Repository\ContentTypeService;
@@ -13,9 +15,8 @@ use EzSystems\EzPlatformMatrixFieldtype\FieldType\Value\Row;
 
 class MatrixDataProvider extends AbstractFieldTypeDataProvider
 {
-    private $contentTypeService;
-
     private const MAX_NUMBER_OF_ITEMS = 200;
+    private $contentTypeService;
 
     public function __construct(RandomDataGenerator $randomDataGenerator, ContentTypeService $contentTypeService)
     {
@@ -25,7 +26,7 @@ class MatrixDataProvider extends AbstractFieldTypeDataProvider
 
     public function supports(string $fieldTypeIdentifier): bool
     {
-        return $fieldTypeIdentifier === 'ezmatrix';
+        return 'ezmatrix' === $fieldTypeIdentifier;
     }
 
     public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB')
@@ -50,8 +51,8 @@ class MatrixDataProvider extends AbstractFieldTypeDataProvider
 
     /**
      * @param string $value Matrix data. Columns separated by ":" and rows separated by ",". First row is for column indices.
-     * For a 3 column table:
-     * Col1:Col2:col3,value11:value12:value13,value21:value22:value23,value31:value32:value33
+     *                      For a 3 column table:
+     *                      Col1:Col2:col3,value11:value12:value13,value21:value22:value23,value31:value32:value33
      *
      * The result would be parsed as:
      *        Col1    Col2    Col3

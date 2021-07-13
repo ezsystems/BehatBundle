@@ -28,15 +28,15 @@ jobs:
       env: PHPUNIT_CONFIG='phpunit.xml'
     - name: "BehatBundle examples"
       php: 7.3
-      env: BEHAT_OPTS="--mode=standard --profile=behat --suite=examples -c=behat_ibexa_oss.yaml"
+      env: BEHAT_OPTS="--mode=standard --profile=service --suite=examples -c=behat_ibexa_oss.yaml"
     - name: "BehatBundle personas tests"
       php: 7.3
       env: BEHAT_OPTS="--mode=standard --profile=setup --suite=personas -c=behat_ibexa_oss.yaml"
     - name: "AdminUI Modules tests"
       php: 7.3
       env:
-        -SETUP_BEHAT_OPTS="--mode=standard --profile=setup --suite=richtext_configuration -c=behat_ibexa_oss.yaml"
-        -BEHAT_OPTS="--mode=standard --profile=adminui --suite=adminuimodules -c=behat_ibexa_oss.yaml"
+        -SETUP_BEHAT_OPTS="--mode=standard --profile=setup --suite=richtext-configuration -c=behat_ibexa_oss.yaml"
+        -BEHAT_OPTS="--mode=standard --profile=browser --suite=admin-ui -c=behat_ibexa_oss.yaml"
 
 git:
   depth: 30

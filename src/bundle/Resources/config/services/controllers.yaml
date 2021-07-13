@@ -4,8 +4,19 @@ services:
     autoconfigure: true
     public: false
 
+  EzSystems\BehatBundle\Controller\ExceptionController:
+    public: true
+  
   ezbehatbundle.controller.exception:
     class: EzSystems\BehatBundle\Controller\ExceptionController
     public: true
 
   EzSystems\BehatBundle\Controller\RenderController: ~
+
+  Ibexa\Bundle\Behat\Controller\UnauthenticatedRedirectController:
+    tags: [ 'controller.service_arguments' ]
+    calls:
+      - [ setContainer, [ "@service_container" ] ]
+      - [ performAccessCheck, [ ] ]
+
+  Ibexa\Bundle\Behat\Controller\CurrentUserDataController: ~

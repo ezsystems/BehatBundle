@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
@@ -35,7 +37,7 @@ class RichTextDataProvider extends AbstractFieldTypeDataProvider
 
     public function supports(string $fieldTypeIdentifier): bool
     {
-        return $fieldTypeIdentifier === 'ezrichtext';
+        return 'ezrichtext' === $fieldTypeIdentifier;
     }
 
     public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB'): string
@@ -44,7 +46,7 @@ class RichTextDataProvider extends AbstractFieldTypeDataProvider
 
         $randomNumber = $this->randomDataGenerator->getRandomProbability();
 
-        $text = $randomNumber <= 0.9 ?
+        return $randomNumber <= 0.9 ?
             sprintf(self::SIMPLE_RICHTEXT_XML, $this->getFaker()->realText()) :
             sprintf(
                 self::COMPLEX_RICHTEXT_XML,
@@ -53,8 +55,6 @@ class RichTextDataProvider extends AbstractFieldTypeDataProvider
                 $this->getFaker()->word,
                 $this->getFaker()->realText()
             );
-
-        return $text;
     }
 
     public function parseFromString(string $value)

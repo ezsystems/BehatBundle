@@ -1,15 +1,21 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\Test\Browser\Filter;
 
-use EzSystems\Behat\Browser\Filter\BrowserLogFilter;
+use Ibexa\Behat\Browser\Filter\BrowserLogFilter;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class BrowserLogFilterTest extends TestCase
 {
     public function testFiltersOutExcludedPatterns()
@@ -24,7 +30,7 @@ class BrowserLogFilterTest extends TestCase
             'http://web.prod/admin/version-draft/has-no-conflict/124/eng-GB - Failed to load resource: the server responded with a status of 409 (Conflict)',
             'http://varnish.prod/admin/version-draft/has-no-conflict/1/pol-PL - Failed to load resource: the server responded with a status of 409 (Conflict)',
             'webpack:///./vendor/ezsystems/ezplatform-admin-ui/src/bundle/Resources/public/js/scripts/fieldType/ezobjectrelationlist.js? 91:12 "EzObjectRelation fieldtype is deprecated. Please, use EzObjectRelationList fieldtype instead."',
-            ];
+        ];
 
         $filter = new BrowserLogFilter();
         $actualResult = $filter->filter($initialLogEntries);

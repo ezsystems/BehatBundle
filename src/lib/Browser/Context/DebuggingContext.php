@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Browser\Context;
+namespace Ibexa\Behat\Browser\Context;
 
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\AfterStepScope;
@@ -14,46 +14,21 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeStepScope;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Testwork\Tester\Result\TestResult;
-use EzSystems\Behat\Browser\Factory\ElementFactory;
-use EzSystems\Behat\Browser\Factory\PageObjectFactory;
-use EzSystems\Behat\Core\Environment\Environment;
-use EzSystems\Behat\Core\Environment\EnvironmentConstants;
 use EzSystems\Behat\Core\Log\TestLogProvider;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 
-class Hooks extends RawMinkContext
+class DebuggingContext extends RawMinkContext
 {
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
-    /** @var \Symfony\Component\HttpKernel\KernelInterface */
-    private $kernel;
+    /** @var string */
+    private $logDir;
 
-    /** @var \Symfony\Component\DependencyInjection\ContainerInterface */
-    private $container;
-
-    public function __construct(LoggerInterface $logger, KernelInterface $kernel, ContainerInterface $container)
+    public function __construct(LoggerInterface $logger, string $logDir)
     {
         $this->logger = $logger;
-        $this->kernel = $kernel;
-        $this->container = $container;
-    }
-
-    /** @BeforeScenario */
-    public function setInstallTypeBeforeScenario()
-    {
-        $container = $this->container->has('test.service_container')
-            ? $this->container->get('test.service_container')
-            : $this->container;
-
-        $env = new Environment($container);
-        $installType = $env->getInstallType();
-
-        PageObjectFactory::setInstallType($installType);
-        ElementFactory::setInstallType($installType);
-        EnvironmentConstants::setInstallType($installType);
+        $this->logDir = $logDir;
     }
 
     /** @BeforeScenario
@@ -91,12 +66,12 @@ class Hooks extends RawMinkContext
             return;
         }
 
-        $testLogProvider = new TestLogProvider($this->getSession(), $this->kernel->getLogDir());
+        $testLogProvider = new TestLogProvider($this->getSession(), $this->logDir);
 
         $applicationsLogs = $testLogProvider->getApplicationLogs();
-        $browserLogs = $testLogProvider->getBrowserLogs();
+        $testEnvLogs = $testLogProvider->getBrowserLogs();
 
-        echo $this->formatForDisplay($browserLogs, 'JS Console errors:');
+        echo $this->formatForDisplay($testEnvLogs, 'JS Console errors:');
         echo $this->formatForDisplay($applicationsLogs, 'Application logs:');
     }
 

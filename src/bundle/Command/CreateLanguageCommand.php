@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\BehatBundle\Command;
 
 use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
@@ -38,6 +40,14 @@ class CreateLanguageCommand extends Command implements BackwardCompatibleCommand
         parent::__construct();
     }
 
+    /**
+     * @return string[]
+     */
+    public function getDeprecatedAliases(): array
+    {
+        return ['ez:behat:create-language'];
+    }
+
     protected function configure()
     {
         $this
@@ -51,7 +61,8 @@ class CreateLanguageCommand extends Command implements BackwardCompatibleCommand
                 InputArgument::OPTIONAL,
                 'eZ Platform User with access to content / translations',
                 'admin'
-            );
+            )
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -70,13 +81,5 @@ class CreateLanguageCommand extends Command implements BackwardCompatibleCommand
         $this->languageService->createLanguage($languageCreateStruct);
 
         return 0;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getDeprecatedAliases(): array
-    {
-        return ['ez:behat:create-language'];
     }
 }

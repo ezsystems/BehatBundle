@@ -1,30 +1,47 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\Behat\Browser\Page\Preview;
+declare(strict_types=1);
 
-class FolderPreview extends PreviewPage
+namespace Ibexa\Behat\Browser\Page\Preview;
+
+use Ibexa\Behat\Browser\Component\Component;
+use Ibexa\Behat\Browser\Locator\CSSLocator;
+
+class FolderPreview extends Component implements PagePreviewInterface
 {
-    /** @var string Name by which Page is recognised */
-    public const PAGE_NAME = 'Folder Preview';
+    /** @var string */
+    private $expectedPageTitle;
 
-    /** @var string Name of Content Type this Preview is for */
-    public const CONTENT_TYPE = 'Folder';
-
-    public function getPageTitle(): string
+    public function setExpectedPreviewData(array $data)
     {
-        return $this->context->findElement('h2')->getText();
+        $this->expectedPageTitle = $data['title'];
     }
 
-    public function verifyElements(): void
+    public function verifyPreviewData()
     {
+        $this->getHTMLPage()->find($this->getLocator('title'))->assert()->textEquals($this->expectedPageTitle);
     }
 
-    public function getDefaultPreviewData(): ?array
+    public function supports(string $contentTypeIdentifier, string $viewType): bool
     {
-        return null;
+        $contentTypeIdentifier = strtolower($contentTypeIdentifier);
+
+        return 'folder' === $contentTypeIdentifier || 'dedicatedfolder' === $contentTypeIdentifier;
+    }
+
+    public function verifyIsLoaded(): void
+    {
+        $this->verifyPreviewData();
+    }
+
+    protected function specifyLocators(): array
+    {
+        return [
+            new CSSLocator('title', 'h2'),
+        ];
     }
 }

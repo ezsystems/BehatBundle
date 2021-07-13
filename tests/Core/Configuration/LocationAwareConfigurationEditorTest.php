@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\Test\Core\Configuration;
 
 use eZ\Publish\Core\Repository\Values\Content\Location;
@@ -13,6 +15,10 @@ use EzSystems\Behat\Core\Configuration\LocationAwareConfigurationEditor;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class LocationAwareConfigurationEditorTest extends TestCase
 {
     private $locationAwareConfigurationEditor;
@@ -29,12 +35,22 @@ class LocationAwareConfigurationEditorTest extends TestCase
                     ['Home/Folder', new Location(['id' => 4])],
                     ['Home/Folder1/Folder2', new Location(['id' => 5])],
                 ]
-            );
+            )
+        ;
 
         $this->locationAwareConfigurationEditor = new LocationAwareConfigurationEditor(
             new ConfigurationEditor(),
             $contentFacadeStub
         );
+    }
+
+    public function testDoesNotFailOnNonStrings()
+    {
+        $initialConfig = ['testKey' => [1, null]];
+
+        $value = $this->locationAwareConfigurationEditor->get($initialConfig, 'testKey');
+
+        Assert::assertEquals([1, null], $value);
     }
 
     public function testReplacesSingleValue()

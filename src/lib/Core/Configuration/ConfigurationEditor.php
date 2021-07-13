@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\Core\Configuration;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -15,8 +17,8 @@ class ConfigurationEditor implements ConfigurationEditorInterface
      * Appends given value under key, extending existing settings.
      *
      * @param $config YAML config
-     * @param string $key 'key' or 'nested.key'
-     * @param string|array $value
+     * @param string       $key   'key' or 'nested.key'
+     * @param array|string $value
      *
      * @return mixed YAML config
      */
@@ -31,8 +33,8 @@ class ConfigurationEditor implements ConfigurationEditorInterface
      * Sets given value under key. Existing settings are overwritten.
      *
      * @param $config YAML config
-     * @param string $key 'key' or 'nested.key'
-     * @param string|array $value
+     * @param string       $key   'key' or 'nested.key'
+     * @param array|string $value
      *
      * @return mixed YAML config
      */
@@ -49,6 +51,23 @@ class ConfigurationEditor implements ConfigurationEditorInterface
         $key = $this->parseKey($key);
 
         return $propertyAccessor->getValue($config, $key);
+    }
+
+    /**
+     * @return mixed YAML config
+     */
+    public function getConfigFromFile(string $filePath)
+    {
+        return Yaml::parse(file_get_contents($filePath));
+    }
+
+    /**
+     * @param $filePath
+     * @param $config YAML config
+     */
+    public function saveConfigToFile($filePath, $config): void
+    {
+        file_put_contents($filePath, Yaml::dump($config, 8, 5));
     }
 
     private function modifyValue(&$config, string $key, $value, bool $appendToExisting): void
@@ -79,7 +98,7 @@ class ConfigurationEditor implements ConfigurationEditorInterface
             return $value;
         }
 
-        if ($currentValue === null) {
+        if (null === $currentValue) {
             return \is_array($value) ? $value : [$value];
         }
 
@@ -92,24 +111,5 @@ class ConfigurationEditor implements ConfigurationEditorInterface
         }
 
         return array_merge($currentValue, $value);
-    }
-
-    /**
-     * @param string $filePath
-     *
-     * @return mixed YAML config
-     */
-    public function getConfigFromFile(string $filePath)
-    {
-        return Yaml::parse(file_get_contents($filePath));
-    }
-
-    /**
-     * @param $filePath
-     * @param $config YAML config
-     */
-    public function saveConfigToFile($filePath, $config): void
-    {
-        file_put_contents($filePath, Yaml::dump($config, 8, 5));
     }
 }

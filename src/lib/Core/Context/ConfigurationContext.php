@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\Core\Context;
 
 use Behat\Behat\Context\Context;
@@ -21,7 +23,7 @@ class ConfigurationContext implements Context
     private $configFilePath;
     private $projectDir;
     /**
-     * @var ConfigurationEditorInterface
+     * @var \EzSystems\Behat\Core\Configuration\ConfigurationEditorInterface
      */
     private $configurationEditor;
 
@@ -34,6 +36,9 @@ class ConfigurationContext implements Context
 
     /**
      * @Given I add a siteaccess :siteaccessName to :siteaccessGroup with settings
+     *
+     * @param mixed $siteaccessName
+     * @param mixed $siteaccessGroup
      */
     public function iAddSiteaccessWithSettings($siteaccessName, $siteaccessGroup, TableNode $settings)
     {
@@ -53,6 +58,8 @@ class ConfigurationContext implements Context
 
     /**
      * @Given I :mode configuration to :siteaccessName siteaccess
+     *
+     * @param mixed $siteaccessName
      */
     public function iAppendOrSetConfigurationToSiteaccess(string $mode, $siteaccessName, TableNode $settings)
     {
@@ -77,6 +84,8 @@ class ConfigurationContext implements Context
      * @Given I :mode configuration to :parentNode in :configFilePath
      *
      * string $mode Available: append|set - whether the new config will be appended (resulting in an array) or replace the current value if it exists
+     *
+     * @param mixed $parentNode
      */
     public function iModifyConfigurationUnderKey(string $mode, $parentNode, PyStringNode $configFragment, string $configFilePath = null)
     {
@@ -95,6 +104,9 @@ class ConfigurationContext implements Context
 
     /**
      * @Given I :mode configuration to :siteaccessName siteaccess under :keyName key
+     *
+     * @param mixed $siteaccessName
+     * @param mixed $keyName
      */
     public function iModifyConfigurationForSiteaccessUnderKey(string $mode, $siteaccessName, $keyName, PyStringNode $configFragment)
     {
@@ -112,7 +124,7 @@ class ConfigurationContext implements Context
 
     private function parseSetting($setting)
     {
-        return strpos($setting, ',') !== false ? explode(',', $setting) : $setting;
+        return false !== strpos($setting, ',') ? explode(',', $setting) : $setting;
     }
 
     private function parseConfig(PyStringNode $configFragment)

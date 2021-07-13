@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -9,8 +9,10 @@ declare(strict_types=1);
 namespace EzSystems\BehatBundle;
 
 use Behat\Behat\EventDispatcher\ServiceContainer\EventDispatcherExtension;
+use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Testwork\ServiceContainer\Extension;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
+use DMore\ChromeDriver\ChromeDriver;
 use EzSystems\BehatBundle\Initializer\BehatSiteAccessInitializer;
 use FriendsOfBehat\SymfonyExtension\ServiceContainer\SymfonyExtension;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -19,8 +21,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
-use Behat\Mink\Driver\Selenium2Driver;
-use DMore\ChromeDriver\ChromeDriver;
 
 class BehatExtension implements Extension
 {
@@ -159,11 +159,11 @@ class BehatExtension implements Extension
     {
         $minkDefinition = $container->getDefinition('mink');
 
-        $registerSessionCalls = array_filter($minkDefinition->getMethodCalls(), function ($methodCall) {
+        $registerSessionCalls = array_filter($minkDefinition->getMethodCalls(), static function ($methodCall) {
             return $methodCall[0] === 'registerSession';
         });
 
-        return array_map(function (array $registerSessionCall) {
+        return array_map(static function (array $registerSessionCall) {
             /** @var \Symfony\Component\DependencyInjection\Definition $sessionDefinition */
             $sessionDefinition = $registerSessionCall[1][1];
 

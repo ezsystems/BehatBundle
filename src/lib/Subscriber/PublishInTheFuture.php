@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -11,10 +11,10 @@ namespace EzSystems\Behat\Subscriber;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
-use EzSystems\Behat\API\Facade\WorkflowFacade;
 use EzSystems\Behat\Event\Events;
 use EzSystems\Behat\Event\TransitionEvent;
 use EzSystems\DateBasedPublisher\API\Repository\DateBasedPublishServiceInterface;
+use Ibexa\Workflow\Tests\Behat\Facade\WorkflowFacade;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -24,17 +24,18 @@ class PublishInTheFuture extends AbstractProcessStage implements EventSubscriber
     /** @var \EzSystems\DateBasedPublisher\API\Repository\DateBasedPublishServiceInterface */
     private $dateBasedPublisherService;
 
-    /** @var \EzSystems\Behat\API\Facade\WorkflowFacade */
+    /** @var \Ibexa\Workflow\Tests\Behat\Facade\WorkflowFacade */
     private $workflowFacade;
 
-    public function __construct(EventDispatcherInterface $eventDispatcher,
-                                UserService $userService,
-                                PermissionResolver $permissionResolver,
-                                LoggerInterface $logger,
-                                RandomDataGenerator $randomDataGenerator,
-                                DateBasedPublishServiceInterface $dateBasedPublisherService,
-                                WorkflowFacade $workflowFacade)
-    {
+    public function __construct(
+        EventDispatcherInterface $eventDispatcher,
+        UserService $userService,
+        PermissionResolver $permissionResolver,
+        LoggerInterface $logger,
+        RandomDataGenerator $randomDataGenerator,
+        DateBasedPublishServiceInterface $dateBasedPublisherService,
+        WorkflowFacade $workflowFacade
+    ) {
         parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger, $randomDataGenerator);
 
         $this->dateBasedPublisherService = $dateBasedPublisherService;

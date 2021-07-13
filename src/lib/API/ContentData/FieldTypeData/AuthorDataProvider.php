@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
 use eZ\Publish\Core\FieldType\Author\Author;
@@ -13,23 +15,12 @@ class AuthorDataProvider extends AbstractFieldTypeDataProvider
 {
     public function supports(string $fieldTypeIdentifier): bool
     {
-        return $fieldTypeIdentifier === 'ezauthor';
+        return 'ezauthor' === $fieldTypeIdentifier;
     }
 
     public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB'): Value
     {
         return new Value([$this->getSingleAuthor($language), $this->getSingleAuthor($language)]);
-    }
-
-    private function getSingleAuthor(string $language = 'eng-GB'): Author
-    {
-        $this->setLanguage($language);
-
-        $author = new Author();
-        $author->name = $this->getFaker()->name;
-        $author->email = $this->getFaker()->email;
-
-        return $author;
     }
 
     public function parseFromString(string $value): Value
@@ -41,5 +32,16 @@ class AuthorDataProvider extends AbstractFieldTypeDataProvider
         $author->email = $email;
 
         return new Value([$author]);
+    }
+
+    private function getSingleAuthor(string $language = 'eng-GB'): Author
+    {
+        $this->setLanguage($language);
+
+        $author = new Author();
+        $author->name = $this->getFaker()->name;
+        $author->email = $this->getFaker()->email;
+
+        return $author;
     }
 }

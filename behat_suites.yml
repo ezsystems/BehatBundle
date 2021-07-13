@@ -1,31 +1,31 @@
-behat:
+service:
     suites:
         examples:
             paths:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/examples'
             contexts:
-              - EzSystems\Behat\API\Context\TestContext
-              - EzSystems\Behat\API\Context\ObjectStateContext
               - EzSystems\Behat\API\Context\ContentContext
               - EzSystems\Behat\API\Context\ContentTypeContext
-              - EzSystems\Behat\API\Context\UserContext
-              - EzSystems\Behat\API\Context\RoleContext
               - EzSystems\Behat\API\Context\LanguageContext
+              - EzSystems\Behat\API\Context\ObjectStateContext
+              - EzSystems\Behat\API\Context\RoleContext
+              - EzSystems\Behat\API\Context\TestContext
+              - EzSystems\Behat\API\Context\UserContext
               - EzSystems\Behat\Core\Context\ConfigurationContext
 
 setup:
     suites:
-        volume_testing:
+        volume-testing:
             paths:
                 - vendor/ezsystems/behatbundle/features/setup/volume/
             contexts:
-              - EzSystems\Behat\API\Context\TestContext
-              - EzSystems\Behat\API\Context\UserContext
-              - EzSystems\Behat\API\Context\RoleContext
               - EzSystems\Behat\API\Context\ContentContext
               - EzSystems\Behat\API\Context\ContentTypeContext
               - EzSystems\Behat\API\Context\LanguageContext
-        richtext_configuration:
+              - EzSystems\Behat\API\Context\RoleContext
+              - EzSystems\Behat\API\Context\TestContext
+              - EzSystems\Behat\API\Context\UserContext
+        richtext-configuration:
             paths:
                 - vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_tags.feature
                 - vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_styles.feature
@@ -36,38 +36,38 @@ setup:
               paths:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/personas'
               contexts:
-                - EzSystems\Behat\API\Context\TestContext
-                - EzSystems\Behat\API\Context\UserContext
-                - EzSystems\Behat\API\Context\RoleContext
                 - EzSystems\Behat\API\Context\ContentContext
                 - EzSystems\Behat\API\Context\ContentTypeContext
+                - EzSystems\Behat\API\Context\RoleContext
+                - EzSystems\Behat\API\Context\TestContext
+                - EzSystems\Behat\API\Context\UserContext
         URIElement:
             paths:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/siteaccessMatcher/URIElement.feature'
             contexts:
-                - EzSystems\Behat\API\Context\TestContext
                 - EzSystems\Behat\API\Context\LanguageContext
+                - EzSystems\Behat\API\Context\TestContext
                 - EzSystems\Behat\Core\Context\ConfigurationContext
         MapHost:
             paths:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/siteaccessMatcher/MapHost.feature'
             contexts:
-                - EzSystems\Behat\API\Context\TestContext
                 - EzSystems\Behat\API\Context\LanguageContext
+                - EzSystems\Behat\API\Context\TestContext
                 - EzSystems\Behat\Core\Context\ConfigurationContext
         MapURI:
             paths:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/siteaccessMatcher/MapURI.feature'
             contexts:
-                - EzSystems\Behat\API\Context\TestContext
                 - EzSystems\Behat\API\Context\LanguageContext
+                - EzSystems\Behat\API\Context\TestContext
                 - EzSystems\Behat\Core\Context\ConfigurationContext
         CompoundMapURIMapHost:
             paths:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/siteaccessMatcher/CompoundMapURIMapHost.feature'
             contexts:
-                - EzSystems\Behat\API\Context\TestContext
                 - EzSystems\Behat\API\Context\LanguageContext
+                - EzSystems\Behat\API\Context\TestContext
                 - EzSystems\Behat\Core\Context\ConfigurationContext
         multirepository:
             paths:

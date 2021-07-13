@@ -1,27 +1,28 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\Behat\API\Facade;
 
-use EzSystems\Behat\API\ContentData\FieldTypeNameConverter;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
+use EzSystems\Behat\API\ContentData\FieldTypeNameConverter;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 
 class ContentTypeFacade
 {
+    private const MAX_LOAD_TRIES = 10;
     /** @var \eZ\Publish\API\Repository\ContentTypeService */
     private $contentTypeService;
 
-    /** @var Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
+    /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
     private $cachePool;
-
-    private const MAX_LOAD_TRIES = 10;
 
     public function __construct(ContentTypeService $contentTypeService, TagAwareAdapterInterface $cachePool)
     {
@@ -75,7 +76,7 @@ class ContentTypeFacade
     private function assertContentTypeExistsInGroup(string $contentTypeIdentifier, ContentTypeGroup $contentTypeGroup): void
     {
         // Workaround for https://jira.ez.no/browse/EZP-32102: make sure the Content Type is loadable
-        $contentTypeIdentifiersInGroup = array_map(function (ContentType $contentType) {
+        $contentTypeIdentifiersInGroup = array_map(static function (ContentType $contentType) {
             return $contentType->identifier;
         }, $this->contentTypeService->loadContentTypes($contentTypeGroup));
 
@@ -84,7 +85,7 @@ class ContentTypeFacade
         while (!\in_array($contentTypeIdentifier, $contentTypeIdentifiersInGroup)) {
             $this->cachePool->deleteItems(['ez-content-type-list-by-group-' . $contentTypeGroup->id]);
 
-            $contentTypeIdentifiersInGroup = array_map(function (ContentType $contentType) {
+            $contentTypeIdentifiersInGroup = array_map(static function (ContentType $contentType) {
                 return $contentType->identifier;
             }, $this->contentTypeService->loadContentTypes($contentTypeGroup));
 

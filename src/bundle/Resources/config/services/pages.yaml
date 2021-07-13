@@ -1,0 +1,19 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Ibexa\Behat\Browser\Page\LoginPage: ~
+
+    Ibexa\Behat\Browser\Page\RedirectLoginPage: ~
+
+    Ibexa\Behat\Browser\Page\PageRegistry:
+        arguments:
+            - !tagged_iterator ibexa.testing.browser.page
+
+    Ibexa\Behat\Browser\Page\Preview\PagePreviewRegistry:
+        arguments:
+            - !tagged_iterator ibexa.testing.browser.page_preview
+
+    Ibexa\Behat\Browser\Page\Preview\FolderPreview: ~

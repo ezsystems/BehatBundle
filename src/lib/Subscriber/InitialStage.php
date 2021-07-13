@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -38,13 +38,14 @@ class InitialStage extends AbstractProcessStage implements EventSubscriberInterf
         ];
     }
 
-    public function __construct(EventDispatcherInterface $eventDispatcher,
-                                UserService $userService,
-                                PermissionResolver $permissionResolver,
-                                LoggerInterface $logger,
-                                SearchFacade $searchFacade,
-                                RandomDataGenerator $randomDataGenerator)
-    {
+    public function __construct(
+        EventDispatcherInterface $eventDispatcher,
+        UserService $userService,
+        PermissionResolver $permissionResolver,
+        LoggerInterface $logger,
+        SearchFacade $searchFacade,
+        RandomDataGenerator $randomDataGenerator
+    ) {
         parent::__construct($eventDispatcher, $userService, $permissionResolver, $logger, $randomDataGenerator);
         $this->searchFacade = $searchFacade;
     }

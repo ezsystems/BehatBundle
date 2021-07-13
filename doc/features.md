@@ -15,8 +15,8 @@ Use the [TestContext](../src/lib/API/Context/TestContext.php) to log in to the R
 ### Browser examples
 
 Look at [AdminUI feature files](https://github.com/ezsystems/ezplatform-admin-ui/tree/master/features/standard) to see example browser tests for AdminUI. If you want to reuse these Steps in your code in addition to the Context that defines them you also need to include:
-- `EzSystems\Behat\Browser\Context\Hooks`
-- `EzSystems\Behat\Browser\Context\BrowserContext`
+- `Ibexa\Behat\Browser\Context\Hooks`
+- `Ibexa\Behat\Browser\Context\BrowserContext`
 
 #### Improved drag and drop
 
@@ -32,8 +32,8 @@ With `EzBehatExtension` enabled Behat becomes SiteAccess aware. The SiteAccess u
 
 ## Debugging tools
 
-Use the `EzSystems\Behat\Browser\Context\Hooks` Context class to access browser and server logs after Scenario failure, which combined with the screenshots feature makes debugging failures (even on CI) much easier.
+Use the `Ibexa\Behat\Browser\Context\Hooks` Context class to access browser and server logs after Scenario failure, which combined with the screenshots feature makes debugging failures (even on CI) much easier.
 
 ## Default testing configuration
 
-BehatBundle might override some settings with values that are needed for testing. If you want to disable this behaviour you should set the `ezplatform.behat.override_configuration` parameter to `false`.
+BehatBundle might override some settings with values that are needed for testing. If you want to disable this behaviour you should set the `ibexa.testing.override_configuration` parameter to `false`.

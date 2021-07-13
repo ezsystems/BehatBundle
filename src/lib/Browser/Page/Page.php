@@ -1,114 +1,45 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\Behat\Browser\Page;
+declare(strict_types=1);
 
-use EzSystems\Behat\Browser\Context\BrowserContext;
-use PHPUnit\Framework\Assert;
+namespace Ibexa\Behat\Browser\Page;
 
-abstract class Page
+use Behat\Mink\Session;
+use Ibexa\Behat\Browser\Component\Component;
+use Ibexa\Behat\Browser\Routing\Router;
+
+abstract class Page extends Component implements PageInterface
 {
-    protected $defaultTimeout = 50;
+    /** @var \Ibexa\Behat\Browser\Routing\Router */
+    private $router;
 
-    /** @var string Route under which the Page is available */
-    protected $route;
-
-    /** @var string SiteAccess name */
-    public $siteAccess;
-
-    /** @var string title that we see directly below upper menu */
-    protected $pageTitle;
-
-    /** @var BrowserContext context for interactions with the page */
-    protected $context;
-
-    /** @var string locator for page title */
-    protected $pageTitleLocator;
-
-    protected $fields;
-
-    // @var UpperMenu
-    public $upperMenu;
-
-    public function __construct(BrowserContext $context)
+    public function __construct(Session $session, Router $router)
     {
-        $this->context = $context;
+        parent::__construct($session);
+        $this->router = $router;
     }
 
-    /**
-     * Makes sure that the page is loaded.
-     */
-    public function verifyIsLoaded(): void
+    abstract public function getName(): string;
+
+    public function open(string $siteaccess): void
     {
-        $this->verifyRoute();
-        $this->verifyElements();
-        $this->verifyTitle();
+        $this->tryToOpen($siteaccess);
+        $this->verifyIsLoaded();
     }
 
-    /**
-     * Opens the page in Browser.
-     *
-     * @param bool $verifyIfLoaded Page content will be verified
-     */
-    public function open(bool $verifyIfLoaded = true): void
+    public function tryToOpen(string $siteaccess): void
     {
-        if (isset($this->siteAccess)) {
-            $url = $this->context->reverseMatchRoute($this->siteAccess, $this->route);
-        } else {
-            $url = $this->route;
+        $url = $this->router->reverseMatchRoute($siteaccess, $this->getRoute());
+
+        if (!$this->getSession()->isStarted()) {
+            $this->getSession()->start();
         }
-
-        $this->context->visit($url);
-
-        if ($verifyIfLoaded) {
-            $this->verifyIsLoaded();
-        }
+        $this->getSession()->visit($url);
     }
 
-    /**
-     * Verifies that Page is available under correct route.
-     */
-    public function verifyRoute(): void
-    {
-        $this->context->waitUntil($this->defaultTimeout, function () {
-            return false !== strpos($this->getCurrentRoute(), $this->route);
-        });
-    }
-
-    public function verifyTitle(): void
-    {
-        Assert::assertEquals(
-            $this->pageTitle,
-            $this->getPageTitle(),
-            'Wrong page title.'
-        );
-    }
-
-    /**
-     * Verifies that expected elements are present.
-     */
-    abstract public function verifyElements(): void;
-
-    /**
-     * Gets the header text displayed in AdminUI.
-     *
-     * @return string
-     */
-    public function getPageTitle(): string
-    {
-        return $this->context->findElement($this->pageTitleLocator)->getText();
-    }
-
-    /**
-     * Gets the route URL text displayed in AdminUI page.
-     *
-     * @return string
-     */
-    protected function getCurrentRoute(): string
-    {
-        return $this->context->getSession()->getCurrentUrl();
-    }
+    abstract protected function getRoute(): string;
 }
