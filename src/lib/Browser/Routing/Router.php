@@ -28,6 +28,8 @@ final class Router
 
     public function reverseMatchRoute(string $siteAccessName, string $route): string
     {
+        $route = strpos($route, '/') === 0 ? $route : sprintf('/%s', $route);
+
         $matcher = $this->router->matchByName($siteAccessName)->matcher;
         $matcher->setRequest(new SimplifiedRequest(['scheme' => 'http', 'host' => $this->minkParameters['base_url'], 'pathinfo' => $route]));
         $request = $matcher->reverseMatch($siteAccessName)->getRequest();
