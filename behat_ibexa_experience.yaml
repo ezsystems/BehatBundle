@@ -31,6 +31,7 @@ regression:
               - '%paths.base%/vendor/ezsystems/ezplatform-form-builder/features'
               - '%paths.base%/vendor/ezsystems/ezplatform-page-builder/features/DynamicLandingPage'
               - '%paths.base%/vendor/ezsystems/ezplatform-page-builder/features/personas'
+              - '%paths.base%/vendor/ezsystems/ezplatform-user/features/browser'
               - '%paths.base%/vendor/ezsystems/ezplatform-workflow/features/browser'
             filters:
                 tags: "~@broken && @IbexaExperience"
@@ -67,6 +68,7 @@ regression:
                 - Ibexa\FormBuilder\Behat\BrowserContext\FormFrontContext
                 - Ibexa\PageBuilder\Tests\Behat\Context\PageBuilderContext
                 - Ibexa\Scheduler\Behat\BrowserContext\DateBasedPublisherContext
+                - Ibexa\User\Tests\Behat\Context\UserSetupContext
                 - Ibexa\Workflow\Tests\Behat\Context\WorkflowAdminContext
                 - Ibexa\Workflow\Tests\Behat\Context\WorkflowContext
                 - EzSystems\Behat\API\Context\RoleContext
