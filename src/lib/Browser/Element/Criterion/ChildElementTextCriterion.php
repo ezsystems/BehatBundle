@@ -44,7 +44,7 @@ class ChildElementTextCriterion implements CriterionInterface
             }
         }
 
-        $this->results[] = array_merge($this->results, $childElementsText);
+        $this->results = array_merge($this->results, $childElementsText);
 
         return false;
     }
