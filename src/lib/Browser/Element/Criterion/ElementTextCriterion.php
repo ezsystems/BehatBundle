@@ -39,10 +39,10 @@ class ElementTextCriterion implements CriterionInterface
     {
         return
             sprintf(
-                "Could not find element named: '%s'. Found names: %s instead. %s locator '%s': '%s'",
+                "Could not find element named: '%s'. Found names: %s instead. %s locator '%s': '%s'.",
                 $this->expectedElementText,
                 implode(',', $this->results),
-                $locator->getType(),
+                strtoupper($locator->getType()),
                 $locator->getIdentifier(),
                 $locator->getSelector()
             );

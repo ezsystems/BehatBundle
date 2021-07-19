@@ -8,48 +8,51 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Element\Condition;
 
-use Ibexa\Behat\Browser\Element\RootElement;
+use Ibexa\Behat\Browser\Element\BaseElementInterface;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 
 class ElementsCountCondition implements ConditionInterface
 {
     /** @var \Ibexa\Behat\Browser\Locator\LocatorInterface */
-    private $searchedElementLocator;
+    private $elementsLocator;
 
-    /** @var \Ibexa\Behat\Browser\Element\RootElement */
-    private $htmlPage;
+    /** @var \Ibexa\Behat\Browser\Element\BaseElementInterface */
+    private $searchedNode;
 
     /** @var int */
     private $expectedElementsCount;
+
     /** @var int */
     private $actualNumberOfItemsFound;
 
-    public function __construct(RootElement $htmlPage, LocatorInterface $searchedElementLocator, int $expectedElementsCount)
+    public function __construct(BaseElementInterface $searchedNode, LocatorInterface $elementsLocator, int $expectedElementsCount)
     {
-        $this->searchedElementLocator = $searchedElementLocator;
-        $this->htmlPage = $htmlPage;
+        $this->elementsLocator = $elementsLocator;
+        $this->searchedNode = $searchedNode;
         $this->expectedElementsCount = $expectedElementsCount;
     }
 
     public function isMet(): bool
     {
-        $actualCount = $this->htmlPage
-            ->findAll($this->searchedElementLocator)->count();
-
+        $currentTimeout = $this->searchedNode->getTimeout();
+        $this->searchedNode->setTimeout(0);
+        $actualCount = $this->searchedNode->findAll($this->elementsLocator)->count();
+        $this->searchedNode->setTimeout($currentTimeout);
         $this->actualNumberOfItemsFound = $actualCount;
 
         return $actualCount === $this->expectedElementsCount;
     }
 
-    public function getErrorMessage(): string
+    public function getErrorMessage(BaseElementInterface $invokingElement): string
     {
         return sprintf(
-            "The expected number of items (%d) matching %s locator '%s': '%s' was not found. Found %d items instead",
+            "The expected number of items (%d) matching %s locator '%s': '%s' was not found. Found %d items instead. Timeout value: %d seconds.",
             $this->expectedElementsCount,
-            $this->searchedElementLocator->getType(),
-            $this->searchedElementLocator->getIdentifier(),
-            $this->searchedElementLocator->getSelector(),
-            $this->actualNumberOfItemsFound
+            strtoupper($this->elementsLocator->getType()),
+            $this->elementsLocator->getIdentifier(),
+            $this->elementsLocator->getSelector(),
+            $this->actualNumberOfItemsFound,
+            $invokingElement->getTimeout()
         );
     }
 }

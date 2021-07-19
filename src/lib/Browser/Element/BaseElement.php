@@ -28,6 +28,11 @@ class BaseElement implements BaseElementInterface
         return $this;
     }
 
+    public function getTimeout(): int
+    {
+        return $this->timeout;
+    }
+
     public function waitUntilCondition(ConditionInterface $condition): BaseElementInterface
     {
         $start = time();
@@ -42,7 +47,7 @@ class BaseElement implements BaseElementInterface
             usleep(100 * 1000);
         } while (time() < $end);
 
-        throw new TimeoutException($condition->getErrorMessage());
+        throw new TimeoutException($condition->getErrorMessage($this));
     }
 
     public function waitUntil(callable $callback, string $errorMessage)
@@ -80,7 +85,7 @@ class BaseElement implements BaseElementInterface
             },
             sprintf(
                 "%s selector '%s': '%s' not found in %d seconds.",
-                $locator->getType(),
+                strtoupper($locator->getType()),
                 $locator->getIdentifier(),
                 $locator->getSelector(),
                 $this->timeout

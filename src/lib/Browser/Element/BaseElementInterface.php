@@ -15,6 +15,8 @@ interface BaseElementInterface
 {
     public function setTimeout(int $timeoutSeconds): BaseElementInterface;
 
+    public function getTimeout(): int;
+
     public function find(LocatorInterface $locator): ElementInterface;
 
     public function findAll(LocatorInterface $locator): ElementCollection;
