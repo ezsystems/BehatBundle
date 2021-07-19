@@ -31,6 +31,9 @@ class SelectionDataProvider implements FieldTypeDataProviderInterface
 
         $isMultiple = $fieldSettings['isMultiple'];
         $availableOptions = $fieldSettings['options'];
+        if (empty($availableOptions)) {
+            return new Value();
+        }
 
         $numberOfOptionsToPick = $isMultiple ? random_int(1, count($availableOptions)) : 1;
         $randomOptionIndices = array_rand(range(0, count($availableOptions) - 1), $numberOfOptionsToPick);
