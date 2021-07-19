@@ -69,3 +69,4 @@ regression:
                 - Ibexa\Scheduler\Behat\BrowserContext\DateBasedPublisherContext
                 - Ibexa\Workflow\Tests\Behat\Context\WorkflowAdminContext
                 - Ibexa\Workflow\Tests\Behat\Context\WorkflowContext
+                - EzSystems\Behat\API\Context\RoleContext
