@@ -118,3 +118,4 @@ regression:
                 - Ibexa\Behat\Browser\Context\AuthenticationContext
                 - Ibexa\Behat\Browser\Context\DebuggingContext
                 - Ibexa\User\Tests\Behat\Context\UserSetupContext
+                - EzSystems\Behat\API\Context\RoleContext
