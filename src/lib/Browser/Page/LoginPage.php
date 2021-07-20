@@ -10,7 +10,7 @@ namespace Ibexa\Behat\Browser\Page;
 
 use Ibexa\Behat\Browser\Element\Criterion\ElementTextCriterion;
 use Ibexa\Behat\Browser\Element\Criterion\LogicalOrCriterion;
-use Ibexa\Behat\Browser\Locator\VisibleCSSLocator;
+use Ibexa\Behat\Browser\Locator\CSSLocator;
 use PHPUnit\Framework\Assert;
 
 class LoginPage extends Page
@@ -54,9 +54,9 @@ class LoginPage extends Page
     protected function specifyLocators(): array
     {
         return [
-            new VisibleCSSLocator('username', '#username'),
-            new VisibleCSSLocator('password', '#password'),
-            new VisibleCSSLocator('button', 'button[type=submit]'),
+            new CSSLocator('username', '#username'),
+            new CSSLocator('password', '#password'),
+            new CSSLocator('button', 'button[type=submit]'),
         ];
     }
 }
