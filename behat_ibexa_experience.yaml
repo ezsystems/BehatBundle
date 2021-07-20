@@ -31,6 +31,7 @@ regression:
               - '%paths.base%/vendor/ezsystems/ezplatform-form-builder/features'
               - '%paths.base%/vendor/ezsystems/ezplatform-page-builder/features/DynamicLandingPage'
               - '%paths.base%/vendor/ezsystems/ezplatform-page-builder/features/personas'
+              - '%paths.base%/vendor/ezsystems/ezplatform-page-fieldtype/features/eventSource'
               - '%paths.base%/vendor/ezsystems/ezplatform-user/features/browser'
               - '%paths.base%/vendor/ezsystems/ezplatform-workflow/features/browser'
             filters:
@@ -39,6 +40,7 @@ regression:
                 - Behat\MinkExtension\Context\MinkContext
                 - EzSystems\Behat\API\Context\ContentContext
                 - EzSystems\Behat\API\Context\ContentTypeContext
+                - EzSystems\Behat\API\Context\RoleContext
                 - EzSystems\Behat\API\Context\TestContext
                 - EzSystems\Behat\API\Context\TrashContext
                 - Ibexa\AdminUi\Behat\BrowserContext\AdminUpdateContext
@@ -62,6 +64,8 @@ regression:
                 - Ibexa\AdminUi\Behat\BrowserContext\UserPreferencesContext
                 - Ibexa\Behat\Browser\Context\AuthenticationContext
                 - Ibexa\Behat\Browser\Context\DebuggingContext
+                - Ibexa\FieldTypePage\Tests\Behat\Context\BlockHideEventsSourceContext
+                - Ibexa\FieldTypePage\Tests\Behat\Context\BlockRevealEventsSourceContext
                 - Ibexa\FormBuilder\Behat\BrowserContext\FormAdministrationContext
                 - Ibexa\FormBuilder\Behat\BrowserContext\FormBuilderContext
                 - Ibexa\FormBuilder\Behat\BrowserContext\FormFieldConfigurationContext
@@ -71,4 +75,3 @@ regression:
                 - Ibexa\User\Tests\Behat\Context\UserSetupContext
                 - Ibexa\Workflow\Tests\Behat\Context\WorkflowAdminContext
                 - Ibexa\Workflow\Tests\Behat\Context\WorkflowContext
-                - EzSystems\Behat\API\Context\RoleContext
