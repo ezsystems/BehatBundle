@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Page;
 
+use Ibexa\Behat\Browser\Element\Criterion\ElementTextCriterion;
 use Ibexa\Behat\Browser\Locator\CSSLocator;
 use PHPUnit\Framework\Assert;
 
@@ -24,7 +25,7 @@ class LoginPage extends Page
     {
         $this->getHTMLPage()->find($this->getLocator('username'))->setValue($username);
         $this->getHTMLPage()->find($this->getLocator('password'))->setValue($password);
-        $this->getHTMLPage()->find($this->getLocator('button'))->click();
+        $this->getHTMLPage()->findAll($this->getLocator('button'))->getByCriterion(new ElementTextCriterion('Login'))->click();
 
         Assert::assertNotEquals('/login', $this->getSession()->getCurrentUrl());
     }
