@@ -9,7 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Behat\Browser\Page;
 
 use Ibexa\Behat\Browser\Element\Criterion\ElementTextCriterion;
-use Ibexa\Behat\Browser\Locator\CSSLocator;
+use Ibexa\Behat\Browser\Element\Criterion\LogicalOrCriterion;
+use Ibexa\Behat\Browser\Locator\VisibleCSSLocator;
 use PHPUnit\Framework\Assert;
 
 class LoginPage extends Page
@@ -25,7 +26,12 @@ class LoginPage extends Page
     {
         $this->getHTMLPage()->find($this->getLocator('username'))->setValue($username);
         $this->getHTMLPage()->find($this->getLocator('password'))->setValue($password);
-        $this->getHTMLPage()->findAll($this->getLocator('button'))->getByCriterion(new ElementTextCriterion('Login'))->click();
+        $this->getHTMLPage()->findAll($this->getLocator('button'))
+            ->getByCriterion(new LogicalOrCriterion([
+                new ElementTextCriterion('Login'),
+                new ElementTextCriterion('Sign in'),
+            ]))
+            ->click();
 
         Assert::assertNotEquals('/login', $this->getSession()->getCurrentUrl());
     }
@@ -48,9 +54,9 @@ class LoginPage extends Page
     protected function specifyLocators(): array
     {
         return [
-            new CSSLocator('username', '#username'),
-            new CSSLocator('password', '#password'),
-            new CSSLocator('button', 'button[type=submit]'),
+            new VisibleCSSLocator('username', '#username'),
+            new VisibleCSSLocator('password', '#password'),
+            new VisibleCSSLocator('button', 'button[type=submit]'),
         ];
     }
 }
