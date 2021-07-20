@@ -74,14 +74,17 @@ class BaseElement implements BaseElementInterface
     {
         return $this->waitUntil(
             function () use ($locator) {
-                $minkFoundElement = $this->decoratedElement->find($locator->getType(), $locator->getSelector());
+                $minkFoundElements = $this->decoratedElement->findAll($locator->getType(), $locator->getSelector());
 
-                $foundElement = new Element($locator, $minkFoundElement);
-                if (!$locator->elementMeetsCriteria($foundElement)) {
-                    return false;
+                foreach ($minkFoundElements as $minkElements) {
+                    $wrappedElement = new Element($locator, $minkElements);
+
+                    if ($locator->elementMeetsCriteria($wrappedElement)) {
+                        return $wrappedElement;
+                    }
                 }
 
-                return $foundElement;
+                return false;
             },
             sprintf(
                 "%s selector '%s': '%s' not found in %d seconds.",
