@@ -29,7 +29,9 @@ Feature: Editor that has access only to a Subtree of Content Structure
     And I add policy "content" "read" to "BasicRole" with limitations
       | limitationType      | limitationValue                                       |
       | Location            | Users/SubtreeEditorsGroup/ThisUserIsAReviewer Test    |
-      | Location            | Users/SubtreeEditorsGroup/SubtreeEditor SubtreeEditor |
+    And I add policy "content" "read" to "BasicRole" with limitations
+      | limitationType      | limitationValue                                        |
+      | Location            | Users/SubtreeEditorsGroup/SubtreeEditor Subtree Editor |
     And I create a role "SubtreeEditorsRole" with policies
       | module      | function           |
       | content     | read               |
