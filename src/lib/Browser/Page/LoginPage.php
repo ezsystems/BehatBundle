@@ -27,10 +27,11 @@ class LoginPage extends Page
         $this->getHTMLPage()->find($this->getLocator('username'))->setValue($username);
         $this->getHTMLPage()->find($this->getLocator('password'))->setValue($password);
         $this->getHTMLPage()->findAll($this->getLocator('button'))
-            ->getByCriterion(new LogicalOrCriterion([
+            ->filterBy(new LogicalOrCriterion([
                 new ElementTextCriterion('Login'),
                 new ElementTextCriterion('Sign in'),
             ]))
+            ->single()
             ->click();
 
         Assert::assertNotEquals('/login', $this->getSession()->getCurrentUrl());
