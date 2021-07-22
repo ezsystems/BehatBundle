@@ -63,6 +63,7 @@ regression:
                 - Ibexa\AdminUi\Behat\BrowserContext\UserPreferencesContext
                 - Ibexa\Behat\Browser\Context\AuthenticationContext
                 - Ibexa\Behat\Browser\Context\DebuggingContext
+                - Ibexa\Commerce\ShopTools\Behat\Context\CheckoutContext
                 - Ibexa\Commerce\ShopTools\Behat\Context\FrontContext
                 - Ibexa\Commerce\ShopTools\Behat\Context\UserRegistrationContext
                 - Ibexa\FieldTypePage\Tests\Behat\Context\BlockHideEventsSourceContext
