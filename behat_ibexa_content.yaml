@@ -24,6 +24,7 @@ regression:
               - '%paths.base%/vendor/ezsystems/date-based-publisher/features'
               - '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/features/personas'
               - '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/features/standard'
+              - '%paths.base%/vendor/ezsystems/ezplatform-user/features/browser'
               - '%paths.base%/vendor/ezsystems/ezplatform-workflow/features/browser'
             filters:
                 tags: "~@broken && @IbexaContent"
@@ -53,6 +54,7 @@ regression:
                 - Ibexa\AdminUi\Behat\BrowserContext\UserPreferencesContext
                 - Ibexa\Behat\Browser\Context\AuthenticationContext
                 - Ibexa\Behat\Browser\Context\DebuggingContext
+                - Ibexa\User\Tests\Behat\Context\UserSetupContext
                 - Ibexa\Scheduler\Behat\BrowserContext\DateBasedPublisherContext
                 - Ibexa\Workflow\Tests\Behat\Context\WorkflowAdminContext
                 - Ibexa\Workflow\Tests\Behat\Context\WorkflowContext
