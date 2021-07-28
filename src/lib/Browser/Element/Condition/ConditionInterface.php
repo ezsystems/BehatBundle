@@ -8,9 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Element\Condition;
 
+use Ibexa\Behat\Browser\Element\BaseElementInterface;
+
 interface ConditionInterface
 {
     public function isMet(): bool;
 
-    public function getErrorMessage(): string;
+    public function getErrorMessage(BaseElementInterface $invokingElement): string;
 }

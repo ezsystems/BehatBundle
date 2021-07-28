@@ -17,7 +17,7 @@ use PHPUnit\Framework\Assert;
 
 class ElementCollection implements \Countable, \IteratorAggregate
 {
-    /** @var Element[]|\Traversable */
+    /** @var ElementInterface[]|\Traversable */
     private $elements;
     /**
      * @var \Ibexa\Behat\Browser\Locator\LocatorInterface
@@ -31,7 +31,7 @@ class ElementCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @return \Ibexa\Behat\Browser\Element\Element[]
+     * @return \Ibexa\Behat\Browser\Element\ElementInterface[]
      */
     public function getIterator(): iterable
     {
@@ -42,7 +42,7 @@ class ElementCollection implements \Countable, \IteratorAggregate
         return $this->elements;
     }
 
-    public function getByCriterion(CriterionInterface $criterion): Element
+    public function getByCriterion(CriterionInterface $criterion): ElementInterface
     {
         foreach ($this->elements as $element) {
             if ($criterion->matches($element)) {
@@ -58,7 +58,7 @@ class ElementCollection implements \Countable, \IteratorAggregate
     /**
      * @param callable Callable accepting a NodeElement parameter
      */
-    public function getBy(callable $callable): Element
+    public function getBy(callable $callable): ElementInterface
     {
         foreach ($this->elements as $element) {
             if ($callable($element)) {
@@ -67,14 +67,14 @@ class ElementCollection implements \Countable, \IteratorAggregate
         }
     }
 
-    public function first(): Element
+    public function first(): ElementInterface
     {
         foreach ($this->elements as $element) {
             return $element;
         }
     }
 
-    public function last(): Element
+    public function last(): ElementInterface
     {
         if (!is_array($this->elements)) {
             $this->elements = iterator_to_array($this->elements);
@@ -84,7 +84,7 @@ class ElementCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @return \Ibexa\Behat\Browser\Element\Element[]
+     * @return \Ibexa\Behat\Browser\Element\ElementInterface[]
      */
     public function toArray(): array
     {
@@ -113,7 +113,7 @@ class ElementCollection implements \Countable, \IteratorAggregate
         return count($this->elements) > 0;
     }
 
-    public function single(): Element
+    public function single(): ElementInterface
     {
         if (!is_array($this->elements)) {
             $this->elements = iterator_to_array($this->elements);
@@ -164,7 +164,11 @@ class ElementCollection implements \Countable, \IteratorAggregate
 
     public function empty(): bool
     {
-        return 0 === count(iterator_to_array($this->elements));
+        if (!is_array($this->elements)) {
+            $this->elements = iterator_to_array($this->elements);
+        }
+
+        return 0 === count($this->elements);
     }
 
     public function assert(): CollectionAssert

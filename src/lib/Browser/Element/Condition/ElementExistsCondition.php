@@ -8,36 +8,41 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Element\Condition;
 
-use Ibexa\Behat\Browser\Element\RootElement;
+use Ibexa\Behat\Browser\Element\BaseElementInterface;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 
 class ElementExistsCondition implements ConditionInterface
 {
     /** @var \Ibexa\Behat\Browser\Locator\LocatorInterface */
-    private $searchedElementLocator;
+    private $elementLocator;
 
-    /** @var \Ibexa\Behat\Browser\Element\RootElement */
-    private $htmlPage;
+    /** @var \Ibexa\Behat\Browser\Element\BaseElementInterface */
+    private $searchedNode;
 
-    public function __construct(RootElement $htmlPage, LocatorInterface $searchedElementLocator)
+    public function __construct(BaseElementInterface $searchedNode, LocatorInterface $elementLocator)
     {
-        $this->searchedElementLocator = $searchedElementLocator;
-        $this->htmlPage = $htmlPage;
+        $this->elementLocator = $elementLocator;
+        $this->searchedNode = $searchedNode;
     }
 
     public function isMet(): bool
     {
-        return $this->htmlPage
-            ->findAll($this->searchedElementLocator)->any();
+        $currentTimeout = $this->searchedNode->getTimeout();
+        $this->searchedNode->setTimeout(0);
+        $elementExists = $this->searchedNode->findAll($this->elementLocator)->any();
+        $this->searchedNode->setTimeout($currentTimeout);
+
+        return $elementExists;
     }
 
-    public function getErrorMessage(): string
+    public function getErrorMessage(BaseElementInterface $invokingElement): string
     {
         return sprintf(
-            "Element with %s locator '%s': '%s' was not found.",
-            $this->searchedElementLocator->getType(),
-            $this->searchedElementLocator->getIdentifier(),
-            $this->searchedElementLocator->getSelector(),
+            "Element with %s locator '%s': '%s' was not found. Timeout value: %d seconds.",
+            strtoupper($this->elementLocator->getType()),
+            $this->elementLocator->getIdentifier(),
+            $this->elementLocator->getSelector(),
+            $invokingElement->getTimeout()
         );
     }
 }

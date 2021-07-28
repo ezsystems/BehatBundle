@@ -53,13 +53,16 @@ class ChildElementTextCriterion implements CriterionInterface
     {
         return
             sprintf(
-                "Could not find element wih text: '%s' among children of given elements. Found names: %s instead. Parent %s locator '%s': '%s'. Child %s locator '%s': '%s'",
+                "Could not find element wih text: '%s' among children of given elements.
+                %s
+                Parent %s locator '%s': '%s'.
+                Child %s locator '%s': '%s'.",
                 $this->expectedChildElementText,
-                implode(',', $this->results),
-                $locator->getType(),
+                $this->results ? 'Found names: \'' . implode(',', $this->results) . '\' instead.' : 'No element matching given child locator found.',
+                strtoupper($locator->getType()),
                 $locator->getIdentifier(),
                 $locator->getSelector(),
-                $this->childLocator->getType(),
+                strtoupper($this->childLocator->getType()),
                 $this->childLocator->getIdentifier(),
                 $this->childLocator->getSelector()
             );
