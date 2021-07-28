@@ -13,6 +13,8 @@ use Ibexa\Behat\Browser\Element\Condition\ElementExistsCondition;
 use Ibexa\Behat\Browser\Element\Element;
 use Ibexa\Behat\Browser\Exception\TimeoutException;
 use Ibexa\Behat\Browser\Locator\CSSLocator;
+use Ibexa\Behat\Browser\Locator\LocatorInterface;
+use Ibexa\Behat\Browser\Locator\VisibleCSSLocator;
 use PHPUnit\Framework\Assert;
 
 class ElementTest extends BaseTestCase
@@ -39,7 +41,9 @@ class ElementTest extends BaseTestCase
     public function testFindElementWhenExists(): void
     {
         $minkElement = $this->createMock(NodeElement::class);
-        $minkElement->method('find')->willReturn($this->createValidMinkNodeElement('Text'));
+        $childMinkElement = $this->createValidMinkNodeElement('Text');
+        $minkElement->method('find')->willReturn($childMinkElement);
+        $minkElement->method('findAll')->willReturn([$childMinkElement]);
         $this->element = new Element($this->irrelevantLocator, $minkElement);
 
         Assert::assertEquals('Text', $this->element->find($this->irrelevantLocator)->getText());
@@ -49,6 +53,7 @@ class ElementTest extends BaseTestCase
     {
         $minkElement = $this->createMock(NodeElement::class);
         $minkElement->method('find')->willReturn(null);
+        $minkElement->method('findAll')->willReturn([]);
         $element = new Element($this->irrelevantLocator, $minkElement);
 
         $this->expectException(TimeoutException::class);
@@ -126,5 +131,52 @@ class ElementTest extends BaseTestCase
 
         $this->expectException(TimeoutException::class);
         $element->waitUntilCondition(new ElementExistsCondition($searchedElement, $this->irrelevantLocator));
+    }
+
+    /**
+     * @dataProvider dataProvidertestAdditionalLocatorConditionsAreAppliedWhenUsingFind
+     */
+    public function testAdditionalLocatorConditionsAreAppliedWhenUsingFind(LocatorInterface $locator, string $expectedElementText): void
+    {
+        $invisbleMinkElement = $this->createValidMinkNodeElement('InvisibleElement', false);
+        $visibleMinkElement = $this->createValidMinkNodeElement('VisibleElement', true);
+
+        $minkElement = $this->createMock(NodeElement::class);
+        $minkElement->method('find')->willReturn($invisbleMinkElement);
+        $minkElement->method('findAll')->willReturn([$invisbleMinkElement, $visibleMinkElement]);
+        $element = new Element($this->irrelevantLocator, $minkElement);
+
+        Assert::assertEquals($expectedElementText, $element->find($locator)->getText());
+    }
+
+    public function dataProvidertestAdditionalLocatorConditionsAreAppliedWhenUsingFind(): array
+    {
+        return [
+            [new VisibleCSSLocator('id', 'selector'), 'VisibleElement'],
+            [new CSSLocator('id', 'selector'), 'InvisibleElement'],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProvidertestAdditionalLocatorConditionsAreAppliedWhenUsingFindAll
+     */
+    public function testAdditionalLocatorConditionsAreAppliedWhenUsingFindAll(LocatorInterface $locator, int $expectedElementCount): void
+    {
+        $invisbleMinkElement = $this->createValidMinkNodeElement('InvisibleElement', false);
+        $visibleMinkElement = $this->createValidMinkNodeElement('VisibleElement', true);
+
+        $minkElement = $this->createMock(NodeElement::class);
+        $minkElement->method('findAll')->willReturn([$invisbleMinkElement, $visibleMinkElement]);
+        $element = new Element($this->irrelevantLocator, $minkElement);
+
+        Assert::assertCount($expectedElementCount, $element->findAll($locator));
+    }
+
+    public function dataProvidertestAdditionalLocatorConditionsAreAppliedWhenUsingFindAll(): array
+    {
+        return [
+            [new VisibleCSSLocator('id', 'selector'), 1],
+            [new CSSLocator('id', 'selector'), 2],
+        ];
     }
 }

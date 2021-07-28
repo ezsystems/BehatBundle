@@ -17,13 +17,13 @@ use PHPUnit\Framework\TestCase;
 
 class BaseTestCase extends TestCase
 {
-    protected function createValidMinkNodeElement(string $elementText): NodeElement
+    protected function createValidMinkNodeElement(string $elementText, bool $isVisible = true): NodeElement
     {
         $elementStub = $this->createStub(NodeElement::class);
 
         $elementStub->method('isValid')->willReturn(true);
         $elementStub->method('getText')->willReturn($elementText);
-        $elementStub->method('isVisible')->willReturn(true);
+        $elementStub->method('isVisible')->willReturn($isVisible);
 
         return $elementStub;
     }
