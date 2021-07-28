@@ -76,7 +76,7 @@ final class Element extends BaseElement implements ElementInterface
 
     public function getAttribute(string $attribute): string
     {
-        return $this->decoratedElement->getAttribute($attribute);
+        return $this->decoratedElement->getAttribute($attribute) ?? '';
     }
 
     public function hasClass(string $class): bool
