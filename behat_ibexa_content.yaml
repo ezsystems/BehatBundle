@@ -29,10 +29,13 @@ regression:
             filters:
                 tags: "~@broken && @IbexaContent"
             contexts: 
+                - Behat\MinkExtension\Context\MinkContext
                 - EzSystems\Behat\API\Context\ContentContext
                 - EzSystems\Behat\API\Context\ContentTypeContext
+                - EzSystems\Behat\API\Context\RoleContext
                 - EzSystems\Behat\API\Context\TestContext
                 - EzSystems\Behat\API\Context\TrashContext
+                - EzSystems\Behat\API\Context\UserContext
                 - Ibexa\AdminUi\Behat\BrowserContext\AdminUpdateContext
                 - Ibexa\AdminUi\Behat\BrowserContext\ContentPreviewContext
                 - Ibexa\AdminUi\Behat\BrowserContext\ContentTypeContext
@@ -54,8 +57,7 @@ regression:
                 - Ibexa\AdminUi\Behat\BrowserContext\UserPreferencesContext
                 - Ibexa\Behat\Browser\Context\AuthenticationContext
                 - Ibexa\Behat\Browser\Context\DebuggingContext
-                - Ibexa\User\Tests\Behat\Context\UserSetupContext
                 - Ibexa\Scheduler\Behat\BrowserContext\DateBasedPublisherContext
+                - Ibexa\User\Tests\Behat\Context\UserSetupContext
                 - Ibexa\Workflow\Tests\Behat\Context\WorkflowAdminContext
                 - Ibexa\Workflow\Tests\Behat\Context\WorkflowContext
-                - EzSystems\Behat\API\Context\RoleContext
