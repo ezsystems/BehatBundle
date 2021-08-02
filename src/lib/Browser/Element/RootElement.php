@@ -14,13 +14,10 @@ use RuntimeException;
 
 final class RootElement extends BaseElement implements RootElementInterface
 {
-    /** @var \Behat\Mink\Session */
-    private $session;
-
     public function __construct(Session $session, DocumentElement $baseElement)
     {
+        parent::__construct($session);
         $this->decoratedElement = $baseElement;
-        $this->session = $session;
     }
 
     public function dragAndDrop(string $from, string $hover, string $to): void

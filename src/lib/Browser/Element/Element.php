@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Behat\Browser\Element;
 
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Session;
 use Ibexa\Behat\Browser\Assert\ElementAssert;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 use Webdriver\Exception\NoSuchElement;
@@ -19,8 +20,9 @@ final class Element extends BaseElement implements ElementInterface
     /** @var \Ibexa\Behat\Browser\Locator\LocatorInterface */
     private $locator;
 
-    public function __construct(LocatorInterface $locator, ?NodeElement $baseElement)
+    public function __construct(Session $session, LocatorInterface $locator, ?NodeElement $baseElement)
     {
+        parent::__construct($session);
         $this->decoratedElement = $baseElement;
         $this->locator = $locator;
     }
@@ -132,5 +134,18 @@ final class Element extends BaseElement implements ElementInterface
     protected function isRadioGroup(): bool
     {
         return $this->decoratedElement->hasAttribute('type') && 'radio' === $this->decoratedElement->getAttribute('type');
+    }
+
+    public function highlight(): void
+    {
+        $style = 'background: yellow; border: 2px solid red;';
+
+        $highlightingScript = sprintf(
+    "document.evaluate(\"%s\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.setAttribute('style', '%s')",
+            $this->getXpath(),
+            $style
+        );
+
+        $this->session->executeScript($highlightingScript);
     }
 }

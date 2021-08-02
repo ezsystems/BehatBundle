@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Element;
 
+use Behat\Mink\Session;
 use Ibexa\Behat\Browser\Element\Condition\ConditionInterface;
 use Ibexa\Behat\Browser\Exception\TimeoutException;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
@@ -20,6 +21,14 @@ class BaseElement implements BaseElementInterface
 
     /** @var \Behat\Mink\Element\TraversableElement */
     protected $decoratedElement;
+
+    /** @var \Behat\Mink\Session */
+    protected $session;
+
+    public function __construct(Session $session)
+    {
+        $this->session = $session;
+    }
 
     public function setTimeout(int $timeoutSeconds): BaseElementInterface
     {
@@ -77,7 +86,7 @@ class BaseElement implements BaseElementInterface
                 $minkFoundElements = $this->decoratedElement->findAll($locator->getType(), $locator->getSelector());
 
                 foreach ($minkFoundElements as $minkElements) {
-                    $wrappedElement = new Element($locator, $minkElements);
+                    $wrappedElement = new Element($this->session, $locator, $minkElements);
 
                     if ($locator->elementMeetsCriteria($wrappedElement)) {
                         return $wrappedElement;
@@ -119,7 +128,7 @@ class BaseElement implements BaseElementInterface
         }
 
         foreach ($elements as $element) {
-            $wrappedElement = new Element($locator, $element);
+            $wrappedElement = new Element($this->session, $locator, $element);
             $wrappedElement->setTimeout($this->timeout);
 
             if ($locator->elementMeetsCriteria($wrappedElement)) {
