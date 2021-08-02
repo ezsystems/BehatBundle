@@ -8,11 +8,10 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Element;
 
-use Behat\Mink\Session;
 use Ibexa\Behat\Browser\Element\Condition\ConditionInterface;
+use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 use Ibexa\Behat\Browser\Exception\TimeoutException;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
-use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 use Traversable;
 
 class BaseElement implements BaseElementInterface
@@ -23,15 +22,11 @@ class BaseElement implements BaseElementInterface
     /** @var \Behat\Mink\Element\TraversableElement */
     protected $decoratedElement;
 
-    /** @var \Behat\Mink\Session */
-    protected $session;
-
     /** @var \Ibexa\Behat\Browser\Component\ElementFactoryInterface */
     private $elementFactory;
 
-    public function __construct(Session $session, ElementFactoryInterface $elementFactory)
+    public function __construct(ElementFactoryInterface $elementFactory)
     {
-        $this->session = $session;
         $this->elementFactory = $elementFactory;
     }
 
@@ -91,7 +86,7 @@ class BaseElement implements BaseElementInterface
                 $foundMinkElements = $this->decoratedElement->findAll($locator->getType(), $locator->getSelector());
 
                 foreach ($foundMinkElements as $foundMinkElement) {
-                    $wrappedElement = $this->elementFactory->createElement($this->session, $locator, $foundMinkElement);
+                    $wrappedElement = $this->elementFactory->createElement($locator, $foundMinkElement);
 
                     if ($locator->elementMeetsCriteria($wrappedElement)) {
                         return $wrappedElement;
@@ -133,7 +128,7 @@ class BaseElement implements BaseElementInterface
         }
 
         foreach ($minkElements as $minkElement) {
-            $wrappedElement = $this->elementFactory->createElement($this->session, $locator, $minkElement);
+            $wrappedElement = $this->elementFactory->createElement($locator, $minkElement);
             $wrappedElement->setTimeout($this->timeout);
 
             if ($locator->elementMeetsCriteria($wrappedElement)) {

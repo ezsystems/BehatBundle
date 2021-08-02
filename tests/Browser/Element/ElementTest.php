@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace EzSystems\Behat\Test\Browser\Element;
 
 use Behat\Mink\Element\NodeElement;
-use Behat\Mink\Session;
 use Ibexa\Behat\Browser\Element\Condition\ElementExistsCondition;
 use Ibexa\Behat\Browser\Element\Element;
 use Ibexa\Behat\Browser\Element\Factory\ElementFactory;
@@ -34,7 +33,6 @@ class ElementTest extends BaseTestCase
     {
         $this->irrelevantLocator = new CSSLocator('irrelevant-id', 'irrelevant-selector');
         $this->invalidLocator = new CSSLocator('invalid-id', 'invalid-selector');
-        $this->session = $this->createMock(Session::class);
     }
 
     public function testFindElementWhenExists(): void
@@ -182,6 +180,6 @@ class ElementTest extends BaseTestCase
 
     private function createElementWithMinkElement(NodeELement $nodeElement)
     {
-        return new Element($this->session, new ElementFactory(), $this->irrelevantLocator, $nodeElement);
+        return new Element(new ElementFactory(), $this->irrelevantLocator, $nodeElement);
     }
 }

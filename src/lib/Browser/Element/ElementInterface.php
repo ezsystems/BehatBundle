@@ -42,5 +42,5 @@ interface ElementInterface extends BaseElementInterface
 
     public function selectOption(string $option): void;
 
-    public function highlight(): void;
+    public function getXPath(): string;
 }

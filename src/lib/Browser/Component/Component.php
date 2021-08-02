@@ -9,7 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Behat\Browser\Component;
 
 use Behat\Mink\Session;
-use Ibexa\Behat\Browser\Element\ElementFactory;
+use Ibexa\Behat\Browser\Element\Factory\Debug\DebuggableElementFactory;
+use Ibexa\Behat\Browser\Element\Factory\ElementFactory;
 use Ibexa\Behat\Browser\Element\RootElementInterface;
 use Ibexa\Behat\Browser\Locator\LocatorCollection;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
@@ -29,7 +30,7 @@ abstract class Component implements ComponentInterface
     {
         $this->session = $session;
         $this->locators = new LocatorCollection($this->specifyLocators());
-        $this->elementFactory = new ElementFactory();
+        $this->elementFactory = new DebuggableElementFactory($session, new ElementFactory());
     }
 
     abstract public function verifyIsLoaded(): void;
