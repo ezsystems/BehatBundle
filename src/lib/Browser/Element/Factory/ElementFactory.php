@@ -23,8 +23,8 @@ class ElementFactory implements ElementFactoryInterface
         return new Element($this, $locator, $nodeElement);
     }
 
-    public function createRootElement(Session $session): RootElementInterface
+    public function createRootElement(Session $session, ElementFactoryInterface $elementFactory): RootElementInterface
     {
-        return new RootElement($session, $this, $session->getPage());
+        return new RootElement($elementFactory, $session, $session->getPage());
     }
 }

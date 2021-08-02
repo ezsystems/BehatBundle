@@ -16,8 +16,7 @@ final class DebuggableElement extends DebuggableBaseElement implements ElementIn
 {
     public function __construct(Session $session, ElementInterface $element)
     {
-        parent::__construct($session);
-        $this->element = $element;
+        parent::__construct($session, $element);
     }
 
     public function isVisible(): bool
@@ -42,6 +41,10 @@ final class DebuggableElement extends DebuggableBaseElement implements ElementIn
 
     public function click(): void
     {
+        usleep(750000);
+        $this->removeTooltip($this);
+        $this->markClicked($this);
+        usleep(250000);
         $this->element->click();
     }
 

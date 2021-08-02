@@ -18,10 +18,16 @@ use Ibexa\Behat\Browser\Locator\LocatorInterface;
 class DebuggableBaseElement implements BaseElementInterface
 {
     /** @var \Behat\Mink\Session */
-    private $session;
+    protected $session;
 
     /** @var \Ibexa\Behat\Browser\Element\BaseElementInterface */
-    private $element;
+    protected $element;
+
+    private const TOOLTIP_CLASS = 'selenium-tooltip';
+
+    private const HIGHLIGHT_CLASS = 'selenium-highlighted';
+
+    private const CLICKED_CLASS = 'selenium-clicked';
 
     public function __construct(Session $session, BaseElementInterface $element)
     {
@@ -45,7 +51,7 @@ class DebuggableBaseElement implements BaseElementInterface
     {
         $element = $this->element->find($locator);
         $this->highlight($element);
-        $this->addTooltip($element);
+        $this->addTooltip($element, $locator);
 
         return $element;
     }
@@ -56,7 +62,7 @@ class DebuggableBaseElement implements BaseElementInterface
 
         foreach ($elements as $element) {
             $this->highlight($element);
-            $this->addTooltip($element);
+            $this->addTooltip($element, $locator);
         }
 
         return new ElementCollection($locator, $elements);
@@ -74,29 +80,75 @@ class DebuggableBaseElement implements BaseElementInterface
 
     private function highlight(ElementInterface $element): void
     {
-        $this->addClass($element, 'selenium-highlighted');
+        $this->addClass($element, self::HIGHLIGHT_CLASS);
     }
 
-    private function addTooltip(ElementInterface $element): void
+    private function addTooltip(ElementInterface $element, LocatorInterface $locator): void
     {
-        $highlightingScript = sprintf(
-            "document.evaluate(\"%s\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.setAttribute('data-selenium-locator', 'test')",
-                    $element->getXpath(),
-                );
+        if ($element->getText() === '') {
+            return;
+        }
 
-        $this->session->executeScript($highlightingScript);
-
-        $this->addClass($element, 'selenium-tooltip');
+        $this->addAttribute($element, 'data-selenium-locator', $locator->getIdentifier());
+        $this->addClass($element, self::TOOLTIP_CLASS);
     }
 
     private function addClass(ElementInterface $element, string $class): void
     {
         $this->session->executeScript(
             sprintf(
-                "document.evaluate(\"%s\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.classList.add('%s')",
-                $element->getXPath(),
+                "%s.classList.add('%s')",
+                $this->getElementScript($element),
                 $class
             )
         );
+    }
+
+    protected function removeClass(ElementInterface $element, string $class): void
+    {
+        $this->session->executeScript(
+            sprintf(
+                "%s.classList.remove('%s')",
+                $this->getElementScript($element),
+                $class
+            )
+        );
+    }
+
+    protected function removeTooltip(ElementInterface $element): void
+    {
+        $this->removeClass($element, self::TOOLTIP_CLASS);
+    }
+
+    protected function markClicked(ElementInterface $element): void
+    {
+        $this->addClass($element, self::CLICKED_CLASS);
+    }
+
+    private function addAttribute(ElementInterface $element, string $attribute, string $value): void
+    {
+        $this->session->executeScript(
+            sprintf(
+                "%s.setAttribute('%s', '%s')",
+                $this->getElementScript($element),
+                $attribute,
+                $value
+            )
+        );
+    }
+
+    private function getElementScript(ElementInterface $element): string
+    {
+        $currentIframe = $this->session->evaluateScript('return self.name');
+
+        if ($currentIframe === '') {
+            return sprintf(
+                'document.evaluate("%s", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue',
+                $element->getXPath()
+            );
+        }
+
+        // TODO:
+        // add support for iframes
     }
 }

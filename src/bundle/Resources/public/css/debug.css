@@ -1,5 +1,9 @@
 .selenium-highlighted {
-    border: 2px solid red;
+    border: 2px solid red !important;
+}
+
+.selenium-clicked {
+    background-color: greenyellow !important;
 }
 
 .selenium-tooltip::before {

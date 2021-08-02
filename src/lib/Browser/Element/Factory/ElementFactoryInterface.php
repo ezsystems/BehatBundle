@@ -18,5 +18,5 @@ interface ElementFactoryInterface
 {
     public function createElement(LocatorInterface $locator, NodeElement $nodeElement): ElementInterface;
 
-    public function createRootElement(Session $session): RootElementInterface;
+    public function createRootElement(Session $session, ElementFactoryInterface $elementFactory): RootElementInterface;
 }

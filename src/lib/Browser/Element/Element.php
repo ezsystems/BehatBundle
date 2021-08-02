@@ -20,7 +20,7 @@ final class Element extends BaseElement implements ElementInterface
     /** @var \Ibexa\Behat\Browser\Locator\LocatorInterface */
     private $locator;
 
-    public function __construct(ElementFactoryInterface $elementFactory, LocatorInterface $locator, ?NodeElement $baseElement)
+    public function __construct(ElementFactoryInterface $elementFactory, LocatorInterface $locator, NodeElement $baseElement)
     {
         parent::__construct($elementFactory);
         $this->decoratedElement = $baseElement;

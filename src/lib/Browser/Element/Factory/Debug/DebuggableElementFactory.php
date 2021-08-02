@@ -38,9 +38,9 @@ class DebuggableElementFactory implements ElementFactoryInterface
         return new DebuggableElement($this->session, $baseElement);
     }
 
-    public function createRootElement(Session $session): RootElementInterface
+    public function createRootElement(Session $session, ElementFactoryInterface $elementFactory): RootElementInterface
     {
-        $baseElement = $this->decoratedElementFactory->createRootElement($session);
+        $baseElement = $this->decoratedElementFactory->createRootElement($session, $elementFactory);
 
         return new DebuggableRootElement($this->session, $baseElement);
     }

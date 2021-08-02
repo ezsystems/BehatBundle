@@ -37,7 +37,7 @@ abstract class Component implements ComponentInterface
 
     final protected function getHTMLPage(): RootElementInterface
     {
-        return $this->elementFactory->createRootElement($this->getSession());
+        return $this->elementFactory->createRootElement($this->getSession(), $this->elementFactory);
     }
 
     protected function getSession(): Session
