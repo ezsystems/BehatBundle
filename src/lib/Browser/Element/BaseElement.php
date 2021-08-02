@@ -12,6 +12,7 @@ use Behat\Mink\Session;
 use Ibexa\Behat\Browser\Element\Condition\ConditionInterface;
 use Ibexa\Behat\Browser\Exception\TimeoutException;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
+use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 use Traversable;
 
 class BaseElement implements BaseElementInterface
@@ -25,9 +26,13 @@ class BaseElement implements BaseElementInterface
     /** @var \Behat\Mink\Session */
     protected $session;
 
-    public function __construct(Session $session)
+    /** @var \Ibexa\Behat\Browser\Component\ElementFactoryInterface */
+    private $elementFactory;
+
+    public function __construct(Session $session, ElementFactoryInterface $elementFactory)
     {
         $this->session = $session;
+        $this->elementFactory = $elementFactory;
     }
 
     public function setTimeout(int $timeoutSeconds): BaseElementInterface
@@ -83,10 +88,10 @@ class BaseElement implements BaseElementInterface
     {
         return $this->waitUntil(
             function () use ($locator) {
-                $minkFoundElements = $this->decoratedElement->findAll($locator->getType(), $locator->getSelector());
+                $foundMinkElements = $this->decoratedElement->findAll($locator->getType(), $locator->getSelector());
 
-                foreach ($minkFoundElements as $minkElements) {
-                    $wrappedElement = new Element($this->session, $locator, $minkElements);
+                foreach ($foundMinkElements as $foundMinkElement) {
+                    $wrappedElement = $this->elementFactory->createElement($this->session, $locator, $foundMinkElement);
 
                     if ($locator->elementMeetsCriteria($wrappedElement)) {
                         return $wrappedElement;
@@ -113,22 +118,22 @@ class BaseElement implements BaseElementInterface
     private function internalFindAll(LocatorInterface $locator): Traversable
     {
         try {
-            $elements = $this->waitUntil(function () use ($locator) {
-                $elements = $this->decoratedElement->findAll($locator->getType(), $locator->getSelector());
-                foreach ($elements as $element) {
-                    if (!$element->isValid()) {
+            $minkElements = $this->waitUntil(function () use ($locator) {
+                $minkElements = $this->decoratedElement->findAll($locator->getType(), $locator->getSelector());
+                foreach ($minkElements as $minkElement) {
+                    if (!$minkElement->isValid()) {
                         return false;
                     }
                 }
 
-                return $elements;
+                return $minkElements;
             }, '');
         } catch (TimeoutException $ex) {
-            $elements = [];
+            $minkElements = [];
         }
 
-        foreach ($elements as $element) {
-            $wrappedElement = new Element($this->session, $locator, $element);
+        foreach ($minkElements as $minkElement) {
+            $wrappedElement = $this->elementFactory->createElement($this->session, $locator, $minkElement);
             $wrappedElement->setTimeout($this->timeout);
 
             if ($locator->elementMeetsCriteria($wrappedElement)) {

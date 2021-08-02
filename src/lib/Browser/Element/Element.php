@@ -14,15 +14,16 @@ use Ibexa\Behat\Browser\Assert\ElementAssert;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 use Webdriver\Exception\NoSuchElement;
 use WebDriver\Exception\StaleElementReference;
+use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 
 final class Element extends BaseElement implements ElementInterface
 {
     /** @var \Ibexa\Behat\Browser\Locator\LocatorInterface */
     private $locator;
 
-    public function __construct(Session $session, LocatorInterface $locator, ?NodeElement $baseElement)
+    public function __construct(Session $session, ElementFactoryInterface $elementFactory, LocatorInterface $locator, ?NodeElement $baseElement)
     {
-        parent::__construct($session);
+        parent::__construct($session, $elementFactory);
         $this->decoratedElement = $baseElement;
         $this->locator = $locator;
     }

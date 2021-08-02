@@ -11,12 +11,13 @@ namespace Ibexa\Behat\Browser\Element;
 use Behat\Mink\Element\DocumentElement;
 use Behat\Mink\Session;
 use RuntimeException;
+use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 
 final class RootElement extends BaseElement implements RootElementInterface
 {
-    public function __construct(Session $session, DocumentElement $baseElement)
+    public function __construct(Session $session, ElementFactoryInterface $elementFactory, DocumentElement $baseElement)
     {
-        parent::__construct($session);
+        parent::__construct($session, $elementFactory);
         $this->decoratedElement = $baseElement;
     }
 

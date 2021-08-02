@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Behat\Browser\Component;
 
 use Behat\Mink\Session;
-use Ibexa\Behat\Browser\Element\RootElement;
+use Ibexa\Behat\Browser\Element\ElementFactory;
 use Ibexa\Behat\Browser\Element\RootElementInterface;
 use Ibexa\Behat\Browser\Locator\LocatorCollection;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
@@ -22,17 +22,21 @@ abstract class Component implements ComponentInterface
     /** @var \Behat\Mink\Session */
     private $session;
 
+    /** @var \Ibexa\Behat\Browser\Element\ElementFactoryInterface */
+    private $elementFactory;
+
     public function __construct(Session $session)
     {
         $this->session = $session;
         $this->locators = new LocatorCollection($this->specifyLocators());
+        $this->elementFactory = new ElementFactory();
     }
 
     abstract public function verifyIsLoaded(): void;
 
     final protected function getHTMLPage(): RootElementInterface
     {
-        return new RootElement($this->getSession(), $this->getSession()->getPage());
+        return $this->elementFactory->createRootElement($this->getSession());
     }
 
     protected function getSession(): Session
