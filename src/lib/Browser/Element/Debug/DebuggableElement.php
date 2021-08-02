@@ -10,65 +10,14 @@ namespace Ibexa\Behat\Browser\Element\Debug;
 
 use Behat\Mink\Session;
 use Ibexa\Behat\Browser\Assert\ElementAssert;
-use Ibexa\Behat\Browser\Element\BaseElementInterface;
-use Ibexa\Behat\Browser\Element\Condition\ConditionInterface;
-use Ibexa\Behat\Browser\Element\ElementCollection;
 use Ibexa\Behat\Browser\Element\ElementInterface;
-use Ibexa\Behat\Browser\Locator\LocatorInterface;
 
-final class DebuggableElement implements ElementInterface
+final class DebuggableElement extends DebuggableBaseElement implements ElementInterface
 {
-    /** @var \Behat\Mink\Session */
-    private $session;
-
-    /** @var \Ibexa\Behat\Browser\Element\ElementInterface */
-    private $element;
-
     public function __construct(Session $session, ElementInterface $element)
     {
-        $this->session = $session;
+        parent::__construct($session);
         $this->element = $element;
-    }
-
-    public function setTimeout(int $timeoutSeconds): BaseElementInterface
-    {
-        $this->element->setTimeout($timeoutSeconds);
-
-        return $this;
-    }
-
-    public function getTimeout(): int
-    {
-        return $this->element->getTimeout();
-    }
-
-    public function find(LocatorInterface $locator): ElementInterface
-    {
-        $element = $this->element->find($locator);
-        $this->highlight($element);
-
-        return $element;
-    }
-
-    public function findAll(LocatorInterface $locator): ElementCollection
-    {
-        $elements = $this->element->findAll($locator)->toArray();
-
-        foreach ($elements as $element) {
-            $this->highlight($element);
-        }
-
-        return new ElementCollection($locator, $elements);
-    }
-
-    public function waitUntilCondition(ConditionInterface $condition): BaseElementInterface
-    {
-        return $this->element->waitUntilCondition($condition);
-    }
-
-    public function waitUntil(callable $callback, string $errorMessage)
-    {
-        return $this->element->waitUntil($callback, $errorMessage);
     }
 
     public function isVisible(): bool
@@ -149,18 +98,5 @@ final class DebuggableElement implements ElementInterface
     public function getXPath(): string
     {
         return $this->element->getXPath();
-    }
-
-    private function highlight(ElementInterface $element): void
-    {
-        $style = 'background: yellow; border: 2px solid red;';
-
-        $highlightingScript = sprintf(
-    "document.evaluate(\"%s\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.setAttribute('style', '%s')",
-            $element->getXpath(),
-            $style
-        );
-
-        $this->session->executeScript($highlightingScript);
     }
 }

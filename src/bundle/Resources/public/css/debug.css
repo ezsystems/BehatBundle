@@ -1,0 +1,12 @@
+.selenium-highlighted {
+    border: 2px solid red;
+}
+
+.selenium-tooltip::before {
+    content: attr(data-selenium-locator);
+    background-color: #FFFFFF;
+    border-color: black;
+    color: black;
+    font-size: 1rem;
+    border-style: dotted;
+}

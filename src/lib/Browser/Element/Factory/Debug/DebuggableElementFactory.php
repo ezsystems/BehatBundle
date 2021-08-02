@@ -11,6 +11,7 @@ namespace Ibexa\Behat\Browser\Element\Factory\Debug;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Session;
 use Ibexa\Behat\Browser\Element\Debug\DebuggableElement;
+use Ibexa\Behat\Browser\Element\Debug\DebuggableRootElement;
 use Ibexa\Behat\Browser\Element\ElementInterface;
 use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 use Ibexa\Behat\Browser\Element\RootElementInterface;
@@ -39,6 +40,8 @@ class DebuggableElementFactory implements ElementFactoryInterface
 
     public function createRootElement(Session $session): RootElementInterface
     {
-        return $this->decoratedElementFactory->createRootElement($session);
+        $baseElement = $this->decoratedElementFactory->createRootElement($session);
+
+        return new DebuggableRootElement($this->session, $baseElement);
     }
 }
