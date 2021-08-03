@@ -148,17 +148,10 @@ class BaseElement implements BaseElementInterface
 
     private function getElementScript(ElementInterface $element): string
     {
-        $currentIframe = $this->session->evaluateScript('return self.name');
-
-        if ($currentIframe === '') {
-            return sprintf(
+        return sprintf(
                 'document.evaluate("%s", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue',
                 $element->getXPath()
             );
-        }
-
-        // TODO:
-        // add support for iframes
     }
 
     private function getRandomColor(): string
