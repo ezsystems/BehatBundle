@@ -87,6 +87,12 @@ class BaseElement implements BaseElementInterface
 
     private function addTooltip(ElementInterface $element, string $value): void
     {
+        $text = $this->session->evaluateScript(sprintf('return %s.textContent.trim()', $this->getElementScript($element)));
+        
+        if ($text === '') {
+            return;
+        }
+
         $this->addAttribute($element, 'data-selenium-locator', $value);
         $this->addClass($element, self::TOOLTIP_CLASS);
     }

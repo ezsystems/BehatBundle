@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\DependencyInjection\Compiler;
 
+use EzSystems\BehatBundle\DependencyInjection\eZBehatExtension;
 use Ibexa\Behat\Browser\Element\Factory\Debug\ElementFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -31,6 +32,7 @@ class ElementFactoryCompilerPass implements CompilerPassInterface
 
     private function shouldEnableDebug(ContainerBuilder $container): bool
     {
-        return true;
+    return $container->hasParameter(eZBehatExtension::BROWSER_DEBUG_ENABLED) && 
+            $container->getParameter(eZBehatExtension::BROWSER_DEBUG_ENABLED);
     }
 }

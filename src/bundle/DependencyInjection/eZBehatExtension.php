@@ -24,6 +24,8 @@ class eZBehatExtension extends Extension implements PrependExtensionInterface, C
 
     private const BROWSER_TESTING_ENABLED = 'ibexa.testing.browser.enabled';
 
+    public const BROWSER_DEBUG_ENABLED = 'ibexa.testing.behat.browser.debug.enabled';
+
     public function process(ContainerBuilder $container)
     {
         if (!$container->getParameter(self::OVERRIDE_CONFIGURATION)) {
@@ -37,6 +39,7 @@ class eZBehatExtension extends Extension implements PrependExtensionInterface, C
     {
         $container->setParameter(self::OVERRIDE_CONFIGURATION, true);
         $container->setParameter(self::BROWSER_TESTING_ENABLED, true);
+        $container->setParameter(self::BROWSER_DEBUG_ENABLED, false);
     }
 
     public function load(array $config, ContainerBuilder $container)
