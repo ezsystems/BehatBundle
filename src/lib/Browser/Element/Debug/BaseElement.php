@@ -91,8 +91,7 @@ class BaseElement implements BaseElementInterface
     private function addTooltip(ElementInterface $element, string $value): void
     {
         $text = $this->session->evaluateScript(sprintf('return %s.textContent.trim()', $this->getElementScript($element)));
-        // $width = $this->session->evaluateScript(sprintf('return %s.clientWidth;', $this->getElementScript($element)));
-        $width = $this->session->evaluateScript(sprintf('return %s.offsetWidth;', $this->getElementScript($element)));
+        $width = $this->session->evaluateScript(sprintf('return %s.clientWidth;', $this->getElementScript($element)));
 
         if ($text === '' || $width < 200) {
             return;
