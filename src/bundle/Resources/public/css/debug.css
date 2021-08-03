@@ -1,9 +1,13 @@
 .ibexa-selenium-highlighted {
-    border: 2px solid red !important;
+    border: 2px dashed red !important;
 }
 
 .ibexa-selenium-clicked {
     background-color: blue !important;
+}
+
+.ibexa-selenium-read {
+    border-style: solid !important;
 }
 
 .ibexa-selenium-tooltip::before {

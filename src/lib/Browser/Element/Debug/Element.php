@@ -26,6 +26,11 @@ final class Element extends BaseElement implements ElementInterface
 
     public function getText(): string
     {
+        usleep(900000);
+        $this->removeTooltip($this);
+        $this->markRead($this);
+        usleep(100000);
+
         return $this->element->getText();
     }
 
@@ -41,10 +46,11 @@ final class Element extends BaseElement implements ElementInterface
 
     public function click(): void
     {
-        usleep(750000);
+        usleep(900000);
         $this->removeTooltip($this);
         $this->markClicked($this);
-        usleep(250000);
+        usleep(100000);
+
         $this->element->click();
     }
 

@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\DependencyInjection;
 
-use Ibexa\Behat\Browser\Component\Component;
 use Ibexa\Behat\Browser\Component\ComponentInterface;
 use Ibexa\Behat\Browser\Page\PageInterface;
 use Ibexa\Behat\Browser\Page\Preview\PagePreviewInterface;

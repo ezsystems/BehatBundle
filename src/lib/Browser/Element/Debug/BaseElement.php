@@ -29,6 +29,8 @@ class BaseElement implements BaseElementInterface
 
     private const CLICKED_CLASS = 'ibexa-selenium-clicked';
 
+    private const READ_CLASS = 'ibexa-selenium-read';
+
     public function __construct(Session $session, BaseElementInterface $element)
     {
         $this->session = $session;
@@ -51,7 +53,7 @@ class BaseElement implements BaseElementInterface
     {
         $element = $this->element->find($locator);
         $this->highlight($element);
-        $this->addTooltip($element, $locator);
+        $this->addTooltip($element, $locator->getIdentifier());
 
         return $element;
     }
@@ -62,7 +64,7 @@ class BaseElement implements BaseElementInterface
 
         foreach ($elements as $element) {
             $this->highlight($element);
-            $this->addTooltip($element, $locator);
+            $this->addTooltip($element, $locator->getIdentifier());
         }
 
         return new ElementCollection($locator, $elements);
@@ -83,13 +85,9 @@ class BaseElement implements BaseElementInterface
         $this->addClass($element, self::HIGHLIGHT_CLASS);
     }
 
-    private function addTooltip(ElementInterface $element, LocatorInterface $locator): void
+    private function addTooltip(ElementInterface $element, string $value): void
     {
-        if ($element->getText() === '') {
-            return;
-        }
-
-        $this->addAttribute($element, 'data-selenium-locator', $locator->getIdentifier());
+        $this->addAttribute($element, 'data-selenium-locator', $value);
         $this->addClass($element, self::TOOLTIP_CLASS);
     }
 
@@ -123,6 +121,11 @@ class BaseElement implements BaseElementInterface
     protected function markClicked(ElementInterface $element): void
     {
         $this->addClass($element, self::CLICKED_CLASS);
+    }
+
+    protected function markRead(ElementInterface $element): void
+    {
+        $this->addClass($element, self::READ_CLASS);
     }
 
     private function addAttribute(ElementInterface $element, string $attribute, string $value): void
