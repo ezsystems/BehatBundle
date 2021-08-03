@@ -27,9 +27,9 @@ class BaseElement implements BaseElementInterface
 
     private const HIGHLIGHT_CLASS = 'ibexa-selenium-highlighted';
 
-    private const CLICKED_CLASS = 'ibexa-selenium-clicked';
-
     private const READ_CLASS = 'ibexa-selenium-read';
+
+    private const COLORS = ['fuchsia', 'green', 'lime', 'maroon', 'navy', 'olive', 'purple', 'red', 'silver', 'teal', 'yellow'];
 
     public function __construct(Session $session, BaseElementInterface $element)
     {
@@ -52,7 +52,7 @@ class BaseElement implements BaseElementInterface
     public function find(LocatorInterface $locator): ElementInterface
     {
         $element = $this->element->find($locator);
-        $this->highlight($element);
+        $this->highlight($element, $this->getRandomColor());
         $this->addTooltip($element, $locator->getIdentifier());
 
         return $element;
@@ -62,8 +62,10 @@ class BaseElement implements BaseElementInterface
     {
         $elements = $this->element->findAll($locator)->toArray();
 
+        $color = $this->getRandomColor();
+
         foreach ($elements as $element) {
-            $this->highlight($element);
+            $this->highlight($element, $color);
             $this->addTooltip($element, $locator->getIdentifier());
         }
 
@@ -80,20 +82,23 @@ class BaseElement implements BaseElementInterface
         return $this->element->waitUntil($callback, $errorMessage);
     }
 
-    private function highlight(ElementInterface $element): void
+    private function highlight(ElementInterface $element, string $color): void
     {
+        $this->setAttribute($element, 'style', sprintf('--ibexa-selenium-color: %s', $color));
         $this->addClass($element, self::HIGHLIGHT_CLASS);
     }
 
     private function addTooltip(ElementInterface $element, string $value): void
     {
         $text = $this->session->evaluateScript(sprintf('return %s.textContent.trim()', $this->getElementScript($element)));
-        
-        if ($text === '') {
+        // $width = $this->session->evaluateScript(sprintf('return %s.clientWidth;', $this->getElementScript($element)));
+        $width = $this->session->evaluateScript(sprintf('return %s.offsetWidth;', $this->getElementScript($element)));
+
+        if ($text === '' || $width < 200) {
             return;
         }
 
-        $this->addAttribute($element, 'data-selenium-locator', $value);
+        $this->setAttribute($element, 'data-selenium-locator', $value);
         $this->addClass($element, self::TOOLTIP_CLASS);
     }
 
@@ -124,17 +129,12 @@ class BaseElement implements BaseElementInterface
         $this->removeClass($element, self::TOOLTIP_CLASS);
     }
 
-    protected function markClicked(ElementInterface $element): void
-    {
-        $this->addClass($element, self::CLICKED_CLASS);
-    }
-
     protected function markRead(ElementInterface $element): void
     {
         $this->addClass($element, self::READ_CLASS);
     }
 
-    private function addAttribute(ElementInterface $element, string $attribute, string $value): void
+    private function setAttribute(ElementInterface $element, string $attribute, string $value): void
     {
         $this->session->executeScript(
             sprintf(
@@ -159,5 +159,10 @@ class BaseElement implements BaseElementInterface
 
         // TODO:
         // add support for iframes
+    }
+
+    private function getRandomColor(): string
+    {
+        return self::COLORS[array_rand(self::COLORS)];
     }
 }

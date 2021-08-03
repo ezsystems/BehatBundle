@@ -48,7 +48,6 @@ final class Element extends BaseElement implements ElementInterface
     {
         usleep(900000);
         $this->removeTooltip($this);
-        $this->markClicked($this);
         usleep(100000);
 
         $this->element->click();
@@ -71,6 +70,10 @@ final class Element extends BaseElement implements ElementInterface
 
     public function mouseOver(): void
     {
+        usleep(900000);
+        $this->removeTooltip($this);
+        usleep(100000);
+
         $this->element->mouseOver();
     }
 

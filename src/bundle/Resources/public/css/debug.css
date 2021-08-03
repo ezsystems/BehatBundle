@@ -1,8 +1,12 @@
 .ibexa-selenium-highlighted {
-    border: 2px dashed red !important;
+    border: 2px dashed var(--ibexa-selenium-color, red) !important;
 }
 
-.ibexa-selenium-clicked {
+.ibexa-selenium-highlighted:hover {
+    background-color: cyan;
+}
+
+.ibexa-selenium-highlighted:active {
     background-color: blue !important;
 }
 
@@ -15,6 +19,6 @@
     background-color: #FFFFFF;
     border-color: black;
     color: black;
-    font-size: 1rem;
+    font-size: 15px;
     border-style: dotted;
 }

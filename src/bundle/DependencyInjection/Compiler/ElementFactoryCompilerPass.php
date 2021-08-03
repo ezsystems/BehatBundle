@@ -32,7 +32,7 @@ class ElementFactoryCompilerPass implements CompilerPassInterface
 
     private function shouldEnableDebug(ContainerBuilder $container): bool
     {
-    return $container->hasParameter(eZBehatExtension::BROWSER_DEBUG_ENABLED) && 
+        return $container->hasParameter(eZBehatExtension::BROWSER_DEBUG_ENABLED) &&
             $container->getParameter(eZBehatExtension::BROWSER_DEBUG_ENABLED);
     }
 }
