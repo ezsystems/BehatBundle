@@ -9,8 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Behat\Browser\Component;
 
 use Behat\Mink\Session;
-use Ibexa\Behat\Browser\Element\Factory\Debug\DebuggableElementFactory;
+use Ibexa\Behat\Browser\Element\Factory\Debug\ElementFactory as DebugElementFactory;
 use Ibexa\Behat\Browser\Element\Factory\ElementFactory;
+use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 use Ibexa\Behat\Browser\Element\RootElementInterface;
 use Ibexa\Behat\Browser\Locator\LocatorCollection;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
@@ -30,7 +31,7 @@ abstract class Component implements ComponentInterface
     {
         $this->session = $session;
         $this->locators = new LocatorCollection($this->specifyLocators());
-        $this->elementFactory = new DebuggableElementFactory($session, new ElementFactory());
+        $this->disableDebugging();
     }
 
     abstract public function verifyIsLoaded(): void;
@@ -38,6 +39,11 @@ abstract class Component implements ComponentInterface
     final protected function getHTMLPage(): RootElementInterface
     {
         return $this->elementFactory->createRootElement($this->getSession(), $this->elementFactory);
+    }
+
+    public function setElementFactory(ElementFactoryInterface $elementFactory): void
+    {
+        $this->elementFactory = $elementFactory;
     }
 
     protected function getSession(): Session
@@ -53,5 +59,15 @@ abstract class Component implements ComponentInterface
     final protected function getLocator(string $identifier): LocatorInterface
     {
         return $this->locators->get($identifier);
+    }
+
+    protected function enableDebugging(): void
+    {
+        $this->setElementFactory(new DebugElementFactory($this->session, new ElementFactory()));
+    }
+
+    protected function disableDebugging(): void
+    {
+        $this->setElementFactory(new ElementFactory());
     }
 }

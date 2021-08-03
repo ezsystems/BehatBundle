@@ -11,7 +11,7 @@ namespace Ibexa\Behat\Browser\Element\Debug;
 use Behat\Mink\Session;
 use Ibexa\Behat\Browser\Element\RootElementInterface;
 
-final class DebuggableRootElement extends DebuggableBaseElement implements RootElementInterface
+final class RootElement extends BaseElement implements RootElementInterface
 {
     public function __construct(Session $session, RootElementInterface $element)
     {

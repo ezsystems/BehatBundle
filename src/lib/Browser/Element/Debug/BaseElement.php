@@ -15,7 +15,7 @@ use Ibexa\Behat\Browser\Element\ElementCollection;
 use Ibexa\Behat\Browser\Element\ElementInterface;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 
-class DebuggableBaseElement implements BaseElementInterface
+class BaseElement implements BaseElementInterface
 {
     /** @var \Behat\Mink\Session */
     protected $session;
@@ -23,11 +23,11 @@ class DebuggableBaseElement implements BaseElementInterface
     /** @var \Ibexa\Behat\Browser\Element\BaseElementInterface */
     protected $element;
 
-    private const TOOLTIP_CLASS = 'selenium-tooltip';
+    private const TOOLTIP_CLASS = 'ibexa-selenium-tooltip';
 
-    private const HIGHLIGHT_CLASS = 'selenium-highlighted';
+    private const HIGHLIGHT_CLASS = 'ibexa-selenium-highlighted';
 
-    private const CLICKED_CLASS = 'selenium-clicked';
+    private const CLICKED_CLASS = 'ibexa-selenium-clicked';
 
     public function __construct(Session $session, BaseElementInterface $element)
     {

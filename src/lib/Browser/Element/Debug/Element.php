@@ -12,7 +12,7 @@ use Behat\Mink\Session;
 use Ibexa\Behat\Browser\Assert\ElementAssert;
 use Ibexa\Behat\Browser\Element\ElementInterface;
 
-final class DebuggableElement extends DebuggableBaseElement implements ElementInterface
+final class Element extends BaseElement implements ElementInterface
 {
     public function __construct(Session $session, ElementInterface $element)
     {

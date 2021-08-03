@@ -10,14 +10,14 @@ namespace Ibexa\Behat\Browser\Element\Factory\Debug;
 
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Session;
-use Ibexa\Behat\Browser\Element\Debug\DebuggableElement;
-use Ibexa\Behat\Browser\Element\Debug\DebuggableRootElement;
+use Ibexa\Behat\Browser\Element\Debug\Element;
+use Ibexa\Behat\Browser\Element\Debug\RootElement;
 use Ibexa\Behat\Browser\Element\ElementInterface;
 use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 use Ibexa\Behat\Browser\Element\RootElementInterface;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 
-class DebuggableElementFactory implements ElementFactoryInterface
+class ElementFactory implements ElementFactoryInterface
 {
     /** @var \Behat\Mink\Session */
     private $session;
@@ -35,13 +35,13 @@ class DebuggableElementFactory implements ElementFactoryInterface
     {
         $baseElement = $this->decoratedElementFactory->createElement($locator, $nodeElement);
 
-        return new DebuggableElement($this->session, $baseElement);
+        return new Element($this->session, $baseElement);
     }
 
     public function createRootElement(Session $session, ElementFactoryInterface $elementFactory): RootElementInterface
     {
         $baseElement = $this->decoratedElementFactory->createRootElement($session, $elementFactory);
 
-        return new DebuggableRootElement($this->session, $baseElement);
+        return new RootElement($this->session, $baseElement);
     }
 }

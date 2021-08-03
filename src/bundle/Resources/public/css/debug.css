@@ -1,12 +1,12 @@
-.selenium-highlighted {
+.ibexa-selenium-highlighted {
     border: 2px solid red !important;
 }
 
-.selenium-clicked {
-    background-color: greenyellow !important;
+.ibexa-selenium-clicked {
+    background-color: blue !important;
 }
 
-.selenium-tooltip::before {
+.ibexa-selenium-tooltip::before {
     content: attr(data-selenium-locator);
     background-color: #FFFFFF;
     border-color: black;
