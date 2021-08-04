@@ -70,7 +70,7 @@ final class Element extends BaseElement implements ElementInterface
 
     public function mouseOver(): void
     {
-        usleep(900000);
+        usleep(400000);
         $this->removeTooltip($this);
         usleep(100000);
 
