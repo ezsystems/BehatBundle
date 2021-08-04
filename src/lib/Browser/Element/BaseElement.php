@@ -86,7 +86,7 @@ class BaseElement implements BaseElementInterface
                 $foundMinkElements = $this->decoratedElement->findAll($locator->getType(), $locator->getSelector());
 
                 foreach ($foundMinkElements as $foundMinkElement) {
-                    $wrappedElement = $this->elementFactory->createElement($locator, $foundMinkElement);
+                    $wrappedElement = $this->elementFactory->createElement($this->elementFactory, $locator, $foundMinkElement);
 
                     if ($locator->elementMeetsCriteria($wrappedElement)) {
                         return $wrappedElement;
@@ -128,7 +128,7 @@ class BaseElement implements BaseElementInterface
         }
 
         foreach ($minkElements as $minkElement) {
-            $wrappedElement = $this->elementFactory->createElement($locator, $minkElement);
+            $wrappedElement = $this->elementFactory->createElement($this->elementFactory, $locator, $minkElement);
             $wrappedElement->setTimeout($this->timeout);
 
             if ($locator->elementMeetsCriteria($wrappedElement)) {

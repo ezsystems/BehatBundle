@@ -18,9 +18,9 @@ use Ibexa\Behat\Browser\Locator\LocatorInterface;
 
 class ElementFactory implements ElementFactoryInterface
 {
-    public function createElement(LocatorInterface $locator, NodeElement $nodeElement): ElementInterface
+    public function createElement(ElementFactoryInterface $elementFactory, LocatorInterface $locator, NodeElement $nodeElement): ElementInterface
     {
-        return new Element($this, $locator, $nodeElement);
+        return new Element($elementFactory, $locator, $nodeElement);
     }
 
     public function createRootElement(Session $session, ElementFactoryInterface $elementFactory): RootElementInterface

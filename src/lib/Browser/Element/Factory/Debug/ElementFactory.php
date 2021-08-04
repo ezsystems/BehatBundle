@@ -31,9 +31,9 @@ class ElementFactory implements ElementFactoryInterface
         $this->decoratedElementFactory = $decoratedElementFactory;
     }
 
-    public function createElement(LocatorInterface $locator, NodeElement $nodeElement): ElementInterface
+    public function createElement(ElementFactoryInterface $elementFactory, LocatorInterface $locator, NodeElement $nodeElement): ElementInterface
     {
-        $baseElement = $this->decoratedElementFactory->createElement($locator, $nodeElement);
+        $baseElement = $this->decoratedElementFactory->createElement($elementFactory, $locator, $nodeElement);
 
         return new Element($this->session, $baseElement);
     }

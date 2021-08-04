@@ -1,17 +1,13 @@
 .ibexa-selenium-highlighted {
-    border: 2px dashed var(--ibexa-selenium-color, red) !important;
+    border: 2px dashed var(--ibexa-selenium-color, red);
 }
 
 .ibexa-selenium-highlighted:hover {
     background-color: cyan;
 }
 
-.ibexa-selenium-highlighted:active {
-    background-color: blue !important;
-}
-
 .ibexa-selenium-read {
-    border-style: solid !important;
+    border-style: solid;
 }
 
 .ibexa-selenium-tooltip::before {

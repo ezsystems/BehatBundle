@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\DependencyInjection;
 
-use Ibexa\Behat\Browser\Component\ComponentInterface;
+use Ibexa\Behat\Browser\Component\Component;
 use Ibexa\Behat\Browser\Page\PageInterface;
 use Ibexa\Behat\Browser\Page\Preview\PagePreviewInterface;
 use Symfony\Component\Config\FileLocator;
@@ -54,7 +54,7 @@ class eZBehatExtension extends Extension implements PrependExtensionInterface, C
             $loader->load('services_dxp.yaml');
         }
 
-        $container->registerForAutoconfiguration(ComponentInterface::class)
+        $container->registerForAutoconfiguration(Component::class)
             ->addTag('ibexa.testing.browser.component');
 
         $container->registerForAutoconfiguration(PageInterface::class)
