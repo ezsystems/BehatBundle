@@ -17,7 +17,7 @@ use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 use Ibexa\Behat\Browser\Element\RootElementInterface;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 
-class ElementFactory implements ElementFactoryInterface
+final class ElementFactory implements ElementFactoryInterface
 {
     /** @var \Behat\Mink\Session */
     private $session;

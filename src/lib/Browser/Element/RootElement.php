@@ -15,7 +15,7 @@ use RuntimeException;
 
 final class RootElement extends BaseElement implements RootElementInterface
 {
-    /** \Behat\Mink\Session */
+    /** @vat \Behat\Mink\Session */
     private $session;
 
     public function __construct(ElementFactoryInterface $elementFactory, Session $session, DocumentElement $baseElement)
