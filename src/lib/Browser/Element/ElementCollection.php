@@ -72,6 +72,15 @@ class ElementCollection implements \Countable, \IteratorAggregate
         foreach ($this->elements as $element) {
             return $element;
         }
+
+        throw new ElementNotFoundException(
+            sprintf(
+                "Collection created with %s locator '%s': '%s' is empty.",
+                strtoupper($this->locator->getType()),
+                $this->locator->getIdentifier(),
+                $this->locator->getSelector()
+            )
+        );
     }
 
     public function last(): ElementInterface
@@ -80,7 +89,20 @@ class ElementCollection implements \Countable, \IteratorAggregate
             $this->elements = iterator_to_array($this->elements);
         }
 
-        return end($this->elements);
+        $lastElement = end($this->elements);
+
+        if (!$lastElement) {
+            throw new ElementNotFoundException(
+                sprintf(
+                    "Collection created with %s locator '%s': '%s' is empty.",
+                    strtoupper($this->locator->getType()),
+                    $this->locator->getIdentifier(),
+                    $this->locator->getSelector()
+                )
+            );
+        }
+
+        return $lastElement;
     }
 
     /**
