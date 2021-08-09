@@ -12,6 +12,7 @@ use Ibexa\Behat\Browser\Element\Criterion\ElementTextCriterion;
 use Ibexa\Behat\Browser\Element\ElementCollection;
 use Ibexa\Behat\Browser\Element\ElementInterface;
 use Ibexa\Behat\Browser\Element\Mapper\ElementTextMapper;
+use Ibexa\Behat\Browser\Exception\ElementNotFoundException;
 use Ibexa\Behat\Browser\Locator\CSSLocator;
 use PHPUnit\Framework\Assert;
 
@@ -33,9 +34,23 @@ class ElementCollectionTest extends BaseTestCase
         Assert::assertEquals('Element1', $this->collection->first()->getText());
     }
 
+    public function testFirstThrowsExceptionWhenEmpty(): void
+    {
+        $emptyCollection = $this->createCollection(new CSSLocator('identifier', 'selector'));
+        $this->expectException(ElementNotFoundException::class);
+        $emptyCollection->first();
+    }
+
     public function testLastReturnsLastElement(): void
     {
         Assert::assertEquals('Element3', $this->collection->last()->getText());
+    }
+
+    public function testLastThrowsExceptionWhenEmpty(): void
+    {
+        $emptyCollection = $this->createCollection(new CSSLocator('identifier', 'selector'));
+        $this->expectException(ElementNotFoundException::class);
+        $emptyCollection->last();
     }
 
     public function testCount(): void
