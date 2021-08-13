@@ -10,17 +10,19 @@ namespace Ibexa\Behat\Browser\Element;
 
 use Behat\Mink\Element\DocumentElement;
 use Behat\Mink\Session;
+use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 use RuntimeException;
 
 final class RootElement extends BaseElement implements RootElementInterface
 {
-    /** @var \Behat\Mink\Session */
+    /** @vat \Behat\Mink\Session */
     private $session;
 
-    public function __construct(Session $session, DocumentElement $baseElement)
+    public function __construct(ElementFactoryInterface $elementFactory, Session $session, DocumentElement $baseElement)
     {
-        $this->decoratedElement = $baseElement;
+        parent::__construct($elementFactory);
         $this->session = $session;
+        $this->decoratedElement = $baseElement;
     }
 
     public function dragAndDrop(string $from, string $hover, string $to): void

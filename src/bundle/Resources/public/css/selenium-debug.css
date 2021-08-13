@@ -1,0 +1,20 @@
+.ibexa-selenium-highlighted {
+    border: 2px dashed var(--ibexa-selenium-color, red);
+}
+
+.ibexa-selenium-highlighted:hover {
+    background-color: cyan;
+}
+
+.ibexa-selenium-read {
+    border-style: solid;
+}
+
+.ibexa-selenium-tooltip::before {
+    content: attr(data-selenium-locator);
+    background-color: #FFFFFF;
+    border-color: black;
+    color: black;
+    font-size: 15px;
+    border-style: dotted;
+}

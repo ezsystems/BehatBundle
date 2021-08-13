@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle;
 
+use EzSystems\BehatBundle\DependencyInjection\Compiler\ElementFactoryCompilerPass;
 use EzSystems\BehatBundle\DependencyInjection\Compiler\FieldTypeDataProviderPass;
 use EzSystems\BehatBundle\DependencyInjection\Compiler\LimitationParserPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -21,5 +22,6 @@ class EzSystemsBehatBundle extends Bundle
     {
         $container->addCompilerPass(new FieldTypeDataProviderPass());
         $container->addCompilerPass(new LimitationParserPass());
+        $container->addCompilerPass(new ElementFactoryCompilerPass());
     }
 }

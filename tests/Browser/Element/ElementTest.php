@@ -11,6 +11,7 @@ namespace EzSystems\Behat\Test\Browser\Element;
 use Behat\Mink\Element\NodeElement;
 use Ibexa\Behat\Browser\Element\Condition\ElementExistsCondition;
 use Ibexa\Behat\Browser\Element\Element;
+use Ibexa\Behat\Browser\Element\Factory\ElementFactory;
 use Ibexa\Behat\Browser\Exception\TimeoutException;
 use Ibexa\Behat\Browser\Locator\CSSLocator;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
@@ -19,22 +20,18 @@ use PHPUnit\Framework\Assert;
 
 class ElementTest extends BaseTestCase
 {
-    /** @var \Ibexa\Behat\Browser\Element\Element */
-    private $element;
-
     /** @var \Ibexa\Behat\Browser\Locator\LocatorInterface */
     private $irrelevantLocator;
 
     /** @var \Ibexa\Behat\Browser\Locator\LocatorInterface */
-    private $validLocator;
-
-    /** @var \Ibexa\Behat\Browser\Locator\LocatorInterface */
     private $invalidLocator;
+
+    /** @var \Behat\Mink\Session */
+    private $session;
 
     public function setUp(): void
     {
         $this->irrelevantLocator = new CSSLocator('irrelevant-id', 'irrelevant-selector');
-        $this->validLocator = new CSSLocator('valid-id', 'valid-selector');
         $this->invalidLocator = new CSSLocator('invalid-id', 'invalid-selector');
     }
 
@@ -44,9 +41,10 @@ class ElementTest extends BaseTestCase
         $childMinkElement = $this->createValidMinkNodeElement('Text');
         $minkElement->method('find')->willReturn($childMinkElement);
         $minkElement->method('findAll')->willReturn([$childMinkElement]);
-        $this->element = new Element($this->irrelevantLocator, $minkElement);
 
-        Assert::assertEquals('Text', $this->element->find($this->irrelevantLocator)->getText());
+        $element = $this->createElementWithMinkElement($minkElement);
+
+        Assert::assertEquals('Text', $element->find($this->irrelevantLocator)->getText());
     }
 
     public function testFindElementWhenNotExists(): void
@@ -54,7 +52,7 @@ class ElementTest extends BaseTestCase
         $minkElement = $this->createMock(NodeElement::class);
         $minkElement->method('find')->willReturn(null);
         $minkElement->method('findAll')->willReturn([]);
-        $element = new Element($this->irrelevantLocator, $minkElement);
+        $element = $this->createElementWithMinkElement($minkElement);
 
         $this->expectException(TimeoutException::class);
         $this->expectExceptionMessage("CSS selector 'invalid-id': 'invalid-selector' not found in 1 seconds.");
@@ -70,7 +68,7 @@ class ElementTest extends BaseTestCase
                 $this->createValidMinkNodeElement('Element2'),
             ]
         );
-        $element = new Element($this->irrelevantLocator, $minkElement);
+        $element = $this->createElementWithMinkElement($minkElement);
 
         Assert::assertCount(2, $element->findAll($this->irrelevantLocator));
     }
@@ -79,7 +77,7 @@ class ElementTest extends BaseTestCase
     {
         $minkElement = $this->createMock(NodeElement::class);
         $minkElement->method('findAll')->willReturn([]);
-        $element = new Element($this->irrelevantLocator, $minkElement);
+        $element = $this->createElementWithMinkElement($minkElement);
 
         Assert::assertTrue($element->findAll($this->irrelevantLocator)->empty());
     }
@@ -88,7 +86,7 @@ class ElementTest extends BaseTestCase
     {
         $minkElement = $this->createMock(NodeElement::class);
         $minkElement->method('findAll')->willReturn([]);
-        $element = new Element($this->irrelevantLocator, $minkElement);
+        $element = $this->createElementWithMinkElement($minkElement);
 
         $this->expectNotToPerformAssertions();
         $element->waitUntil(static function () {
@@ -100,7 +98,7 @@ class ElementTest extends BaseTestCase
     {
         $minkElement = $this->createMock(NodeElement::class);
         $minkElement->method('findAll')->willReturn([]);
-        $element = new Element($this->irrelevantLocator, $minkElement);
+        $element = $this->createElementWithMinkElement($minkElement);
 
         $this->expectException(TimeoutException::class);
         $this->expectExceptionMessage('Custom error message');
@@ -113,7 +111,7 @@ class ElementTest extends BaseTestCase
     {
         $minkElement = $this->createMock(NodeElement::class);
         $minkElement->method('findAll')->willReturn([$this->createValidMinkNodeElement('TestElement')]);
-        $element = new Element($this->irrelevantLocator, $minkElement);
+        $element = $this->createElementWithMinkElement($minkElement);
 
         $this->expectNotToPerformAssertions();
         $element->waitUntilCondition(new ElementExistsCondition($element, $this->irrelevantLocator));
@@ -123,7 +121,7 @@ class ElementTest extends BaseTestCase
     {
         $minkElement = $this->createMock(NodeElement::class);
         $minkElement->method('findAll')->willReturn([]);
-        $element = new Element($this->irrelevantLocator, $minkElement);
+        $element = $this->createElementWithMinkElement($minkElement);
         $element->setTimeout(2);
 
         $searchedElement = $this->createElement('Test');
@@ -144,7 +142,7 @@ class ElementTest extends BaseTestCase
         $minkElement = $this->createMock(NodeElement::class);
         $minkElement->method('find')->willReturn($invisbleMinkElement);
         $minkElement->method('findAll')->willReturn([$invisbleMinkElement, $visibleMinkElement]);
-        $element = new Element($this->irrelevantLocator, $minkElement);
+        $element = $this->createElementWithMinkElement($minkElement);
 
         Assert::assertEquals($expectedElementText, $element->find($locator)->getText());
     }
@@ -167,7 +165,7 @@ class ElementTest extends BaseTestCase
 
         $minkElement = $this->createMock(NodeElement::class);
         $minkElement->method('findAll')->willReturn([$invisbleMinkElement, $visibleMinkElement]);
-        $element = new Element($this->irrelevantLocator, $minkElement);
+        $element = $this->createElementWithMinkElement($minkElement);
 
         Assert::assertCount($expectedElementCount, $element->findAll($locator));
     }
@@ -178,5 +176,10 @@ class ElementTest extends BaseTestCase
             [new VisibleCSSLocator('id', 'selector'), 1],
             [new CSSLocator('id', 'selector'), 2],
         ];
+    }
+
+    private function createElementWithMinkElement(NodeELement $nodeElement)
+    {
+        return new Element(new ElementFactory(), $this->irrelevantLocator, $nodeElement);
     }
 }
