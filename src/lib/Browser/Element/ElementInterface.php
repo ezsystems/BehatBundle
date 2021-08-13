@@ -41,4 +41,6 @@ interface ElementInterface extends BaseElementInterface
     public function isValid(): bool;
 
     public function selectOption(string $option): void;
+
+    public function getXPath(): string;
 }

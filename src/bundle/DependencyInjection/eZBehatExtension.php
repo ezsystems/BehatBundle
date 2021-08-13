@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\DependencyInjection;
 
+use Ibexa\Behat\Browser\Component\Component;
 use Ibexa\Behat\Browser\Page\PageInterface;
 use Ibexa\Behat\Browser\Page\Preview\PagePreviewInterface;
 use Symfony\Component\Config\FileLocator;
@@ -23,6 +24,8 @@ class eZBehatExtension extends Extension implements PrependExtensionInterface, C
 
     private const BROWSER_TESTING_ENABLED = 'ibexa.testing.browser.enabled';
 
+    public const BROWSER_DEBUG_ENABLED = 'ibexa.testing.behat.browser.debug.enabled';
+
     public function process(ContainerBuilder $container)
     {
         if (!$container->getParameter(self::OVERRIDE_CONFIGURATION)) {
@@ -36,6 +39,7 @@ class eZBehatExtension extends Extension implements PrependExtensionInterface, C
     {
         $container->setParameter(self::OVERRIDE_CONFIGURATION, true);
         $container->setParameter(self::BROWSER_TESTING_ENABLED, true);
+        $container->setParameter(self::BROWSER_DEBUG_ENABLED, false);
     }
 
     public function load(array $config, ContainerBuilder $container)
@@ -50,13 +54,14 @@ class eZBehatExtension extends Extension implements PrependExtensionInterface, C
             $loader->load('services_dxp.yaml');
         }
 
+        $container->registerForAutoconfiguration(Component::class)
+            ->addTag('ibexa.testing.browser.component');
+
         $container->registerForAutoconfiguration(PageInterface::class)
-            ->addTag('ibexa.testing.browser.page')
-        ;
+            ->addTag('ibexa.testing.browser.page');
 
         $container->registerForAutoconfiguration(PagePreviewInterface::class)
-            ->addTag('ibexa.testing.browser.page_preview')
-        ;
+            ->addTag('ibexa.testing.browser.page_preview');
     }
 
     private function shouldLoadDxpServices(ContainerBuilder $container)

@@ -10,6 +10,7 @@ namespace Ibexa\Behat\Browser\Element;
 
 use Behat\Mink\Element\NodeElement;
 use Ibexa\Behat\Browser\Assert\ElementAssert;
+use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 use Webdriver\Exception\NoSuchElement;
 use WebDriver\Exception\StaleElementReference;
@@ -19,8 +20,9 @@ final class Element extends BaseElement implements ElementInterface
     /** @var \Ibexa\Behat\Browser\Locator\LocatorInterface */
     private $locator;
 
-    public function __construct(LocatorInterface $locator, ?NodeElement $baseElement)
+    public function __construct(ElementFactoryInterface $elementFactory, LocatorInterface $locator, NodeElement $baseElement)
     {
+        parent::__construct($elementFactory);
         $this->decoratedElement = $baseElement;
         $this->locator = $locator;
     }

@@ -1,9 +1,10 @@
 imports:
+    - { resource: services/contexts.yaml }
+    - { resource: services/controllers.yaml }
+    - { resource: services/factory.yaml }
     - { resource: services/fieldtype_data_providers.yaml }
     - { resource: services/limitation_parsers.yaml }
-    - { resource: services/contexts.yaml }
     - { resource: services/pages.yaml }
-    - { resource: services/controllers.yaml }
 
 services:
     _defaults:
