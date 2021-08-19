@@ -15,7 +15,7 @@ use EzSystems\Behat\API\ContentData\ContentDataProvider;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\Event\Events;
 use EzSystems\Behat\Event\TransitionEvent;
-use Ibexa\Workflow\Tests\Behat\Facade\WorkflowFacade;
+use Ibexa\Workflow\Behat\Facade\WorkflowFacade;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -28,7 +28,7 @@ class Review extends AbstractProcessStage implements EventSubscriberInterface
     /** @var \eZ\Publish\API\Repository\ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Workflow\Tests\Behat\Facade\WorkflowFacade */
+    /** @var \Ibexa\Workflow\Behat\Facade\WorkflowFacade */
     private $workflowFacade;
 
     protected function getTransitions(): array
