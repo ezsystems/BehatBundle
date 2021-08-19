@@ -65,8 +65,8 @@ regression:
                 - Ibexa\AdminUi\Behat\BrowserContext\UserPreferencesContext
                 - Ibexa\Behat\Browser\Context\AuthenticationContext
                 - Ibexa\Behat\Browser\Context\DebuggingContext
-                - Ibexa\FieldTypePage\Tests\Behat\Context\BlockHideEventsSourceContext
-                - Ibexa\FieldTypePage\Tests\Behat\Context\BlockRevealEventsSourceContext
+                - Ibexa\FieldTypePage\Behat\Context\BlockHideEventsSourceContext
+                - Ibexa\FieldTypePage\Behat\Context\BlockRevealEventsSourceContext
                 - Ibexa\FormBuilder\Behat\BrowserContext\FormAdministrationContext
                 - Ibexa\FormBuilder\Behat\BrowserContext\FormBuilderContext
                 - Ibexa\FormBuilder\Behat\BrowserContext\FormFieldConfigurationContext
