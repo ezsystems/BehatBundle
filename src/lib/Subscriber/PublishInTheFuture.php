@@ -14,7 +14,7 @@ use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\Event\Events;
 use EzSystems\Behat\Event\TransitionEvent;
 use EzSystems\DateBasedPublisher\API\Repository\DateBasedPublishServiceInterface;
-use Ibexa\Workflow\Tests\Behat\Facade\WorkflowFacade;
+use Ibexa\Workflow\Behat\Facade\WorkflowFacade;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -24,7 +24,7 @@ class PublishInTheFuture extends AbstractProcessStage implements EventSubscriber
     /** @var \EzSystems\DateBasedPublisher\API\Repository\DateBasedPublishServiceInterface */
     private $dateBasedPublisherService;
 
-    /** @var \Ibexa\Workflow\Tests\Behat\Facade\WorkflowFacade */
+    /** @var \Ibexa\Workflow\Behat\Facade\WorkflowFacade */
     private $workflowFacade;
 
     public function __construct(
