@@ -21,6 +21,17 @@ module.exports = (eZConfig, eZConfigManager) => {
         ]
     });
 
+    if (eZConfig.entry['ezplatform-admin-ui-content-type-edit-js']) {
+        const dragMockScriptPath = '../public/js/scripts/drag-mock.js';
+        eZConfigManager.add({
+            eZConfig,
+            entryName: 'ezplatform-admin-ui-content-type-edit-js',
+            newItems: [
+                path.resolve(__dirname, dragMockScriptPath),
+            ],
+        });
+    }
+
     if (eZConfig.entry['ezplatform-page-builder-edit-js']) {
         const dragMockScriptPath = '../public/js/scripts/drag-mock.js';
         eZConfigManager.add({
