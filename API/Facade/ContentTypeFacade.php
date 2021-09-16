@@ -11,22 +11,32 @@ use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
 use EzSystems\EzPlatformAdminUi\Behat\PageElement\Fields\EzFieldElement;
+use Ibexa\Core\Persistence\Cache\Tag\CacheIdentifierGeneratorInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 
 class ContentTypeFacade
 {
+    private const CONTENT_TYPE_LIST_BY_GROUP_IDENTIFIER = 'content_type_list_by_group';
+
     /** @var \eZ\Publish\API\Repository\ContentTypeService */
     private $contentTypeService;
 
     /** @var Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
     private $cachePool;
 
+    /** @var Ibexa\Core\Persistence\Cache\Tag\CacheIdentifierGeneratorInterface */
+    private $cacheIdentifierGenerator;
+
     private const MAX_LOAD_TRIES = 10;
 
-    public function __construct(ContentTypeService $contentTypeService, TagAwareAdapterInterface $cachePool)
-    {
+    public function __construct(
+        ContentTypeService $contentTypeService,
+        TagAwareAdapterInterface $cachePool,
+        CacheIdentifierGeneratorInterface $cacheIdentifierGenerator
+        ) {
         $this->contentTypeService = $contentTypeService;
         $this->cachePool = $cachePool;
+        $this->cacheIdentifierGenerator = $cacheIdentifierGenerator;
     }
 
     public function createContentType(string $contentTypeName, string $contentTypeIdentifier, string $contentTypeGroupName, string $mainLanguageCode, bool $isContainer, array $fieldDefinitions)
@@ -81,8 +91,14 @@ class ContentTypeFacade
 
         $iterationsCount = 0;
 
+        $cacheKey = $this->cacheIdentifierGenerator->generateKey(
+            self::CONTENT_TYPE_LIST_BY_GROUP_IDENTIFIER,
+            [$contentTypeGroup->id],
+            true
+        );
+
         while (!\in_array($contentTypeIdentifier, $contentTypeIdentifiersInGroup)) {
-            $this->cachePool->deleteItems(['ez-content-type-list-by-group-' . $contentTypeGroup->id]);
+            $this->cachePool->deleteItems([$cacheKey]);
 
             $contentTypeIdentifiersInGroup = array_map(function (ContentType $contentType) {
                 return $contentType->identifier;
