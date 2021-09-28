@@ -45,6 +45,7 @@ regression:
                 - EzSystems\Behat\API\Context\TrashContext
                 - EzSystems\Behat\API\Context\UserContext
                 - Ibexa\AdminUi\Behat\BrowserContext\AdminUpdateContext
+                - Ibexa\AdminUi\Behat\BrowserContext\ContentActionsMenuContext
                 - Ibexa\AdminUi\Behat\BrowserContext\ContentPreviewContext
                 - Ibexa\AdminUi\Behat\BrowserContext\ContentTypeContext
                 - Ibexa\AdminUi\Behat\BrowserContext\ContentUpdateContext
@@ -54,7 +55,6 @@ regression:
                 - Ibexa\AdminUi\Behat\BrowserContext\NavigationContext
                 - Ibexa\AdminUi\Behat\BrowserContext\NotificationContext
                 - Ibexa\AdminUi\Behat\BrowserContext\ObjectStatesContext
-                - Ibexa\AdminUi\Behat\BrowserContext\RightMenuContext
                 - Ibexa\AdminUi\Behat\BrowserContext\RolesContext
                 - Ibexa\AdminUi\Behat\BrowserContext\SearchContext
                 - Ibexa\AdminUi\Behat\BrowserContext\SectionsContext
