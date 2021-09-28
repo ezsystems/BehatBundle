@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Element;
 
-use Ibexa\Behat\Browser\Assert\ElementAssert;
+use Ibexa\Behat\Browser\Assert\ElementAssertInterface;
 
 interface ElementInterface extends BaseElementInterface
 {
@@ -36,7 +36,7 @@ interface ElementInterface extends BaseElementInterface
 
     public function getOuterHtml(): string;
 
-    public function assert(): ElementAssert;
+    public function assert(): ElementAssertInterface;
 
     public function isValid(): bool;
 

@@ -37,7 +37,8 @@
         "symfony/stopwatch": "^5.2",
         "symfony/http-kernel": "^5.0",
         "symfony/property-access": "^5.0",
-        "symfony/yaml": "^5.0"
+        "symfony/yaml": "^5.0",
+        "psy/psysh": "^0.10.8"
     },
     "require-dev": {
         "ibexa/ci-scripts": "^0.1@dev",

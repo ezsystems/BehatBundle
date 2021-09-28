@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace EzSystems\BehatBundle\DependencyInjection\Compiler;
 
 use EzSystems\BehatBundle\DependencyInjection\eZBehatExtension;
-use Ibexa\Behat\Browser\Element\Factory\Debug\ElementFactory;
+use Ibexa\Behat\Browser\Element\Factory\Debug\Interactive\ElementFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -17,22 +17,22 @@ class ElementFactoryCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$this->shouldEnableDebug($container)) {
+        if (!$this->shouldEnableInteractiveDebug($container)) {
             return;
         }
 
-        $debugElementFactory = $container->findDefinition(ElementFactory::class);
+        $interactiveDebugElementFactory = $container->findDefinition(ElementFactory::class);
 
         $componentServiceIds = array_keys($container->findTaggedServiceIds('ibexa.testing.browser.component'));
         foreach ($componentServiceIds as $componentServiceId) {
             $compontentDefinition = $container->findDefinition($componentServiceId);
-            $compontentDefinition->addMethodCall('setElementFactory', [$debugElementFactory]);
+            $compontentDefinition->addMethodCall('setElementFactory', [$interactiveDebugElementFactory]);
         }
     }
 
-    private function shouldEnableDebug(ContainerBuilder $container): bool
+    private function shouldEnableInteractiveDebug(ContainerBuilder $container): bool
     {
-        return $container->hasParameter(eZBehatExtension::BROWSER_DEBUG_ENABLED) &&
-            $container->getParameter(eZBehatExtension::BROWSER_DEBUG_ENABLED);
+        return $container->hasParameter(eZBehatExtension::BROWSER_DEBUG_INTERACTIVE_ENABLED) &&
+            $container->getParameter(eZBehatExtension::BROWSER_DEBUG_INTERACTIVE_ENABLED);
     }
 }
