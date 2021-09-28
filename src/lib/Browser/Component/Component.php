@@ -9,7 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Behat\Browser\Component;
 
 use Behat\Mink\Session;
-use Ibexa\Behat\Browser\Element\Factory\Debug\ElementFactory as DebugElementFactory;
+use Ibexa\Behat\Browser\Element\Factory\Debug\Highlighting\ElementFactory as HighlightingDebugElementFactory;
+use Ibexa\Behat\Browser\Element\Factory\Debug\Interactive\ElementFactory as InteractiveDebugElementFactory;
 use Ibexa\Behat\Browser\Element\Factory\ElementFactory;
 use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 use Ibexa\Behat\Browser\Element\RootElementInterface;
@@ -24,14 +25,14 @@ abstract class Component implements ComponentInterface
     /** @var \Behat\Mink\Session */
     private $session;
 
-    /** @var \Ibexa\Behat\Browser\Element\ElementFactoryInterface */
+    /** @var \Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface */
     private $elementFactory;
 
     public function __construct(Session $session)
     {
         $this->session = $session;
         $this->locators = new LocatorCollection($this->specifyLocators());
-        $this->disableDebugging();
+        $this->elementFactory = new ElementFactory();
     }
 
     abstract public function verifyIsLoaded(): void;
@@ -61,13 +62,29 @@ abstract class Component implements ComponentInterface
         return $this->locators->get($identifier);
     }
 
-    protected function enableDebugging(): void
+    public function enableDebugging(bool $interactive = true, bool $highlighting = true): ElementFactoryInterface
     {
-        $this->setElementFactory(new DebugElementFactory($this->session, new ElementFactory()));
+        $oldFactory = $this->elementFactory;
+
+        $factory = new ElementFactory();
+
+        if ($highlighting) {
+            $factory = new HighlightingDebugElementFactory($this->session, $factory);
+        }
+
+        if ($interactive) {
+            $factory = new InteractiveDebugElementFactory($factory);
+        }
+        $this->setElementFactory($factory);
+
+        return $oldFactory;
     }
 
-    protected function disableDebugging(): void
+    public function disableDebugging(): ElementFactoryInterface
     {
+        $oldFactory = $this->elementFactory;
         $this->setElementFactory(new ElementFactory());
+
+        return $oldFactory;
     }
 }

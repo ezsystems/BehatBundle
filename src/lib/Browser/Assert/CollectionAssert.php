@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Assert;
 
-use Ibexa\Behat\Browser\Element\ElementCollection;
+use Ibexa\Behat\Browser\Element\ElementCollectionInterface;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 use PHPUnit\Framework\Assert;
 
-class CollectionAssert
+class CollectionAssert implements CollectionAssertInterface
 {
     /**
      * @var \Ibexa\Behat\Browser\Locator\LocatorInterface
@@ -20,17 +20,17 @@ class CollectionAssert
     private $locator;
 
     /**
-     * @var \Ibexa\Behat\Browser\Element\ElementCollection
+     * @var \Ibexa\Behat\Browser\Element\ElementCollectionInterface
      */
     private $elementCollection;
 
-    public function __construct(LocatorInterface $locator, ElementCollection $elementCollection)
+    public function __construct(LocatorInterface $locator, ElementCollectionInterface $elementCollection)
     {
         $this->locator = $locator;
         $this->elementCollection = $elementCollection;
     }
 
-    public function isEmpty(): ElementCollection
+    public function isEmpty(): ElementCollectionInterface
     {
         Assert::assertTrue(
             $this->elementCollection->empty(),
@@ -45,9 +45,10 @@ class CollectionAssert
         return $this->elementCollection;
     }
 
-    public function hasElements(): ElementCollection
+    public function hasElements(): ElementCollectionInterface
     {
         $elements = $this->elementCollection->toArray();
+        $this->elementCollection->setElements($elements);
 
         Assert::assertNotEmpty(
             $elements,
@@ -59,12 +60,14 @@ class CollectionAssert
             )
         );
 
-        return new ElementCollection($this->locator, $elements);
+        return $this->elementCollection;
     }
 
-    public function countEquals(int $expectedCount): ElementCollection
+    public function countEquals(int $expectedCount): ElementCollectionInterface
     {
         $elements = $this->elementCollection->toArray();
+        $this->elementCollection->setElements($elements);
+
         Assert::assertCount(
             $expectedCount,
             $elements,
@@ -78,6 +81,6 @@ class CollectionAssert
             )
         );
 
-        return new ElementCollection($this->locator, $elements);
+        return $this->elementCollection;
     }
 }
