@@ -20,8 +20,8 @@
         "ezsystems/allure-behat": "^3.1@dev",
         "ezsystems/allure-php-api": "^3.1@dev",
         "ezsystems/behat-screenshot-image-driver-cloudinary": "^1.1@dev",
-        "ezsystems/ezplatform-http-cache": "^3.0@dev",
-        "ezsystems/ezplatform-kernel": "^2.0@dev",
+        "ezsystems/ezplatform-http-cache": "^4.0@dev",
+        "ezsystems/ezplatform-kernel": "^4.0@dev",
         "friends-of-behat/mink": "^1.8",
         "friends-of-behat/mink-browserkit-driver": "^1.4",
         "friends-of-behat/mink-extension": "^2.4",
@@ -41,8 +41,8 @@
     },
     "require-dev": {
         "ibexa/ci-scripts": "^0.2@dev",
-        "ezsystems/doctrine-dbal-schema": "^2.0@dev",
-        "ezsystems/ezplatform-rest": "^2.0@dev",
+        "ezsystems/doctrine-dbal-schema": "^4.0@dev",
+        "ezsystems/ezplatform-rest": "^4.0@dev",
         "ezsystems/ezplatform-code-style": "^1.0.0",
         "friendsofphp/php-cs-fixer": "^2.16.0",
         "mikey179/vfsstream": "^1.6"
