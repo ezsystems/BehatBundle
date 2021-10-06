@@ -12,7 +12,7 @@ use Ibexa\Behat\Browser\Element\ElementInterface;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 use PHPUnit\Framework\Assert;
 
-class ElementAssert
+class ElementAssert implements ElementAssertInterface
 {
     /**
      * @var \Ibexa\Behat\Browser\Locator\LocatorInterface

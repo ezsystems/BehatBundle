@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Behat\Browser\Element\Debug;
+namespace Ibexa\Behat\Browser\Element\Debug\Highlighting;
 
 use Behat\Mink\Session;
-use Ibexa\Behat\Browser\Assert\ElementAssert;
+use Ibexa\Behat\Browser\Assert\ElementAssertInterface;
 use Ibexa\Behat\Browser\Element\ElementInterface;
 
 final class Element extends BaseElement implements ElementInterface
@@ -26,10 +26,7 @@ final class Element extends BaseElement implements ElementInterface
 
     public function getText(): string
     {
-        usleep(400000);
-        $this->removeTooltip($this);
         $this->markRead($this);
-        usleep(100000);
 
         return $this->element->getText();
     }
@@ -46,10 +43,6 @@ final class Element extends BaseElement implements ElementInterface
 
     public function click(): void
     {
-        usleep(400000);
-        $this->removeTooltip($this);
-        usleep(100000);
-
         $this->element->click();
     }
 
@@ -70,10 +63,6 @@ final class Element extends BaseElement implements ElementInterface
 
     public function mouseOver(): void
     {
-        usleep(400000);
-        $this->removeTooltip($this);
-        usleep(100000);
-
         $this->element->mouseOver();
     }
 
@@ -92,7 +81,7 @@ final class Element extends BaseElement implements ElementInterface
         return $this->element->getOuterHtml();
     }
 
-    public function assert(): ElementAssert
+    public function assert(): ElementAssertInterface
     {
         return $this->element->assert();
     }

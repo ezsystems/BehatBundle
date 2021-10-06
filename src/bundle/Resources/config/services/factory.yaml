@@ -8,9 +8,8 @@ services:
 
     Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface: '@Ibexa\Behat\Browser\Element\Factory\ElementFactory'
 
-    Ibexa\Behat\Browser\Element\Factory\Debug\ElementFactory:
+    Ibexa\Behat\Browser\Element\Factory\Debug\Interactive\ElementFactory:
         autowire: false
         decorates: Ibexa\Behat\Browser\Element\Factory\ElementFactory
         arguments: 
-          - '@behat.mink.default_session'
           - '@.inner'

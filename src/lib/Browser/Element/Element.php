@@ -10,6 +10,7 @@ namespace Ibexa\Behat\Browser\Element;
 
 use Behat\Mink\Element\NodeElement;
 use Ibexa\Behat\Browser\Assert\ElementAssert;
+use Ibexa\Behat\Browser\Assert\ElementAssertInterface;
 use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 use Webdriver\Exception\NoSuchElement;
@@ -106,7 +107,7 @@ final class Element extends BaseElement implements ElementInterface
         return $this->decoratedElement->getOuterHtml();
     }
 
-    public function assert(): ElementAssert
+    public function assert(): ElementAssertInterface
     {
         return new ElementAssert($this->locator, $this);
     }
