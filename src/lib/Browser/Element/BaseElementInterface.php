@@ -19,7 +19,7 @@ interface BaseElementInterface
 
     public function find(LocatorInterface $locator): ElementInterface;
 
-    public function findAll(LocatorInterface $locator): ElementCollection;
+    public function findAll(LocatorInterface $locator): ElementCollectionInterface;
 
     public function waitUntilCondition(ConditionInterface $condition): BaseElementInterface;
 

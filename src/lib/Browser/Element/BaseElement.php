@@ -105,7 +105,7 @@ class BaseElement implements BaseElementInterface
         );
     }
 
-    public function findAll(LocatorInterface $locator): ElementCollection
+    public function findAll(LocatorInterface $locator): ElementCollectionInterface
     {
         return new ElementCollection($locator, $this->internalFindAll($locator));
     }

@@ -9,13 +9,14 @@ declare(strict_types=1);
 namespace Ibexa\Behat\Browser\Element;
 
 use Ibexa\Behat\Browser\Assert\CollectionAssert;
+use Ibexa\Behat\Browser\Assert\CollectionAssertInterface;
 use Ibexa\Behat\Browser\Element\Criterion\CriterionInterface;
 use Ibexa\Behat\Browser\Element\Mapper\MapperInterface;
 use Ibexa\Behat\Browser\Exception\ElementNotFoundException;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 use PHPUnit\Framework\Assert;
 
-class ElementCollection implements \Countable, \IteratorAggregate
+class ElementCollection implements ElementCollectionInterface
 {
     /** @var ElementInterface[]|\Traversable */
     private $elements;
@@ -28,6 +29,11 @@ class ElementCollection implements \Countable, \IteratorAggregate
     {
         $this->elements = $elements;
         $this->locator = $locator;
+    }
+
+    public function setElements(array $elements): void
+    {
+        $this->elements = $elements;
     }
 
     /**
@@ -65,6 +71,8 @@ class ElementCollection implements \Countable, \IteratorAggregate
                 return $element;
             }
         }
+
+        throw new ElementNotFoundException('Callable did not return any elements.');
     }
 
     public function first(): ElementInterface
@@ -174,12 +182,12 @@ class ElementCollection implements \Countable, \IteratorAggregate
         return $result;
     }
 
-    public function filter(callable $callable): self
+    public function filter(callable $callable): ElementCollectionInterface
     {
         return new ElementCollection($this->locator, $this->internalFilter($callable));
     }
 
-    public function filterBy(CriterionInterface $criterion): self
+    public function filterBy(CriterionInterface $criterion): ElementCollectionInterface
     {
         return new ElementCollection($this->locator, $this->internalFilterBy($criterion));
     }
@@ -193,7 +201,7 @@ class ElementCollection implements \Countable, \IteratorAggregate
         return 0 === count($this->elements);
     }
 
-    public function assert(): CollectionAssert
+    public function assert(): CollectionAssertInterface
     {
         return new CollectionAssert($this->locator, $this);
     }

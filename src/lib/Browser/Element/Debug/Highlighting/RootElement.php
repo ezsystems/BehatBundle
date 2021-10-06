@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Behat\Browser\Element\Debug;
+namespace Ibexa\Behat\Browser\Element\Debug\Highlighting;
 
 use Behat\Mink\Session;
 use Ibexa\Behat\Browser\Element\RootElementInterface;
@@ -21,5 +21,10 @@ final class RootElement extends BaseElement implements RootElementInterface
     public function dragAndDrop(string $from, string $hover, string $to): void
     {
         $this->element->dragAndDrop($from, $hover, $to);
+    }
+
+    public function executeJavaScript(string $script): string
+    {
+        return $this->element->executeJavaScript($script);
     }
 }

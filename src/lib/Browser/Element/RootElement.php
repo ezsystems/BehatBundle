@@ -39,4 +39,9 @@ final class RootElement extends BaseElement implements RootElementInterface
     {
         return $this->session->getDriver()->evaluateScript("typeof(dragMock) !== 'undefined'");
     }
+
+    public function executeJavaScript(string $script): string
+    {
+        return $this->session->evaluateScript($script);
+    }
 }
