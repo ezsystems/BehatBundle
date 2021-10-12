@@ -34,7 +34,7 @@ class ElementTextCriterionTest extends BaseTestCase
         ];
     }
 
-    public function testGetErrorMessage(): void
+    public function testGetErrorMessageWhenCollectionHasElements(): void
     {
         $criterion = new ElementTextCriterion('expectedText');
         $nonMatchingElement = $this->createElement('actualText');
@@ -42,6 +42,16 @@ class ElementTextCriterionTest extends BaseTestCase
 
         Assert::assertEquals(
             "Could not find element named: 'expectedText'. Found names: actualText instead. CSS locator 'id': 'selector'.",
+            $criterion->getErrorMessage(new CSSLocator('id', 'selector'))
+        );
+    }
+
+    public function testGetErrorMessageWhenCollectionIsEmpty(): void
+    {
+        $criterion = new ElementTextCriterion('expectedText');
+
+        Assert::assertEquals(
+            "Could not find element named: 'expectedText'. Collection is empty. CSS locator 'id': 'selector'.",
             $criterion->getErrorMessage(new CSSLocator('id', 'selector'))
         );
     }

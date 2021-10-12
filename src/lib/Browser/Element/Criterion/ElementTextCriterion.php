@@ -38,10 +38,19 @@ class ElementTextCriterion implements CriterionInterface
     public function getErrorMessage(LocatorInterface $locator): string
     {
         return
+            $this->results ?
             sprintf(
                 "Could not find element named: '%s'. Found names: %s instead. %s locator '%s': '%s'.",
                 $this->expectedElementText,
                 implode(',', $this->results),
+                strtoupper($locator->getType()),
+                $locator->getIdentifier(),
+                $locator->getSelector()
+            )
+            :
+            sprintf(
+                "Could not find element named: '%s'. Collection is empty. %s locator '%s': '%s'.",
+                $this->expectedElementText,
                 strtoupper($locator->getType()),
                 $locator->getIdentifier(),
                 $locator->getSelector()
