@@ -42,6 +42,6 @@ final class RootElement extends BaseElement implements RootElementInterface
 
     public function executeJavaScript(string $script): string
     {
-        return $this->session->evaluateScript($script);
+        return (string) $this->session->evaluateScript($script);
     }
 }
