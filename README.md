@@ -1,10 +1,15 @@
 # Ibexa BehatBundle
 
+Ibexa BehatBundle makes development of [Behat](https://behat.org/en/latest/) tests for [Ibexa DXP](https://developers.ibexa.co/) quicker and easier.
+
 This package is part of [Ibexa DXP](https://ibexa.co).
 
-To use this package, [install Ibexa DXP](https://doc.ibexa.co/en/latest/install/).
+[Install Ibexa DXP](https://doc.ibexa.co/en/latest/install/) and then install this package to use it:
 
-Ibexa BehatBundle makes development of [Behat](https://behat.org/en/latest/) tests for [Ibexa DXP](https://developers.ibexa.co/) quicker and easier.
+```
+composer require --dev ezsystems/behatbundle --no-scripts --no-plugins
+composer sync-recipes ezsystems/behatbundle --force -v
+```
 
 For more information about BehatBundle, see:
 - [Getting started](doc/getting_started.md)
