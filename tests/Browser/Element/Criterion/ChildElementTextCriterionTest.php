@@ -30,9 +30,9 @@ class ChildElementTextCriterionTest extends BaseTestCase
     public function dataProviderTestMatches(): array
     {
         return [
-            [$this->createElementWithChildElement('ignore', new XPathLocator('id', 'selector'), 'expectedChildText'), true],
-            [$this->createElementWithChildElement('ignore', new XPathLocator('id', 'selector'), 'notExpectedChildText'), false],
-            [$this->createElementWithChildElement('ignore', new XPathLocator('id', 'invalidSelector'), 'expectedChildText'), false],
+            [$this->createElementWithChildElement('ignore', new XPathLocator('id', 'selector'), $this->createElement('expectedChildText')), true],
+            [$this->createElementWithChildElement('ignore', new XPathLocator('id', 'selector'), $this->createElement('notExpectedChildText')), false],
+            [$this->createElementWithChildElement('ignore', new XPathLocator('id', 'invalidSelector'), $this->createElement('expectedChildText')), false],
         ];
     }
 
@@ -40,7 +40,7 @@ class ChildElementTextCriterionTest extends BaseTestCase
     {
         $childLocator = new XPathLocator('id', 'child-selector');
         $criterion = new ChildElementTextCriterion($childLocator, 'expectedChildText');
-        $invalidElement = $this->createElementWithChildElement('ignore', $childLocator, 'expectedChildText');
+        $invalidElement = $this->createElementWithChildElement('ignore', $childLocator, $this->createElement('expectedChildText'));
         $criterion->matches($invalidElement);
 
         Assert::assertEquals(
@@ -56,7 +56,7 @@ class ChildElementTextCriterionTest extends BaseTestCase
     {
         $childLocator = new XPathLocator('id', 'child-selector');
         $criterion = new ChildElementTextCriterion($childLocator, 'expectedChildText');
-        $invalidElement = $this->createElementWithChildElement('ignore', $childLocator, 'notExpectedChildText');
+        $invalidElement = $this->createElementWithChildElement('ignore', $childLocator, $this->createElement('notExpectedChildText'));
         $criterion->matches($invalidElement);
 
         Assert::assertEquals(

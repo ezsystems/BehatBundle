@@ -98,17 +98,6 @@ class BaseElement implements BaseElementInterface
         );
     }
 
-    protected function removeClass(ElementInterface $element, string $class): void
-    {
-        $this->session->executeScript(
-            sprintf(
-                "%s.classList.remove('%s')",
-                $this->getElementScript($element),
-                $class
-            )
-        );
-    }
-
     protected function markRead(ElementInterface $element): void
     {
         $this->addClass($element, self::READ_CLASS);

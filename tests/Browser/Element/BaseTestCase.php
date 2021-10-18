@@ -36,26 +36,26 @@ class BaseTestCase extends TestCase
         return $element;
     }
 
-    protected function createElementWithChildElement(string $elementText, LocatorInterface $childLocator, string $childElementText): ElementInterface
+    protected function createElementWithChildElement(string $elementText, LocatorInterface $childLocator, ElementInterface $childElement): ElementInterface
     {
         $element = $this->createMock(ElementInterface::class);
         $element->method('getText')->willReturn($elementText);
         $element->method('getTimeout')->willReturn(1);
-        $element->method('find')->willReturnCallback(function () use ($childLocator, $childElementText) {
+        $element->method('find')->willReturnCallback(static function () use ($childLocator, $childElement) {
             /** @var \Ibexa\Behat\Browser\Locator\LocatorInterface $locator */
             $locator = func_get_args()[0];
             if ($locator == $childLocator) {
-                return $this->createElement($childElementText);
+                return $childElement;
             }
 
             throw new TimeoutException();
         });
 
-        $element->method('findAll')->willReturnCallback(function () use ($childLocator, $childElementText) {
+        $element->method('findAll')->willReturnCallback(function () use ($childLocator, $childElement) {
             /** @var \Ibexa\Behat\Browser\Locator\LocatorInterface $locator */
             $locator = func_get_args()[0];
             if ($locator == $childLocator) {
-                return $this->createCollection($childLocator, $childElementText);
+                return $this->createCollection($childLocator, $childElement->getText());
             }
 
             return $this->createCollection($childLocator);
