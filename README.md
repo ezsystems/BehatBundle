@@ -7,7 +7,6 @@ To use this package, [install Ibexa DXP](https://doc.ibexa.co/en/latest/install/
 Ibexa BehatBundle makes development of [Behat](https://behat.org/en/latest/) tests for [Ibexa DXP](https://developers.ibexa.co/) quicker and easier.
 
 For more information about BehatBundle, see:
-
 - [Getting started](doc/getting_started.md)
 - [Running tests](doc/running_tests.md)
 - [Available features](doc/features.md)
@@ -31,9 +30,7 @@ For the full Ibexa BUL license text, please see:
 
 AND
 
-B - Ibexa Trial and Test License Agreement (Ibexa TTL),
-version 2.2 or later versions (as license terms may be updated from time to time)
-Trial can be granted by Ibexa, reach out to Ibexa AS for evaluation access: https://www.ibexa.co/about-ibexa/contact-us
-For the full Ibexa TTL license text, please see:
+B - GNU General Public License, version 2 Grants an copyleft open source license with ABSOLUTELY NO WARRANTY. 
+For the full GPL license text, please see:
 - LICENSE file placed in the root of this source code, or
 - https://www.ibexa.co/software-information/licenses-and-agreements (latest version applies)
