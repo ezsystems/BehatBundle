@@ -35,7 +35,7 @@ class ElementAttributeCriterionTest extends BaseTestCase
         ];
     }
 
-    public function testGetErrorMessage(): void
+    public function testGetErrorMessageWhenOtherElementFound(): void
     {
         $criterion = new ElementAttributeCriterion('expectedAttribute', 'expectedValue');
         $nonMatchingElement = $this->createElementWithAttribute('expectedAttribute', 'notexpectedValue');
@@ -43,6 +43,16 @@ class ElementAttributeCriterionTest extends BaseTestCase
 
         Assert::assertEquals(
             "Could not find element with attribute 'expectedAttribute' matching value 'expectedValue'. Found values: notexpectedValue instead. css locator 'id': 'selector'.",
+            $criterion->getErrorMessage(new CSSLocator('id', 'selector'))
+        );
+    }
+
+    public function testGetErrorMessageWhenNoElementFound(): void
+    {
+        $criterion = new ElementAttributeCriterion('expectedAttribute', 'expectedValue');
+
+        Assert::assertEquals(
+            "Could not find element with attribute 'expectedAttribute' matching value 'expectedValue'. Collection is empty. css locator 'id': 'selector'.",
             $criterion->getErrorMessage(new CSSLocator('id', 'selector'))
         );
     }

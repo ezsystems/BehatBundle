@@ -38,13 +38,22 @@ class ElementTextFragmentCriterion implements CriterionInterface
     public function getErrorMessage(LocatorInterface $locator): string
     {
         return
-            sprintf(
-                "Could not find element with text containing: '%s'. Found texts: %s instead. %s locator '%s': '%s'.",
-                $this->expectedElementTextFragment,
-                implode(',', $this->results),
-                strtoupper($locator->getType()),
-                $locator->getIdentifier(),
-                $locator->getSelector()
-            );
+            $this->results ?
+                sprintf(
+                    "Could not find element with text containing: '%s'. Found texts: %s instead. %s locator '%s': '%s'.",
+                    $this->expectedElementTextFragment,
+                    implode(',', $this->results),
+                    strtoupper($locator->getType()),
+                    $locator->getIdentifier(),
+                    $locator->getSelector()
+                )
+                :
+                sprintf(
+                    "Could not find element with text containing: '%s'. Collection is empty. %s locator '%s': '%s'.",
+                    $this->expectedElementTextFragment,
+                    strtoupper($locator->getType()),
+                    $locator->getIdentifier(),
+                    $locator->getSelector()
+                );
     }
 }
