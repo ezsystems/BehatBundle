@@ -40,11 +40,21 @@ class ElementAttributeCriterion implements CriterionInterface
     public function getErrorMessage(LocatorInterface $locator): string
     {
         return
+            $this->results ?
             sprintf(
                 "Could not find element with attribute '%s' matching value '%s'. Found values: %s instead. %s locator '%s': '%s'.",
                 $this->attribute,
                 $this->expectedAttributeValue,
                 implode(',', $this->results),
+                $locator->getType(),
+                $locator->getIdentifier(),
+                $locator->getSelector()
+            )
+            :
+            sprintf(
+                "Could not find element with attribute '%s' matching value '%s'. Collection is empty. %s locator '%s': '%s'.",
+                $this->attribute,
+                $this->expectedAttributeValue,
                 $locator->getType(),
                 $locator->getIdentifier(),
                 $locator->getSelector()

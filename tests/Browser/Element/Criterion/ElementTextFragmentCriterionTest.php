@@ -35,7 +35,7 @@ class ElementTextFragmentCriterionTest extends BaseTestCase
         ];
     }
 
-    public function testGetErrorMessage(): void
+    public function testGetErrorMessageWhenOtherElementFound(): void
     {
         $criterion = new ElementTextFragmentCriterion('expectedText');
         $nonMatchingElement = $this->createElement('actualText');
@@ -43,6 +43,16 @@ class ElementTextFragmentCriterionTest extends BaseTestCase
 
         Assert::assertEquals(
             "Could not find element with text containing: 'expectedText'. Found texts: actualText instead. CSS locator 'id': 'selector'.",
+            $criterion->getErrorMessage(new CSSLocator('id', 'selector'))
+        );
+    }
+
+    public function testGetErrorMessageWhenNoElementFound(): void
+    {
+        $criterion = new ElementTextFragmentCriterion('expectedText');
+
+        Assert::assertEquals(
+            "Could not find element with text containing: 'expectedText'. Collection is empty. CSS locator 'id': 'selector'.",
             $criterion->getErrorMessage(new CSSLocator('id', 'selector'))
         );
     }
