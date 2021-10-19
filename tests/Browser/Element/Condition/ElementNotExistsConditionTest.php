@@ -20,7 +20,9 @@ class ElementNotExistsConditionTest extends BaseTestCase
         $searchedElementLocator = new CSSLocator('not-exist-id', 'not-exist-selector');
         $condition = new ElementNotExistsCondition(
             $this->createElementWithChildElement(
-                'root', new CSSLocator('dummy-id', 'dummy-selector'), 'DummyText',
+                'root',
+                new CSSLocator('dummy-id', 'dummy-selector'),
+                $this->createElement('DummyText')
             ),
             $searchedElementLocator
         );
@@ -32,7 +34,7 @@ class ElementNotExistsConditionTest extends BaseTestCase
     {
         $shouldNotExistLocator = new CSSLocator('should-not-exist-id', 'should-not-exist-selector');
         $condition = new ElementNotExistsCondition(
-            $this->createElementWithChildElement('root', $shouldNotExistLocator, 'ChildText'),
+            $this->createElementWithChildElement('root', $shouldNotExistLocator, $this->createElement('ChildText')),
             $shouldNotExistLocator
         );
         $invokingElement = $this->createElement('Test');
