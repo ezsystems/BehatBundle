@@ -52,9 +52,6 @@ before_install:
   - travis_retry composer selfupdate
   # Avoid memory issues on composer install
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  # Load cached Docker images
-  - if [ "${BEHAT_OPTS}" != "" ] ; then docker load -i $HOME/.docker_images/$(echo ${COMPOSE_FILE} | md5sum | awk '{ print $1 }').tar || true ; fi 
-
 
 install:
   - travis_retry composer install --prefer-dist --no-interaction --no-suggest
