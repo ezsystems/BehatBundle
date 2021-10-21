@@ -22,10 +22,6 @@ branches:
 
 jobs:
   include:
-    - name: "Code Style Check"
-      env: CHECK_CS=1
-    - name: "Unit tests"
-      env: PHPUNIT_CONFIG='phpunit.xml'
     - name: "BehatBundle examples"
       php: 7.3
       env: BEHAT_OPTS="--mode=standard --profile=service --suite=examples -c=behat_ibexa_oss.yaml"
@@ -56,23 +52,17 @@ before_install:
   - travis_retry composer selfupdate
   # Avoid memory issues on composer install
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  # Load cached Docker images
-  - if [ "${BEHAT_OPTS}" != "" ] ; then docker load -i $HOME/.docker_images/$(echo ${COMPOSE_FILE} | md5sum | awk '{ print $1 }').tar || true ; fi 
-
 
 install:
   - travis_retry composer install --prefer-dist --no-interaction --no-suggest
-  # Prepare whole environment if needed
-  - if [ "${BEHAT_OPTS}" != "" ] ; then ./vendor/bin/prepare_project_edition.sh oss ${PROJECT_VERSION} ${COMPOSE_FILE} ; fi
+  - ./vendor/bin/prepare_project_edition.sh oss ${PROJECT_VERSION} ${COMPOSE_FILE}
 
 before_script:
   - if [ "${SETUP_BEHAT_OPTS}" != "" ] ; then cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "vendor/bin/ezbehat $SETUP_BEHAT_OPTS" ; fi
   - if [ "${SETUP_BEHAT_OPTS}" != "" ] ; then cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "composer run post-install-cmd" ; fi
 
 script:
-  - if [ "${CHECK_CS}" == "1" ] ; then ./vendor/bin/php-cs-fixer fix -v --dry-run --show-progress=estimating ; fi
-  - if [ "${PHPUNIT_CONFIG}" != '' ] ; then ./vendor/bin/phpunit -c "${PHPUNIT_CONFIG}"; fi
-  - if [ "${BEHAT_OPTS}" != "" ] ; then cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "vendor/bin/ezbehat $BEHAT_OPTS" ; fi
+  - cd "$HOME/build/project"; docker-compose exec --user www-data app sh -c "vendor/bin/ezbehat $BEHAT_OPTS"
 
 after_failure:
   # Will show us the last bit of the log of container's main processes
@@ -83,4 +73,4 @@ after_failure:
   - docker ps -s
 
 after_script:
-  - if [ "${BEHAT_OPTS}" != "" ] ; then vendor/bin/ezreport; fi
+  - vendor/bin/ezreport
