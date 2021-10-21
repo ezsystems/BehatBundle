@@ -22,10 +22,6 @@ branches:
 
 jobs:
   include:
-    - name: "Code Style Check"
-      env: CHECK_CS=1
-    - name: "Unit tests"
-      env: PHPUNIT_CONFIG='phpunit.xml'
     - name: "BehatBundle examples"
       php: 7.3
       env: BEHAT_OPTS="--mode=standard --profile=behat --suite=examples"
@@ -59,19 +55,15 @@ before_install:
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
 install:
-  # Install packages if needed
-  - if [ "${CHECK_CS}" == "1" -o "${PHPUNIT_CONFIG}" != "" ]; then travis_retry composer install --prefer-dist --no-interaction --no-suggest ; fi
   # Prepare whole environment if needed
-  - if [ "${BEHAT_OPTS}" != "" ]; then ./bin/.travis/prepare_ezplatform.sh ; fi
+  - ./bin/.travis/prepare_ezplatform.sh
 
 before_script:
   - if [ "${SETUP_BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/ezbehat $SETUP_BEHAT_OPTS" ; fi
   - if [ "${SETUP_BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "composer run post-install-cmd" ; fi
 
 script:
-  - if [ "${CHECK_CS}" == "1" ] ; then ./vendor/bin/php-cs-fixer fix -v --dry-run --show-progress=estimating ; fi
-  - if [ "${PHPUNIT_CONFIG}" != '' ]; then ./vendor/bin/phpunit -c "${PHPUNIT_CONFIG}"; fi
-  - if [ "${BEHAT_OPTS}" != "" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/ezbehat $BEHAT_OPTS" ; fi
+  - cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/ezbehat $BEHAT_OPTS"
 
 after_failure:
   # Will show us the last bit of the log of container's main processes
@@ -82,4 +74,4 @@ after_failure:
   - docker ps -s
 
 after_script:
-  - if [ "${BEHAT_OPTS}" != "" ] ; then bin/ezreport; fi
+  - bin/ezreport
