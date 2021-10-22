@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Element\Debug\Interactive;
 
+use Exception;
 use EzSystems\Behat\Core\Debug\InteractiveDebuggerTrait;
 use Ibexa\Behat\Browser\Element\RootElementInterface;
 
@@ -29,7 +30,7 @@ final class RootElement extends BaseElement implements RootElementInterface
     {
         try {
             return $this->element->executeJavaScript($script);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $exceptionWithScript = new Exception(sprintf('Script: %s, Error: %s', $script, $exception->getMessage()));
 
             $this->startInteractiveSessionOnException($exceptionWithScript, true);
