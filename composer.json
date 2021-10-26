@@ -11,7 +11,7 @@
     "require": {
         "php": "^7.1",
         "ext-curl": "*",
-        "ezsystems/ezpublish-kernel": "^7.5@dev",
+        "ezsystems/ezpublish-kernel": "^7.5",
         "fzaninotto/faker": "^1.8",
         "kriswallsmith/buzz": "^0.17.2",
         "nyholm/psr7": "^1.1",
