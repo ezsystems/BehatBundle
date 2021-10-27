@@ -13,7 +13,7 @@ use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
 use EzSystems\Behat\API\ContentData\FieldTypeNameConverter;
-use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
+use Ibexa\Core\Persistence\Cache\Tag\CacheIdentifierGeneratorInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 
 class ContentTypeFacade
@@ -28,7 +28,7 @@ class ContentTypeFacade
     /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
     private $cachePool;
 
-    /** @var Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
+    /** @var \Ibexa\Core\Persistence\Cache\Tag\CacheIdentifierGeneratorInterface */
     private $cacheIdentifierGenerator;
 
     public function __construct(
