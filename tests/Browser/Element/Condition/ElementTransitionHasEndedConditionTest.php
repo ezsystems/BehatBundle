@@ -16,30 +16,25 @@ use PHPUnit\Framework\Assert;
 
 class ElementTransitionHasEndedConditionTest extends BaseTestCase
 {
-    public function testElementConditionHasEnded(): void
+    public function testElementTransitionHasEnded(): void
     {
         $searchedElementLocator = new CSSLocator('searched-id', 'searched-test');
-        $childElement = $this->createStub(ElementInterface::class);
-        $childElement->method('getText')->willReturn('ChildText');
-        $childElement->method('hasClass')->will($this->returnValueMap([
-                ['ibexa-selenium-transition-ended', true],
-            ]
-        ));
 
         $condition = new ElementTransitionHasEndedCondition(
-            $this->createElementWithChildElement('root', $searchedElementLocator, $childElement),
+            $this->createElementWithChildElement('root', $searchedElementLocator, $this->createChildElement(false, true)),
             $searchedElementLocator
         );
 
         Assert::assertTrue($condition->isMet());
     }
 
-    public function testElementDoesNotHaveExpectedClass(): void
+    public function testElementTransitionHasNotEndedInTime(): void
     {
         $searchedElementLocator = new CSSLocator('searched-id', 'searched-test');
         $baseElement = $this->createElementWithChildElement('root', $searchedElementLocator, $this->createElement('ChildText'));
+
         $condition = new ElementTransitionHasEndedCondition(
-            $baseElement,
+            $this->createElementWithChildElement('root', $searchedElementLocator, $this->createChildElement(true, false)),
             $searchedElementLocator
         );
 
@@ -48,5 +43,35 @@ class ElementTransitionHasEndedConditionTest extends BaseTestCase
             "Transition has not ended for element with CSS locator 'searched-id': 'searched-test'. Timeout value: 1 seconds.",
             $condition->getErrorMessage($baseElement)
         );
+    }
+
+    public function testElementTransitionHasNotStarted(): void
+    {
+        $searchedElementLocator = new CSSLocator('searched-id', 'searched-test');
+        $baseElement = $this->createElementWithChildElement('root', $searchedElementLocator, $this->createElement('ChildText'));
+
+        $condition = new ElementTransitionHasEndedCondition(
+            $this->createElementWithChildElement('root', $searchedElementLocator, $this->createChildElement(false, false)),
+            $searchedElementLocator
+        );
+
+        Assert::assertFalse($condition->isMet());
+        Assert::assertEquals(
+            "Transition has not started at all for element with CSS locator 'searched-id': 'searched-test'. Please make sure the condition is used on the correct element. Timeout value: 1 seconds.",
+            $condition->getErrorMessage($baseElement)
+        );
+    }
+
+    private function createChildElement(bool $hasStartedTransition, bool $hasEndedTransition): ElementInterface
+    {
+        $childElement = $this->createStub(ElementInterface::class);
+        $childElement->method('getText')->willReturn('ChildText');
+        $childElement->method('hasClass')->will($this->returnValueMap([
+                ['ibexa-selenium-transition-started', $hasStartedTransition],
+                ['ibexa-selenium-transition-ended', $hasEndedTransition],
+            ]
+        ));
+
+        return $childElement;
     }
 }
