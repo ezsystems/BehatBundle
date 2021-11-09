@@ -27,7 +27,7 @@ class FileUploadHelper
     public function getRemoteFileUploadPath($filename)
     {
         if (!preg_match('#[\w\\\/\.]*\.zip$#', $filename)) {
-            throw new InvalidArgumentException('Zip archive required to upload to remote browser machine.');
+            throw new \InvalidArgumentException('Zip archive required to upload to remote browser machine.');
         }
 
         $localFile = sprintf('%s%s', $this->minkParameters['files_path'], $filename);
