@@ -16,6 +16,7 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\User\Limitation\RoleLimitation;
 use eZ\Publish\API\Repository\Values\User\UserGroup;
+use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 
@@ -108,14 +109,19 @@ class UserFacade
         $query = new Query();
         $query->filter = new Criterion\LogicalAnd([
             new Criterion\ContentTypeIdentifier(self::USERGROUP_CONTENT_IDENTIFIER),
-            new Criterion\Field('name', Criterion\Operator::EQ, $userGroupName),
         ]);
 
         $result = $this->searchService->findContent($query);
 
-        /** @var \eZ\Publish\API\Repository\Values\Content\Content $content */
-        $content = $result->searchHits[0]->valueObject;
+        foreach ($result->searchHits as $searchHit) {
+            /** @var \eZ\Publish\API\Repository\Values\Content\Content $content */
+            $content = $searchHit->valueObject;
 
-        return $this->userService->loadUserGroup($content->contentInfo->id);
+            if ($content->contentInfo->name === $userGroupName) {
+                return $this->userService->loadUserGroup($content->contentInfo->id);
+            }
+        }
+
+        throw new NotFoundException('User Group', $userGroupName);
     }
 }
