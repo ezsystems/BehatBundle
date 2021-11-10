@@ -83,6 +83,26 @@ class UserFacade
         $this->userService->createUser($userCreateStruct, [$parentGroup]);
     }
 
+    public function createUserWithKnownEmail($userName, $userLastName, $userGroupName = null, $languageCode = 'eng-GB')
+    {
+        $userCreateStruct = $this->userService->newUserCreateStruct(
+            $userName,
+            $userName . '@example.com',
+            $this->getDefaultPassword(),
+            $languageCode,
+            $this->contentTypeService->loadContentTypeByIdentifier(self::USER_CONTENT_TYPE_IDENTIFIER)
+        );
+
+        $userCreateStruct->setField('first_name', $userName);
+        $userCreateStruct->setField('last_name', $userLastName);
+
+        $parentGroup = null !== $userGroupName ?
+            $this->loadUserGroupByName($userGroupName) :
+            $this->userService->loadUserGroup(self::ROOT_USERGROUP_CONTENT_ID);
+
+        $this->userService->createUser($userCreateStruct, [$parentGroup]);
+    }
+
     public function assignUserToRole($userName, $roleName)
     {
         $user = $this->userService->loadUserByLogin($userName);

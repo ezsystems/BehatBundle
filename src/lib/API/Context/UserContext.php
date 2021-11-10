@@ -45,6 +45,15 @@ class UserContext implements Context
     }
 
     /**
+     * @Given I create a user :userName with last name :userLastName and known email
+     * @Given I create a user :userName with last name :userLastName and known email in group :userGroupName
+     */
+    public function createUserWithKnownEmailInGroup(string $userName, string $userLastName, string $userGroupName = null): void
+    {
+        $this->userFacade->createUserWithKnownEmail($userName, $userLastName, $userGroupName);
+    }
+
+    /**
      * @Given I assign user :userName to role :roleName
      */
     public function assignUserToRole(string $userName, string $roleName): void
