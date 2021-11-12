@@ -109,6 +109,28 @@ class UserFacade
         $query = new Query();
         $query->filter = new Criterion\LogicalAnd([
             new Criterion\ContentTypeIdentifier(self::USERGROUP_CONTENT_IDENTIFIER),
+            new Criterion\Field('name', Criterion\Operator::EQ, $userGroupName),
+        ]);
+
+        $result = $this->searchService->findContent($query);
+
+        if (count($result->searchHits) > 0) {
+            $content = $result->searchHits[0]->valueObject;
+
+            return $this->userService->loadUserGroup($content->contentInfo->id);
+        }
+
+        return $this->loadLegacyUserGroupByName($userGroupName);
+    }
+
+    private function loadLegacyUserGroupByName(string $userGroupName): UserGroup
+    {
+        // There are some groups that loadUserGroupByName cannot load (missing data in SQL installer)
+        // We need to use a broader criterion to find them
+
+        $query = new Query();
+        $query->filter = new Criterion\LogicalAnd([
+            new Criterion\ContentTypeIdentifier(self::USERGROUP_CONTENT_IDENTIFIER),
         ]);
 
         $result = $this->searchService->findContent($query);
