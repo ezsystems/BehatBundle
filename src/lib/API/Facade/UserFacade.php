@@ -16,6 +16,7 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\User\Limitation\RoleLimitation;
 use eZ\Publish\API\Repository\Values\User\UserGroup;
+use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 
@@ -113,9 +114,36 @@ class UserFacade
 
         $result = $this->searchService->findContent($query);
 
-        /** @var \eZ\Publish\API\Repository\Values\Content\Content $content */
-        $content = $result->searchHits[0]->valueObject;
+        if (count($result->searchHits) > 0) {
+            $content = $result->searchHits[0]->valueObject;
 
-        return $this->userService->loadUserGroup($content->contentInfo->id);
+            return $this->userService->loadUserGroup($content->contentInfo->id);
+        }
+
+        return $this->loadLegacyUserGroupByName($userGroupName);
+    }
+
+    private function loadLegacyUserGroupByName(string $userGroupName): UserGroup
+    {
+        // There are some groups that loadUserGroupByName cannot load (missing data in SQL installer)
+        // We need to use a broader criterion to find them
+
+        $query = new Query();
+        $query->filter = new Criterion\LogicalAnd([
+            new Criterion\ContentTypeIdentifier(self::USERGROUP_CONTENT_IDENTIFIER),
+        ]);
+
+        $result = $this->searchService->findContent($query);
+
+        foreach ($result->searchHits as $searchHit) {
+            /** @var \eZ\Publish\API\Repository\Values\Content\Content $content */
+            $content = $searchHit->valueObject;
+
+            if ($content->contentInfo->name === $userGroupName) {
+                return $this->userService->loadUserGroup($content->contentInfo->id);
+            }
+        }
+
+        throw new NotFoundException('User Group', $userGroupName);
     }
 }
