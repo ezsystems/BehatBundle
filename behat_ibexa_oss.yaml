@@ -1,10 +1,10 @@
 imports:
     - vendor/ezsystems/behatbundle/behat_suites.yml
-    - vendor/ezsystems/ezplatform-admin-ui/behat_suites.yml
-    - vendor/ezsystems/ezplatform-content-forms/behat_suites.yml
-    - vendor/ezsystems/ezplatform-http-cache/behat_suites.yml
-    - vendor/ezsystems/ezplatform-kernel/eZ/Bundle/EzPublishCoreBundle/behat_suites.yml
-    - vendor/ezsystems/ezplatform-user/behat_suites.yml
+    - vendor/ibexa/admin-ui/behat_suites.yml
+    - vendor/ibexa/content-forms/behat_suites.yml
+    - vendor/ibexa/http-cache/behat_suites.yml
+    - vendor/ibexa/core/src/bundle/Core/behat_suites.yaml
+    - vendor/ibexa/user/behat_suites.yml
 
 default:
     calls:
@@ -17,7 +17,7 @@ default:
           output_path: '%paths.base%/build/allure'
     extensions:
         Behat\MinkExtension:
-            files_path: '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/src/lib/Behat/TestFiles/'
+            files_path: '%paths.base%/vendor/ibexa/admin-ui/src/lib/Behat/TestFiles/'
             base_url: 'http://localhost'
             goutte: ~
             javascript_session: selenium
@@ -85,9 +85,9 @@ regression:
                 - EzSystems\Behat\Core\Context\FileContext
         oss:
             paths:
-              - '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/features/personas'
-              - '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/features/standard'
-              - '%paths.base%/vendor/ezsystems/ezplatform-user/features/browser'
+              - '%paths.base%/vendor/ibexa/admin-ui/features/personas'
+              - '%paths.base%/vendor/ibexa/admin-ui/features/standard'
+              - '%paths.base%/vendor/ibexa/user/features/browser'
             filters:
                 tags: "~@broken && @IbexaOSS"
             contexts: 

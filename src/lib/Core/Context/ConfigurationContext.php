@@ -30,7 +30,7 @@ class ConfigurationContext implements Context
     public function __construct(string $projectDir, ConfigurationEditorInterface $configurationEditor)
     {
         $this->projectDir = $projectDir;
-        $this->ezplatformConfigFilePath = sprintf('%s/config/packages/ezplatform.yaml', $projectDir);
+        $this->ezplatformConfigFilePath = sprintf('%s/config/packages/ibexa.yaml', $projectDir);
         $this->configurationEditor = $configurationEditor;
     }
 

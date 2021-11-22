@@ -1,11 +1,11 @@
 imports:
     - behat_ibexa_content.yaml
-    - vendor/ezsystems/date-based-publisher/behat_suites_experience.yml
-    - vendor/ezsystems/ezplatform-form-builder/behat_suites.yml
-    - vendor/ezsystems/ezplatform-page-builder/behat_suites.yml
-    - vendor/ezsystems/ezplatform-page-fieldtype/behat_suites.yml
-    - vendor/ezsystems/ezplatform-site-factory/behat_suites.yml
-    - vendor/ezsystems/ezplatform-workflow/behat_suites_experience.yml
+    - vendor/ibexa/scheduler/behat_suites_experience.yml
+    - vendor/ibexa/form-builder/behat_suites.yml
+    - vendor/ibexa/page-builder/behat_suites.yml
+    - vendor/ibexa/fieldtype-page/behat_suites.yml
+    - vendor/ibexa/site-factory/behat_suites.yml
+    - vendor/ibexa/workflow/behat_suites_experience.yml
 
 regression:
     suites:
@@ -14,7 +14,7 @@ regression:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/personas'
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_styles.feature'
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_tags.feature'
-                - '%paths.base%/vendor/ezsystems/ezplatform-workflow/features/setup/setup_experience.feature'
+                - '%paths.base%/vendor/ibexa/workflow/features/setup/setup_experience.feature'
             contexts:
                 - EzSystems\Behat\API\Context\ContentContext
                 - EzSystems\Behat\API\Context\ContentTypeContext
@@ -25,15 +25,15 @@ regression:
                 - EzSystems\Behat\Core\Context\FileContext
         experience:
             paths:
-              - '%paths.base%/vendor/ezsystems/date-based-publisher/features'
-              - '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/features/personas'
-              - '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/features/standard'
-              - '%paths.base%/vendor/ezsystems/ezplatform-form-builder/features'
-              - '%paths.base%/vendor/ezsystems/ezplatform-page-builder/features/DynamicLandingPage'
-              - '%paths.base%/vendor/ezsystems/ezplatform-page-builder/features/personas'
-              - '%paths.base%/vendor/ezsystems/ezplatform-page-fieldtype/features/eventSource'
-              - '%paths.base%/vendor/ezsystems/ezplatform-user/features/browser'
-              - '%paths.base%/vendor/ezsystems/ezplatform-workflow/features/browser'
+              - '%paths.base%/vendor/ibexa/scheduler/features'
+              - '%paths.base%/vendor/ibexa/admin-ui/features/personas'
+              - '%paths.base%/vendor/ibexa/admin-ui/features/standard'
+              - '%paths.base%/vendor/ibexa/form-builder/features'
+              - '%paths.base%/vendor/ibexa/page-builder/features/DynamicLandingPage'
+              - '%paths.base%/vendor/ibexa/page-builder/features/personas'
+              - '%paths.base%/vendor/ibexa/fieldtype-page/features/eventSource'
+              - '%paths.base%/vendor/ibexa/user/features/browser'
+              - '%paths.base%/vendor/ibexa/workflow/features/browser'
             filters:
                 tags: "~@broken && @IbexaExperience"
             contexts: 
