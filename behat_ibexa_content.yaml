@@ -1,7 +1,7 @@
 imports:
     - behat_ibexa_oss.yaml
-    - vendor/ezsystems/date-based-publisher/behat_suites_content.yml
-    - vendor/ezsystems/ezplatform-workflow/behat_suites_content.yml
+    - vendor/ibexa/scheduler/behat_suites_content.yml
+    - vendor/ibexa/workflow/behat_suites_content.yml
 
 regression:
     suites:
@@ -10,7 +10,7 @@ regression:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/personas'
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_styles.feature'
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_tags.feature'
-                - '%paths.base%/vendor/ezsystems/ezplatform-workflow/features/setup/setup_content.feature'
+                - '%paths.base%/vendor/ibexa/workflow/features/setup/setup_content.feature'
             contexts:
                 - EzSystems\Behat\API\Context\ContentContext
                 - EzSystems\Behat\API\Context\ContentTypeContext
@@ -21,11 +21,11 @@ regression:
                 - EzSystems\Behat\Core\Context\FileContext
         content:
             paths:
-              - '%paths.base%/vendor/ezsystems/date-based-publisher/features'
-              - '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/features/personas'
-              - '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/features/standard'
-              - '%paths.base%/vendor/ezsystems/ezplatform-user/features/browser'
-              - '%paths.base%/vendor/ezsystems/ezplatform-workflow/features/browser'
+              - '%paths.base%/vendor/ibexa/scheduler/features'
+              - '%paths.base%/vendor/ibexa/admin-ui/features/personas'
+              - '%paths.base%/vendor/ibexa/admin-ui/features/standard'
+              - '%paths.base%/vendor/ibexa/user/features/browser'
+              - '%paths.base%/vendor/ibexa/workflow/features/browser'
             filters:
                 tags: "~@broken && @IbexaContent"
             contexts: 
