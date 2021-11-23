@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Locator;
 
-use Ibexa\Behat\Browser\Element\ElementInterface;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
+use Ibexa\Behat\Browser\Element\ElementInterface;
 
 class VisibleCSSLocator extends CSSLocator
 {
@@ -19,8 +19,7 @@ class VisibleCSSLocator extends CSSLocator
 
         try {
             return $parentResult && $foundElement->isVisible();
-        }
-        catch (UnsupportedDriverActionException $exception) {
+        } catch (UnsupportedDriverActionException $exception) {
             return $parentResult;
         }
     }
