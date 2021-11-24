@@ -74,3 +74,8 @@ setup:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/multirepository'
             contexts:
                 - EzSystems\Behat\Core\Context\ConfigurationContext
+        login-methods:
+            paths:
+                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/loginMethods'
+            contexts:
+                - EzSystems\Behat\Core\Context\ConfigurationContext
