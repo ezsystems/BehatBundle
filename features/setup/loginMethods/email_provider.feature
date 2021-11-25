@@ -5,6 +5,9 @@ Feature: Email provider setup for testing
     """
             chain:
                 providers: [ ezplatform_email, ezplatform_username ]
+    """
+    And I append configuration to "security.providers" in "config/packages/security.yaml"
+    """
         ezplatform_email:
             id: ezpublish.security.user_provider.email
         ezplatform_username:
