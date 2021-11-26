@@ -38,7 +38,8 @@ class UserContext implements Context
     /**
      * @Given I create a user :userName with last name :userLastName
      * @Given I create a user :userName with last name :userLastName in group :userGroupName
-     * @Given I create a user :userName with last name :userLastName (in group :userGroupName) with email :userEmail
+     * @Given I create a user :userName with last name :userLastName with email :userEmail
+     * @Given I create a user :userName with last name :userLastName in group :userGroupName with email :userEmail
      */
     public function createUserInGroupWithEmail(string $userName, string $userLastName, string $userGroupName = null, string $userEmail = null): void
     {
