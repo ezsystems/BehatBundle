@@ -63,31 +63,11 @@ class UserFacade
         $this->userService->createUserGroup($userGroupStruct, $parentGroup);
     }
 
-    public function createUser($userName, $userLastName, $userGroupName = null, $languageCode = 'eng-GB')
+    public function createUser($userName, $userLastName, $userGroupName = null, $userEmail = null, $languageCode = 'eng-GB')
     {
         $userCreateStruct = $this->userService->newUserCreateStruct(
             $userName,
-            $this->randomDataGenerator->getFaker()->email,
-            $this->getDefaultPassword(),
-            $languageCode,
-            $this->contentTypeService->loadContentTypeByIdentifier(self::USER_CONTENT_TYPE_IDENTIFIER)
-        );
-
-        $userCreateStruct->setField('first_name', $userName);
-        $userCreateStruct->setField('last_name', $userLastName);
-
-        $parentGroup = null !== $userGroupName ?
-            $this->loadUserGroupByName($userGroupName) :
-            $this->userService->loadUserGroup(self::ROOT_USERGROUP_CONTENT_ID);
-
-        $this->userService->createUser($userCreateStruct, [$parentGroup]);
-    }
-
-    public function createUserWithKnownEmail($userName, $userLastName, $userGroupName = null, $languageCode = 'eng-GB')
-    {
-        $userCreateStruct = $this->userService->newUserCreateStruct(
-            $userName,
-            $userName . '@example.com',
+            $userEmail == null ? $this->randomDataGenerator->getFaker()->email : $userEmail,
             $this->getDefaultPassword(),
             $languageCode,
             $this->contentTypeService->loadContentTypeByIdentifier(self::USER_CONTENT_TYPE_IDENTIFIER)
