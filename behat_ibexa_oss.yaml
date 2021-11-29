@@ -75,6 +75,7 @@ regression:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/personas'
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_styles.feature'
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_tags.feature'
+                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/loginMethods'
             contexts:
                 - EzSystems\Behat\API\Context\ContentContext
                 - EzSystems\Behat\API\Context\ContentTypeContext
