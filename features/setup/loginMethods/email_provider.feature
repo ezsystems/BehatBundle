@@ -3,8 +3,8 @@ Feature: Email provider setup for testing
   Scenario: Set up both username and email providers
     Given I set configuration to "security.providers.ezplatform" in "config/packages/security.yaml"
     """
-            chain:
-                providers: [ ezplatform_email, ezplatform_username ]
+        chain:
+            providers: [ ezplatform_email, ezplatform_username ]
     """
     And I append configuration to "security.providers" in "config/packages/security.yaml"
     """
