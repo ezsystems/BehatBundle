@@ -89,7 +89,7 @@ regression:
               - '%paths.base%/vendor/ibexa/admin-ui/features/standard'
               - '%paths.base%/vendor/ibexa/user/features/browser'
             filters:
-                tags: "~@broken && @IbexaOSS"
+                tags: "~@broken&&@IbexaOSS"
             contexts: 
                 - Behat\MinkExtension\Context\MinkContext
                 - EzSystems\Behat\API\Context\ContentContext

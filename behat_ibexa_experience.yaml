@@ -35,7 +35,7 @@ regression:
               - '%paths.base%/vendor/ibexa/user/features/browser'
               - '%paths.base%/vendor/ibexa/workflow/features/browser'
             filters:
-                tags: "~@broken && @IbexaExperience"
+                tags: "~@broken&&@IbexaExperience"
             contexts: 
                 - Behat\MinkExtension\Context\MinkContext
                 - EzSystems\Behat\API\Context\ContentContext
