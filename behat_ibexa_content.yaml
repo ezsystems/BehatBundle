@@ -27,7 +27,7 @@ regression:
               - '%paths.base%/vendor/ezsystems/ezplatform-user/features/browser'
               - '%paths.base%/vendor/ezsystems/ezplatform-workflow/features/browser'
             filters:
-                tags: "~@broken && @IbexaContent"
+                tags: "~@broken&&@IbexaContent"
             contexts: 
                 - Behat\MinkExtension\Context\MinkContext
                 - EzSystems\Behat\API\Context\ContentContext
