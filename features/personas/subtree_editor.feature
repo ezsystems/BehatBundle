@@ -44,8 +44,8 @@ Feature: Editor that has access only to a Subtree of Content Structure
       | content     | reverserelatedlist |
     And I create a role "ReadNodesForSubtreeEditors"
     And I add policy "content" "read" to "ReadNodesForSubtreeEditors" with limitations
-      | limitationType      | limitationValue         |
-      | Location            | root,/FolderGrandParent |
+      | limitationType      | limitationValue                       |
+      | Location            | root,/FolderGrandParent,taxonomy/tags |
     And I add policy "content" "versionread" to "ReadNodesForSubtreeEditors" with limitations
       | limitationType      | limitationValue         |
       | Location            | root,/FolderGrandParent |

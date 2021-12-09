@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Context\LimitationParser;
 
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\User\Limitation;
@@ -38,8 +39,13 @@ class LocationLimitationParser implements LimitationParserInterface
 
         foreach (explode(',', $limitationValues) as $limitationValue) {
             $parsedUrl = $this->argumentParser->parseUrl($limitationValue);
-            $urlAlias = $this->urlAliasService->lookup($parsedUrl);
-            $location = $this->locationService->loadLocation($urlAlias->destination);
+            try {
+                $urlAlias = $this->urlAliasService->lookup($parsedUrl);
+                $location = $this->locationService->loadLocation($urlAlias->destination);
+            } catch (NotFoundException $exception) {
+                continue;
+            }
+
             $values[] = $location->id;
         }
 
