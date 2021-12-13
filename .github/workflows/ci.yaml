@@ -19,6 +19,11 @@ jobs:
         php:
           - '7.4'
         composer_options: [ "" ]
+        include:
+          - php: '8.0'
+            composer_options: "--ignore-platform-req php"
+          - php: '8.1'
+            composer_options: "--ignore-platform-req php"
 
     steps:
       - uses: actions/checkout@v2
@@ -39,8 +44,29 @@ jobs:
       - name: Setup problem matchers for PHPUnit
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Run code style check
-        run: composer run-script check-cs -- --format=checkstyle | cs2pr
-
       - name: Run test suite
         run: composer run-script --timeout=600 test
+
+  cs_fix:
+    name: Run code style check
+    runs-on: "ubuntu-20.04"
+    strategy:
+      matrix:
+        php:
+          - "7.3"
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: cs2pr
+
+      - uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "highest"
+
+      - name: Run code style check
+        run: composer run-script check-cs -- --format=checkstyle | cs2pr

@@ -11,13 +11,14 @@ namespace Ibexa\Behat\Browser\Element;
 use Ibexa\Behat\Browser\Assert\CollectionAssertInterface;
 use Ibexa\Behat\Browser\Element\Criterion\CriterionInterface;
 use Ibexa\Behat\Browser\Element\Mapper\MapperInterface;
+use Traversable;
 
 interface ElementCollectionInterface extends \Countable, \IteratorAggregate
 {
     /**
      * @return \Ibexa\Behat\Browser\Element\ElementInterface[]
      */
-    public function getIterator(): iterable;
+    public function getIterator(): Traversable;
 
     public function setElements(array $elements): void;
 

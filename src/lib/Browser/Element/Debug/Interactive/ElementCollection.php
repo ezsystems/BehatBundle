@@ -17,6 +17,7 @@ use Ibexa\Behat\Browser\Element\ElementInterface;
 use Ibexa\Behat\Browser\Element\Mapper\MapperInterface;
 use Ibexa\Behat\Browser\Exception\ElementNotFoundException;
 use PHPUnit\Framework\ExpectationFailedException;
+use Traversable;
 
 class ElementCollection implements ElementCollectionInterface
 {
@@ -34,7 +35,7 @@ class ElementCollection implements ElementCollectionInterface
         $this->baseElementCollection->setElements($elements);
     }
 
-    public function getIterator(): iterable
+    public function getIterator(): Traversable
     {
         return $this->baseElementCollection->getIterator();
     }
