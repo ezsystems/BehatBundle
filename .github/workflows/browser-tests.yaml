@@ -13,7 +13,7 @@ jobs:
         uses: ibexa/gh-workflows/.github/workflows/browser-tests.yml@main
         with:
             project-edition: 'oss'
-            project-version: '^3.3.x-dev'
+            project-version: '^4.0.x-dev'
             test-suite:  '--profile=browser --suite=admin-ui-full'
             test-setup-phase-1: '--profile=setup --suite=personas --mode=standard'
         secrets:
@@ -23,7 +23,7 @@ jobs:
         uses: ibexa/gh-workflows/.github/workflows/browser-tests.yml@main
         with:
             project-edition: 'oss'
-            project-version: '^3.3.x-dev'
+            project-version: '^4.0.x-dev'
             test-suite:  '--mode=standard --profile=service --suite=examples'
         secrets:
             SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
