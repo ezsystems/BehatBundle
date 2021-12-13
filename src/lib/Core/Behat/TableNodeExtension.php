@@ -46,13 +46,13 @@ class TableNodeExtension extends TableNode
     public static function removeColumn(TableNode $table, string $columnName): TableNode
     {
         $newTable = [];
-        $columns = array_flip(current($table->getTable()));
+        $columns = current($table->getTable());
 
-        if (!in_array($columnName, $columns)) {
+        if (!in_array($columnName, $columns, true)) {
             throw new \InvalidArgumentException(sprintf('Column: %s not found. Available columns are: %s', $columnName, implode(',', $columns)));
         }
 
-        $columnPosition = $columns[$columnName];
+        $columnPosition = array_search($columnName, $columns, true);
 
         foreach ($table->getTable() as $row) {
             unset($row[$columnPosition]);

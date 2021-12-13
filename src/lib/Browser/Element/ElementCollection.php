@@ -15,6 +15,7 @@ use Ibexa\Behat\Browser\Element\Mapper\MapperInterface;
 use Ibexa\Behat\Browser\Exception\ElementNotFoundException;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 use PHPUnit\Framework\Assert;
+use Traversable;
 
 class ElementCollection implements ElementCollectionInterface
 {
@@ -39,7 +40,7 @@ class ElementCollection implements ElementCollectionInterface
     /**
      * @return \Ibexa\Behat\Browser\Element\ElementInterface[]
      */
-    public function getIterator(): iterable
+    public function getIterator(): Traversable
     {
         if (is_array($this->elements)) {
             return new \ArrayIterator($this->elements);
