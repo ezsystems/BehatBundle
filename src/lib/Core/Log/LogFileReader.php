@@ -27,6 +27,10 @@ class LogFileReader
             }
 
             $line = fgets($file);
+            if ($line === false) {
+                break;
+            }
+
             $logEntries[] = str_replace(PHP_EOL, '', $line);
             ++$counter;
         }
