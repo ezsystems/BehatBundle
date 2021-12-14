@@ -19,12 +19,9 @@ jobs:
         php:
           - '7.3'
           - '7.4'
+          - '8.0'
+          - '8.1'
         composer_options: [ "" ]
-        include:
-          - php: '8.0'
-            composer_options: "--ignore-platform-req php"
-          - php: '8.1'
-            composer_options: "--ignore-platform-req php"
 
     steps:
       - uses: actions/checkout@v2
