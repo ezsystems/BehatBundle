@@ -83,4 +83,22 @@ class ElementAssert implements ElementAssertInterface
 
         return $this->element;
     }
+
+    public function hasClass(string $expectedClass): ElementInterface
+    {
+        $actualClass = $this->element->getAttribute('class');
+
+        Assert::assertTrue($this->element->hasClass($expectedClass),
+            sprintf(
+                "Failed asserting that element with %s locator '%s': '%s' has '%s' class, instead class is '%s'",
+                $this->locator->getType(),
+                $this->locator->getIdentifier(),
+                $this->locator->getSelector(),
+                $expectedClass,
+                $actualClass
+            )
+        );
+
+        return $this->element;
+    }
 }
