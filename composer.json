@@ -44,6 +44,7 @@
         "ibexa/ci-scripts": "^0.1@dev",
         "ezsystems/doctrine-dbal-schema": "^1.0@dev",
         "ezsystems/ezplatform-code-style": "^1.0.0",
+        "ezsystems/ezplatform-http-cache": "^2.3@dev",
         "friendsofphp/php-cs-fixer": "^2.16.0",
         "mikey179/vfsstream": "^1.6"
     },
