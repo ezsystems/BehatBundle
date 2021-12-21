@@ -2,13 +2,11 @@ const path = require('path');
 
 module.exports = (eZConfig, eZConfigManager) => {
     const addEntry = ([entryName, newItems]) => {
-        if (eZConfig.entry[entryName]) {
             eZConfigManager.add({
                 eZConfig,
                 entryName,
                 newItems,
             });
-        }
     };
     const seleniumDebugStylePath = path.resolve(__dirname, '../public/css/selenium-debug.css');
     const dragMockScriptPath = path.resolve(__dirname, '../public/js/scripts/drag-mock.js');
