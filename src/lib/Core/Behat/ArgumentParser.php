@@ -41,7 +41,7 @@ class ArgumentParser
             $url = substr($url, 1, strlen($url) - 1);
         }
 
-        if (strpos($url, 'root') === 0 ) {
+        if (strpos($url, 'root') === 0) {
             $url = str_replace('root', '', $url);
         }
 
