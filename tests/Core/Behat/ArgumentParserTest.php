@@ -40,6 +40,10 @@ class ArgumentParserTest extends TestCase
         return [
             ['', '/'],
             ['root', '/'],
+            ['/root', '/'],
+            ['/root/taxonomy', '/taxonomy'],
+            ['root/taxonomy', '/taxonomy'],
+            ['/taxonomy/tags/root', '/taxonomy/tags/root'],
             ['/', '/'],
             ['/Home', '/Home'],
             ['Home', '/Home'],

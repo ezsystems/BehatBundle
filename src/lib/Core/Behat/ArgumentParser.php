@@ -35,9 +35,17 @@ class ArgumentParser
      */
     public function parseUrl(string $url)
     {
-        $url = str_replace([' ', '@', ',', ':', $this->parameterProvider->getParameter('root_content_name'), 'root'], ['-', '-', '', '-', '', ''], $url);
+        $url = str_replace([' ', '@', ',', ':', $this->parameterProvider->getParameter('root_content_name')], ['-', '-', '', '-', ''], $url);
 
-        return 0 === strpos($url, '/') ? $url : sprintf('/%s', $url);
+        if (strpos($url, '/') === 0) {
+            $url = substr($url, 1, strlen($url) - 1);
+        }
+
+        if (strpos($url, 'root') === 0 ) {
+            $url = str_replace('root', '', $url);
+        }
+
+        return strpos($url, '/') === 0 ? $url : sprintf('/%s', $url);
     }
 
     public function parseLimitations(TableNode $limitations)
