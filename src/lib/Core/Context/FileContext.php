@@ -10,6 +10,7 @@ namespace EzSystems\Behat\Core\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
+use RuntimeException;
 
 class FileContext implements Context
 {
@@ -58,11 +59,46 @@ class FileContext implements Context
         file_put_contents($destinationPath, $fileContent->getRaw());
     }
 
+    /**
+     * @Given I patch the file :path
+     */
+    public function patchFile(string $path, PyStringNode $patchContent)
+    {
+        $this->createFileFromContent($this->projectDirectory . \DIRECTORY_SEPARATOR . 'patch.patch', $patchContent);
+        $command = sprintf('patch -d %s -i %s -Np1', $this->projectDirectory, 'patch.patch');
+        $output = [];
+        $result_code = 0;
+        exec($command, $output, $result_code);
+
+        if (!$this->isPatchSuccessFull($result_code, $output)) {
+            throw new RuntimeException('Failed applying patch');
+        }
+    }
+
+    /**
+     * @Given I define the :variableName with value :value in .env file
+     */
+    public function defineEnvVariable(string $variableName, string $value): void
+    {
+        $dotEnvDilePath = $this->projectDirectory . \DIRECTORY_SEPARATOR . '.env';
+        file_put_contents($dotEnvDilePath, sprintf('%s=%s' . PHP_EOL, $variableName, $value), FILE_APPEND);
+    }
+
     private function createDirectoryStructure($destinationPath): void
     {
         $directoryStructure = \dirname($destinationPath);
         if (!file_exists($directoryStructure)) {
             mkdir($directoryStructure, 0777, true);
         }
+    }
+
+    /**
+     * @param string[] $output
+     */
+    private function isPatchSuccessFull(int $result_code, array $output): bool
+    {
+        return $result_code === 0 && empty(array_filter($output, static function (string $outputLine) {
+            return strpos($outputLine, 'failed') !== false;
+        }));
     }
 }
