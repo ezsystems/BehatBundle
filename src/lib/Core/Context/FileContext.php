@@ -64,7 +64,7 @@ class FileContext implements Context
      */
     public function patchFile(PyStringNode $patchContent)
     {
-        $this->createFileFromContent($this->projectDirectory . \DIRECTORY_SEPARATOR . 'patch.patch', $patchContent);
+        $this->createFileFromContent('patch.patch', $patchContent);
         $command = sprintf('patch -d %s -i %s -Np1', $this->projectDirectory, 'patch.patch');
         $output = [];
         $result_code = 0;
@@ -73,15 +73,6 @@ class FileContext implements Context
         if (!$this->isPatchSuccessFull($result_code, $output)) {
             throw new RuntimeException('Failed applying patch');
         }
-    }
-
-    /**
-     * @Given I define the :variableName with value :value in .env file
-     */
-    public function defineEnvVariable(string $variableName, string $value): void
-    {
-        $dotEnvDilePath = $this->projectDirectory . \DIRECTORY_SEPARATOR . '.env';
-        file_put_contents($dotEnvDilePath, sprintf('%s=%s' . PHP_EOL, $variableName, $value), FILE_APPEND);
     }
 
     private function createDirectoryStructure($destinationPath): void
