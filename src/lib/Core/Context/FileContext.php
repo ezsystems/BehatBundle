@@ -60,9 +60,9 @@ class FileContext implements Context
     }
 
     /**
-     * @Given I patch the file :path
+     * @Given I apply the patch
      */
-    public function patchFile(string $path, PyStringNode $patchContent)
+    public function patchFile(PyStringNode $patchContent)
     {
         $this->createFileFromContent($this->projectDirectory . \DIRECTORY_SEPARATOR . 'patch.patch', $patchContent);
         $command = sprintf('patch -d %s -i %s -Np1', $this->projectDirectory, 'patch.patch');
