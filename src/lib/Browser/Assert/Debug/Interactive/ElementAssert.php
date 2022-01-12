@@ -51,4 +51,13 @@ class ElementAssert implements ElementAssertInterface
             return $this->startInteractiveSessionOnException($exception, true);
         }
     }
+
+    public function hasClass(string $expectedClass): ElementInterface
+    {
+        try {
+            return $this->baseElementAssert->hasClass($expectedClass);
+        } catch (ExpectationFailedException $exception) {
+            return $this->startInteractiveSessionOnException($exception, true);
+        }
+    }
 }
