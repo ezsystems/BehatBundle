@@ -10,7 +10,8 @@ namespace EzSystems\Behat\Core\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
-use RuntimeException;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class FileContext implements Context
 {
@@ -65,13 +66,11 @@ class FileContext implements Context
     public function patchFile(PyStringNode $patchContent)
     {
         $this->createFileFromContent('patch.patch', $patchContent);
-        $command = sprintf('patch -d %s -i %s -Np1', $this->projectDirectory, 'patch.patch');
-        $output = [];
-        $result_code = 0;
-        exec($command, $output, $result_code);
+        $process = new Process(['patch', '-d', $this->projectDirectory, '-i', 'patch.patch', '-Np1']);
+        $process->run();
 
-        if (!$this->isPatchSuccessFull($result_code, $output)) {
-            throw new RuntimeException('Failed applying patch');
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
         }
     }
 
@@ -81,15 +80,5 @@ class FileContext implements Context
         if (!file_exists($directoryStructure)) {
             mkdir($directoryStructure, 0777, true);
         }
-    }
-
-    /**
-     * @param string[] $output
-     */
-    private function isPatchSuccessFull(int $result_code, array $output): bool
-    {
-        return $result_code === 0 && empty(array_filter($output, static function (string $outputLine) {
-            return strpos($outputLine, 'failed') !== false;
-        }));
     }
 }
