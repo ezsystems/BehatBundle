@@ -10,6 +10,8 @@ namespace EzSystems\Behat\Core\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class FileContext implements Context
 {
@@ -56,6 +58,20 @@ class FileContext implements Context
         $destinationPath = sprintf('%s/%s', $this->projectDirectory, $path);
         $this->createDirectoryStructure($destinationPath);
         file_put_contents($destinationPath, $fileContent->getRaw());
+    }
+
+    /**
+     * @Given I apply the patch
+     */
+    public function patchFile(PyStringNode $patchContent)
+    {
+        $this->createFileFromContent('patch.patch', $patchContent);
+        $process = new Process(['patch', '-d', $this->projectDirectory, '-i', 'patch.patch', '-Np1']);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
     }
 
     private function createDirectoryStructure($destinationPath): void
