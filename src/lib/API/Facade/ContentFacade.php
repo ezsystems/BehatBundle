@@ -101,6 +101,7 @@ class ContentFacade
         $location = $this->locationService->loadLocation($urlAlias->destination);
         $contentDraft = $this->contentService->createContentDraft($location->getContentInfo());
         $contentUpdateStruct = $this->contentService->newContentUpdateStruct();
+        $contentUpdateStruct->initialLanguageCode = $language;
 
         $this->contentDataProvider->setContentTypeIdentifier($contentDraft->getContentType()->identifier);
         $this->contentDataProvider->getFilledContentDataStruct($contentUpdateStruct, $contentItemData, $language);
