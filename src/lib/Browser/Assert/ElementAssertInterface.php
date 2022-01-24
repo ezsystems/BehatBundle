@@ -17,4 +17,6 @@ interface ElementAssertInterface
     public function textContains(string $expectedTextFragment): ElementInterface;
 
     public function isVisible(): ElementInterface;
+
+    public function hasClass(string $expectedClass): ElementInterface;
 }
