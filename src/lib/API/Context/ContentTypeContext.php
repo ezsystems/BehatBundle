@@ -56,6 +56,7 @@ class ContentTypeContext implements Context
                 'isRequired' => $this->parseBool($fieldData['Required']),
                 'isTranslatable' => $this->parseBool($fieldData['Translatable']),
                 'isSearchable' => $this->parseBool($fieldData['Searchable']),
+                'fieldGroup' => array_key_exists('Category', $fieldData) ? $fieldData['Category'] : null,
                 'fieldSettings' => array_key_exists('Settings', $fieldData) ? $this->parseFieldSettings($fieldTypeIdentifier, $fieldData['Settings']) : null,
             ]);
 

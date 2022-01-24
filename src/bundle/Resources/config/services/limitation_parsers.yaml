@@ -12,6 +12,8 @@ services:
         arguments:
             - '@ezpublish.api.service.content_type'
 
+    EzSystems\Behat\API\Context\LimitationParser\FieldGroupLimitationParser: ~
+
     EzSystems\Behat\API\Context\LimitationParser\LocationLimitationParser:
         arguments:
             - '@ezpublish.api.service.url_alias'
