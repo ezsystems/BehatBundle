@@ -15,6 +15,7 @@ regression:
             contexts:
                 - EzSystems\Behat\API\Context\ContentContext
                 - EzSystems\Behat\API\Context\ContentTypeContext
+                - EzSystems\Behat\API\Context\LanguageContext
                 - EzSystems\Behat\API\Context\RoleContext
                 - EzSystems\Behat\API\Context\TestContext
                 - EzSystems\Behat\API\Context\UserContext
