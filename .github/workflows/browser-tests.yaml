@@ -15,7 +15,7 @@ jobs:
             project-edition: 'oss'
             project-version: '^4.0.x-dev'
             test-suite:  '--profile=browser --suite=admin-ui-full'
-            test-setup-phase-1: '--profile=setup --suite=personas --mode=standard'
+            test-setup-phase-1: '--profile=regression --suite=setup-oss --mode=standard'
         secrets:
             SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     examples:
