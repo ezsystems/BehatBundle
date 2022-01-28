@@ -1,4 +1,3 @@
-
 <?php
 /**
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
