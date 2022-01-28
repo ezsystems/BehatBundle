@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Facade;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\RoleService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\RoleService;
 use EzSystems\Behat\API\Context\LimitationParser\LimitationParsersCollector;
 
 class RoleFacade
 {
-    /** @var \eZ\Publish\API\Repository\RoleService */
+    /** @var \Ibexa\Contracts\Core\Repository\RoleService */
     private $roleService;
 
     /** @var \EzSystems\Behat\API\Context\LimitationParser\LimitationParsersCollector */

@@ -42,7 +42,7 @@
         "psy/psysh": "^0.10.8"
     },
     "require-dev": {
-        "ezsystems/ezplatform-code-style": "^1.0.0",
+        "ibexa/code-style": "^1.0",
         "friendsofphp/php-cs-fixer": "^2.16.0",
         "ibexa/ci-scripts": "^0.2@dev",
         "ibexa/doctrine-schema": "^4.0@dev",

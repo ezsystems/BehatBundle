@@ -10,7 +10,7 @@ namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use EzSystems\Behat\API\Facade\ContentTypeFacade;
 
 class ContentTypeContext implements Context

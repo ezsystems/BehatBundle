@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-use eZ\Publish\Core\FieldType\Media\Value;
+use Ibexa\Core\FieldType\Media\Value;
 
 class MediaDataProvider implements FieldTypeDataProviderInterface
 {

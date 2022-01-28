@@ -8,18 +8,18 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\URLAliasService;
-use eZ\Publish\Core\FieldType\ImageAsset\AssetMapper;
-use eZ\Publish\Core\FieldType\ImageAsset\Value;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\URLAliasService;
+use Ibexa\Core\FieldType\ImageAsset\AssetMapper;
+use Ibexa\Core\FieldType\ImageAsset\Value;
+use Ibexa\Core\MVC\ConfigResolverInterface;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\Core\Behat\ArgumentParser;
 
 class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
 {
     /**
-     * @var \eZ\Publish\Core\FieldType\ImageAsset\AssetMapper
+     * @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper
      */
     private $assetMapper;
     /**
@@ -32,16 +32,16 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
      */
     private $argumentParser;
     /**
-     * @var \eZ\Publish\API\Repository\LocationService
+     * @var \Ibexa\Contracts\Core\Repository\LocationService
      */
     private $locationService;
     /**
-     * @var \eZ\Publish\API\Repository\URLAliasService
+     * @var \Ibexa\Contracts\Core\Repository\URLAliasService
      */
     private $urlAliasService;
 
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Core\MVC\ConfigResolverInterface
      */
     private $configResolver;
 

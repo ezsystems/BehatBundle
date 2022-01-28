@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-use eZ\Publish\API\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 
 class BooleanDataProvider extends AbstractFieldTypeDataProvider
 {
-    /** @var \eZ\Publish\API\Repository\ContentTypeService */
+    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
     private $contentTypeService;
 
     public function __construct(RandomDataGenerator $randomDataGenerator, ContentTypeService $contentTypeService)

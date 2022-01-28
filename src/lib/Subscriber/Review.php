@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\Subscriber;
 
-use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\API\Repository\UserService;
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\UserService;
 use EzSystems\Behat\API\ContentData\ContentDataProvider;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\Event\Events;
@@ -25,7 +25,7 @@ class Review extends AbstractProcessStage implements EventSubscriberInterface
     /** @var \EzSystems\Behat\API\ContentData\ContentDataProvider */
     private $contentDataProvider;
 
-    /** @var \eZ\Publish\API\Repository\ContentService */
+    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
     private $contentService;
 
     /** @var \Ibexa\Workflow\Behat\Facade\WorkflowFacade */

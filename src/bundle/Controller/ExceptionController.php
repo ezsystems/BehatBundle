@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Controller;
 
-use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
+use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 
 class ExceptionController
 {

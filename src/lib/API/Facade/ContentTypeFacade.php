@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Facade;
 
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup;
 use EzSystems\Behat\API\ContentData\FieldTypeNameConverter;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
@@ -22,7 +22,7 @@ class ContentTypeFacade
 
     private const CONTENT_TYPE_LIST_BY_GROUP_IDENTIFIER = 'content_type_list_by_group';
 
-    /** @var \eZ\Publish\API\Repository\ContentTypeService */
+    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
     private $contentTypeService;
 
     /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */

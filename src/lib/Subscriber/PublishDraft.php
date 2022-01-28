@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\Subscriber;
 
-use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\API\Repository\UserService;
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\UserService;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\Event\Events;
 use EzSystems\Behat\Event\TransitionEvent;
@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class PublishDraft extends AbstractProcessStage implements EventSubscriberInterface
 {
-    /** @var \eZ\Publish\API\Repository\ContentService */
+    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
     private $contentService;
 
     /** @var \Ibexa\Workflow\Behat\Facade\WorkflowFacade */

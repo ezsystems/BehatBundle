@@ -8,31 +8,31 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Facade;
 
-use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\URLAliasService;
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LocationId;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalNot;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Subtree;
-use eZ\Publish\API\Repository\Values\Content\URLAlias;
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\URLAliasService;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalNot;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use PHPUnit\Framework\Assert;
 
 class SearchFacade
 {
-    /** @var \eZ\Publish\API\Repository\LocationService */
+    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
     private $locationService;
 
-    /** @var \eZ\Publish\API\Repository\URLAliasService */
+    /** @var \Ibexa\Contracts\Core\Repository\URLAliasService */
     private $urlAliasService;
 
-    /** @var \eZ\Publish\API\Repository\SearchService */
+    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
     private $searchService;
     /**
-     * @var \eZ\Publish\API\Repository\ContentService
+     * @var \Ibexa\Contracts\Core\Repository\ContentService
      */
     private $contentService;
 

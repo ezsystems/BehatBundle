@@ -10,27 +10,27 @@ services:
             
     EzSystems\Behat\API\Context\LimitationParser\ContentTypeLimitationParser:
         arguments:
-            - '@ezpublish.api.service.content_type'
+            - '@ibexa.api.service.content_type'
 
     EzSystems\Behat\API\Context\LimitationParser\FieldGroupLimitationParser: ~
 
     EzSystems\Behat\API\Context\LimitationParser\LocationLimitationParser:
         arguments:
-            - '@ezpublish.api.service.url_alias'
-            - '@ezpublish.api.service.location'
+            - '@ibexa.api.service.url_alias'
+            - '@ibexa.api.service.location'
             - '@EzSystems\Behat\Core\Behat\ArgumentParser'
 
     EzSystems\Behat\API\Context\LimitationParser\NewSectionLimitationParser:
         arguments:
-            - '@ezpublish.api.service.section'
+            - '@ibexa.api.service.section'
 
     EzSystems\Behat\API\Context\LimitationParser\NewStateLimitationParser:
         arguments:
-            - '@ezpublish.api.service.object_state'
+            - '@ibexa.api.service.object_state'
 
     EzSystems\Behat\API\Context\LimitationParser\ObjectStateLimitationParser:
         arguments:
-            - '@ezpublish.api.service.object_state'
+            - '@ibexa.api.service.object_state'
 
     EzSystems\Behat\API\Context\LimitationParser\LanguageLimitationParser: ~
 

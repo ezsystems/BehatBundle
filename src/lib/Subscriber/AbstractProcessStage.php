@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\Subscriber;
 
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\API\Repository\UserService;
-use eZ\Publish\API\Repository\Values\User\User;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\UserService;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\Event\TransitionEvent;
 use PHPUnit\Framework\Assert;
@@ -24,10 +24,10 @@ abstract class AbstractProcessStage
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
 
-    /** @var \eZ\Publish\API\Repository\UserService */
+    /** @var \Ibexa\Contracts\Core\Repository\UserService */
     private $userService;
 
-    /** @var \eZ\Publish\API\Repository\PermissionResolver */
+    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     private $permissionResolver;
 
     /** @var \Symfony\Component\EventDispatcher\EventDispatcher */
