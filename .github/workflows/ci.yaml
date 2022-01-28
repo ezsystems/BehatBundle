@@ -44,13 +44,13 @@ jobs:
       - name: Run test suite
         run: composer run-script --timeout=600 test
 
-  cs_fix:
+  cs-fix:
     name: Run code style check
     runs-on: "ubuntu-20.04"
     strategy:
       matrix:
         php:
-          - "7.4"
+          - '8.0'
     steps:
       - uses: actions/checkout@v2
 
@@ -59,6 +59,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: none
+          extensions: 'pdo_sqlite, gd'
           tools: cs2pr
 
       - uses: "ramsey/composer-install@v1"
