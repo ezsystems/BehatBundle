@@ -1,5 +1,5 @@
 
-ezrichtext.custom_tags.ezfacebook_test.label: Facebook
-ezrichtext.custom_tags.ezfacebook_test.description: ''
-ezrichtext.custom_tags.ezfacebook_test.attributes.post_url.label: 'Post URL'
-ezrichtext.custom_tags.ezfacebook_test.attributes.width.label: Width
+ibexa_fieldtype_richtext.custom_tags.ezfacebook_test.label: Facebook
+ibexa_fieldtype_richtext.custom_tags.ezfacebook_test.description: ''
+ibexa_fieldtype_richtext.custom_tags.ezfacebook_test.attributes.post_url.label: 'Post URL'
+ibexa_fieldtype_richtext.custom_tags.ezfacebook_test.attributes.width.label: Width
