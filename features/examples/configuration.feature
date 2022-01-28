@@ -11,7 +11,7 @@ Feature: Example scenarios showing how to set configuration
       | languages                    | pol-PL |
 
   Scenario: Configure Varnish as http cache
-    Given I set configuration to "ezplatform.http_cache"
+    Given I set configuration to "ibexa.http_cache"
     """
         purge_type: 'http'
     """

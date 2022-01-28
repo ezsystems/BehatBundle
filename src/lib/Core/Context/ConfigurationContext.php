@@ -17,8 +17,8 @@ use Symfony\Component\Yaml\Yaml;
 
 class ConfigurationContext implements Context
 {
-    private const SITEACCESS_KEY_FORMAT = 'ezplatform.system.%s.%s';
-    private const SITEACCESS_MATCHER_KEY = 'ezplatform.siteaccess.match';
+    private const SITEACCESS_KEY_FORMAT = 'ibexa.system.%s.%s';
+    private const SITEACCESS_MATCHER_KEY = 'ibexa.siteaccess.match';
 
     private $ezplatformConfigFilePath;
 
@@ -48,8 +48,8 @@ class ConfigurationContext implements Context
     {
         $config = $this->configurationEditor->getConfigFromFile($this->ezplatformConfigFilePath);
 
-        $config = $this->configurationEditor->append($config, 'ezplatform.siteaccess.list', $siteaccessName);
-        $config = $this->configurationEditor->append($config, sprintf('ezplatform.siteaccess.groups.%s', $siteaccessGroup), $siteaccessName);
+        $config = $this->configurationEditor->append($config, 'ibexa.siteaccess.list', $siteaccessName);
+        $config = $this->configurationEditor->append($config, sprintf('ibexa.siteaccess.groups.%s', $siteaccessGroup), $siteaccessName);
 
         foreach ($settings->getHash() as $setting) {
             $key = $setting['key'];
