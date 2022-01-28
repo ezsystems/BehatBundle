@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\Subscriber;
 
+use EzSystems\Behat\API\ContentData\RandomDataGenerator;
+use EzSystems\Behat\Event\TransitionEvent;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
-use EzSystems\Behat\API\ContentData\RandomDataGenerator;
-use EzSystems\Behat\Event\TransitionEvent;
 use PHPUnit\Framework\Assert;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -108,7 +108,7 @@ abstract class AbstractProcessStage
         try {
             $this->doExecute($event);
         } catch (\Exception $ex) {
-            $this->logger->log(LogLevel::ERROR, sprintf('Error occured during %s Stage: %s', get_class($this), $ex->getMessage()));
+            $this->logger->log(LogLevel::ERROR, sprintf('Error occured during %s Stage: %s', static::class, $ex->getMessage()));
 
             return;
         }

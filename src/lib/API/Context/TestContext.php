@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\UserService;
 class TestContext implements Context
 {
     private $permissionResolver;
+
     private $userService;
 
     public function __construct(UserService $userService, PermissionResolver $permissionResolver)

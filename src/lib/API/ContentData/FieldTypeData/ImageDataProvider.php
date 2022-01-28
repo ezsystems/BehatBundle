@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-use Ibexa\Core\FieldType\Image\Value;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
+use Ibexa\Core\FieldType\Image\Value;
 
 class ImageDataProvider extends AbstractFieldTypeDataProvider
 {

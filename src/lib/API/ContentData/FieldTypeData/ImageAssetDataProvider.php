@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
+use EzSystems\Behat\API\ContentData\RandomDataGenerator;
+use EzSystems\Behat\Core\Behat\ArgumentParser;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Core\FieldType\ImageAsset\AssetMapper;
 use Ibexa\Core\FieldType\ImageAsset\Value;
 use Ibexa\Core\MVC\ConfigResolverInterface;
-use EzSystems\Behat\API\ContentData\RandomDataGenerator;
-use EzSystems\Behat\Core\Behat\ArgumentParser;
 
 class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
 {
@@ -22,6 +22,7 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
      * @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper
      */
     private $assetMapper;
+
     /**
      * @var ImageDataProvider
      */
@@ -31,10 +32,12 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
      * @var \EzSystems\Behat\Core\Behat\ArgumentParser
      */
     private $argumentParser;
+
     /**
      * @var \Ibexa\Contracts\Core\Repository\LocationService
      */
     private $locationService;
+
     /**
      * @var \Ibexa\Contracts\Core\Repository\URLAliasService
      */

@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation
 class ContentTypeLimitationParser implements LimitationParserInterface
 {
     private $contentTypService;
+
     private $contentTypeNameIdentifierMap;
 
     public function __construct(ContentTypeService $contentTypeService)

@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Facade;
 
+use EzSystems\Behat\API\ContentData\FieldTypeNameConverter;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup;
-use EzSystems\Behat\API\ContentData\FieldTypeNameConverter;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 
@@ -35,7 +35,7 @@ class ContentTypeFacade
         ContentTypeService $contentTypeService,
         TagAwareAdapterInterface $cachePool,
         CacheIdentifierGeneratorInterface $cacheIdentifierGenerator
-        ) {
+    ) {
         $this->contentTypeService = $contentTypeService;
         $this->cachePool = $cachePool;
         $this->cacheIdentifierGenerator = $cacheIdentifierGenerator;

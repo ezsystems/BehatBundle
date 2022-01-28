@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Facade;
 
+use EzSystems\Behat\API\Context\LimitationParser\LimitationParsersCollector;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\RoleService;
-use EzSystems\Behat\API\Context\LimitationParser\LimitationParsersCollector;
 
 class RoleFacade
 {

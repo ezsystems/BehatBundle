@@ -20,6 +20,7 @@ class CurrentUserDataController extends AbstractController
      * @var \Ibexa\Contracts\Core\Repository\PermissionResolver
      */
     private $permissionResolver;
+
     /**
      * @var \Ibexa\Contracts\Core\Repository\UserService
      */

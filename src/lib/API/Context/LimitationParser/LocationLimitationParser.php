@@ -8,17 +8,19 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Context\LimitationParser;
 
+use EzSystems\Behat\Core\Behat\ArgumentParser;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
-use EzSystems\Behat\Core\Behat\ArgumentParser;
 
 class LocationLimitationParser implements LimitationParserInterface
 {
     private $locationService;
+
     private $urlAliasService;
+
     private $argumentParser;
 
     public function __construct(URLAliasService $urlAliasService, LocationService $locationService, ArgumentParser $argumentParser)

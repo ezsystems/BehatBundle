@@ -31,6 +31,7 @@ class SearchFacade
 
     /** @var \Ibexa\Contracts\Core\Repository\SearchService */
     private $searchService;
+
     /**
      * @var \Ibexa\Contracts\Core\Repository\ContentService
      */

@@ -8,17 +8,18 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
+use EzSystems\Behat\API\Facade\SearchFacade;
+use EzSystems\Behat\Core\Behat\ArgumentParser;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Core\FieldType\Relation\Value;
-use EzSystems\Behat\API\Facade\SearchFacade;
-use EzSystems\Behat\Core\Behat\ArgumentParser;
 
 class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
 {
     /** @var \EzSystems\Behat\API\Facade\SearchFacade */
     protected $searchFacade;
+
     /** @var \Ibexa\Contracts\Core\Repository\ContentService */
     private $contentService;
 

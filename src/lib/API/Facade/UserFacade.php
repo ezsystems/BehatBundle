@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Facade;
 
+use EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider;
+use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\RoleService;
 use Ibexa\Contracts\Core\Repository\SearchService;
@@ -17,14 +19,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
-use EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider;
-use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 
 class UserFacade
 {
     public const USER_CONTENT_TYPE_IDENTIFIER = 'user';
     public const USERGROUP_CONTENT_IDENTIFIER = 'user_group';
     public const ROOT_USERGROUP_CONTENT_ID = 4;
+
     /** @var \Ibexa\Contracts\Core\Repository\UserService */
     private $userService;
 

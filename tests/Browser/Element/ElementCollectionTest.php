@@ -25,7 +25,9 @@ class ElementCollectionTest extends BaseTestCase
     {
         $this->collection = $this->createCollection(
             new CSSLocator('identifier', 'selector'),
-            'Element1', 'Element2', 'Element3'
+            'Element1',
+            'Element2',
+            'Element3'
         );
     }
 
@@ -71,8 +73,10 @@ class ElementCollectionTest extends BaseTestCase
         return [
             [
                 $this->createCollection(
-                new CSSLocator('identifier', 'selector'),
-                'Element1', 'Element2', 'Element3'
+                    new CSSLocator('identifier', 'selector'),
+                    'Element1',
+                    'Element2',
+                    'Element3'
                 ),
                 true,
             ],
@@ -99,7 +103,9 @@ class ElementCollectionTest extends BaseTestCase
             [
                 $this->createCollection(
                     new CSSLocator('identifier', 'selector'),
-                    'Element1', 'Element2', 'Element3'
+                    'Element1',
+                    'Element2',
+                    'Element3'
                 ),
                 false,
             ],
@@ -139,7 +145,9 @@ class ElementCollectionTest extends BaseTestCase
     {
         $collection = $this->createCollection(
             new CSSLocator('identifier', 'selector'),
-            'AAA', 'AAA', 'ZZZ'
+            'AAA',
+            'AAA',
+            'ZZZ'
         );
 
         Assert::assertEquals(
@@ -152,7 +160,9 @@ class ElementCollectionTest extends BaseTestCase
     {
         $collection = $this->createCollection(
             new CSSLocator('identifier', 'selector'),
-            'AAA', 'AAA', 'ZZZ'
+            'AAA',
+            'AAA',
+            'ZZZ'
         );
 
         Assert::assertEquals(
@@ -167,7 +177,9 @@ class ElementCollectionTest extends BaseTestCase
     {
         $collection = $this->createCollection(
             new CSSLocator('identifier', 'selector'),
-            'AAA', 'BBB', 'ZZZ'
+            'AAA',
+            'BBB',
+            'ZZZ'
         );
 
         Assert::assertEquals(
@@ -180,7 +192,9 @@ class ElementCollectionTest extends BaseTestCase
     {
         $collection = $this->createCollection(
             new CSSLocator('identifier', 'selector'),
-            'AAA', 'BBB', 'ZZZ'
+            'AAA',
+            'BBB',
+            'ZZZ'
         );
 
         Assert::assertEquals(

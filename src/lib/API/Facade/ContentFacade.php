@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Facade;
 
+use EzSystems\Behat\API\ContentData\ContentDataProvider;
+use FOS\HttpCacheBundle\CacheManager;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -15,8 +17,6 @@ use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
-use EzSystems\Behat\API\ContentData\ContentDataProvider;
-use FOS\HttpCacheBundle\CacheManager;
 use PHPUnit\Framework\Assert;
 
 class ContentFacade

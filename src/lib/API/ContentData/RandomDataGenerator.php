@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace EzSystems\Behat\API\ContentData;
 
 use DateTime;
-use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
 use Faker;
 use Faker\Generator;
+use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
 
 class RandomDataGenerator
 {

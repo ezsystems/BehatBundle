@@ -118,9 +118,9 @@ class BaseElement implements BaseElementInterface
     private function getElementScript(ElementInterface $element): string
     {
         return sprintf(
-                'document.evaluate("%s", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue',
-                $element->getXPath()
-            );
+            'document.evaluate("%s", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue',
+            $element->getXPath()
+        );
     }
 
     private function getRandomColor(): string

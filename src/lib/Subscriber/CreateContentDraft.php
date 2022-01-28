@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\Subscriber;
 
-use Ibexa\Contracts\Core\Repository\PermissionResolver;
-use Ibexa\Contracts\Core\Repository\UserService;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\API\Facade\ContentFacade;
 use EzSystems\Behat\Event\Events;
 use EzSystems\Behat\Event\TransitionEvent;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Workflow\Behat\Facade\WorkflowFacade;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

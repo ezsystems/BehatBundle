@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData;
 
+use EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
-use EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface;
 
 class ContentDataProvider
 {

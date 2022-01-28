@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Command;
 
-use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
 use EzSystems\Behat\Event\Events;
 use EzSystems\Behat\Event\InitialEvent;
+use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Command\Command;
