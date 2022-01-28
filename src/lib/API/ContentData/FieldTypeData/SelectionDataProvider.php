@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\Core\FieldType\Selection\Value;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Core\FieldType\Selection\Value;
 
 class SelectionDataProvider implements FieldTypeDataProviderInterface
 {

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Command;
 
-use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
+use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
 use EzSystems\Behat\Event\Events;
 use EzSystems\Behat\Event\InitialEvent;
 use Psr\Log\LoggerInterface;

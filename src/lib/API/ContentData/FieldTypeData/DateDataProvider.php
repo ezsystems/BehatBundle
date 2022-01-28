@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
 use DateTime;
-use eZ\Publish\Core\FieldType\Date\Value;
+use Ibexa\Core\FieldType\Date\Value;
 
 class DateDataProvider extends AbstractFieldTypeDataProvider
 {

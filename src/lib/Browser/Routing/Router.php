@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Routing;
 
-use eZ\Publish\Core\MVC\Symfony\Routing\SimplifiedRequest;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\Router as CoreRouter;
+use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Router as CoreRouter;
 use FriendsOfBehat\SymfonyExtension\Mink\MinkParameters;
 
 final class Router
 {
-    /** @var \eZ\Publish\Core\MVC\Symfony\SiteAccess\Router */
+    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\Router */
     private $router;
 
     /** @var \FriendsOfBehat\SymfonyExtension\Mink\MinkParameters */

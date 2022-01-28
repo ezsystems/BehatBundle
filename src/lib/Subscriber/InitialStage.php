@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\Subscriber;
 
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\API\Repository\UserService;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\UserService;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\API\Facade\SearchFacade;
 use EzSystems\Behat\Event\Events;

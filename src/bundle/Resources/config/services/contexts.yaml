@@ -29,7 +29,7 @@ services:
     EzSystems\Behat\API\Context\ObjectStateContext:
         public: true
         arguments:
-            $objectStateService: '@ezpublish.api.service.object_state'
+            $objectStateService: '@ibexa.api.service.object_state'
 
     EzSystems\Behat\API\Context\RoleContext:
         public: true
@@ -40,8 +40,8 @@ services:
     EzSystems\Behat\API\Context\TestContext:
         public: true
         arguments:
-            $userService: '@ezpublish.api.service.user'
-            $permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
+            $userService: '@ibexa.api.service.user'
+            $permissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionResolver'
 
     EzSystems\Behat\API\Context\UserContext:
         public: true

@@ -21,8 +21,8 @@ class BrowserLogFilterTest extends TestCase
     public function testFiltersOutExcludedPatterns()
     {
         $initialLogEntries = [
-            'http://web/api/ezp/v2/bookmark/43 - Failed to load resource: the server responded with a status of 404 (Not Found)',
-            'https://varnish/api/ezp/v2/bookmark/1 - Failed to load resource: the server responded with a status of 404 (Not Found)',
+            'http://web/api/ibexa/v2/bookmark/43 - Failed to load resource: the server responded with a status of 404 (Not Found)',
+            'https://varnish/api/ibexa/v2/bookmark/1 - Failed to load resource: the server responded with a status of 404 (Not Found)',
             'Real JS Error',
             'http://varnish/bundles/netgentags/admin/jstree/js/jstree.min.js 5 document.registerElement is deprecated and will be removed in M73, around March 2019. Please use window.customElements.define instead. See https://www.chromestatus.com/features/4642138092470272 for more details.',
             'https://web/bundles/netgentags/admin/jstree/js/jstree.min.js 5 document.registerElement is deprecated and will be removed in M73, around March 2019. Please use window.customElements.define instead. See https://www.chromestatus.com/features/4642138092470272 for more details.',

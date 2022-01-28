@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-use eZ\Publish\API\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
-use EzSystems\EzPlatformMatrixFieldtype\FieldType\Value;
-use EzSystems\EzPlatformMatrixFieldtype\FieldType\Value\Row;
+use Ibexa\FieldTypeMatrix\FieldType\Value;
+use Ibexa\FieldTypeMatrix\FieldType\Value\Row;
 
 class MatrixDataProvider extends AbstractFieldTypeDataProvider
 {

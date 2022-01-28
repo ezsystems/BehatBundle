@@ -13,12 +13,12 @@ services:
     EzSystems\Behat\API\ContentData\FieldTypeData\ObjectRelationDataProvider:
       arguments:
         - '@EzSystems\Behat\API\Facade\SearchFacade'
-        - '@ezpublish.api.service.content'
+        - '@ibexa.api.service.content'
 
     EzSystems\Behat\API\ContentData\FieldTypeData\ObjectRelationListDataProvider:
       arguments:
         - '@EzSystems\Behat\API\Facade\SearchFacade'
-        - '@ezpublish.api.service.content'
+        - '@ibexa.api.service.content'
 
     EzSystems\Behat\API\ContentData\FieldTypeData\AuthorDataProvider: ~
 
@@ -29,7 +29,7 @@ services:
     EzSystems\Behat\API\ContentData\FieldTypeData\BooleanDataProvider:
       arguments:
         - '@EzSystems\Behat\API\ContentData\RandomDataGenerator'
-        - '@eZ\Publish\API\Repository\ContentTypeService'
+        - '@Ibexa\Contracts\Core\Repository\ContentTypeService'
 
     EzSystems\Behat\API\ContentData\FieldTypeData\CountryDataProvider: ~
 
@@ -46,20 +46,20 @@ services:
     EzSystems\Behat\API\ContentData\FieldTypeData\MatrixDataProvider:
       arguments:
         - '@EzSystems\Behat\API\ContentData\RandomDataGenerator'
-        - '@eZ\Publish\API\Repository\ContentTypeService'
+        - '@Ibexa\Contracts\Core\Repository\ContentTypeService'
 
     EzSystems\Behat\API\ContentData\FieldTypeData\SelectionDataProvider:
       arguments:
-        - '@eZ\Publish\API\Repository\ContentTypeService'
+        - '@Ibexa\Contracts\Core\Repository\ContentTypeService'
 
     EzSystems\Behat\API\ContentData\FieldTypeData\ImageAssetDataProvider:
       arguments:
         - '@EzSystems\Behat\API\ContentData\RandomDataGenerator'
-        - '@eZ\Publish\Core\FieldType\ImageAsset\AssetMapper'
+        - '@Ibexa\Core\FieldType\ImageAsset\AssetMapper'
         - '@EzSystems\Behat\API\ContentData\FieldTypeData\ImageDataProvider'
         - '@EzSystems\Behat\Core\Behat\ArgumentParser'
-        - '@eZ\Publish\API\Repository\LocationService'
-        - '@eZ\Publish\API\Repository\URLAliasService'
+        - '@Ibexa\Contracts\Core\Repository\LocationService'
+        - '@Ibexa\Contracts\Core\Repository\URLAliasService'
 
     EzSystems\Behat\API\ContentData\FieldTypeData\ImageDataProvider:
       arguments:

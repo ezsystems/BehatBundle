@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Context\LimitationParser;
 
-use eZ\Publish\API\Repository\ObjectStateService;
-use eZ\Publish\API\Repository\Values\User\Limitation;
-use eZ\Publish\API\Repository\Values\User\Limitation\NewObjectStateLimitation;
+use Ibexa\Contracts\Core\Repository\ObjectStateService;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation;
 
 class NewStateLimitationParser implements LimitationParserInterface
 {

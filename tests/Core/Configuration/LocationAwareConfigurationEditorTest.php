@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\Test\Core\Configuration;
 
-use eZ\Publish\Core\Repository\Values\Content\Location;
+use Ibexa\Core\Repository\Values\Content\Location;
 use EzSystems\Behat\API\Facade\ContentFacade;
 use EzSystems\Behat\Core\Configuration\ConfigurationEditor;
 use EzSystems\Behat\Core\Configuration\LocationAwareConfigurationEditor;

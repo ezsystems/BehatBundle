@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Context\LimitationParser;
 
-use eZ\Publish\API\Repository\Values\User\Limitation;
-use eZ\Publish\API\Repository\Values\User\Limitation\LanguageLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 
 class LanguageLimitationParser implements LimitationParserInterface
 {

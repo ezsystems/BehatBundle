@@ -10,9 +10,9 @@ namespace EzSystems\BehatBundle\Initializer;
 
 use Behat\Behat\EventDispatcher\Event\ExampleTested;
 use Behat\Behat\EventDispatcher\Event\ScenarioTested;
-use eZ\Publish\Core\MVC\Symfony\Event\ScopeChangeEvent;
-use eZ\Publish\Core\MVC\Symfony\MVCEvents;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
+use Ibexa\Core\MVC\Symfony\MVCEvents;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 

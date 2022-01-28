@@ -8,26 +8,26 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Facade;
 
-use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\URLAliasService;
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\API\Repository\Values\Content\URLAlias;
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\URLAliasService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use EzSystems\Behat\API\ContentData\ContentDataProvider;
 use FOS\HttpCacheBundle\CacheManager;
 use PHPUnit\Framework\Assert;
 
 class ContentFacade
 {
-    /** @var \eZ\Publish\API\Repository\ContentService */
+    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
     private $contentService;
 
-    /** @var \eZ\Publish\API\Repository\LocationService */
+    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
     private $locationService;
 
-    /** @var \eZ\Publish\API\Repository\URLAliasService */
+    /** @var \Ibexa\Contracts\Core\Repository\URLAliasService */
     private $urlAliasService;
 
     /** @var \EzSystems\Behat\API\ContentData\ContentDataProvider */
@@ -36,7 +36,7 @@ class ContentFacade
     /** @var \FOS\HttpCacheBundle\CacheManager */
     private $cacheManager;
 
-    /** @var \eZ\Publish\API\Repository\Repository */
+    /** @var \Ibexa\Contracts\Core\Repository\Repository */
     private $repository;
 
     public function __construct(

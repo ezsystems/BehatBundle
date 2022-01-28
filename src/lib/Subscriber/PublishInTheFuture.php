@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\Subscriber;
 
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\API\Repository\UserService;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\UserService;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\Event\Events;
 use EzSystems\Behat\Event\TransitionEvent;
-use EzSystems\DateBasedPublisher\API\Repository\DateBasedPublishServiceInterface;
+use Ibexa\Contracts\Scheduler\Repository\DateBasedPublishServiceInterface;
 use Ibexa\Workflow\Behat\Facade\WorkflowFacade;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class PublishInTheFuture extends AbstractProcessStage implements EventSubscriberInterface
 {
-    /** @var \EzSystems\DateBasedPublisher\API\Repository\DateBasedPublishServiceInterface */
+    /** @var \Ibexa\Contracts\Scheduler\Repository\DateBasedPublishServiceInterface */
     private $dateBasedPublisherService;
 
     /** @var \Ibexa\Workflow\Behat\Facade\WorkflowFacade */

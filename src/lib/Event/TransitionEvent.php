@@ -18,7 +18,7 @@ class TransitionEvent extends Event
     /** @var string */
     public $contentTypeIdentifier;
 
-    /** @var \eZ\Publish\API\Repository\Values\Content\Content */
+    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
     public $content;
 
     /** @var array */

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Command;
 
-use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
+use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
 use GuzzleHttp\Psr7\Request;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Discovery\HttpClientDiscovery;

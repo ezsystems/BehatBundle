@@ -14,8 +14,8 @@ services:
 
     EzSystems\Behat\API\ContentData\ContentDataProvider:
          arguments:
-            - '@ezpublish.api.service.content_type'
-            - '@ezpublish.api.service.content'
+            - '@ibexa.api.service.content_type'
+            - '@ibexa.api.service.content'
 
     EzSystems\Behat\API\ContentData\RandomDataGenerator: ~
 
@@ -24,15 +24,15 @@ services:
 
     EzSystems\Behat\API\Facade\SearchFacade:
         arguments:
-            - '@eZ\Publish\API\Repository\URLAliasService'
-            - '@eZ\Publish\API\Repository\LocationService'
-            - '@ezpublish.api.service.search'
+            - '@Ibexa\Contracts\Core\Repository\URLAliasService'
+            - '@Ibexa\Contracts\Core\Repository\LocationService'
+            - '@ibexa.api.service.search'
 
     EzSystems\Behat\API\Facade\ContentTypeFacade:
         public: true
         arguments:
-        - '@ezpublish.api.service.content_type'
-        - '@ezpublish.cache_pool'
+        - '@ibexa.api.service.content_type'
+        - '@ibexa.cache_pool'
 
     EzSystems\Behat\API\Facade\RoleFacade:
         public: true
@@ -57,9 +57,9 @@ services:
 
     EzSystems\BehatBundle\Command\CreateLanguageCommand:
         arguments:
-            $languageService: '@ezpublish.api.service.language'
-            $userService: '@ezpublish.api.service.user'
-            $permissionResolver: '@eZ\Publish\API\Repository\PermissionResolver'
+            $languageService: '@ibexa.api.service.language'
+            $userService: '@ibexa.api.service.user'
+            $permissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionResolver'
         tags:
             - { name: console.command }
 
@@ -73,7 +73,7 @@ services:
 
     EzSystems\BehatBundle\Command\TestSiteaccessCommand:
         arguments:
-            $siteaccess: '@ezpublish.siteaccess'
+            $siteaccess: '@Ibexa\Core\MVC\Symfony\SiteAccess'
         tags:
             - { name: console.command }
 
@@ -86,7 +86,7 @@ services:
 
     Ibexa\Behat\Browser\Routing\Router:
         arguments:
-            $router: '@ezpublish.siteaccess_router'
+            $router: '@Ibexa\Core\MVC\Symfony\SiteAccess\Router'
 
     EzSystems\Behat\Core\Configuration\ConfigurationEditorInterface: '@EzSystems\Behat\Core\Configuration\LocationAwareConfigurationEditor'
 

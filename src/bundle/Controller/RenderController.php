@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Controller;
 
-use eZ\Bundle\EzPublishCoreBundle\Controller;
-use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\Core\MVC\Symfony\View\ContentView;
+use Ibexa\Bundle\Core\Controller;
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Core\MVC\Symfony\View\ContentView;
 
 class RenderController extends Controller
 {

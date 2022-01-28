@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-use eZ\Publish\Core\FieldType\Country\Value;
+use Ibexa\Core\FieldType\Country\Value;
 
 class CountryDataProvider implements FieldTypeDataProviderInterface
 {

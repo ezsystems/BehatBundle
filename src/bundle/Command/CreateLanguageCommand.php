@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Command;
 
-use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
-use eZ\Publish\API\Repository\LanguageService;
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\API\Repository\UserService;
+use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
+use Ibexa\Contracts\Core\Repository\LanguageService;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\UserService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,13 +19,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateLanguageCommand extends Command implements BackwardCompatibleCommand
 {
-    /** @var \eZ\Publish\API\Repository\LanguageService */
+    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
     private $languageService;
 
-    /** @var \eZ\Publish\API\Repository\UserService */
+    /** @var \Ibexa\Contracts\Core\Repository\UserService */
     private $userService;
 
-    /** @var \eZ\Publish\API\Repository\PermissionResolver */
+    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     private $permissionResolver;
 
     public function __construct(

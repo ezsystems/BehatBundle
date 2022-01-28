@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-use eZ\Publish\Core\FieldType\MapLocation\Value;
+use Ibexa\Core\FieldType\MapLocation\Value;
 
 class MapDataProvider implements FieldTypeDataProviderInterface
 {

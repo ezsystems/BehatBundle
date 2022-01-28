@@ -8,15 +8,15 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Facade;
 
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\RoleService;
-use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\UserService;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\User\Limitation\RoleLimitation;
-use eZ\Publish\API\Repository\Values\User\UserGroup;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\RoleService;
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\UserService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 
@@ -25,16 +25,16 @@ class UserFacade
     public const USER_CONTENT_TYPE_IDENTIFIER = 'user';
     public const USERGROUP_CONTENT_IDENTIFIER = 'user_group';
     public const ROOT_USERGROUP_CONTENT_ID = 4;
-    /** @var \eZ\Publish\API\Repository\UserService */
+    /** @var \Ibexa\Contracts\Core\Repository\UserService */
     private $userService;
 
-    /** @var \eZ\Publish\API\Repository\ContentTypeService */
+    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
     private $contentTypeService;
 
-    /** @var \eZ\Publish\API\Repository\RoleService */
+    /** @var \Ibexa\Contracts\Core\Repository\RoleService */
     private $roleService;
 
-    /** @var \eZ\Publish\API\Repository\SearchService */
+    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
     private $searchService;
 
     /**
@@ -137,7 +137,7 @@ class UserFacade
         $result = $this->searchService->findContent($query);
 
         foreach ($result->searchHits as $searchHit) {
-            /** @var \eZ\Publish\API\Repository\Values\Content\Content $content */
+            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $content */
             $content = $searchHit->valueObject;
 
             if ($content->contentInfo->name === $userGroupName) {

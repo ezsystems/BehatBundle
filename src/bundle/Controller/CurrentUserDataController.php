@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Behat\Controller;
 
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\API\Repository\UserService;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,11 +17,11 @@ use Symfony\Component\HttpFoundation\Response;
 class CurrentUserDataController extends AbstractController
 {
     /**
-     * @var \eZ\Publish\API\Repository\PermissionResolver
+     * @var \Ibexa\Contracts\Core\Repository\PermissionResolver
      */
     private $permissionResolver;
     /**
-     * @var \eZ\Publish\API\Repository\UserService
+     * @var \Ibexa\Contracts\Core\Repository\UserService
      */
     private $userService;
 

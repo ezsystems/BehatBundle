@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\QueryType;
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\QueryType\QueryType;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Core\QueryType\QueryType;
 
 class FoldersUnderMediaQueryType implements QueryType
 {

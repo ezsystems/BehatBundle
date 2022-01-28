@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\Context\LimitationParser;
 
-use eZ\Publish\API\Repository\SectionService;
-use eZ\Publish\API\Repository\Values\User\Limitation;
-use eZ\Publish\API\Repository\Values\User\Limitation\NewSectionLimitation;
+use Ibexa\Contracts\Core\Repository\SectionService;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewSectionLimitation;
 
 class NewSectionLimitationParser implements LimitationParserInterface
 {
