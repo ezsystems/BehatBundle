@@ -2,11 +2,11 @@
 Feature: Example scenarios showing how to set custom tags configuration
 
   Scenario: Add YouTube custom tag configuration
-    Given I "append" configuration to "ezrichtext.custom_tags"
+    Given I "append" configuration to "ibexa_fieldtype_richtext.custom_tags"
     """
         ezyoutube_test:
             # The template used for front-end rendering of the custom tag
-            template: field_type/ezrichtext/custom_tag/ezyoutube.html.twig
+            template: field_type/ibexa_fieldtype_richtext/custom_tag/ezyoutube.html.twig
             # An icon for the custom tag as displayed in the Online Editor's toolbar.
             icon: '/bundles/ezplatformrichtext/assets/images/custom_tags/admin/icons/video.svg#video'
             attributes:
@@ -38,14 +38,14 @@ Feature: Example scenarios showing how to set custom tags configuration
     """
         ezyoutube_test
     """
-    And I create a file "templates/field_type/ezrichtext/custom_tag/ezyoutube.html.twig" with content from "Files/Richtext/CustomTag/twig/ezyoutube.html.twig"
+    And I create a file "templates/field_type/ibexa_fieldtype_richtext/custom_tag/ezyoutube.html.twig" with content from "Files/Richtext/CustomTag/twig/ezyoutube.html.twig"
     And I create a file "translations/custom_tags.en.yaml" with content from "Files/Richtext/CustomTag/translations/ezyoutube.en.yaml"
 
   Scenario: Add Twitter custom tag configuration
-    Given I "append" configuration to "ezrichtext.custom_tags"
+    Given I "append" configuration to "ibexa_fieldtype_richtext.custom_tags"
     """
         eztwitter_test:
-            template: field_type/ezrichtext/custom_tag/eztwitter.html.twig
+            template: field_type/ibexa_fieldtype_richtext/custom_tag/eztwitter.html.twig
             icon: '/bundles/ezplatformrichtext/assets/images/custom_tags/admin/icons/twitter.svg#twitter'
             attributes:
                 tweet_url:
@@ -83,14 +83,14 @@ Feature: Example scenarios showing how to set custom tags configuration
     """
         eztwitter_test
     """
-    And I create a file "templates/field_type/ezrichtext/custom_tag/eztwitter.html.twig" with content from "Files/Richtext/CustomTag/twig/eztwitter.html.twig"
+    And I create a file "templates/field_type/ibexa_fieldtype_richtext/custom_tag/eztwitter.html.twig" with content from "Files/Richtext/CustomTag/twig/eztwitter.html.twig"
     And I append to "translations/custom_tags.en.yaml" file "Files/Richtext/CustomTag/translations/eztwitter.en.yaml"
 
   Scenario: Add Facebook custom tag configuration
-    Given I "append" configuration to "ezrichtext.custom_tags"
+    Given I "append" configuration to "ibexa_fieldtype_richtext.custom_tags"
     """
         ezfacebook_test:
-            template: field_type/ezrichtext/custom_tag/ezfacebook.html.twig
+            template: field_type/ibexa_fieldtype_richtext/custom_tag/ezfacebook.html.twig
             icon: '/bundles/ezplatformrichtext/assets/images/custom_tags/admin/icons/facebook.svg#facebook'
             attributes:
                 post_url:
@@ -103,5 +103,5 @@ Feature: Example scenarios showing how to set custom tags configuration
     """
         ezfacebook_test
     """
-    And I create a file "templates/field_type/ezrichtext/custom_tag/ezfacebook.html.twig" with content from "Files/Richtext/CustomTag/twig/ezfacebook.html.twig"
+    And I create a file "templates/field_type/ibexa_fieldtype_richtext/custom_tag/ezfacebook.html.twig" with content from "Files/Richtext/CustomTag/twig/ezfacebook.html.twig"
     And I append to "translations/custom_tags.en.yaml" file "Files/Richtext/CustomTag/translations/ezfacebook.en.yaml"
