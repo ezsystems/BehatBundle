@@ -79,3 +79,9 @@ setup:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/loginMethods'
             contexts:
                 - EzSystems\Behat\Core\Context\ConfigurationContext
+        compatibility-layer:
+            paths:
+                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/compatibilityLayer'
+            contexts:
+                - EzSystems\Behat\Core\Context\ConfigurationContext
+                - EzSystems\Behat\Core\Context\FileContext

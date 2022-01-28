@@ -1,0 +1,8 @@
+{
+  "require": {
+    "ibexa/experience": "^4.0.x-dev",
+    "ibexa/content": "^4.0.x-dev",
+    "ibexa/oss": "^4.0.x-dev",
+    "ibexa/commerce": "^4.0.x-dev"
+  }
+}

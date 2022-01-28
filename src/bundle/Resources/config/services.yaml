@@ -84,6 +84,11 @@ services:
     EzSystems\Behat\Core\Configuration\LocationAwareConfigurationEditor:
         decorates: EzSystems\Behat\Core\Configuration\ConfigurationEditor
 
+    EzSystems\Behat\Core\Configuration\ProjectEditionAwareConfigurationEditor:
+        decorates: EzSystems\Behat\Core\Configuration\ConfigurationEditor
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
     Ibexa\Behat\Browser\Routing\Router:
         arguments:
             $router: '@ezpublish.siteaccess_router'

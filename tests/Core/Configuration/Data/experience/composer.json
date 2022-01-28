@@ -1,0 +1,6 @@
+{
+  "require": {
+    "ibexa/oss": "^4.0.x-dev",
+    "ibexa/experience": "^4.0.x-dev"
+  }
+}
