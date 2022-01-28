@@ -11,7 +11,7 @@ Feature: Multirepository setup for testing
             second_connection:
                 url: '%env(resolve:DATABASE_URL)%'
     """
-    And I set configuration to "ezplatform.repositories.new_repository"
+    And I set configuration to "ibexa.repositories.new_repository"
         """
                 storage:
                     engine: 'legacy'
