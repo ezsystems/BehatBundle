@@ -47,6 +47,20 @@ class ProjectEditionAwareConfigurationEditorTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
+    public function testCorrectlyReplacesPartOfTheValue(
+        ProjectEditionAwareConfigurationEditor $projectEditionAwareConfigurationEditor,
+        string $expectedResult): void
+    {
+        $initialConfig = ['testKey' => [1, 'test%project_edition%test']];
+
+        $value = $projectEditionAwareConfigurationEditor->get($initialConfig, 'testKey');
+
+        Assert::assertEquals([1, 'test' . $expectedResult . 'test'], $value);
+    }
+
+    /**
+     * @dataProvider dataProvider
+     */
     public function testReplacesSingleValue(
         ProjectEditionAwareConfigurationEditor $projectEditionAwareConfigurationEditor,
         string $expectedResult): void
@@ -84,6 +98,32 @@ class ProjectEditionAwareConfigurationEditorTest extends TestCase
         $config = $projectEditionAwareConfigurationEditor->set($initialConfig, 'testKey.testSection', ['testValue1', '%project_edition%']);
 
         Assert::assertEquals(['testKey' => [$expectedResult, 'testSection' => ['testValue1', $expectedResult]]], $config);
+    }
+
+    /**
+     * @dataProvider dataProvider
+     */
+    public function testReplacesKeyWhenSetIsUsed(
+        ProjectEditionAwareConfigurationEditor $projectEditionAwareConfigurationEditor,
+        string $expectedResult): void
+    {
+        $initialConfig = [];
+        $config = $projectEditionAwareConfigurationEditor->set($initialConfig, 'test%project_edition%.testSection', ['testValue']);
+
+        Assert::assertEquals(['test' . $expectedResult => ['testSection' => ['testValue']]], $config);
+    }
+
+    /**
+     * @dataProvider dataProvider
+     */
+    public function testReplacesKeyWhenAppendIsUsed(
+        ProjectEditionAwareConfigurationEditor $projectEditionAwareConfigurationEditor,
+        string $expectedResult): void
+    {
+        $initialConfig = [];
+        $config = $projectEditionAwareConfigurationEditor->append($initialConfig, 'test%project_edition%.testSection', ['testValue']);
+
+        Assert::assertEquals(['test' . $expectedResult => ['testSection' => ['testValue']]], $config);
     }
 
     /**

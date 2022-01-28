@@ -33,6 +33,7 @@ class ProjectEditionAwareConfigurationEditor implements ConfigurationEditorInter
 
     public function append($config, string $key, $value)
     {
+        $this->replaceValue($key);
         $config = $this->innerConfigurationEditor->append($config, $key, $value);
 
         return $this->resolveProjectEditionReference($config);
@@ -40,6 +41,7 @@ class ProjectEditionAwareConfigurationEditor implements ConfigurationEditorInter
 
     public function set($config, string $key, $value)
     {
+        $this->replaceValue($key);
         $config = $this->innerConfigurationEditor->set($config, $key, $value);
 
         return $this->resolveProjectEditionReference($config);
@@ -64,19 +66,19 @@ class ProjectEditionAwareConfigurationEditor implements ConfigurationEditorInter
 
     private function resolveProjectEditionReference($config)
     {
-        array_walk_recursive($config, [$this, 'replaceSingleValue']);
+        array_walk_recursive($config, [$this, 'replaceValue']);
 
         return $config;
     }
 
-    private function replaceSingleValue(&$value): void
+    private function replaceValue(&$value): void
     {
         if (!is_string($value)) {
             return;
         }
 
         if (strpos($value, self::PROJECT_EDITION_STRING) !== false) {
-            $value = str_replace($value, $this->getProjectEdition(), self::PROJECT_EDITION_STRING);
+            $value = str_replace(self::PROJECT_EDITION_STRING, $this->getProjectEdition(), $value);
         }
     }
 

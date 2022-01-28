@@ -58,6 +58,10 @@ class ConfigurationEditor implements ConfigurationEditorInterface
      */
     public function getConfigFromFile(string $filePath)
     {
+        if (!file_exists($filePath)) {
+            return [];
+        }
+
         return Yaml::parse(file_get_contents($filePath));
     }
 
@@ -83,9 +87,11 @@ class ConfigurationEditor implements ConfigurationEditorInterface
 
     private function parseKey(string $key): string
     {
+        $key = str_replace('\.', 'TEMP_REPLACE_TEMP', $key);
         $keys = explode('.', $key);
         $parsed = '';
         foreach ($keys as $keyPart) {
+            $keyPart = str_replace('TEMP_REPLACE_TEMP', '.', $keyPart);
             $parsed .= sprintf('[%s]', $keyPart);
         }
 

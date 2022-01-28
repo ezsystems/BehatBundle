@@ -82,10 +82,12 @@ services:
     EzSystems\Behat\Core\Configuration\ConfigurationEditor: ~
 
     EzSystems\Behat\Core\Configuration\LocationAwareConfigurationEditor:
+        decoration_priority: 5
         decorates: EzSystems\Behat\Core\Configuration\ConfigurationEditor
 
     EzSystems\Behat\Core\Configuration\ProjectEditionAwareConfigurationEditor:
         decorates: EzSystems\Behat\Core\Configuration\ConfigurationEditor
+        decoration_priority: 10
         arguments:
             $projectDir: '%kernel.project_dir%'
 

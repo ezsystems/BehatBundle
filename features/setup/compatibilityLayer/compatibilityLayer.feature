@@ -2,65 +2,65 @@ Feature: Set up compatibility layer
 
     @compatibilityLayer
   Scenario: Set up new repository and make the default one unaccessible
-    Given I append configuration to "webpack_encore.builds" in "config/packages/ibexa_assets.yaml"
-    """
-        ezplatform: '%kernel.project_dir%/public/assets/ezplatform/build'
-    """
-    And I append configuration to "framework.packages" in "config/packages/ibexa_assets.yaml"
-    """
-        ezplatform:
-            json_manifest_path: '%kernel.project_dir%/public/assets/ezplatform/build/manifest.json'
-    """
-    And  I create a file "ez.webpack.config.js" with contents
-    """
-        const path = require('path');
-        const bundles = require('./var/encore/ibexa.config.js');
-        const ibexaConfigManager = require('./ibexa.webpack.config.manager.js');
-        const configManagers = require('./var/encore/ibexa.config.manager.js');
+    # Given I append configuration to "webpack_encore.builds" in "config/packages/ibexa_assets.yaml"
+    # """
+    #     ezplatform: '%kernel.project_dir%/public/assets/ezplatform/build'
+    # """
+    # And I append configuration to "framework.assets.packages" in "config/packages/ibexa_assets.yaml"
+    # """
+    #     ezplatform:
+    #         json_manifest_path: '%kernel.project_dir%/public/assets/ezplatform/build/manifest.json'
+    # """
+    # And  I create a file "ez.webpack.config.js" with contents
+    # """
+    #     const path = require('path');
+    #     const bundles = require('./var/encore/ibexa.config.js');
+    #     const ibexaConfigManager = require('./ibexa.webpack.config.manager.js');
+    #     const configManagers = require('./var/encore/ibexa.config.manager.js');
 
-        module.exports = (Encore) => {
-            Encore.setOutputPath('public/assets/ezplatform/build')
-                .setPublicPath('/assets/ezplatform/build')
-                .addExternals({
-                    react: 'React',
-                    'react-dom': 'ReactDOM',
-                    moment: 'moment',
-                    'popper.js': 'Popper',
-                    alloyeditor: 'AlloyEditor',
-                    'prop-types': 'PropTypes',
-                })
-                .enableSassLoader()
-                .enableReactPreset()
-                .enableSingleRuntimeChunk();
+    #     module.exports = (Encore) => {
+    #         Encore.setOutputPath('public/assets/ezplatform/build')
+    #             .setPublicPath('/assets/ezplatform/build')
+    #             .addExternals({
+    #                 react: 'React',
+    #                 'react-dom': 'ReactDOM',
+    #                 moment: 'moment',
+    #                 'popper.js': 'Popper',
+    #                 alloyeditor: 'AlloyEditor',
+    #                 'prop-types': 'PropTypes',
+    #             })
+    #             .enableSassLoader()
+    #             .enableReactPreset()
+    #             .enableSingleRuntimeChunk();
 
-            bundles.forEach((configPath) => {
-                const addEntries = require(configPath);
+    #         bundles.forEach((configPath) => {
+    #             const addEntries = require(configPath);
 
-                addEntries(Encore);
-            });
+    #             addEntries(Encore);
+    #         });
 
-            const eZConfig = Encore.getWebpackConfig();
+    #         const eZConfig = Encore.getWebpackConfig();
 
-            eZConfig.name = 'ezplatform';
+    #         eZConfig.name = 'ezplatform';
 
-            eZConfig.module.rules[4].oneOf[1].use[1].options.url = false;
-            eZConfig.module.rules[1].oneOf[1].use[1].options.url = false;
+    #         eZConfig.module.rules[4].oneOf[1].use[1].options.url = false;
+    #         eZConfig.module.rules[1].oneOf[1].use[1].options.url = false;
 
-            configManagers.forEach((configManagerPath) => {
-                const configManager = require(configManagerPath);
+    #         configManagers.forEach((configManagerPath) => {
+    #             const configManager = require(configManagerPath);
 
-                configManager(eZConfig, ibexaConfigManager);
-            });
+    #             configManager(eZConfig, ibexaConfigManager);
+    #         });
 
-            Encore.reset();
+    #         Encore.reset();
 
-            return eZConfig;
-        };
-    """
-    And I set configuration to "ibexa.compatibility_layer.oss" in "config/routes/ibexa_compatibility_layer.yaml"
-    """
-        resource: '@IbexaCompatibilityLayerBundle/Resources/config/deprecated_routing_%project_edition%.yaml'
-    """
+    #         return eZConfig;
+    #     };
+    # """
+    # And I set configuration to "ibexa\.compatibility_layer\.%project_edition%" in "config/routes/ibexa_compatibility_layer.yaml"
+    # """
+    #     resource: '@IbexaCompatibilityLayerBundle/Resources/config/deprecated_routing_%project_edition%.yaml'
+    # """
     And I apply the patch
 """
 From 07821467c6143055eb6b61d25288253ecfea69f4 Mon Sep 17 00:00:00 2001
