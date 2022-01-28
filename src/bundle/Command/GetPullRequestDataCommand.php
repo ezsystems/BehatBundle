@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace EzSystems\BehatBundle\Command;
 
-use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
 use GuzzleHttp\Psr7\Request;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
+use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -47,11 +47,13 @@ class GetPullRequestDataCommand extends Command implements BackwardCompatibleCom
             ->addArgument(
                 'pull-request-url',
                 InputArgument::REQUIRED,
-                'GitHub Pull Request URL')
+                'GitHub Pull Request URL'
+            )
             ->addArgument(
                 'token',
                 InputArgument::OPTIONAL,
-                'GitHub OAuth token')
+                'GitHub OAuth token'
+            )
             ->setHelp("This command outputs data in given order:
             - repository URL
             - name of the branch used in PR
@@ -83,7 +85,8 @@ If you have configured Composer with your token it can be obtained by running 'c
         $branchAlias = $composerExtraData['branchAlias'];
         $pageBuilderBranch = $this->getPageBuilderBranchName($metarepositoryBranch);
 
-        $outputString = sprintf('%s %s %s %s %s %s',
+        $outputString = sprintf(
+            '%s %s %s %s %s %s',
             $repositoryURL,
             $branchName,
             $branchAlias,
@@ -177,9 +180,11 @@ If you have configured Composer with your token it can be obtained by running 'c
 
         if ($response->getStatusCode() !== 200) {
             throw new \Exception(
-                sprintf('GitHub API returned code %d, expected 200. Reason: %s',
+                sprintf(
+                    'GitHub API returned code %d, expected 200. Reason: %s',
                     $response->getStatusCode(),
-                    $response->getReasonPhrase())
+                    $response->getReasonPhrase()
+                )
             );
         }
 

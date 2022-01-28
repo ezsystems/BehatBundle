@@ -15,6 +15,7 @@ class FileUploadHelper
 {
     /** @var \Behat\Mink\Session */
     private $session;
+
     /** @var \FriendsOfBehat\SymfonyExtension\Mink\MinkParameters */
     private $minkParameters;
 

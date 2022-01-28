@@ -35,11 +35,11 @@ class CollectionAssert implements CollectionAssertInterface
         Assert::assertTrue(
             $this->elementCollection->empty(),
             sprintf(
-              "Failed asserting that Collection created with %s locator '%s': '%s' is empty",
-              $this->locator->getType(),
-              $this->locator->getIdentifier(),
-              $this->locator->getSelector()
-          )
+                "Failed asserting that Collection created with %s locator '%s': '%s' is empty",
+                $this->locator->getType(),
+                $this->locator->getIdentifier(),
+                $this->locator->getSelector()
+            )
         );
 
         return $this->elementCollection;

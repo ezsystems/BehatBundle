@@ -8,14 +8,15 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\FieldTypeMatrix\FieldType\Value;
 use Ibexa\FieldTypeMatrix\FieldType\Value\Row;
 
 class MatrixDataProvider extends AbstractFieldTypeDataProvider
 {
     private const MAX_NUMBER_OF_ITEMS = 200;
+
     private $contentTypeService;
 
     public function __construct(RandomDataGenerator $randomDataGenerator, ContentTypeService $contentTypeService)

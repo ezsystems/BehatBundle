@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 class SubtreeLimitationParser implements LimitationParserInterface
 {
     private $locationService;
+
     private $urlAliasService;
 
     public function __construct(URLAliasService $urlAliasService, LocationService $locationService)

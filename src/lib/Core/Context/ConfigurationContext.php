@@ -19,9 +19,13 @@ class ConfigurationContext implements Context
 {
     private const SITEACCESS_KEY_FORMAT = 'ezplatform.system.%s.%s';
     private const SITEACCESS_MATCHER_KEY = 'ezplatform.siteaccess.match';
+
     private $ezplatformConfigFilePath;
+
     private $configFilePath;
+
     private $projectDir;
+
     /**
      * @var \EzSystems\Behat\Core\Configuration\ConfigurationEditorInterface
      */

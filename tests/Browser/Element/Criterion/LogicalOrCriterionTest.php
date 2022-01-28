@@ -38,7 +38,8 @@ class LogicalOrCriterionTest extends BaseTestCase
         $nonmatchingElement = $this->createElement('Test3');
 
         Assert::assertFalse($testedCriterion->matches($nonmatchingElement));
-        Assert::assertEquals("LogicalOr criterion failed. Condition error messages:
+        Assert::assertEquals(
+            "LogicalOr criterion failed. Condition error messages:
 Could not find element named: 'Test1'. Found names: Test3 instead. CSS locator 'id': 'selector'.
 Could not find element named: 'Test2'. Found names: Test3 instead. CSS locator 'id': 'selector'.
 ",

@@ -21,6 +21,7 @@ class ElementCollection implements ElementCollectionInterface
 {
     /** @var ElementInterface[]|\Traversable */
     private $elements;
+
     /**
      * @var \Ibexa\Behat\Browser\Locator\LocatorInterface
      */

@@ -18,6 +18,7 @@ class ElementAssert implements ElementAssertInterface
      * @var \Ibexa\Behat\Browser\Locator\LocatorInterface
      */
     private $locator;
+
     /**
      * @var \Ibexa\Behat\Browser\Element\ElementInterface
      */
@@ -88,7 +89,8 @@ class ElementAssert implements ElementAssertInterface
     {
         $actualClass = $this->element->getAttribute('class');
 
-        Assert::assertTrue($this->element->hasClass($expectedClass),
+        Assert::assertTrue(
+            $this->element->hasClass($expectedClass),
             sprintf(
                 "Failed asserting that element with %s locator '%s': '%s' has '%s' class, instead class is '%s'",
                 $this->locator->getType(),

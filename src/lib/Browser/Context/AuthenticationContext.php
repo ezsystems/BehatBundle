@@ -19,6 +19,7 @@ class AuthenticationContext extends RawMinkContext
      * @var \Ibexa\Behat\Browser\Page\LoginPage
      */
     private $loginPage;
+
     /**
      * @var \Ibexa\Behat\Browser\Page\RedirectLoginPage
      */

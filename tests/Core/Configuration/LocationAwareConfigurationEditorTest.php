@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\Test\Core\Configuration;
 
-use Ibexa\Core\Repository\Values\Content\Location;
 use EzSystems\Behat\API\Facade\ContentFacade;
 use EzSystems\Behat\Core\Configuration\ConfigurationEditor;
 use EzSystems\Behat\Core\Configuration\LocationAwareConfigurationEditor;
+use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 

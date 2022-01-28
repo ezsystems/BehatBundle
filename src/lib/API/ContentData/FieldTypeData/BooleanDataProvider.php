@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace EzSystems\Behat\API\ContentData\FieldTypeData;
 
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use EzSystems\Behat\API\ContentData\RandomDataGenerator;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
 
 class BooleanDataProvider extends AbstractFieldTypeDataProvider
 {

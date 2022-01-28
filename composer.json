@@ -43,7 +43,7 @@
     },
     "require-dev": {
         "ibexa/code-style": "^1.0",
-        "friendsofphp/php-cs-fixer": "^2.16.0",
+        "friendsofphp/php-cs-fixer": "^3.0",
         "ibexa/ci-scripts": "^0.2@dev",
         "ibexa/doctrine-schema": "^4.0@dev",
         "ibexa/rest": "^4.0@dev",
@@ -63,7 +63,7 @@
         }
     },
     "scripts": {
-        "fix-cs": "php-cs-fixer fix -v --show-progress=estimating",
+        "fix-cs": "php-cs-fixer fix --config=.php-cs-fixer.php -v --show-progress=dots",
         "check-cs": "@fix-cs --dry-run",
         "test": "phpunit -c phpunit.xml"
     },
