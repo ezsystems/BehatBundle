@@ -2,7 +2,7 @@ imports:
     - behat_ibexa_oss.yaml
     - vendor/ibexa/scheduler/behat_suites_content.yml
     - vendor/ibexa/workflow/behat_suites_content.yml
-    - vendor/ibexa/taxonomy/behat_suites.yml
+    - vendor/ibexa/taxonomy/behat_suites_content.yml
 
 regression:
     suites:
