@@ -12,9 +12,9 @@ use EzSystems\Behat\API\ContentData\RandomDataGenerator;
 use EzSystems\Behat\Core\Behat\ArgumentParser;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\ImageAsset\AssetMapper;
 use Ibexa\Core\FieldType\ImageAsset\Value;
-use Ibexa\Core\MVC\ConfigResolverInterface;
 
 class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
 {
@@ -44,7 +44,7 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
     private $urlAliasService;
 
     /**
-     * @var \Ibexa\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 
