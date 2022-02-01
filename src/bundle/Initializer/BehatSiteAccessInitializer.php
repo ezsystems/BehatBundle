@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 final class BehatSiteAccessInitializer implements EventSubscriberInterface
 {
     private const EZPLATFORM_SITEACCESS_ENV_VAR = 'EZPLATFORM_SITEACCESS';
-    private const DEFAULT_SITEACCESS_PARAMETER = 'ezpublish.siteaccess.default';
+    private const DEFAULT_SITEACCESS_PARAMETER = 'ibexa.site_access.default';
     private const EVENT_DISPATCHER_SERVICE_ID = 'event_dispatcher';
 
     /** @var \Symfony\Component\HttpKernel\KernelInterface */
