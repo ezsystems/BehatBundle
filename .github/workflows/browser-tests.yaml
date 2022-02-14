@@ -10,7 +10,7 @@ on:
 jobs:
     admin-ui:
         name: "Admin UI tests"
-        uses: ibexa/gh-workflows/.github/workflows/browser-tests.yml@main
+        uses: ibexa/gh-workflows/.github/workflows/browser-tests.yml@add-ci-scripts-argument
         with:
             project-edition: 'oss'
             project-version: '^3.3.x-dev'
