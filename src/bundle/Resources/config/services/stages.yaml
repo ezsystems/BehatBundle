@@ -4,26 +4,26 @@ services:
         autoconfigure: true
         public: false
 
-    EzSystems\Behat\Subscriber\CreateContentDraft:
+    Ibexa\Behat\Subscriber\CreateContentDraft:
         tags:
             - kernel.event_subscriber
 
-    EzSystems\Behat\Subscriber\PublishDraft:
+    Ibexa\Behat\Subscriber\PublishDraft:
         tags:
             - kernel.event_subscriber
 
-    EzSystems\Behat\Subscriber\EditContent:
+    Ibexa\Behat\Subscriber\EditContent:
         tags:
             - kernel.event_subscriber
 
-    EzSystems\Behat\Subscriber\InitialStage:
+    Ibexa\Behat\Subscriber\InitialStage:
         tags:
             - kernel.event_subscriber
 
-    EzSystems\Behat\Subscriber\Review:
+    Ibexa\Behat\Subscriber\Review:
         tags:
             - kernel.event_subscriber
 
-    EzSystems\Behat\Subscriber\PublishInTheFuture:
+    Ibexa\Behat\Subscriber\PublishInTheFuture:
         tags:
             - kernel.event_subscriber

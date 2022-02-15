@@ -9,9 +9,9 @@ services:
          autoconfigure: true
          public: false
 
-     EzSystems\BehatBundle\Command\CreateExampleDataCommand: ~
+     Ibexa\Bundle\Behat\Command\CreateExampleDataCommand: ~
 
-     EzSystems\BehatBundle\Command\CreateExampleDataManagerCommand:
+     Ibexa\Bundle\Behat\Command\CreateExampleDataManagerCommand:
        arguments:
          - '%kernel.environment%'
          - '%kernel.project_dir%'

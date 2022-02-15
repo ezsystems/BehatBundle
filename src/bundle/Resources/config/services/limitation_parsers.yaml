@@ -5,55 +5,55 @@ services:
         public: false
         
     _instanceof:
-        EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface:
+        Ibexa\Behat\API\Context\LimitationParser\LimitationParserInterface:
             tags: ['ezplatform.behat.limitation_parser']
             
-    EzSystems\Behat\API\Context\LimitationParser\ContentTypeLimitationParser:
+    Ibexa\Behat\API\Context\LimitationParser\ContentTypeLimitationParser:
         arguments:
             - '@ibexa.api.service.content_type'
 
-    EzSystems\Behat\API\Context\LimitationParser\FieldGroupLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\FieldGroupLimitationParser: ~
 
-    EzSystems\Behat\API\Context\LimitationParser\LocationLimitationParser:
+    Ibexa\Behat\API\Context\LimitationParser\LocationLimitationParser:
         arguments:
             - '@ibexa.api.service.url_alias'
             - '@ibexa.api.service.location'
-            - '@EzSystems\Behat\Core\Behat\ArgumentParser'
+            - '@Ibexa\Behat\Core\Behat\ArgumentParser'
 
-    EzSystems\Behat\API\Context\LimitationParser\NewSectionLimitationParser:
+    Ibexa\Behat\API\Context\LimitationParser\NewSectionLimitationParser:
         arguments:
             - '@ibexa.api.service.section'
 
-    EzSystems\Behat\API\Context\LimitationParser\NewStateLimitationParser:
+    Ibexa\Behat\API\Context\LimitationParser\NewStateLimitationParser:
         arguments:
             - '@ibexa.api.service.object_state'
 
-    EzSystems\Behat\API\Context\LimitationParser\ObjectStateLimitationParser:
+    Ibexa\Behat\API\Context\LimitationParser\ObjectStateLimitationParser:
         arguments:
             - '@ibexa.api.service.object_state'
 
-    EzSystems\Behat\API\Context\LimitationParser\LanguageLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\LanguageLimitationParser: ~
 
-    EzSystems\Behat\API\Context\LimitationParser\LimitationParsersCollector: ~
+    Ibexa\Behat\API\Context\LimitationParser\LimitationParsersCollector: ~
 
-    EzSystems\Behat\API\Context\LimitationParser\OwnerLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\OwnerLimitationParser: ~
 
-    EzSystems\Behat\API\Context\LimitationParser\ParentContentTypeLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\ParentContentTypeLimitationParser: ~
 
-    EzSystems\Behat\API\Context\LimitationParser\ParentDepthLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\ParentDepthLimitationParser: ~
 
-    EzSystems\Behat\API\Context\LimitationParser\ParentOwnerLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\ParentOwnerLimitationParser: ~
 
-    EzSystems\Behat\API\Context\LimitationParser\ParentUserGroupLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\ParentUserGroupLimitationParser: ~
 
-    EzSystems\Behat\API\Context\LimitationParser\SectionLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\SectionLimitationParser: ~
 
-    EzSystems\Behat\API\Context\LimitationParser\SiteaccessLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\SiteaccessLimitationParser: ~
 
-    EzSystems\Behat\API\Context\LimitationParser\SubtreeLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\SubtreeLimitationParser: ~
 
-    EzSystems\Behat\API\Context\LimitationParser\UserGroupLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\UserGroupLimitationParser: ~
 
-    EzSystems\Behat\API\Context\LimitationParser\WorkflowStageLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\WorkflowStageLimitationParser: ~
     
-    EzSystems\Behat\API\Context\LimitationParser\WorkflowTransitionLimitationParser: ~
+    Ibexa\Behat\API\Context\LimitationParser\WorkflowTransitionLimitationParser: ~

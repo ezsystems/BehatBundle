@@ -5,82 +5,82 @@ services:
         public: false
         
     _instanceof:
-      EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface:
+      Ibexa\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface:
         tags: ['ezplatform.behat.fieldtype_data_provider']
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\RandomDataGenerator: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\RandomDataGenerator: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\ObjectRelationDataProvider:
+    Ibexa\Behat\API\ContentData\FieldTypeData\ObjectRelationDataProvider:
       arguments:
-        - '@EzSystems\Behat\API\Facade\SearchFacade'
+        - '@Ibexa\Behat\API\Facade\SearchFacade'
         - '@ibexa.api.service.content'
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\ObjectRelationListDataProvider:
+    Ibexa\Behat\API\ContentData\FieldTypeData\ObjectRelationListDataProvider:
       arguments:
-        - '@EzSystems\Behat\API\Facade\SearchFacade'
+        - '@Ibexa\Behat\API\Facade\SearchFacade'
         - '@ibexa.api.service.content'
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\AuthorDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\AuthorDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\BinaryFileDataProvider:
+    Ibexa\Behat\API\ContentData\FieldTypeData\BinaryFileDataProvider:
       arguments:
         $projectDir: '%kernel.project_dir%'
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\BooleanDataProvider:
+    Ibexa\Behat\API\ContentData\FieldTypeData\BooleanDataProvider:
       arguments:
-        - '@EzSystems\Behat\API\ContentData\RandomDataGenerator'
+        - '@Ibexa\Behat\API\ContentData\RandomDataGenerator'
         - '@Ibexa\Contracts\Core\Repository\ContentTypeService'
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\CountryDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\CountryDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\DateDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\DateDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\DateTimeDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\DateTimeDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\EmailDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\EmailDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\FloatDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\FloatDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\ISBNDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\ISBNDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\MatrixDataProvider:
+    Ibexa\Behat\API\ContentData\FieldTypeData\MatrixDataProvider:
       arguments:
-        - '@EzSystems\Behat\API\ContentData\RandomDataGenerator'
+        - '@Ibexa\Behat\API\ContentData\RandomDataGenerator'
         - '@Ibexa\Contracts\Core\Repository\ContentTypeService'
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\SelectionDataProvider:
+    Ibexa\Behat\API\ContentData\FieldTypeData\SelectionDataProvider:
       arguments:
         - '@Ibexa\Contracts\Core\Repository\ContentTypeService'
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\ImageAssetDataProvider:
+    Ibexa\Behat\API\ContentData\FieldTypeData\ImageAssetDataProvider:
       arguments:
-        - '@EzSystems\Behat\API\ContentData\RandomDataGenerator'
+        - '@Ibexa\Behat\API\ContentData\RandomDataGenerator'
         - '@Ibexa\Core\FieldType\ImageAsset\AssetMapper'
-        - '@EzSystems\Behat\API\ContentData\FieldTypeData\ImageDataProvider'
-        - '@EzSystems\Behat\Core\Behat\ArgumentParser'
+        - '@Ibexa\Behat\API\ContentData\FieldTypeData\ImageDataProvider'
+        - '@Ibexa\Behat\Core\Behat\ArgumentParser'
         - '@Ibexa\Contracts\Core\Repository\LocationService'
         - '@Ibexa\Contracts\Core\Repository\URLAliasService'
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\ImageDataProvider:
+    Ibexa\Behat\API\ContentData\FieldTypeData\ImageDataProvider:
       arguments:
         $projectDir: '%kernel.project_dir%'
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\IntegerDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\IntegerDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\MapDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\MapDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\MediaDataProvider:
+    Ibexa\Behat\API\ContentData\FieldTypeData\MediaDataProvider:
       arguments:
         $projectDir: '%kernel.project_dir%'
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\PasswordProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\RichTextDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\RichTextDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\TextLineDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\TextLineDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\TextBlockDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\TextBlockDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\TimeDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\TimeDataProvider: ~
 
-    EzSystems\Behat\API\ContentData\FieldTypeData\URLDataProvider: ~
+    Ibexa\Behat\API\ContentData\FieldTypeData\URLDataProvider: ~

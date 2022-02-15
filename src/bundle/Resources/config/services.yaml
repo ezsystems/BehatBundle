@@ -12,50 +12,50 @@ services:
         autoconfigure: true
         public: false
 
-    EzSystems\Behat\API\ContentData\ContentDataProvider:
+    Ibexa\Behat\API\ContentData\ContentDataProvider:
          arguments:
             - '@ibexa.api.service.content_type'
             - '@ibexa.api.service.content'
 
-    EzSystems\Behat\API\ContentData\RandomDataGenerator: ~
+    Ibexa\Behat\API\ContentData\RandomDataGenerator: ~
 
-    EzSystems\Behat\API\Facade\ContentFacade:
+    Ibexa\Behat\API\Facade\ContentFacade:
         public: true
 
-    EzSystems\Behat\API\Facade\SearchFacade:
+    Ibexa\Behat\API\Facade\SearchFacade:
         arguments:
             - '@Ibexa\Contracts\Core\Repository\URLAliasService'
             - '@Ibexa\Contracts\Core\Repository\LocationService'
             - '@ibexa.api.service.search'
 
-    EzSystems\Behat\API\Facade\ContentTypeFacade:
+    Ibexa\Behat\API\Facade\ContentTypeFacade:
         public: true
         arguments:
         - '@ibexa.api.service.content_type'
         - '@ibexa.cache_pool'
 
-    EzSystems\Behat\API\Facade\RoleFacade:
+    Ibexa\Behat\API\Facade\RoleFacade:
         public: true
 
-    EzSystems\Behat\API\Facade\UserFacade:
+    Ibexa\Behat\API\Facade\UserFacade:
         public: true
 
-    EzSystems\Behat\API\Facade\LanguageFacade:
+    Ibexa\Behat\API\Facade\LanguageFacade:
         public: true
 
-    EzSystems\Behat\API\Facade\TrashFacade:
+    Ibexa\Behat\API\Facade\TrashFacade:
         public: true
 
     Ibexa\Behat\Browser\Environment\ParameterProvider: ~
 
     Ibexa\Behat\Browser\Environment\ParameterProviderInterface: '@Ibexa\Behat\Browser\Environment\ParameterProvider'
 
-    EzSystems\Behat\Core\Behat\ArgumentParser:
+    Ibexa\Behat\Core\Behat\ArgumentParser:
         public: true
         arguments:
-            - '@EzSystems\Behat\API\Facade\RoleFacade'
+            - '@Ibexa\Behat\API\Facade\RoleFacade'
 
-    EzSystems\BehatBundle\Command\CreateLanguageCommand:
+    Ibexa\Bundle\Behat\Command\CreateLanguageCommand:
         arguments:
             $languageService: '@ibexa.api.service.language'
             $userService: '@ibexa.api.service.user'
@@ -63,31 +63,31 @@ services:
         tags:
             - { name: console.command }
 
-    EzSystems\BehatBundle\Command\GetPullRequestDataCommand:
+    Ibexa\Bundle\Behat\Command\GetPullRequestDataCommand:
         tags:
             - { name: console.command }
 
-    EzSystems\BehatBundle\Templating\Twig\PHPTypeExtension:
+    Ibexa\Bundle\Behat\Templating\Twig\PHPTypeExtension:
         tags:
             - { name: twig.extension }
 
-    EzSystems\BehatBundle\Command\TestSiteaccessCommand:
+    Ibexa\Bundle\Behat\Command\TestSiteaccessCommand:
         arguments:
             $siteaccess: '@Ibexa\Core\MVC\Symfony\SiteAccess'
         tags:
             - { name: console.command }
 
-    EzSystems\Behat\QueryType\FoldersUnderMediaQueryType: ~
+    Ibexa\Behat\QueryType\FoldersUnderMediaQueryType: ~
 
-    EzSystems\Behat\Core\Configuration\ConfigurationEditor: ~
+    Ibexa\Behat\Core\Configuration\ConfigurationEditor: ~
 
-    EzSystems\Behat\Core\Configuration\LocationAwareConfigurationEditor:
-        decorates: EzSystems\Behat\Core\Configuration\ConfigurationEditor
+    Ibexa\Behat\Core\Configuration\LocationAwareConfigurationEditor:
+        decorates: Ibexa\Behat\Core\Configuration\ConfigurationEditor
 
     Ibexa\Behat\Browser\Routing\Router:
         arguments:
             $router: '@Ibexa\Core\MVC\Symfony\SiteAccess\Router'
 
-    EzSystems\Behat\Core\Configuration\ConfigurationEditorInterface: '@EzSystems\Behat\Core\Configuration\LocationAwareConfigurationEditor'
+    Ibexa\Behat\Core\Configuration\ConfigurationEditorInterface: '@Ibexa\Behat\Core\Configuration\LocationAwareConfigurationEditor'
 
     Ibexa\Behat\Browser\FileUpload\FileUploadHelper: ~
