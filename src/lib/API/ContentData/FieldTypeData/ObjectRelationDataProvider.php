@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
-use EzSystems\Behat\API\Facade\SearchFacade;
-use EzSystems\Behat\Core\Behat\ArgumentParser;
+use Ibexa\Behat\API\Facade\SearchFacade;
+use Ibexa\Behat\Core\Behat\ArgumentParser;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
@@ -66,3 +66,5 @@ class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
         return $location->getContentInfo()->id;
     }
 }
+
+class_alias(ObjectRelationDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\ObjectRelationDataProvider');

@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Context\LimitationParser;
+namespace Ibexa\Behat\API\Context\LimitationParser;
 
 class LimitationParsersCollector
 {
@@ -34,3 +34,5 @@ class LimitationParsersCollector
         return $this->limitationParsers;
     }
 }
+
+class_alias(LimitationParsersCollector::class, 'EzSystems\Behat\API\Context\LimitationParser\LimitationParsersCollector');

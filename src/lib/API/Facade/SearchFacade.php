@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Facade;
+namespace Ibexa\Behat\API\Facade;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\LocationService;
@@ -104,3 +104,5 @@ class SearchFacade
         return $this->contentService->loadContent($contentId)->contentInfo->mainLocationId;
     }
 }
+
+class_alias(SearchFacade::class, 'EzSystems\Behat\API\Facade\SearchFacade');

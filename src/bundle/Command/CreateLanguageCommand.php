@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\BehatBundle\Command;
+namespace Ibexa\Bundle\Behat\Command;
 
 use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
 use Ibexa\Contracts\Core\Repository\LanguageService;
@@ -83,3 +83,5 @@ class CreateLanguageCommand extends Command implements BackwardCompatibleCommand
         return 0;
     }
 }
+
+class_alias(CreateLanguageCommand::class, 'EzSystems\BehatBundle\Command\CreateLanguageCommand');

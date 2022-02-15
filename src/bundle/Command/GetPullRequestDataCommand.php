@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\BehatBundle\Command;
+namespace Ibexa\Bundle\Behat\Command;
 
 use GuzzleHttp\Psr7\Request;
 use Http\Client\Common\HttpMethodsClient;
@@ -199,3 +199,5 @@ If you have configured Composer with your token it can be obtained by running 'c
         return ['ezplatform:tools:get-pull-request-data'];
     }
 }
+
+class_alias(GetPullRequestDataCommand::class, 'EzSystems\BehatBundle\Command\GetPullRequestDataCommand');

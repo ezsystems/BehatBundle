@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Core\Context;
+namespace Ibexa\Behat\Core\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
@@ -83,3 +83,5 @@ class FileContext implements Context
         }
     }
 }
+
+class_alias(FileContext::class, 'EzSystems\Behat\Core\Context\FileContext');

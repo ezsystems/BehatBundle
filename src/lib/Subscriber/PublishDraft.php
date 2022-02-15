@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Subscriber;
+namespace Ibexa\Behat\Subscriber;
 
-use EzSystems\Behat\API\ContentData\RandomDataGenerator;
-use EzSystems\Behat\Event\Events;
-use EzSystems\Behat\Event\TransitionEvent;
+use Ibexa\Behat\API\ContentData\RandomDataGenerator;
+use Ibexa\Behat\Event\Events;
+use Ibexa\Behat\Event\TransitionEvent;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
@@ -64,3 +64,5 @@ class PublishDraft extends AbstractProcessStage implements EventSubscriberInterf
         $event->content = $this->contentService->publishVersion($event->content->versionInfo);
     }
 }
+
+class_alias(PublishDraft::class, 'EzSystems\Behat\Subscriber\PublishDraft');

@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Core\Debug\Shell;
+namespace Ibexa\Behat\Core\Debug\Shell;
 
 use Exception;
-use EzSystems\Behat\Core\Debug\Matcher\ObjectFunctionCallChainMatcher;
-use EzSystems\Behat\Core\Debug\Matcher\ThisObjectMethodsMatcher;
+use Ibexa\Behat\Core\Debug\Matcher\ObjectFunctionCallChainMatcher;
+use Ibexa\Behat\Core\Debug\Matcher\ThisObjectMethodsMatcher;
 use Psy\Shell as BaseShell;
 use Psy\TabCompletion\Matcher\AbstractMatcher;
 use Psy\TabCompletion\Matcher\FunctionsMatcher;
@@ -74,3 +74,5 @@ class Shell extends BaseShell
         $this->writeMessage('The error message is: ' . $e->getMessage());
     }
 }
+
+class_alias(Shell::class, 'EzSystems\Behat\Core\Debug\Shell\Shell');

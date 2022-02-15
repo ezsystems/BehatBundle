@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Core\FieldType\Selection\Value;
@@ -50,3 +50,5 @@ class SelectionDataProvider implements FieldTypeDataProviderInterface
         return new Value($options);
     }
 }
+
+class_alias(SelectionDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\SelectionDataProvider');

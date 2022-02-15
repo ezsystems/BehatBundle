@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Event;
+namespace Ibexa\Behat\Event;
 
 class Events
 {
@@ -30,3 +30,5 @@ class Events
 
     public const PUBLISH_LATER_TO_END = 'volume_testing.transition.publish_later_to_end';
 }
+
+class_alias(Events::class, 'EzSystems\Behat\Event\Events');

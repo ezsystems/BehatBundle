@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Context\LimitationParser;
+namespace Ibexa\Behat\API\Context\LimitationParser;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
@@ -45,3 +45,5 @@ class SubtreeLimitationParser implements LimitationParserInterface
         );
     }
 }
+
+class_alias(SubtreeLimitationParser::class, 'EzSystems\Behat\API\Context\LimitationParser\SubtreeLimitationParser');

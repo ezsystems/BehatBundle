@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Event;
+namespace Ibexa\Behat\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
@@ -42,3 +42,5 @@ class TransitionEvent extends Event
         $this->mainLanguage = $mainLanguage;
     }
 }
+
+class_alias(TransitionEvent::class, 'EzSystems\Behat\Event\TransitionEvent');

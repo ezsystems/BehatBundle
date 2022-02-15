@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Core\Context;
+namespace Ibexa\Behat\Core\Context;
 
 use Behat\Behat\Context\Context;
 use PHPUnit\Framework\Assert;
@@ -62,3 +62,5 @@ class TimeContext implements Context
         Assert::assertGreaterThan($maxDuration, $actualDuration);
     }
 }
+
+class_alias(TimeContext::class, 'EzSystems\Behat\Core\Context\TimeContext');

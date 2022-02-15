@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 class URLDataProvider extends AbstractFieldTypeDataProvider
 {
@@ -20,3 +20,5 @@ class URLDataProvider extends AbstractFieldTypeDataProvider
         return $this->getFaker()->url;
     }
 }
+
+class_alias(URLDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\URLDataProvider');

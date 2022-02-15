@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Context;
+namespace Ibexa\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
-use EzSystems\Behat\API\Facade\TrashFacade;
-use EzSystems\Behat\Core\Behat\ArgumentParser;
+use Ibexa\Behat\API\Facade\TrashFacade;
+use Ibexa\Behat\Core\Behat\ArgumentParser;
 
 class TrashContext implements Context
 {
@@ -37,3 +37,5 @@ class TrashContext implements Context
         $this->trashFacade->trash($locationURL);
     }
 }
+
+class_alias(TrashContext::class, 'EzSystems\Behat\API\Context\TrashContext');

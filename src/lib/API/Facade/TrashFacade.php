@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Facade;
+namespace Ibexa\Behat\API\Facade;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\TrashService;
@@ -42,3 +42,5 @@ class TrashFacade
         $this->trashService->trash($location);
     }
 }
+
+class_alias(TrashFacade::class, 'EzSystems\Behat\API\Facade\TrashFacade');

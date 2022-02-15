@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Event;
+namespace Ibexa\Behat\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
@@ -40,3 +40,5 @@ class InitialEvent extends Event
         $this->mainLanguage = $mainLanguage;
     }
 }
+
+class_alias(InitialEvent::class, 'EzSystems\Behat\Event\InitialEvent');

@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Subscriber;
+namespace Ibexa\Behat\Subscriber;
 
-use EzSystems\Behat\API\ContentData\RandomDataGenerator;
-use EzSystems\Behat\Event\TransitionEvent;
+use Ibexa\Behat\API\ContentData\RandomDataGenerator;
+use Ibexa\Behat\Event\TransitionEvent;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
@@ -117,3 +117,5 @@ abstract class AbstractProcessStage
 
     abstract protected function doExecute(TransitionEvent $event): void;
 }
+
+class_alias(AbstractProcessStage::class, 'EzSystems\Behat\Subscriber\AbstractProcessStage');

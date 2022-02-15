@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\BehatBundle\Initializer;
+namespace Ibexa\Bundle\Behat\Initializer;
 
 use Behat\Behat\EventDispatcher\Event\ExampleTested;
 use Behat\Behat\EventDispatcher\Event\ScenarioTested;
@@ -59,3 +59,5 @@ final class BehatSiteAccessInitializer implements EventSubscriberInterface
         return new SiteAccess($siteAccessName, 'cli');
     }
 }
+
+class_alias(BehatSiteAccessInitializer::class, 'EzSystems\BehatBundle\Initializer\BehatSiteAccessInitializer');

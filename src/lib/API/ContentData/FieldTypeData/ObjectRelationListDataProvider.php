@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 use Ibexa\Core\FieldType\RelationList\Value;
 
@@ -32,3 +32,5 @@ class ObjectRelationListDataProvider extends ObjectRelationDataProvider
         return new Value($itemsToAdd);
     }
 }
+
+class_alias(ObjectRelationListDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\ObjectRelationListDataProvider');

@@ -1,5 +1,5 @@
 {
-    "name": "ezsystems/behatbundle",
+    "name": "ibexa/behat",
     "description": "Behat bundle for help testing eZ Bundles and projects",
     "license": "GPL-2.0",
     "authors": [
@@ -53,8 +53,11 @@
         "psr-4": {
             "EzSystems\\BehatBundle\\": "src/bundle/",
             "EzSystems\\Behat\\": "src/lib/",
+            "Ibexa\\Tests\\Behat\\": "tests/lib/",
+            "Ibexa\\Behat\\": "src/lib/",
             "Ibexa\\Bundle\\Behat\\": "src/bundle/",
-            "Ibexa\\Behat\\": "src/lib/"
+            "Ibexa\\Contracts\\Behat\\": "src/contracts/",
+            "Ibexa\\Tests\\Bundle\\Behat\\": "tests/bundle/"
         }
     },
     "autoload-dev": {
@@ -69,10 +72,13 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "9.0.x-dev"
+            "dev-main": "4.0.x-dev"
         }
     },
-    "bin": ["bin/ezbehat", "bin/ezreport"],
+    "bin": [
+        "bin/ezbehat",
+        "bin/ezreport"
+    ],
     "config": {
         "allow-plugins": {
             "composer/package-versions-deprecated": true

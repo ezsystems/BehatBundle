@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 class TextLineDataProvider extends AbstractFieldTypeDataProvider
 {
@@ -22,3 +22,5 @@ class TextLineDataProvider extends AbstractFieldTypeDataProvider
         return $this->getFaker()->realText(80, 1);
     }
 }
+
+class_alias(TextLineDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\TextLineDataProvider');

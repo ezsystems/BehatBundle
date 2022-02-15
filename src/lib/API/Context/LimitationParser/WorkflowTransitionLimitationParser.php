@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Context\LimitationParser;
+namespace Ibexa\Behat\API\Context\LimitationParser;
 
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Workflow\Value\Limitation\WorkflowTransitionLimitation;
@@ -27,3 +27,5 @@ class WorkflowTransitionLimitationParser implements LimitationParserInterface
         );
     }
 }
+
+class_alias(WorkflowTransitionLimitationParser::class, 'EzSystems\Behat\API\Context\LimitationParser\WorkflowTransitionLimitationParser');

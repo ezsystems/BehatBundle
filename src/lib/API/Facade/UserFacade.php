@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Facade;
+namespace Ibexa\Behat\API\Facade;
 
-use EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider;
-use EzSystems\Behat\API\ContentData\RandomDataGenerator;
+use Ibexa\Behat\API\ContentData\FieldTypeData\PasswordProvider;
+use Ibexa\Behat\API\ContentData\RandomDataGenerator;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\RoleService;
 use Ibexa\Contracts\Core\Repository\SearchService;
@@ -149,3 +149,5 @@ class UserFacade
         throw new NotFoundException('User Group', $userGroupName);
     }
 }
+
+class_alias(UserFacade::class, 'EzSystems\Behat\API\Facade\UserFacade');

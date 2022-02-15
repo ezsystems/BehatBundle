@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Core\Context;
+namespace Ibexa\Behat\Core\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Exception;
-use EzSystems\Behat\Core\Configuration\ConfigurationEditorInterface;
+use Ibexa\Behat\Core\Configuration\ConfigurationEditorInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class ConfigurationContext implements Context
@@ -155,3 +155,5 @@ class ConfigurationContext implements Context
         return 'append' === $value;
     }
 }
+
+class_alias(ConfigurationContext::class, 'EzSystems\Behat\Core\Context\ConfigurationContext');

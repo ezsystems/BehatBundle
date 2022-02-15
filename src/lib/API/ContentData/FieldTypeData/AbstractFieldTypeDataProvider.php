@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
-use EzSystems\Behat\API\ContentData\RandomDataGenerator;
+use Ibexa\Behat\API\ContentData\RandomDataGenerator;
 use Faker\Generator;
 
 abstract class AbstractFieldTypeDataProvider implements FieldTypeDataProviderInterface
@@ -35,3 +35,5 @@ abstract class AbstractFieldTypeDataProvider implements FieldTypeDataProviderInt
         return $this->randomDataGenerator->getFaker();
     }
 }
+
+class_alias(AbstractFieldTypeDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\AbstractFieldTypeDataProvider');

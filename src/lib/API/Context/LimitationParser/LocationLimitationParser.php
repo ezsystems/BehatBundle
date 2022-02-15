@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Context\LimitationParser;
+namespace Ibexa\Behat\API\Context\LimitationParser;
 
-use EzSystems\Behat\Core\Behat\ArgumentParser;
+use Ibexa\Behat\Core\Behat\ArgumentParser;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
@@ -56,3 +56,5 @@ class LocationLimitationParser implements LimitationParserInterface
         );
     }
 }
+
+class_alias(LocationLimitationParser::class, 'EzSystems\Behat\API\Context\LimitationParser\LocationLimitationParser');

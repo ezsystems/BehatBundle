@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Subscriber;
+namespace Ibexa\Behat\Subscriber;
 
-use EzSystems\Behat\API\ContentData\ContentDataProvider;
-use EzSystems\Behat\API\ContentData\RandomDataGenerator;
-use EzSystems\Behat\Event\Events;
-use EzSystems\Behat\Event\TransitionEvent;
+use Ibexa\Behat\API\ContentData\ContentDataProvider;
+use Ibexa\Behat\API\ContentData\RandomDataGenerator;
+use Ibexa\Behat\Event\Events;
+use Ibexa\Behat\Event\TransitionEvent;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
@@ -76,3 +76,5 @@ class EditContent extends AbstractProcessStage implements EventSubscriberInterfa
         $this->workflowFacade->transition($event->content, $transitionName, $this->randomDataGenerator->getRandomTextLine());
     }
 }
+
+class_alias(EditContent::class, 'EzSystems\Behat\Subscriber\EditContent');

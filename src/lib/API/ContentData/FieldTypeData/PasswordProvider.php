@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 class PasswordProvider extends AbstractFieldTypeDataProvider
 {
@@ -22,3 +22,5 @@ class PasswordProvider extends AbstractFieldTypeDataProvider
         return self::DEFAUlT_PASSWORD;
     }
 }
+
+class_alias(PasswordProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\PasswordProvider');

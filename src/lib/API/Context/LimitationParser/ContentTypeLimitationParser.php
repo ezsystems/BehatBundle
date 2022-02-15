@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Context\LimitationParser;
+namespace Ibexa\Behat\API\Context\LimitationParser;
 
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
@@ -64,3 +64,5 @@ class ContentTypeLimitationParser implements LimitationParserInterface
         return $contentTypeName;
     }
 }
+
+class_alias(ContentTypeLimitationParser::class, 'EzSystems\Behat\API\Context\LimitationParser\ContentTypeLimitationParser');

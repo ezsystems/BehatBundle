@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 class FloatDataProvider extends AbstractFieldTypeDataProvider
 {
@@ -25,3 +25,5 @@ class FloatDataProvider extends AbstractFieldTypeDataProvider
         return (float) $value;
     }
 }
+
+class_alias(FloatDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\FloatDataProvider');

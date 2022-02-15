@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\BehatBundle\DependencyInjection\Compiler;
+namespace Ibexa\Bundle\Behat\DependencyInjection\Compiler;
 
-use EzSystems\Behat\API\ContentData\ContentDataProvider;
-use EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface;
+use Ibexa\Behat\API\ContentData\ContentDataProvider;
+use Ibexa\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -29,3 +29,5 @@ class FieldTypeDataProviderPass implements CompilerPassInterface
         }
     }
 }
+
+class_alias(FieldTypeDataProviderPass::class, 'EzSystems\BehatBundle\DependencyInjection\Compiler\FieldTypeDataProviderPass');

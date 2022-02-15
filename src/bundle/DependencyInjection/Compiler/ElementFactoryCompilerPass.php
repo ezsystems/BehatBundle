@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\BehatBundle\DependencyInjection\Compiler;
+namespace Ibexa\Bundle\Behat\DependencyInjection\Compiler;
 
-use EzSystems\BehatBundle\DependencyInjection\eZBehatExtension;
+use Ibexa\Bundle\Behat\DependencyInjection\IbexaBehatExtension;
 use Ibexa\Behat\Browser\Element\Factory\Debug\Interactive\ElementFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -36,3 +36,5 @@ class ElementFactoryCompilerPass implements CompilerPassInterface
             $container->getParameter(eZBehatExtension::BROWSER_DEBUG_INTERACTIVE_ENABLED);
     }
 }
+
+class_alias(ElementFactoryCompilerPass::class, 'EzSystems\BehatBundle\DependencyInjection\Compiler\ElementFactoryCompilerPass');

@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Context\LimitationParser;
+namespace Ibexa\Behat\API\Context\LimitationParser;
 
 use Ibexa\Contracts\Core\Repository\ObjectStateService;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
@@ -60,3 +60,5 @@ class NewStateLimitationParser implements LimitationParserInterface
         return $values;
     }
 }
+
+class_alias(NewStateLimitationParser::class, 'EzSystems\Behat\API\Context\LimitationParser\NewStateLimitationParser');

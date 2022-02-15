@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Core\Configuration;
+namespace Ibexa\Behat\Core\Configuration;
 
-use EzSystems\Behat\API\Facade\ContentFacade;
+use Ibexa\Behat\API\Facade\ContentFacade;
 
 class LocationAwareConfigurationEditor implements ConfigurationEditorInterface
 {
@@ -76,3 +76,5 @@ class LocationAwareConfigurationEditor implements ConfigurationEditorInterface
         }
     }
 }
+
+class_alias(LocationAwareConfigurationEditor::class, 'EzSystems\Behat\Core\Configuration\LocationAwareConfigurationEditor');

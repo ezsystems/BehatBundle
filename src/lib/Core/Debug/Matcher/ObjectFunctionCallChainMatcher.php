@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Core\Debug\Matcher;
+namespace Ibexa\Behat\Core\Debug\Matcher;
 
 use Psy\TabCompletion\Matcher\AbstractMatcher;
 use Psy\TabCompletion\Matcher\ObjectMethodsMatcher;
@@ -117,3 +117,5 @@ class ObjectFunctionCallChainMatcher extends ObjectMethodsMatcher
         return get_class($object);
     }
 }
+
+class_alias(ObjectFunctionCallChainMatcher::class, 'EzSystems\Behat\Core\Debug\Matcher\ObjectFunctionCallChainMatcher');

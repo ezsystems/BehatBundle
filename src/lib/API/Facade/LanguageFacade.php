@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Facade;
+namespace Ibexa\Behat\API\Facade;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\LanguageService;
@@ -39,3 +39,5 @@ class LanguageFacade
         $this->languageService->createLanguage($languageCreateStruct);
     }
 }
+
+class_alias(LanguageFacade::class, 'EzSystems\Behat\API\Facade\LanguageFacade');

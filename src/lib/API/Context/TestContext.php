@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Context;
+namespace Ibexa\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
@@ -57,3 +57,5 @@ class TestContext implements Context
         }
     }
 }
+
+class_alias(TestContext::class, 'EzSystems\Behat\API\Context\TestContext');

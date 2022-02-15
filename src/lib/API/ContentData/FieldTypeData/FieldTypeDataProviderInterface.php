@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 interface FieldTypeDataProviderInterface
 {
@@ -18,3 +18,5 @@ interface FieldTypeDataProviderInterface
 
     public function parseFromString(string $value);
 }
+
+class_alias(FieldTypeDataProviderInterface::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface');

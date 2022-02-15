@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 use Ibexa\Core\FieldType\Country\Value;
 
@@ -44,3 +44,5 @@ class CountryDataProvider implements FieldTypeDataProviderInterface
         return new Value([$value => self::COUNTRY_DATA[$value]]);
     }
 }
+
+class_alias(CountryDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\CountryDataProvider');

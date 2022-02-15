@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 class IntegerDataProvider extends AbstractFieldTypeDataProvider
 {
@@ -25,3 +25,5 @@ class IntegerDataProvider extends AbstractFieldTypeDataProvider
         return (int) $value;
     }
 }
+
+class_alias(IntegerDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\IntegerDataProvider');

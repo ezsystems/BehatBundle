@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Core\Log;
+namespace Ibexa\Behat\Core\Log;
 
 class LogFileReader
 {
@@ -40,3 +40,5 @@ class LogFileReader
         return $logEntries;
     }
 }
+
+class_alias(LogFileReader::class, 'EzSystems\Behat\Core\Log\LogFileReader');

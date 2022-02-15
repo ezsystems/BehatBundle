@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
-use EzSystems\Behat\API\ContentData\RandomDataGenerator;
-use EzSystems\Behat\Core\Behat\ArgumentParser;
+use Ibexa\Behat\API\ContentData\RandomDataGenerator;
+use Ibexa\Behat\Core\Behat\ArgumentParser;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -99,3 +99,5 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
         return new Value($location->getContentInfo()->id, $this->getFaker()->realText(100));
     }
 }
+
+class_alias(ImageAssetDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\ImageAssetDataProvider');

@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\BehatBundle\Templating\Twig;
+namespace Ibexa\Bundle\Behat\Templating\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -28,3 +28,5 @@ class PHPTypeExtension extends AbstractExtension
         ];
     }
 }
+
+class_alias(PHPTypeExtension::class, 'EzSystems\BehatBundle\Templating\Twig\PHPTypeExtension');

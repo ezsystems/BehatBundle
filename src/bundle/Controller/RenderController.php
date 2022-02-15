@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\BehatBundle\Controller;
+namespace Ibexa\Bundle\Behat\Controller;
 
 use Ibexa\Bundle\Core\Controller;
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -37,3 +37,5 @@ class RenderController extends Controller
         return $view;
     }
 }
+
+class_alias(RenderController::class, 'EzSystems\BehatBundle\Controller\RenderController');

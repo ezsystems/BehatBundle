@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 class ISBNDataProvider extends AbstractFieldTypeDataProvider
 {
@@ -20,3 +20,5 @@ class ISBNDataProvider extends AbstractFieldTypeDataProvider
         return $this->getFaker()->isbn13;
     }
 }
+
+class_alias(ISBNDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\ISBNDataProvider');

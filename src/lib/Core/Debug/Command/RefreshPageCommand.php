@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Core\Debug\Command;
+namespace Ibexa\Behat\Core\Debug\Command;
 
 use Behat\Mink\Session;
 use Psy\Command\Command;
@@ -42,3 +42,5 @@ class RefreshPageCommand extends Command
         return 0;
     }
 }
+
+class_alias(RefreshPageCommand::class, 'EzSystems\Behat\Core\Debug\Command\RefreshPageCommand');

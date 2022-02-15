@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 use Ibexa\Core\FieldType\Media\Value;
 
@@ -55,3 +55,5 @@ class MediaDataProvider implements FieldTypeDataProviderInterface
         return $mediaValue;
     }
 }
+
+class_alias(MediaDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\MediaDataProvider');

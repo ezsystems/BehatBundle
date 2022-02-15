@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Core\Debug\Command;
+namespace Ibexa\Behat\Core\Debug\Command;
 
 use Behat\Mink\Session;
 use Cloudinary;
@@ -62,3 +62,5 @@ class TakeScreenshotCommand extends Command
         }
     }
 }
+
+class_alias(TakeScreenshotCommand::class, 'EzSystems\Behat\Core\Debug\Command\TakeScreenshotCommand');

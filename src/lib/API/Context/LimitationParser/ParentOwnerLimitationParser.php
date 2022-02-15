@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Context\LimitationParser;
+namespace Ibexa\Behat\API\Context\LimitationParser;
 
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentOwnerLimitation;
@@ -31,3 +31,5 @@ class ParentOwnerLimitationParser implements LimitationParserInterface
         );
     }
 }
+
+class_alias(ParentOwnerLimitationParser::class, 'EzSystems\Behat\API\Context\LimitationParser\ParentOwnerLimitationParser');

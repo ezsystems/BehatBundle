@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Facade;
+namespace Ibexa\Behat\API\Facade;
 
-use EzSystems\Behat\API\ContentData\ContentDataProvider;
+use Ibexa\Behat\API\ContentData\ContentDataProvider;
 use FOS\HttpCacheBundle\CacheManager;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\LocationService;
@@ -129,3 +129,5 @@ class ContentFacade
         $this->cacheManager->flush();
     }
 }
+
+class_alias(ContentFacade::class, 'EzSystems\Behat\API\Facade\ContentFacade');

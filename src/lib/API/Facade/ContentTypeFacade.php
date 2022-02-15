@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Facade;
+namespace Ibexa\Behat\API\Facade;
 
-use EzSystems\Behat\API\ContentData\FieldTypeNameConverter;
+use Ibexa\Behat\API\ContentData\FieldTypeNameConverter;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
@@ -114,3 +114,5 @@ class ContentTypeFacade
         }
     }
 }
+
+class_alias(ContentTypeFacade::class, 'EzSystems\Behat\API\Facade\ContentTypeFacade');

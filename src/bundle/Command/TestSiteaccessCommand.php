@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\BehatBundle\Command;
+namespace Ibexa\Bundle\Behat\Command;
 
 use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
@@ -50,3 +50,5 @@ class TestSiteaccessCommand extends Command implements BackwardCompatibleCommand
         return 0;
     }
 }
+
+class_alias(TestSiteaccessCommand::class, 'EzSystems\BehatBundle\Command\TestSiteaccessCommand');

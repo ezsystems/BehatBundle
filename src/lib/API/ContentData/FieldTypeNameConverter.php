@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData;
+namespace Ibexa\Behat\API\ContentData;
 
 class FieldTypeNameConverter
 {
@@ -53,3 +53,5 @@ class FieldTypeNameConverter
         return array_search($fieldTypeName, static::$FIELD_TYPE_MAPPING);
     }
 }
+
+class_alias(FieldTypeNameConverter::class, 'EzSystems\Behat\API\ContentData\FieldTypeNameConverter');

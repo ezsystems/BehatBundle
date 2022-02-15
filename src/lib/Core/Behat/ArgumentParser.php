@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Core\Behat;
+namespace Ibexa\Behat\Core\Behat;
 
 use Behat\Gherkin\Node\TableNode;
-use EzSystems\Behat\API\Facade\RoleFacade;
+use Ibexa\Behat\API\Facade\RoleFacade;
 use Ibexa\Behat\Browser\Environment\ParameterProviderInterface;
 
 class ArgumentParser
@@ -76,3 +76,5 @@ class ArgumentParser
         return str_replace(self::ROOT_KEYWORD, $this->parameterProvider->getParameter('root_content_name'), $path);
     }
 }
+
+class_alias(ArgumentParser::class, 'EzSystems\Behat\Core\Behat\ArgumentParser');

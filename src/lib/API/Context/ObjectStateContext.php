@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Context;
+namespace Ibexa\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
@@ -46,3 +46,5 @@ class ObjectStateContext implements Context
         }
     }
 }
+
+class_alias(ObjectStateContext::class, 'EzSystems\Behat\API\Context\ObjectStateContext');

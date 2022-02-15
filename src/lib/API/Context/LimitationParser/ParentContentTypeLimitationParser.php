@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Context\LimitationParser;
+namespace Ibexa\Behat\API\Context\LimitationParser;
 
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimitation;
@@ -26,3 +26,5 @@ class ParentContentTypeLimitationParser extends ContentTypeLimitationParser
         );
     }
 }
+
+class_alias(ParentContentTypeLimitationParser::class, 'EzSystems\Behat\API\Context\LimitationParser\ParentContentTypeLimitationParser');

@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData;
+namespace Ibexa\Behat\API\ContentData;
 
-use EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface;
+use Ibexa\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
@@ -116,3 +116,5 @@ class ContentDataProvider
         return $contentStruct;
     }
 }
+
+class_alias(ContentDataProvider::class, 'EzSystems\Behat\API\ContentData\ContentDataProvider');

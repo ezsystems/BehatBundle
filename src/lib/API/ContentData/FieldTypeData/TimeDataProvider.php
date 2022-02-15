@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 use DateTime;
 use Ibexa\Core\FieldType\Time\Value;
@@ -28,3 +28,5 @@ class TimeDataProvider extends AbstractFieldTypeDataProvider
         return Value::fromDateTime(DateTime::createFromFormat('H:i:s', $value));
     }
 }
+
+class_alias(TimeDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\TimeDataProvider');

@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
-use EzSystems\Behat\API\ContentData\RandomDataGenerator;
+use Ibexa\Behat\API\ContentData\RandomDataGenerator;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 
 class BooleanDataProvider extends AbstractFieldTypeDataProvider
@@ -43,3 +43,5 @@ class BooleanDataProvider extends AbstractFieldTypeDataProvider
         return 'true' === strtolower($value);
     }
 }
+
+class_alias(BooleanDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\BooleanDataProvider');

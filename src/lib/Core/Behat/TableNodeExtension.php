@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Core\Behat;
+namespace Ibexa\Behat\Core\Behat;
 
 use Behat\Gherkin\Node\TableNode;
 
@@ -62,3 +62,5 @@ class TableNodeExtension extends TableNode
         return new self($newTable);
     }
 }
+
+class_alias(TableNodeExtension::class, 'EzSystems\Behat\Core\Behat\TableNodeExtension');

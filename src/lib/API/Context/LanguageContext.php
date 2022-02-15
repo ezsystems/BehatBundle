@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\Context;
+namespace Ibexa\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
-use EzSystems\Behat\API\Facade\LanguageFacade;
+use Ibexa\Behat\API\Facade\LanguageFacade;
 
 class LanguageContext implements Context
 {
@@ -31,3 +31,5 @@ class LanguageContext implements Context
         $this->languageFacade->createLanguageIfNotExists($name, $languageCode);
     }
 }
+
+class_alias(LanguageContext::class, 'EzSystems\Behat\API\Context\LanguageContext');

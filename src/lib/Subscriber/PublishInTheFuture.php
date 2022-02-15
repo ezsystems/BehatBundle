@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Subscriber;
+namespace Ibexa\Behat\Subscriber;
 
-use EzSystems\Behat\API\ContentData\RandomDataGenerator;
-use EzSystems\Behat\Event\Events;
-use EzSystems\Behat\Event\TransitionEvent;
+use Ibexa\Behat\API\ContentData\RandomDataGenerator;
+use Ibexa\Behat\Event\Events;
+use Ibexa\Behat\Event\TransitionEvent;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Scheduler\Repository\DateBasedPublishServiceInterface;
@@ -63,3 +63,5 @@ class PublishInTheFuture extends AbstractProcessStage implements EventSubscriber
         ];
     }
 }
+
+class_alias(PublishInTheFuture::class, 'EzSystems\Behat\Subscriber\PublishInTheFuture');

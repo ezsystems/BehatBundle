@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\API\ContentData\FieldTypeData;
+namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 class EmailDataProvider extends AbstractFieldTypeDataProvider
 {
@@ -22,3 +22,5 @@ class EmailDataProvider extends AbstractFieldTypeDataProvider
         return $this->getFaker()->companyEmail;
     }
 }
+
+class_alias(EmailDataProvider::class, 'EzSystems\Behat\API\ContentData\FieldTypeData\EmailDataProvider');

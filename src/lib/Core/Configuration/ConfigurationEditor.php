@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\Core\Configuration;
+namespace Ibexa\Behat\Core\Configuration;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Yaml\Yaml;
@@ -113,3 +113,5 @@ class ConfigurationEditor implements ConfigurationEditorInterface
         return array_merge($currentValue, $value);
     }
 }
+
+class_alias(ConfigurationEditor::class, 'EzSystems\Behat\Core\Configuration\ConfigurationEditor');

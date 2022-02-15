@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\Behat\QueryType;
+namespace Ibexa\Behat\QueryType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -35,3 +35,5 @@ class FoldersUnderMediaQueryType implements QueryType
         return 'Folders under media';
     }
 }
+
+class_alias(FoldersUnderMediaQueryType::class, 'EzSystems\Behat\QueryType\FoldersUnderMediaQueryType');
