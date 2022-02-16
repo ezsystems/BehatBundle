@@ -19,6 +19,6 @@ class UnauthenticatedRedirectController extends AbstractController
 
     public function redirectAction()
     {
-        return $this->redirectToRoute('ibexa_testing_current_user_data');
+        return $this->redirectToRoute('ibexa.behat.current_user_data');
     }
 }

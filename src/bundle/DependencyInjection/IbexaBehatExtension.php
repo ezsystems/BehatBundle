@@ -57,19 +57,19 @@ class IbexaBehatExtension extends Extension implements PrependExtensionInterface
         }
 
         $container->registerForAutoconfiguration(Component::class)
-            ->addTag('ibexa.testing.browser.component');
+            ->addTag('ibexa.behat.browser.component');
 
         $container->registerForAutoconfiguration(PageInterface::class)
-            ->addTag('ibexa.testing.browser.page');
+            ->addTag('ibexa.behat.browser.page');
 
         $container->registerForAutoconfiguration(PagePreviewInterface::class)
-            ->addTag('ibexa.testing.browser.page_preview');
+            ->addTag('ibexa.behat.browser.page_preview');
 
         $container->registerForAutoconfiguration(FieldTypeDataProviderInterface::class)
-            ->addTag('ezplatform.behat.fieldtype_data_provider');
+            ->addTag('ibexa.behat.fieldtype_data_provider');
 
         $container->registerForAutoconfiguration(LimitationParserInterface::class)
-            ->addTag('ezplatform.behat.limitation_parser');
+            ->addTag('ibexa.behat.limitation_parser');
     }
 
     private function shouldLoadDxpServices(ContainerBuilder $container)

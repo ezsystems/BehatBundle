@@ -19,7 +19,7 @@ class FieldTypeDataProviderPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $contentDataDefinition = $container->findDefinition(ContentDataProvider::class);
-        $strategyServiceIds = array_keys($container->findTaggedServiceIds('ezplatform.behat.fieldtype_data_provider'));
+        $strategyServiceIds = array_keys($container->findTaggedServiceIds('ibexa.behat.fieldtype_data_provider'));
 
         foreach ($strategyServiceIds as $strategyServiceId) {
             $contentDataDefinition->addMethodCall(

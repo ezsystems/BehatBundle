@@ -10,10 +10,10 @@ services:
 
     Ibexa\Behat\Browser\Page\PageRegistry:
         arguments:
-            - !tagged_iterator ibexa.testing.browser.page
+            - !tagged_iterator ibexa.behat.browser.page
 
     Ibexa\Behat\Browser\Page\Preview\PagePreviewRegistry:
         arguments:
-            - !tagged_iterator ibexa.testing.browser.page_preview
+            - !tagged_iterator ibexa.behat.browser.page_preview
 
     Ibexa\Behat\Browser\Page\Preview\FolderPreview: ~

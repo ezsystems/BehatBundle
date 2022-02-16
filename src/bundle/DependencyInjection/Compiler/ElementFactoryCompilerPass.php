@@ -23,7 +23,7 @@ class ElementFactoryCompilerPass implements CompilerPassInterface
 
         $interactiveDebugElementFactory = $container->findDefinition(ElementFactory::class);
 
-        $componentServiceIds = array_keys($container->findTaggedServiceIds('ibexa.testing.browser.component'));
+        $componentServiceIds = array_keys($container->findTaggedServiceIds('ibexa.behat.browser.component'));
         foreach ($componentServiceIds as $componentServiceId) {
             $compontentDefinition = $container->findDefinition($componentServiceId);
             $compontentDefinition->addMethodCall('setElementFactory', [$interactiveDebugElementFactory]);
@@ -32,8 +32,8 @@ class ElementFactoryCompilerPass implements CompilerPassInterface
 
     private function shouldEnableInteractiveDebug(ContainerBuilder $container): bool
     {
-        return $container->hasParameter(eZBehatExtension::BROWSER_DEBUG_INTERACTIVE_ENABLED) &&
-            $container->getParameter(eZBehatExtension::BROWSER_DEBUG_INTERACTIVE_ENABLED);
+        return $container->hasParameter(IbexaBehatExtension::BROWSER_DEBUG_INTERACTIVE_ENABLED) &&
+            $container->getParameter(IbexaBehatExtension::BROWSER_DEBUG_INTERACTIVE_ENABLED);
     }
 }
 
