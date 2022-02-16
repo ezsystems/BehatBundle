@@ -16,6 +16,8 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
+use Ibexa\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface;
+use Ibexa\Behat\API\Context\LimitationParser\LimitationParserInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class IbexaBehatExtension extends Extension implements PrependExtensionInterface, CompilerPassInterface
@@ -62,13 +64,19 @@ class IbexaBehatExtension extends Extension implements PrependExtensionInterface
 
         $container->registerForAutoconfiguration(PagePreviewInterface::class)
             ->addTag('ibexa.testing.browser.page_preview');
+
+        $container->registerForAutoconfiguration(FieldTypeDataProviderInterface::class)
+            ->addTag('ezplatform.behat.fieldtype_data_provider');
+
+        $container->registerForAutoconfiguration(LimitationParserInterface::class)
+            ->addTag('ezplatform.behat.limitation_parser');
     }
 
     private function shouldLoadDxpServices(ContainerBuilder $container)
     {
         $bundles = $container->getParameter('kernel.bundles');
 
-        return isset($bundles['EzPlatformPageBuilderBundle'], $bundles['EzPlatformWorkflowBundle']);
+        return isset($bundles['IbexaPageBuilderBundle'], $bundles['IbexaWorkflowBundle']);
     }
 }
 

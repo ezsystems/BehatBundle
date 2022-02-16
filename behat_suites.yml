@@ -2,7 +2,7 @@ service:
     suites:
         examples:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/examples'
+                - '%paths.base%/vendor/ibexa/behat/features/examples'
             contexts:
               - Ibexa\Behat\API\Context\ContentContext
               - Ibexa\Behat\API\Context\ContentTypeContext
@@ -17,7 +17,7 @@ setup:
     suites:
         volume-testing:
             paths:
-                - vendor/ezsystems/behatbundle/features/setup/volume/
+                - vendor/ibexa/behat/features/setup/volume/
             contexts:
               - Ibexa\Behat\API\Context\ContentContext
               - Ibexa\Behat\API\Context\ContentTypeContext
@@ -27,14 +27,14 @@ setup:
               - Ibexa\Behat\API\Context\UserContext
         richtext-configuration:
             paths:
-                - vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_tags.feature
-                - vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_styles.feature
+                - vendor/ibexa/behat/features/setup/richtextConfiguration/custom_tags.feature
+                - vendor/ibexa/behat/features/setup/richtextConfiguration/custom_styles.feature
             contexts:
                 - Ibexa\Behat\Core\Context\ConfigurationContext
                 - Ibexa\Behat\Core\Context\FileContext
         personas:
               paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/personas'
+                - '%paths.base%/vendor/ibexa/behat/features/personas'
               contexts:
                 - Ibexa\Behat\API\Context\ContentContext
                 - Ibexa\Behat\API\Context\ContentTypeContext
@@ -43,39 +43,39 @@ setup:
                 - Ibexa\Behat\API\Context\UserContext
         URIElement:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/siteaccessMatcher/URIElement.feature'
+                - '%paths.base%/vendor/ibexa/behat/features/setup/siteaccessMatcher/URIElement.feature'
             contexts:
                 - Ibexa\Behat\API\Context\LanguageContext
                 - Ibexa\Behat\API\Context\TestContext
                 - Ibexa\Behat\Core\Context\ConfigurationContext
         MapHost:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/siteaccessMatcher/MapHost.feature'
+                - '%paths.base%/vendor/ibexa/behat/features/setup/siteaccessMatcher/MapHost.feature'
             contexts:
                 - Ibexa\Behat\API\Context\LanguageContext
                 - Ibexa\Behat\API\Context\TestContext
                 - Ibexa\Behat\Core\Context\ConfigurationContext
         MapURI:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/siteaccessMatcher/MapURI.feature'
+                - '%paths.base%/vendor/ibexa/behat/features/setup/siteaccessMatcher/MapURI.feature'
             contexts:
                 - Ibexa\Behat\API\Context\LanguageContext
                 - Ibexa\Behat\API\Context\TestContext
                 - Ibexa\Behat\Core\Context\ConfigurationContext
         CompoundMapURIMapHost:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/siteaccessMatcher/CompoundMapURIMapHost.feature'
+                - '%paths.base%/vendor/ibexa/behat/features/setup/siteaccessMatcher/CompoundMapURIMapHost.feature'
             contexts:
                 - Ibexa\Behat\API\Context\LanguageContext
                 - Ibexa\Behat\API\Context\TestContext
                 - Ibexa\Behat\Core\Context\ConfigurationContext
         multirepository:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/multirepository'
+                - '%paths.base%/vendor/ibexa/behat/features/setup/multirepository'
             contexts:
                 - Ibexa\Behat\Core\Context\ConfigurationContext
         login-methods:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/loginMethods'
+                - '%paths.base%/vendor/ibexa/behat/features/setup/loginMethods'
             contexts:
                 - Ibexa\Behat\Core\Context\ConfigurationContext

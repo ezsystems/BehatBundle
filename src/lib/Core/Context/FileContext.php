@@ -15,7 +15,7 @@ use Symfony\Component\Process\Process;
 
 class FileContext implements Context
 {
-    private const SOURCE_FILE_DIRECTORY = 'vendor/ezsystems/behatbundle/src/lib/Data';
+    private const SOURCE_FILE_DIRECTORY = 'vendor/ibexa/behat/src/lib/Data';
 
     /** @var string */
     private $projectDirectory;

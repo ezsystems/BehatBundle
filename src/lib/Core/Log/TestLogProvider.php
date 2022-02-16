@@ -17,7 +17,6 @@ class TestLogProvider
 {
     private const CONSOLE_LOGS_LIMIT = 10;
     private const APPLICATION_LOGS_LIMIT = 25;
-    private const OLD_LOG_FILE_NAME = 'travis_test.log';
     private const LOG_FILE_NAME = 'behat.log';
 
     private static $LOGS;

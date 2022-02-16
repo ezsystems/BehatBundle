@@ -4,10 +4,6 @@ services:
         autoconfigure: true
         public: false
         
-    _instanceof:
-      Ibexa\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface:
-        tags: ['ezplatform.behat.fieldtype_data_provider']
-
     Ibexa\Behat\API\ContentData\FieldTypeData\RandomDataGenerator: ~
 
     Ibexa\Behat\API\ContentData\FieldTypeData\ObjectRelationDataProvider:

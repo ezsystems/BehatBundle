@@ -7,8 +7,8 @@ This package is part of [Ibexa DXP](https://ibexa.co).
 [Install Ibexa DXP](https://doc.ibexa.co/en/latest/install/) and then install this package to use it:
 
 ```
-composer require --dev ezsystems/behatbundle --no-scripts --no-plugins
-composer sync-recipes ezsystems/behatbundle --force -v
+composer require --dev ibexa/behat --no-scripts --no-plugins
+composer sync-recipes ibexa/behat --force -v
 ```
 
 For more information about BehatBundle, see:

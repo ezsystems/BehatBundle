@@ -1,10 +1,10 @@
 const path = require('path');
 
-module.exports = (eZConfig, eZConfigManager) => {
+module.exports = (ibexaConfig, ibexaConfigManager) => {
     const addEntry = ([entryName, newItems]) => {
-        if (eZConfig.entry[entryName]) {
-            eZConfigManager.add({
-                eZConfig,
+        if (ibexaConfig.entry[entryName]) {
+            ibexaConfigManager.add({
+                ibexaConfig,
                 entryName,
                 newItems,
             });

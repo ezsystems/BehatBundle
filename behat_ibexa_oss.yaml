@@ -1,5 +1,5 @@
 imports:
-    - vendor/ezsystems/behatbundle/behat_suites.yml
+    - vendor/ibexa/behat/behat_suites.yml
     - vendor/ibexa/admin-ui/behat_suites.yml
     - vendor/ibexa/content-forms/behat_suites.yml
     - vendor/ibexa/http-cache/behat_suites.yml
@@ -72,10 +72,10 @@ regression:
     suites:
         setup-oss:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/personas'
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_styles.feature'
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_tags.feature'
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/loginMethods'
+                - '%paths.base%/vendor/ibexa/behat/features/personas'
+                - '%paths.base%/vendor/ibexa/behat/features/setup/richtextConfiguration/custom_styles.feature'
+                - '%paths.base%/vendor/ibexa/behat/features/setup/richtextConfiguration/custom_tags.feature'
+                - '%paths.base%/vendor/ibexa/behat/features/setup/loginMethods'
             contexts:
                 - Ibexa\Behat\API\Context\ContentContext
                 - Ibexa\Behat\API\Context\ContentTypeContext

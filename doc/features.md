@@ -3,7 +3,7 @@
 ## Example usages
 
 ### API examples
-See [BehatBundle examples](https://github.com/ezsystems/BehatBundle/tree/master/features/examples) to see how to use Behat sentences to:
+See [BehatBundle examples](https://github.com/ibexa/behat/tree/master/features/examples) to see how to use Behat sentences to:
 - create Languages, Content items, Content Types
 - create Users with complex permissions
 - create given YAML configuration
@@ -28,11 +28,11 @@ Before you start using that you need to inject the [drag-mock script](../Resourc
 
 ### SiteAccess awareness
 
-With `EzBehatExtension` enabled Behat becomes SiteAccess aware. The SiteAccess used can be specified using `EZPLATFORM_SITEACCESS` environment variable, otherwise the default SiteAccess will be used.
+With `IbexaExtension` enabled Behat becomes SiteAccess aware. The SiteAccess used can be specified using `IBEXA_SITEACCESS` environment variable, otherwise the default SiteAccess will be used.
 
 ## Debugging tools
 
-Use the `Ibexa\Behat\Browser\Context\Hooks` Context class to access browser and server logs after Scenario failure, which combined with the screenshots feature makes debugging failures (even on CI) much easier.
+Use the `Ibexa\Behat\Browser\Context\DebuggingContext` Context class to access browser and server logs after Scenario failure, which combined with the screenshots feature makes debugging failures (even on CI) much easier.
 
 ## Default testing configuration
 

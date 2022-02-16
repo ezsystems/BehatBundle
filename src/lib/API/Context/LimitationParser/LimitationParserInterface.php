@@ -12,8 +12,6 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
 interface LimitationParserInterface
 {
-    public const SERVICE_TAG = 'ezplatform.behat.limitation_parser';
-
     public function supports(string $limitationType): bool;
 
     public function parse(string $limitationValues): Limitation;

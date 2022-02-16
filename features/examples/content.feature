@@ -78,9 +78,9 @@ Feature: Example scenarios showing how to use steps involving Languages, Content
       | Date and time CT2     | DateAndTimeCT2        | Date and time                | 2018-12-31 13:55:00                                                       |                                                  |
       | Content relation CT2  | ContentRelationCT2    | Content relation (single)    | /RelationFolder1                                                          |                                                  |
       | Content relations CT2 | ContentRelationsCT2   | Content relations (multiple) | RelationFolder1,/RelationFolder2                                          |                                                  |
-      | Image CT2             | ImageCT2              | Image                        | vendor/ezsystems/behatbundle/src/lib/Data/Images/small1.jpg |                                                  |
-      | File CT2              | FileCT2               | File                         | vendor/ezsystems/behatbundle/src/lib/Data/Files/file1.txt   |                                                  |
-      | Media CT2             | MediaCT2              | Media                        | vendor/ezsystems/behatbundle/src/lib/Data/Videos/video1.mp4 |                                                  |
+      | Image CT2             | ImageCT2              | Image                        | vendor/ibexa/behat/src/lib/Data/Images/small1.jpg |                                                  |
+      | File CT2              | FileCT2               | File                         | vendor/ibexa/behat/src/lib/Data/Files/file1.txt   |                                                  |
+      | Media CT2             | MediaCT2              | Media                        | vendor/ibexa/behat/src/lib/Data/Videos/video1.mp4 |                                                  |
       | Matrix CT2            | MatrixCT2             | Matrix                       | col1:col2:col3,Ala:miała:kota,Szpak:dziobał:bociana,Bociana:dziobał:szpak | Min_rows:2,Columns:col1-col2-col3                |
       | Selection CT2         | SelectionCT2          | Selection                    | 1,2                                                                       | is_multiple:true,options:Option1-Option2-Option3 |
       | Image Asset CT2       | ImageAssetCT2         | Image Asset                  | /Media/Images/ImageForImageAsset                                          |                                                  |

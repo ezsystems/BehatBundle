@@ -24,17 +24,17 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class IbexaExtension implements Extension
 {
-    private const MINK_BASE_URL_PARAMETER = 'ibexa.platform.behat.mink.base_url';
+    private const MINK_BASE_URL_PARAMETER = 'ibexa.behat.mink.base_url';
 
-    private const MINK_DEFAULT_JAVASCRIPT_SESSION_PARAMETER = 'ibexa.platform.behat.mink.default_javascript_session';
+    private const MINK_DEFAULT_JAVASCRIPT_SESSION_PARAMETER = 'ibexa.behat.mink.default_javascript_session';
 
-    private const MINK_SELENIUM_WEBDRIVER_HOST = 'ibexa.platform.behat.mink.selenium.webdriver_host';
+    private const MINK_SELENIUM_WEBDRIVER_HOST = 'ibexa.behat.mink.selenium.webdriver_host';
 
-    private const MINK_CHROME_API_URL = 'ibexa.platform.behat.mink.chrome.api_url';
+    private const MINK_CHROME_API_URL = 'ibexa.behat.mink.chrome.api_url';
 
     public function getConfigKey()
     {
-        return 'ezbehatextension';
+        return 'ibexabehatextension';
     }
 
     public function process(ContainerBuilder $container)

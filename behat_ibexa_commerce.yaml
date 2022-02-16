@@ -7,11 +7,11 @@ regression:
     suites:
         setup-commerce:
             paths:
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/personas'
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_styles.feature'
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_tags.feature'
+                - '%paths.base%/vendor/ibexa/behat/features/personas'
+                - '%paths.base%/vendor/ibexa/behat/features/setup/richtextConfiguration/custom_styles.feature'
+                - '%paths.base%/vendor/ibexa/behat/features/setup/richtextConfiguration/custom_tags.feature'
                 - '%paths.base%/vendor/ibexa/workflow/features/setup/setup_experience.feature'
-                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/loginMethods'
+                - '%paths.base%/vendor/ibexa/behat/features/setup/loginMethods'
             contexts:
                 - Ibexa\Behat\API\Context\ContentContext
                 - Ibexa\Behat\API\Context\ContentTypeContext

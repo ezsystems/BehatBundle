@@ -63,10 +63,6 @@ services:
         tags:
             - { name: console.command }
 
-    Ibexa\Bundle\Behat\Command\GetPullRequestDataCommand:
-        tags:
-            - { name: console.command }
-
     Ibexa\Bundle\Behat\Templating\Twig\PHPTypeExtension:
         tags:
             - { name: twig.extension }

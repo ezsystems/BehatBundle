@@ -10,8 +10,6 @@ namespace Ibexa\Behat\API\ContentData\FieldTypeData;
 
 interface FieldTypeDataProviderInterface
 {
-    public const SERVICE_TAG = 'ezplatform.behat.fieldtype_data_provider';
-
     public function supports(string $fieldTypeIdentifier): bool;
 
     public function generateData(string $contentTypeIdentifier, string $fieldIdentifier, string $language = 'eng-GB');

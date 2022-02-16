@@ -8,7 +8,7 @@
 #   bin/ezreport -i=path/to/sshkey -r=BehatBundle
 # Reports generated in this way will be hosted on the server in BehatBundle/manual/time_stamp directory
 
-SSH_KEY_PATH='vendor/ezsystems/behatbundle/bin/.travis/rsa_allure'
+SSH_KEY_PATH='vendor/ibexa/behat/bin/.travis/rsa_allure'
 ALLURE_BUILD_PATH='build/allure/'
 HOST_NAME='allure.ez.no'
 

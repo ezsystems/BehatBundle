@@ -3,10 +3,6 @@ services:
         autowire: true
         autoconfigure: true
         public: false
-        
-    _instanceof:
-        Ibexa\Behat\API\Context\LimitationParser\LimitationParserInterface:
-            tags: ['ezplatform.behat.limitation_parser']
             
     Ibexa\Behat\API\Context\LimitationParser\ContentTypeLimitationParser:
         arguments:

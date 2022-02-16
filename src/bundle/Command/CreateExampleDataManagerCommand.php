@@ -118,7 +118,7 @@ class CreateExampleDataManagerCommand extends Command implements BackwardCompati
 
     private function getData()
     {
-        $data = Yaml::parseFile(sprintf('%s/vendor/ezsystems/behatbundle/features/setup/volume/data.yaml', $this->projectDir));
+        $data = Yaml::parseFile(sprintf('%s/vendor/ibexa/behat/features/setup/volume/data.yaml', $this->projectDir));
 
         return $data['countries'];
     }

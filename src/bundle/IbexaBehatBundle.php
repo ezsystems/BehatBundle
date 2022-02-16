@@ -16,8 +16,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class IbexaBehatBundle extends Bundle
 {
-    protected $name = 'eZBehatBundle';
-
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new FieldTypeDataProviderPass());

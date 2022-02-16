@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 final class BehatSiteAccessInitializer implements EventSubscriberInterface
 {
-    private const EZPLATFORM_SITEACCESS_ENV_VAR = 'EZPLATFORM_SITEACCESS';
+    private const SITEACCESS_ENV_VAR = 'IBEXA_SITEACCESS';
     private const DEFAULT_SITEACCESS_PARAMETER = 'ibexa.site_access.default';
     private const EVENT_DISPATCHER_SERVICE_ID = 'event_dispatcher';
 
@@ -51,7 +51,7 @@ final class BehatSiteAccessInitializer implements EventSubscriberInterface
 
     private function getSiteAccess(): SiteAccess
     {
-        $siteAccessFromEnvVar = getenv(self::EZPLATFORM_SITEACCESS_ENV_VAR);
+        $siteAccessFromEnvVar = getenv(self::SITEACCESS_ENV_VAR);
         $defaultSiteAccess = $this->kernel->getContainer()->getParameter(self::DEFAULT_SITEACCESS_PARAMETER);
 
         $siteAccessName = $siteAccessFromEnvVar !== false ? $siteAccessFromEnvVar : $defaultSiteAccess;
