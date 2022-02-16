@@ -17,7 +17,7 @@ use Ibexa\Core\FieldType\Relation\Value;
 
 class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
 {
-    /** @var \EzSystems\Behat\API\Facade\SearchFacade */
+    /** @var \Ibexa\Behat\API\Facade\SearchFacade */
     protected $searchFacade;
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentService */
@@ -29,7 +29,7 @@ class ObjectRelationDataProvider implements FieldTypeDataProviderInterface
     /** @var \Ibexa\Contracts\Core\Repository\URLAliasService */
     private $urlAliasService;
 
-    /** @var \EzSystems\Behat\Core\Behat\ArgumentParser */
+    /** @var \Ibexa\Behat\Core\Behat\ArgumentParser */
     private $argumentParser;
 
     public function __construct(SearchFacade $searchFacade, ContentService $contentService, LocationService $locationSerice, URLAliasService $urlAliasSerivce, ArgumentParser $argumentParser)

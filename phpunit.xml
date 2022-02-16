@@ -7,7 +7,7 @@
         convertWarningsToExceptions="true"
         colors="true">
     <testsuites>
-        <testsuite name="EzSystems\BehatBundle">
+        <testsuite name="Ibexa\Bundle\Behat">
             <directory>tests/</directory>
         </testsuite>
     </testsuites>

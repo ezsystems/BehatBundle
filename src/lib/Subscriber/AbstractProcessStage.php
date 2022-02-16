@@ -33,7 +33,7 @@ abstract class AbstractProcessStage
     /** @var \Symfony\Component\EventDispatcher\EventDispatcher */
     private $eventDispatcher;
 
-    /** @var \EzSystems\Behat\API\ContentData\RandomDataGenerator */
+    /** @var \Ibexa\Behat\API\ContentData\RandomDataGenerator */
     protected $randomDataGenerator;
 
     public function __construct(

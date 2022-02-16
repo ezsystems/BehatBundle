@@ -10,11 +10,11 @@ namespace Ibexa\Behat\API\Context\LimitationParser;
 
 class LimitationParsersCollector
 {
-    /** @var \EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface[] */
+    /** @var \Ibexa\Behat\API\Context\LimitationParser\LimitationParserInterface[] */
     private $limitationParsers;
 
     /**
-     * @param \EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface[] $limitationParsers
+     * @param \Ibexa\Behat\API\Context\LimitationParser\LimitationParserInterface[] $limitationParsers
      */
     public function __construct(array $limitationParsers = [])
     {
@@ -27,7 +27,7 @@ class LimitationParsersCollector
     }
 
     /**
-     * @return \EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface[]
+     * @return \Ibexa\Behat\API\Context\LimitationParser\LimitationParserInterface[]
      */
     public function getLimitationParsers(): array
     {

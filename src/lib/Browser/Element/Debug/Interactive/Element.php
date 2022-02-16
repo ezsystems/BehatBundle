@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Behat\Browser\Element\Debug\Interactive;
 
 use Exception;
-use EzSystems\Behat\Core\Debug\InteractiveDebuggerTrait;
+use Ibexa\Behat\Core\Debug\InteractiveDebuggerTrait;
 use Ibexa\Behat\Browser\Assert\Debug\Interactive\ElementAssert as InteractiveElementAssert;
 use Ibexa\Behat\Browser\Assert\ElementAssertInterface;
 use Ibexa\Behat\Browser\Element\ElementInterface;

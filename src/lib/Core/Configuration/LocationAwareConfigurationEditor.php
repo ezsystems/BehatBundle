@@ -12,10 +12,10 @@ use Ibexa\Behat\API\Facade\ContentFacade;
 
 class LocationAwareConfigurationEditor implements ConfigurationEditorInterface
 {
-    /** @var \EzSystems\Behat\Core\Configuration\ConfigurationEditorInterface */
+    /** @var \Ibexa\Behat\Core\Configuration\ConfigurationEditorInterface */
     private $innerConfigurationEditor;
 
-    /** @var \EzSystems\Behat\API\Facade\ContentFacade */
+    /** @var \Ibexa\Behat\API\Facade\ContentFacade */
     private $contentFacade;
 
     public function __construct(ConfigurationEditorInterface $innerConfigurationEditor, ContentFacade $contentFacade)

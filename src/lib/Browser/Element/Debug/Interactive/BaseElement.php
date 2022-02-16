@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Element\Debug\Interactive;
 
-use EzSystems\Behat\Core\Debug\InteractiveDebuggerTrait;
+use Ibexa\Behat\Core\Debug\InteractiveDebuggerTrait;
 use Ibexa\Behat\Browser\Element\BaseElementInterface;
 use Ibexa\Behat\Browser\Element\Condition\ConditionInterface;
 use Ibexa\Behat\Browser\Element\ElementCollectionInterface;

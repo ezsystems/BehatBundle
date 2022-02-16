@@ -25,7 +25,7 @@ class RichTextDataProvider extends AbstractFieldTypeDataProvider
 </section>';
 
     /**
-     * @var \EzSystems\Behat\API\Facade\SearchFacade
+     * @var \Ibexa\Behat\API\Facade\SearchFacade
      */
     private $searchFacade;
 

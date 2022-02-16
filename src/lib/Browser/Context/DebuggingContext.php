@@ -14,7 +14,7 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeStepScope;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Testwork\Tester\Result\TestResult;
-use EzSystems\Behat\Core\Log\TestLogProvider;
+use Ibexa\Behat\Core\Log\TestLogProvider;
 use Psr\Log\LoggerInterface;
 
 class DebuggingContext extends RawMinkContext

@@ -22,7 +22,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class EditContent extends AbstractProcessStage implements EventSubscriberInterface
 {
-    /** @var \EzSystems\Behat\API\ContentData\ContentDataProvider */
+    /** @var \Ibexa\Behat\API\ContentData\ContentDataProvider */
     private $contentDataProvider;
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentService */

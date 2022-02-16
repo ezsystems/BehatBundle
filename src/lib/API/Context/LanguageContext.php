@@ -14,7 +14,7 @@ use Ibexa\Behat\API\Facade\LanguageFacade;
 class LanguageContext implements Context
 {
     /**
-     * @var \EzSystems\Behat\API\Facade\LanguageFacade
+     * @var \Ibexa\Behat\API\Facade\LanguageFacade
      */
     private $languageFacade;
 

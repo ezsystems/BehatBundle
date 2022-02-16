@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class InitialStage extends AbstractProcessStage implements EventSubscriberInterface
 {
-    /** @var \EzSystems\Behat\API\Facade\SearchFacade */
+    /** @var \Ibexa\Behat\API\Facade\SearchFacade */
     private $searchFacade;
 
     protected function getTransitions(): array

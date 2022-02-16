@@ -15,10 +15,10 @@ use Ibexa\Behat\Core\Behat\ArgumentParser;
 
 class RoleContext implements Context
 {
-    /** @var \EzSystems\Behat\API\Facade\RoleFacade */
+    /** @var \Ibexa\Behat\API\Facade\RoleFacade */
     private $roleFacade;
 
-    /** @var \EzSystems\Behat\Core\Behat\ArgumentParser */
+    /** @var \Ibexa\Behat\Core\Behat\ArgumentParser */
     private $argumentParser;
 
     public function __construct(RoleFacade $roleFacade, ArgumentParser $argumentParser)

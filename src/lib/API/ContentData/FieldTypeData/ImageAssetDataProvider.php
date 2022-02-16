@@ -29,7 +29,7 @@ class ImageAssetDataProvider extends AbstractFieldTypeDataProvider
     private $imageDataProvider;
 
     /**
-     * @var \EzSystems\Behat\Core\Behat\ArgumentParser
+     * @var \Ibexa\Behat\Core\Behat\ArgumentParser
      */
     private $argumentParser;
 

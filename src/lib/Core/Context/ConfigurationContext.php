@@ -27,7 +27,7 @@ class ConfigurationContext implements Context
     private $projectDir;
 
     /**
-     * @var \EzSystems\Behat\Core\Configuration\ConfigurationEditorInterface
+     * @var \Ibexa\Behat\Core\Configuration\ConfigurationEditorInterface
      */
     private $configurationEditor;
 

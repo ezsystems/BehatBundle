@@ -11,12 +11,12 @@ namespace Ibexa\Behat\Browser\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\RawMinkContext;
 use DMore\ChromeDriver\ChromeDriver;
-use EzSystems\Behat\Core\Behat\ArgumentParser;
+use Ibexa\Behat\Core\Behat\ArgumentParser;
 use PHPUnit\Framework\Assert;
 
 class BrowserContext extends RawMinkContext
 {
-    /** @var \EzSystems\Behat\Core\Behat\ArgumentParser */
+    /** @var \Ibexa\Behat\Core\Behat\ArgumentParser */
     private $argumentParser;
 
     public function __construct(ArgumentParser $argumentParser)

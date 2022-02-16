@@ -17,14 +17,14 @@ regression:
                 - '%paths.base%/vendor/ibexa/workflow/features/setup/setup_experience.feature'
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/loginMethods'
             contexts:
-                - EzSystems\Behat\API\Context\ContentContext
-                - EzSystems\Behat\API\Context\ContentTypeContext
-                - EzSystems\Behat\API\Context\LanguageContext
-                - EzSystems\Behat\API\Context\RoleContext
-                - EzSystems\Behat\API\Context\TestContext
-                - EzSystems\Behat\API\Context\UserContext
-                - EzSystems\Behat\Core\Context\ConfigurationContext
-                - EzSystems\Behat\Core\Context\FileContext
+                - Ibexa\Behat\API\Context\ContentContext
+                - Ibexa\Behat\API\Context\ContentTypeContext
+                - Ibexa\Behat\API\Context\LanguageContext
+                - Ibexa\Behat\API\Context\RoleContext
+                - Ibexa\Behat\API\Context\TestContext
+                - Ibexa\Behat\API\Context\UserContext
+                - Ibexa\Behat\Core\Context\ConfigurationContext
+                - Ibexa\Behat\Core\Context\FileContext
         experience:
             paths:
               - '%paths.base%/vendor/ibexa/scheduler/features'
@@ -40,12 +40,12 @@ regression:
                 tags: "~@broken&&@IbexaExperience"
             contexts: 
                 - Behat\MinkExtension\Context\MinkContext
-                - EzSystems\Behat\API\Context\ContentContext
-                - EzSystems\Behat\API\Context\ContentTypeContext
-                - EzSystems\Behat\API\Context\RoleContext
-                - EzSystems\Behat\API\Context\TestContext
-                - EzSystems\Behat\API\Context\TrashContext
-                - EzSystems\Behat\API\Context\UserContext
+                - Ibexa\Behat\API\Context\ContentContext
+                - Ibexa\Behat\API\Context\ContentTypeContext
+                - Ibexa\Behat\API\Context\RoleContext
+                - Ibexa\Behat\API\Context\TestContext
+                - Ibexa\Behat\API\Context\TrashContext
+                - Ibexa\Behat\API\Context\UserContext
                 - Ibexa\AdminUi\Behat\BrowserContext\AdminUpdateContext
                 - Ibexa\AdminUi\Behat\BrowserContext\ContentActionsMenuContext
                 - Ibexa\AdminUi\Behat\BrowserContext\ContentPreviewContext

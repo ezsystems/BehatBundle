@@ -39,7 +39,7 @@ class UserFacade
     private $searchService;
 
     /**
-     * @var \EzSystems\Behat\API\ContentData\RandomDataGenerator
+     * @var \Ibexa\Behat\API\ContentData\RandomDataGenerator
      */
     private $randomDataGenerator;
 

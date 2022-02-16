@@ -17,7 +17,7 @@ class RoleFacade
     /** @var \Ibexa\Contracts\Core\Repository\RoleService */
     private $roleService;
 
-    /** @var \EzSystems\Behat\API\Context\LimitationParser\LimitationParsersCollector */
+    /** @var \Ibexa\Behat\API\Context\LimitationParser\LimitationParsersCollector */
     private $limitationParsersCollector;
 
     public function __construct(RoleService $roleService, LimitationParsersCollector $limitationParsersCollector)
@@ -62,7 +62,7 @@ class RoleFacade
     }
 
     /**
-     * @return \EzSystems\Behat\API\Context\LimitationParser\LimitationParserInterface[]
+     * @return \Ibexa\Behat\API\Context\LimitationParser\LimitationParserInterface[]
      */
     public function getLimitationParsers(): array
     {

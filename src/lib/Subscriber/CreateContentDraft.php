@@ -21,7 +21,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class CreateContentDraft extends AbstractProcessStage implements EventSubscriberInterface
 {
-    /** @var \EzSystems\Behat\API\Facade\ContentFacade */
+    /** @var \Ibexa\Behat\API\Facade\ContentFacade */
     private $contentFacade;
 
     /** @var \Ibexa\Workflow\Behat\Facade\WorkflowFacade */

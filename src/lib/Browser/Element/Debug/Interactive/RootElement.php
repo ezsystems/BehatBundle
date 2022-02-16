@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Behat\Browser\Element\Debug\Interactive;
 
 use Exception;
-use EzSystems\Behat\Core\Debug\InteractiveDebuggerTrait;
+use Ibexa\Behat\Core\Debug\InteractiveDebuggerTrait;
 use Ibexa\Behat\Browser\Element\RootElementInterface;
 
 final class RootElement extends BaseElement implements RootElementInterface

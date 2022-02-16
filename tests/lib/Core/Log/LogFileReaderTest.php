@@ -24,7 +24,7 @@ class LogFileReaderTest extends TestCase
     /** @var \org\bovigo\vfs\vfsStreamDirectory */
     private $fileSystemRoot;
 
-    /** @var \EzSystems\Behat\Core\Log\LogFileReader */
+    /** @var \Ibexa\Behat\Core\Log\LogFileReader */
     private $logReader;
 
     public function setUp(): void

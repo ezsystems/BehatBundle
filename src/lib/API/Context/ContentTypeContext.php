@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStru
 
 class ContentTypeContext implements Context
 {
-    /** @var \EzSystems\Behat\API\Facade\ContentTypeFacade */
+    /** @var \Ibexa\Behat\API\Facade\ContentTypeFacade */
     private $contentTypeFacade;
 
     public function __construct(ContentTypeFacade $contentTypeFacade)

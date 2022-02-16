@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class Review extends AbstractProcessStage implements EventSubscriberInterface
 {
-    /** @var \EzSystems\Behat\API\ContentData\ContentDataProvider */
+    /** @var \Ibexa\Behat\API\ContentData\ContentDataProvider */
     private $contentDataProvider;
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentService */

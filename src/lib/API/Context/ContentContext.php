@@ -15,10 +15,10 @@ use Ibexa\Behat\Core\Behat\ArgumentParser;
 
 class ContentContext implements Context
 {
-    /** @var \EzSystems\Behat\API\Facade\ContentFacade */
+    /** @var \Ibexa\Behat\API\Facade\ContentFacade */
     private $contentFacade;
 
-    /** @var \EzSystems\Behat\Core\Behat\ArgumentParser */
+    /** @var \Ibexa\Behat\Core\Behat\ArgumentParser */
     private $argumentParser;
 
     public function __construct(ContentFacade $contentFacade, ArgumentParser $argumentParser)

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Assert\Debug\Interactive;
 
-use EzSystems\Behat\Core\Debug\InteractiveDebuggerTrait;
+use Ibexa\Behat\Core\Debug\InteractiveDebuggerTrait;
 use Ibexa\Behat\Browser\Assert\ElementAssertInterface;
 use Ibexa\Behat\Browser\Element\ElementInterface;
 use PHPUnit\Framework\ExpectationFailedException;

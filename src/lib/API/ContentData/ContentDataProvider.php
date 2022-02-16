@@ -24,10 +24,10 @@ class ContentDataProvider
 
     private $contentService;
 
-    /** @var \EzSystems\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface[] */
+    /** @var \Ibexa\Behat\API\ContentData\FieldTypeData\FieldTypeDataProviderInterface[] */
     private $fieldTypeDataProviders;
 
-    /** @var \EzSystems\Behat\API\ContentData\RandomDataGenerator */
+    /** @var \Ibexa\Behat\API\ContentData\RandomDataGenerator */
     private $randomDataGenerator;
 
     public function __construct(ContentTypeService $contentTypeService, ContentService $contentService, RandomDataGenerator $randomDataGenerator)
