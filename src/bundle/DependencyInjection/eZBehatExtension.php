@@ -32,7 +32,7 @@ class eZBehatExtension extends Extension implements PrependExtensionInterface, C
             return;
         }
 
-        $container->setParameter('ezsettings.admin_group.notifications.success.timeout', 20000);
+        $container->setParameter('ibexa.site_access.config.admin_group.notifications.success.timeout', 20000);
     }
 
     public function prepend(ContainerBuilder $container)
