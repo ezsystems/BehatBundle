@@ -45,11 +45,11 @@ error(){
 }
 
 behat(){
-    "$COMPOSER_BIN_DIR/behat" ${CONFIG} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT} ${OTHER_OPTIONS}
+    "$COMPOSER_RUNTIME_BIN_DIR/behat" ${CONFIG} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT} ${OTHER_OPTIONS}
 }
 
 fastest(){
-    get_behat_features | "$COMPOSER_BIN_DIR/fastest" -o -v "$COMPOSER_BIN_DIR/behat {} ${CONFIG} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT} ${OTHER_OPTIONS}"
+    get_behat_features | "$COMPOSER_RUNTIME_BIN_DIR/fastest" -o -v "$COMPOSER_RUNTIME_BIN_DIR/behat {} ${CONFIG} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT} ${OTHER_OPTIONS}"
 }
 
 # Fastest option 'list-features' gives us the list of all features from given context in random order, which are later
@@ -57,7 +57,7 @@ fastest(){
 # times each build, often non optimal. To make this optimal we sort features by the number of scenarios in them
 # (descending) and run them in that order, to minimize final time gap between the threads.
 get_behat_features(){
-     "$COMPOSER_BIN_DIR/behat" ${CONFIG} ${PROFILE}${SUITE}${TAGS} --list-scenarios | awk '{ gsub(/:[0-9]+/,"",$1); print $1 }' | uniq -c | sort --reverse | awk '{ print $2 }'
+     "$COMPOSER_RUNTIME_BIN_DIR/behat" ${CONFIG} ${PROFILE}${SUITE}${TAGS} --list-scenarios | awk '{ gsub(/:[0-9]+/,"",$1); print $1 }' | uniq -c | sort --reverse | awk '{ print $2 }'
 }
 
 for i in "$@"
