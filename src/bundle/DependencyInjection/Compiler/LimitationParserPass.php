@@ -19,7 +19,7 @@ class LimitationParserPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $parserCollector = $container->findDefinition(LimitationParsersCollector::class);
-        $strategyServiceIds = array_keys($container->findTaggedServiceIds('ibexa.behat.fieldtype_data_provider'));
+        $strategyServiceIds = array_keys($container->findTaggedServiceIds('ibexa.behat.limitation_parser'));
 
         foreach ($strategyServiceIds as $strategyServiceId) {
             $parserCollector->addMethodCall(

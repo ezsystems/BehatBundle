@@ -40,7 +40,7 @@ class CurrentUserDataController extends AbstractController
         $userName = $this->userService->loadUser($currentUserId)->getName();
 
         return $this->render(
-            '@eZBehat/tests/login_data.html.twig',
+            '@IbexaBehat/tests/login_data.html.twig',
             [
                 'username' => $userName,
                 'siteaccess' => $siteaccess->name,
