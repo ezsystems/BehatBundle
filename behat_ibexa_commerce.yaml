@@ -68,6 +68,7 @@ regression:
                 - Ibexa\Commerce\ShopTools\Behat\Context\CheckoutContext
                 - Ibexa\Commerce\ShopTools\Behat\Context\ConfigurationSettingsContext
                 - Ibexa\Commerce\ShopTools\Behat\Context\FrontContext
+                - Ibexa\Commerce\ShopTools\Behat\Context\ManageAddressContext
                 - Ibexa\Commerce\ShopTools\Behat\Context\ProductVariantContext
                 - Ibexa\Commerce\ShopTools\Behat\Context\UserRegistrationContext
                 - Ibexa\FieldTypePage\Behat\Context\BlockHideEventsSourceContext
