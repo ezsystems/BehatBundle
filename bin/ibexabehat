@@ -2,16 +2,16 @@
 # Examples of use:
 #
 # for the 1-thread, pure behat tests:
-#   bin/ezbehat --mode=standard --profile=repository-forms --tags=~@broken
-#   bin/ezbehat -m=standard -p=rest -s=fullXml -t=~@broken
+#   bin/ibexabehat --mode=standard --profile=repository-forms --tags=~@broken
+#   bin/ibexabehat -m=standard -p=rest -s=fullXml -t=~@broken
 #
 # for the multi-thread fastest tests:
-#   bin/ezbehat -m=parallel -p=regression -s=demoRegression
-#   bin/ezbehat --profile=adminui --suite=adminui
+#   bin/ibexabehat -m=parallel -p=regression -s=demoRegression
+#   bin/ibexabehat --profile=adminui --suite=adminui
 #
 # for getting features list for given profiles/suites:
-#   bin/ezbehat --mode=get-features --profile=repository-forms --tags=~@broken
-#   bin/ezbehat -m=get-features -p=regression -s=demoRegression
+#   bin/ibexabehat --mode=get-features --profile=repository-forms --tags=~@broken
+#   bin/ibexabehat -m=get-features -p=regression -s=demoRegression
 
 PROFILE=''
 SUITE=''
@@ -25,7 +25,7 @@ STRICT='--strict'
 usage(){
 echo -e "\
 Usage:
-\t ezbehat [OPTIONS...]
+\t ibexabehat [OPTIONS...]
 
 Options:
 
@@ -39,8 +39,8 @@ Options:
 
  # Error message
 error(){
-    echo "ezbehat: invalid option -- '$1'";
-    echo "Try 'ezbehat -h' for more information.";
+    echo "ibexabehat: invalid option -- '$1'";
+    echo "Try 'ibexabehat -h' for more information.";
     exit 1;
 }
 

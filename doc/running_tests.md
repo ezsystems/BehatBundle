@@ -39,18 +39,18 @@ After the container is set up correctly you need to adjust the configuration of 
 
 ### Running standard Behat tests
 
-BehatBundle comes with a wrapper for the standard Behat runner: [ezbehat](../bin/ezbehat.sh) to make running tests in parallel easier.
+BehatBundle comes with a wrapper for the standard Behat runner: [ibexabehat](../bin/ibexabehat.sh) to make running tests in parallel easier.
 
 Use:
 ```
 # standard Behat runner
-bin/ezbehat --mode=standard --profile=profileName --tags=exampleTag
-bin/ezbehat -m=standard -p=profileName -s=suiteName -t=exampleTag
+bin/ibexabehat --mode=standard --profile=profileName --tags=exampleTag
+bin/ibexabehat -m=standard -p=profileName -s=suiteName -t=exampleTag
 ```
 ```
 # parallel Behat runner
-bin/ezbehat -m=parallel -p=profileName -s=suiteName
-bin/ezbehat --profile=profileName --suite=suiteName
+bin/ibexabehat -m=parallel -p=profileName -s=suiteName
+bin/ibexabehat --profile=profileName --suite=suiteName
 ```
 
 Running Behat feature files in parallel (on the available number of CPUs) is the default option when mode is not specified. See the script documentation for more examples.
@@ -60,8 +60,8 @@ Running Behat feature files in parallel (on the available number of CPUs) is the
 By convention profiles and suites are defined in the `behat_suites.yml` file in each bundle, if they exist. See [BehatBundle suites](../behat_suites.yml) and [AdminUI suites](https://github.com/ezsystems/ezplatform-admin-ui/blob/master/behat_suites.yml) for examples.
 
 In order to run them, execute:
-- `bin/ezbehat --profile=behat --suite=examples` (BehatBundle usage examples)
-- `bin/ezbehat --profile=adminui --suite=adminui` (all AdminUI tests)
+- `bin/ibexabehat --profile=behat --suite=examples` (BehatBundle usage examples)
+- `bin/ibexabehat --profile=adminui --suite=adminui` (all AdminUI tests)
 
 ## Previewing browser tests
 
