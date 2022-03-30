@@ -36,9 +36,10 @@ error(){
 zip_report_files(){
 cd ${ALLURE_BUILD_PATH}
 TIMESTAMP=$(date "+h%H-m%M")
-if [ -z $REPOSITORY_NAME ];
-then
+if [[ -z $REPOSITORY_NAME && $TRAVIS == "true" ]] ; then
     REPORT_NAME="$(echo $TRAVIS_REPO_SLUG | cut -d'/' -f 2).$TRAVIS_JOB_NUMBER";
+elif [[ -z $REPOSITORY_NAME && $GITHUB_ACTIONS == "true" ]] ; then
+    REPORT_NAME="$(echo $GITHUB_REPOSITORY | cut -d'/' -f 2).$GITHUB_RUN_ID.$GITHUB_RUN_NUMBER";
 else
     DATESTAMP=$(date "+%Y-%m-%d")
     REPORT_NAME="$REPOSITORY_NAME.manual.$DATESTAMP";
