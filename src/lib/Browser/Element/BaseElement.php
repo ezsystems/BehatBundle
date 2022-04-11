@@ -22,7 +22,7 @@ class BaseElement implements BaseElementInterface
     /** @var \Behat\Mink\Element\TraversableElement */
     protected $decoratedElement;
 
-    /** @var \Ibexa\Behat\Browser\Component\ElementFactoryInterface */
+    /** @var \Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface */
     private $elementFactory;
 
     public function __construct(ElementFactoryInterface $elementFactory)

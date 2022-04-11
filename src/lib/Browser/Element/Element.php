@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Behat\Browser\Element;
 
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Session;
 use Ibexa\Behat\Browser\Assert\ElementAssert;
 use Ibexa\Behat\Browser\Assert\ElementAssertInterface;
 use Ibexa\Behat\Browser\Element\Factory\ElementFactoryInterface;
@@ -125,6 +126,16 @@ final class Element extends BaseElement implements ElementInterface
     public function getXPath(): string
     {
         return $this->decoratedElement->getXpath();
+    }
+
+    public function scrollToBottom(Session $session): void
+    {
+        $script = sprintf(
+            'document.querySelector("%1$s").scrollTo(0, document.querySelector("%1$s").scrollHeight)',
+            $this->locator->getSelector()
+        );
+
+        $session->executeScript($script);
     }
 
     protected function isCheckbox(): bool

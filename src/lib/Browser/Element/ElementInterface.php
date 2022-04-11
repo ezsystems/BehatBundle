@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Element;
 
+use Behat\Mink\Session;
 use Ibexa\Behat\Browser\Assert\ElementAssertInterface;
 
 interface ElementInterface extends BaseElementInterface
@@ -43,4 +44,6 @@ interface ElementInterface extends BaseElementInterface
     public function selectOption(string $option): void;
 
     public function getXPath(): string;
+
+    public function scrollToBottom(Session $session): void;
 }
