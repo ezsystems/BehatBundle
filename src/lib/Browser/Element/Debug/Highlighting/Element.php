@@ -100,4 +100,9 @@ final class Element extends BaseElement implements ElementInterface
     {
         return $this->element->getXPath();
     }
+
+    public function scrollToBottom(Session $session): void
+    {
+        $this->element->scrollToBottom($session);
+    }
 }
