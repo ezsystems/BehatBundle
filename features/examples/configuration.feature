@@ -13,7 +13,7 @@ Feature: Example scenarios showing how to set configuration
   Scenario: Configure Varnish as http cache
     Given I set configuration to "ezplatform.http_cache"
     """
-        purge_type: 'http'
+        purge_type: 'varnish'
     """
     And  I append configuration to "default" siteaccess under "http_cache" key
     """
