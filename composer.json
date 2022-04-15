@@ -57,6 +57,9 @@
             "Ibexa\\Behat\\": "src/lib/"
         }
     },
+    "conflict": {
+        "instaclick/php-webdriver": "1.4.12"
+    },
     "autoload-dev": {
         "psr-4": {
             "EzSystems\\Behat\\Test\\": "tests/"
