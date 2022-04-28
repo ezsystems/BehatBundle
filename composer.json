@@ -11,7 +11,7 @@
     "require": {
         "php": "^7.1",
         "ext-curl": "*",
-        "ezsystems/ezpublish-kernel": "^7.5@dev",
+        "ezsystems/ezpublish-kernel": "^7.5",
         "fzaninotto/faker": "^1.8",
         "kriswallsmith/buzz": "^0.17.2",
         "nyholm/psr7": "^1.1",
@@ -24,7 +24,9 @@
         "mikey179/vfsstream": "^1.6"
     },
     "autoload": {
-        "psr-0": {"EzSystems\\BehatBundle": ""}
+        "psr-0": {
+            "EzSystems\\BehatBundle": ""
+        }
     },
     "target-dir": "EzSystems/BehatBundle",
     "scripts": {
@@ -39,6 +41,8 @@
             "dev-tmp_ci_branch": "7.0.x-dev"
         }
     },
-
-    "bin": ["bin/ezbehat", "bin/ezreport"]
+    "bin": [
+        "bin/ezbehat",
+        "bin/ezreport"
+    ]
 }
