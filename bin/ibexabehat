@@ -82,7 +82,7 @@ case $i in
     -t=*|--tags=*)     TAGS="--tags=${i#*=} ";;
     -c=*|--config=*)   CONFIG="--config=${i#*=}";;
     --non-strict)      STRICT='';;
-    --group-count=*)     GROUP_COUNT=${i#*=};;
+    --group-count=*)   GROUP_COUNT=${i#*=};;
     --group-offset=*)  GROUP_OFFSET=${i#*=};;
     -h|--help)         usage; exit 1;;
     *)                 OTHER_OPTIONS="${OTHER_OPTIONS} ${i}";;
