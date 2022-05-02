@@ -10,8 +10,12 @@
 #   bin/ibexabehat --profile=adminui --suite=adminui
 #
 # for getting features list for given profiles/suites:
+# use --group-count and --group-offset to split the tests into multiple groups
 #   bin/ibexabehat --mode=get-features --profile=repository-forms --tags=~@broken
 #   bin/ibexabehat -m=get-features -p=regression -s=demoRegression
+#   bin/ibexabehat --mode=get-features --profile=repository-forms --tags=~@broken --group-count=2 --group-offset=0
+#   bin/ibexabehat --mode=get-features --profile=repository-forms --tags=~@broken --group-count=2 --group-offset=1
+
 
 PROFILE=''
 SUITE=''
@@ -20,6 +24,8 @@ CONFIG=''
 OTHER_OPTIONS=''
 MODE='parallel'
 STRICT='--strict'
+GROUP_COUNT=1
+GROUP_OFFSET=0
 
  # Help command output
 usage(){
@@ -34,6 +40,8 @@ Options:
 \t -s, --suite=SUITE; Behat tests suite;
 \t -t, --tags=TAGS; Behat tags filter;
 \t --non-strict; Run Behat in non-strict mode;
+\t --group-count; Split the tests into multiple groups
+\t --group-offset; Use together with --group-count, get Scenarios for a group
 " | column -t -s ";"
 }
 
@@ -57,7 +65,12 @@ fastest(){
 # times each build, often non optimal. To make this optimal we sort features by the number of scenarios in them
 # (descending) and run them in that order, to minimize final time gap between the threads.
 get_behat_features(){
-     "$COMPOSER_RUNTIME_BIN_DIR/behat" ${CONFIG} ${PROFILE}${SUITE}${TAGS} --list-scenarios | awk '{ gsub(/:[0-9]+/,"",$1); print $1 }' | uniq -c | sort --reverse | awk '{ print $2 }'
+     "$COMPOSER_RUNTIME_BIN_DIR/behat" ${CONFIG} ${PROFILE}${SUITE}${TAGS} --list-scenarios | \
+     awk '{ gsub(/:[0-9]+/,"",$1); print $1 }' | \
+     uniq -c | \
+     sort --reverse | \
+     awk '{ print $2 }' | \
+     awk -v GROUP_COUNT=$GROUP_COUNT -v GROUP_OFFSET=$GROUP_OFFSET 'NR % GROUP_COUNT == GROUP_OFFSET'
 }
 
 for i in "$@"
@@ -69,6 +82,8 @@ case $i in
     -t=*|--tags=*)     TAGS="--tags=${i#*=} ";;
     -c=*|--config=*)   CONFIG="--config=${i#*=}";;
     --non-strict)      STRICT='';;
+    --group-count=*)     GROUP_COUNT=${i#*=};;
+    --group-offset=*)  GROUP_OFFSET=${i#*=};;
     -h|--help)         usage; exit 1;;
     *)                 OTHER_OPTIONS="${OTHER_OPTIONS} ${i}";;
 esac
