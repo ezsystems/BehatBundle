@@ -36,6 +36,7 @@ error(){
 zip_report_files(){
 cd ${ALLURE_BUILD_PATH}
 TIMESTAMP=$(date "+h%H-m%M")
+SUFFIX=$(echo $RANDOM)
 if [ -z $REPOSITORY_NAME ];
 then
     REPORT_NAME="$(echo $GITHUB_REPOSITORY | cut -d'/' -f 2).$GITHUB_RUN_ID.$GITHUB_RUN_NUMBER";
@@ -43,7 +44,7 @@ else
     DATESTAMP=$(date "+%Y-%m-%d")
     REPORT_NAME="$REPOSITORY_NAME.manual.$DATESTAMP";
 fi
-ZIP_FILENAME="$REPORT_NAME-$TIMESTAMP"
+ZIP_FILENAME="$REPORT_NAME-$TIMESTAMP-$SUFFIX"
 ZIP_FILENAME_EX="$ZIP_FILENAME.zip"
 sudo zip $ZIP_FILENAME_EX *
 cd -
