@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Behat\Browser\Assert;
 
 use Ibexa\Behat\Browser\Element\ElementCollectionInterface;
+use Ibexa\Behat\Browser\Element\Mapper\ElementTextMapper;
 use Ibexa\Behat\Browser\Locator\LocatorInterface;
 use PHPUnit\Framework\Assert;
 
@@ -80,6 +81,31 @@ class CollectionAssert implements CollectionAssertInterface
                 count($elements)
             )
         );
+
+        return $this->elementCollection;
+    }
+
+    public function containsElementsWithText(array $expectedElementTexts): ElementCollectionInterface
+    {
+        $elements = $this->elementCollection->toArray();
+        $this->elementCollection->setElements($elements);
+
+        $elementTexts = $this->elementCollection->mapBy(new ElementTextMapper());
+
+        foreach ($expectedElementTexts as $expectedElementText) {
+            Assert::assertContains(
+                $expectedElementText,
+                $elementTexts,
+                sprintf(
+                    "Failed asserting that Collection created with %s locator '%s': '%s' contains elements '%s'. Found '%s' instead.",
+                    $this->locator->getType(),
+                    $this->locator->getIdentifier(),
+                    $this->locator->getSelector(),
+                    implode(',', $expectedElementTexts),
+                    implode(',', $elementTexts),
+                )
+            );
+        }
 
         return $this->elementCollection;
     }

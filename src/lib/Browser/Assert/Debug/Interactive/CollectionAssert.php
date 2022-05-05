@@ -51,4 +51,13 @@ class CollectionAssert implements CollectionAssertInterface
             return $this->startInteractiveSessionOnException($exception, true);
         }
     }
+
+    public function containsElementsWithText(array $expectedElementTexts): ElementCollectionInterface
+    {
+        try {
+            return $this->baseCollectionAssert->containsElementsWithText($expectedElementTexts);
+        } catch (ExpectationFailedException $exception) {
+            return $this->startInteractiveSessionOnException($exception, true);
+        }
+    }
 }
