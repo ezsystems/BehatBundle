@@ -17,4 +17,6 @@ interface CollectionAssertInterface
     public function hasElements(): ElementCollectionInterface;
 
     public function countEquals(int $expectedCount): ElementCollectionInterface;
+
+    public function containsElementsWithText(array $expectedElementTexts): ElementCollectionInterface;
 }
