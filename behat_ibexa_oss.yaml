@@ -119,6 +119,7 @@ regression:
                 - Ibexa\AdminUi\Behat\BrowserContext\UDWContext
                 - Ibexa\AdminUi\Behat\BrowserContext\UserPreferencesContext
                 - Ibexa\Behat\Browser\Context\AuthenticationContext
+                - Ibexa\User\Behat\Context\UserSettingsContext
                 - Ibexa\Behat\Browser\Context\DebuggingContext
                 - Ibexa\User\Behat\Context\UserSetupContext
                 - EzSystems\Behat\API\Context\RoleContext
