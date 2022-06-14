@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Behat\Browser\Context;
 
-use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Behat\MinkExtension\Context\RawMinkContext;
 use Ibexa\Behat\Browser\Page\Preview\PagePreviewRegistry;
 
-class ContentPreviewContext implements Context
+class ContentPreviewContext extends RawMinkContext
 {
     /** @var \Ibexa\Behat\Browser\Page\Preview\PagePreviewRegistry */
     private $pagePreviewRegistry;
@@ -27,6 +27,7 @@ class ContentPreviewContext implements Context
      */
     public function iSeeCorrectPreviewDataFor(string $contentType, TableNode $previewData): void
     {
+        var_dump($this->getSession()->getPage()->getOuterHtml());
         $preview = $this->pagePreviewRegistry->getPreview($contentType);
         $preview->setExpectedPreviewData(['title' => $previewData->getHash()[0]['value']]);
         $preview->verifyPreviewData();

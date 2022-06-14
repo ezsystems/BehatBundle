@@ -32,6 +32,7 @@ class BrowserContext extends RawMinkContext
         $url = $this->argumentParser->parseUrl($url);
         $url = sprintf('/%s%s', $siteaccess, $url);
         $this->getSession()->visit($this->locatePath($url));
+        var_dump($this->getSession()->getPage()->getOuterHtml());
     }
 
     /**
