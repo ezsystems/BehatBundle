@@ -42,6 +42,12 @@ class BrowserContext extends RawMinkContext
     {
         $responseHeaders = $this->getSession()->getDriver()->getResponseHeaders();
 
+        var_dump($responseHeaders);
+
+        $code = $this->getSession()->getDriver()->getStatusCode();
+
+        var_dump($code);
+
         foreach ($expectedHeadersData->getHash() as $row) {
             Assert::assertEquals($row['Value'], $this->getHeaderValue($responseHeaders, $row['Header']));
         }
