@@ -17,5 +17,5 @@ Feature: Example scenarios showing how to set configuration
     """
     And  I append configuration to "default" siteaccess under "http_cache" key
     """
-        purge_servers: ['http://my_purge_server']
+        purge_servers: ['http://web']
     """
