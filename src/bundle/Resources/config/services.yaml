@@ -12,8 +12,6 @@ services:
         autoconfigure: true
         public: false
 
-    EzSystems\BehatBundle\Cache\JsRoutingDirectoryCacheDirectoryCreator: ~
-
     EzSystems\Behat\API\ContentData\ContentDataProvider:
          arguments:
             - '@ezpublish.api.service.content_type'
