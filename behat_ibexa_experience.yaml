@@ -5,6 +5,7 @@ imports:
     - vendor/ezsystems/ezplatform-page-builder/behat_suites.yml
     - vendor/ezsystems/ezplatform-page-fieldtype/behat_suites.yml
     - vendor/ezsystems/ezplatform-site-factory/behat_suites.yml
+    - vendor/ezsystems/ezplatform-segmentation/behat_suites.yml
     - vendor/ezsystems/ezplatform-workflow/behat_suites_experience.yml
 
 regression:
