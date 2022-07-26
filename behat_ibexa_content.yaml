@@ -13,6 +13,7 @@ regression:
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/richtextConfiguration/custom_tags.feature'
                 - '%paths.base%/vendor/ezsystems/ezplatform-workflow/features/setup/setup_content.feature'
                 - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/loginMethods'
+                - '%paths.base%/vendor/ezsystems/behatbundle/features/setup/contentTranslation'
             contexts:
                 - EzSystems\Behat\API\Context\ContentContext
                 - EzSystems\Behat\API\Context\ContentTypeContext
@@ -21,6 +22,7 @@ regression:
                 - EzSystems\Behat\API\Context\UserContext
                 - EzSystems\Behat\Core\Context\ConfigurationContext
                 - EzSystems\Behat\Core\Context\FileContext
+                - EzSystems\Behat\API\Context\LanguageContext
         content:
             paths:
               - '%paths.base%/vendor/ezsystems/date-based-publisher/features'
