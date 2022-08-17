@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace EzSystems\Behat\API\Context;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
 
@@ -27,32 +26,17 @@ class TestContext implements Context
     /**
      * @Given I am using the API as :username
      */
-    public function iAmLoggedAsUser(string $username)
+    public function iAmLoggedAsApiUser(string $username)
     {
         $user = $this->userService->loadUserByLogin($username);
         $this->permissionResolver->setCurrentUserReference($user);
     }
 
     /**
-     * @BeforeScenario @admin
+     * @BeforeScenario
      */
     public function loginAdminBeforeScenarioHook()
     {
-        $this->iAmLoggedAsUser('admin');
-    }
-
-    /**
-     * @BeforeScenario
-     */
-    public function loginAPIUser(BeforeScenarioScope $scope)
-    {
-        $tags = $scope->getScenario()->getTags();
-        foreach ($tags as $tag) {
-            if (0 === strpos($tag, 'APIUser:')) {
-                $this->iAmLoggedAsUser(explode(':', $tag)[1]);
-
-                return;
-            }
-        }
+        $this->iAmLoggedAsApiUser('admin');
     }
 }
