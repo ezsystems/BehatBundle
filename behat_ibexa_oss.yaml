@@ -18,14 +18,14 @@ default:
     extensions:
         Behat\MinkExtension:
             files_path: '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/src/lib/Behat/TestFiles/'
-            base_url: 'http://localhost'
+            base_url: '%env(string:WEB_HOST)%'
             goutte: ~
-            javascript_session: selenium
+            javascript_session: 'selenium'
             sessions:
                 selenium:
                     selenium2:
                         browser: chrome
-                        wd_host: 'http://localhost:4444/wd/hub'
+                        wd_host: '%env(string:SELENIUM_HOST)%'
                         capabilities:
                             extra_capabilities:
                                 chromeOptions:
@@ -37,7 +37,7 @@ default:
                                         - "--disable-features=site-per-process"
                 chrome:
                     chrome:
-                        api_url: "http://localhost:9222"
+                        api_url: '%env(string:CHROMIUM_HOST)%'
 
         DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
 
@@ -46,10 +46,7 @@ default:
 
         EzSystems\BehatBundle\BehatExtension:
             mink:
-                base_url: '%env(string:WEB_HOST)%'
                 default_javascript_session: '%env(string:MINK_DEFAULT_SESSION)%'
-                selenium_webdriver_host: '%env(string:SELENIUM_HOST)%'
-                chrome_api_url: '%env(string:CHROMIUM_HOST)%'
 
         Liuggio\Fastest\Behat\ListFeaturesExtension\Extension: ~
 
