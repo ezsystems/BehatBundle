@@ -3,6 +3,7 @@ imports:
     - { resource: services/controllers.yaml }
     - { resource: services/factory.yaml }
     - { resource: services/fieldtype_data_providers.yaml }
+    - { resource: services/known_issues.yaml }
     - { resource: services/limitation_parsers.yaml }
     - { resource: services/pages.yaml }
 
@@ -93,3 +94,7 @@ services:
     EzSystems\Behat\Core\Configuration\ConfigurationEditorInterface: '@EzSystems\Behat\Core\Configuration\LocationAwareConfigurationEditor'
 
     Ibexa\Behat\Browser\FileUpload\FileUploadHelper: ~
+
+    Ibexa\Behat\Core\Log\KnownIssuesRegistry:
+        arguments:
+            - !tagged_iterator ibexa.testing.browser.known_issue

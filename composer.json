@@ -51,10 +51,10 @@
     },
     "autoload": {
         "psr-4": {
-            "EzSystems\\BehatBundle\\": "src/bundle/",
-            "EzSystems\\Behat\\": "src/lib/",
             "Ibexa\\Bundle\\Behat\\": "src/bundle/",
-            "Ibexa\\Behat\\": "src/lib/"
+            "Ibexa\\Behat\\": "src/lib/",
+            "EzSystems\\BehatBundle\\": "src/bundle/",
+            "EzSystems\\Behat\\": "src/lib/"
         }
     },
     "conflict": {

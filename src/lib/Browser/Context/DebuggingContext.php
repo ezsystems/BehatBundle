@@ -15,6 +15,8 @@ use Behat\Behat\Hook\Scope\BeforeStepScope;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Testwork\Tester\Result\TestResult;
 use EzSystems\Behat\Core\Log\TestLogProvider;
+use Ibexa\Behat\Core\Log\Failure\TestFailureData;
+use Ibexa\Behat\Core\Log\KnownIssuesRegistry;
 use Psr\Log\LoggerInterface;
 
 class DebuggingContext extends RawMinkContext
@@ -25,10 +27,20 @@ class DebuggingContext extends RawMinkContext
     /** @var string */
     private $logDir;
 
-    public function __construct(LoggerInterface $logger, string $logDir)
-    {
+    /** @var \Ibexa\Behat\Core\Log\KnownIssuesRegistry */
+    private $knownIssuesRegistry;
+
+    /** @var \Behat\Testwork\Tester\Result\TestResult */
+    private $failedStepResult;
+
+    public function __construct(
+        LoggerInterface $logger,
+        string $logDir,
+        KnownIssuesRegistry $knownIssuesRegistry
+    ) {
         $this->logger = $logger;
         $this->logDir = $logDir;
+        $this->knownIssuesRegistry = $knownIssuesRegistry;
     }
 
     /** @BeforeScenario
@@ -57,6 +69,12 @@ class DebuggingContext extends RawMinkContext
     public function logEndingStep(AfterStepScope $scope)
     {
         $this->logger->error(sprintf('Behat: Ending Step "%s"', $scope->getStep()->getText()));
+
+        if ($scope->getTestResult()->isPassed()) {
+            return;
+        }
+
+        $this->failedStepResult = $scope->getTestResult();
     }
 
     /** @AfterStep */
@@ -67,15 +85,25 @@ class DebuggingContext extends RawMinkContext
         }
 
         $testLogProvider = new TestLogProvider($this->getSession(), $this->logDir);
-
         $applicationsLogs = $testLogProvider->getApplicationLogs();
-        $testEnvLogs = $testLogProvider->getBrowserLogs();
+        $browserLogs = $testLogProvider->getBrowserLogs();
 
-        echo $this->formatForDisplay($testEnvLogs, 'JS Console errors:');
-        echo $this->formatForDisplay($applicationsLogs, 'Application logs:');
+        $failureData = new TestFailureData(
+            $this->failedStepResult,
+            $applicationsLogs,
+            $browserLogs
+        );
+
+        $failureAnalysisResult = $this->knownIssuesRegistry->isKnown($failureData);
+        if ($failureAnalysisResult->isKnownFailure()) {
+            $this->display(sprintf("Known failure detected! JIRA: %s\n\n", $failureAnalysisResult->getJiraReference()));
+        }
+
+        $this->display($this->formatForDisplay($browserLogs, 'JS Console errors:'));
+        $this->display($this->formatForDisplay($applicationsLogs, 'Application logs:'));
     }
 
-    public function formatForDisplay(array $logEntries, string $sectionName)
+    private function formatForDisplay(array $logEntries, string $sectionName)
     {
         $output = sprintf('%s' . PHP_EOL, $sectionName);
 
@@ -88,5 +116,10 @@ class DebuggingContext extends RawMinkContext
         }
 
         return $output;
+    }
+
+    private function display(string $message): void
+    {
+        echo $message;
     }
 }
