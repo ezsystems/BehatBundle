@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Ibexa\Behat\Core\Log\Failure\KnownIssues\UdwClosesAutomatically: ~
+
+    Ibexa\Behat\Core\Log\Failure\KnownIssues\TextBlockHeaderSelection: ~
+
+    Ibexa\Behat\Core\Log\Failure\KnownIssues\NewContentTypeCreation: ~
+
+    Ibexa\Behat\Core\Log\Failure\KnownIssues\ContentTypeCreatedInTheBackground: ~

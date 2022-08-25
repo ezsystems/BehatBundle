@@ -11,6 +11,7 @@ namespace EzSystems\BehatBundle\DependencyInjection;
 use Ibexa\Behat\Browser\Component\Component;
 use Ibexa\Behat\Browser\Page\PageInterface;
 use Ibexa\Behat\Browser\Page\Preview\PagePreviewInterface;
+use Ibexa\Behat\Core\Log\Failure\KnownIssues\KnownIssueInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -62,6 +63,9 @@ class eZBehatExtension extends Extension implements PrependExtensionInterface, C
 
         $container->registerForAutoconfiguration(PagePreviewInterface::class)
             ->addTag('ibexa.testing.browser.page_preview');
+
+        $container->registerForAutoconfiguration(KnownIssueInterface::class)
+            ->addTag('ibexa.testing.browser.known_issue');
     }
 
     private function shouldLoadDxpServices(ContainerBuilder $container)
