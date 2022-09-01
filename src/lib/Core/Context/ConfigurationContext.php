@@ -58,14 +58,17 @@ class ConfigurationContext implements Context
 
     /**
      * @Given I :mode configuration to :siteaccessName siteaccess
+     * @Given I :mode configuration to :siteaccessName siteaccess in :configFilePath
      *
      * @param mixed $siteaccessName
      */
-    public function iAppendOrSetConfigurationToSiteaccess(string $mode, $siteaccessName, TableNode $settings)
+    public function iAppendOrSetConfigurationToSiteaccess(string $mode, $siteaccessName, TableNode $settings, string $configFilePath = null)
     {
         $appendToExisting = $this->shouldAppendValue($mode);
 
-        $config = $this->configurationEditor->getConfigFromFile($this->ezplatformConfigFilePath);
+        $configFilePath = $configFilePath ? sprintf('%s/%s', $this->projectDir, $configFilePath) : $this->ezplatformConfigFilePath;
+
+        $config = $this->configurationEditor->getConfigFromFile($configFilePath);
 
         foreach ($settings->getHash() as $setting) {
             $key = $setting['key'];
@@ -76,7 +79,7 @@ class ConfigurationContext implements Context
                 $this->configurationEditor->set($config, sprintf(self::SITEACCESS_KEY_FORMAT, $siteaccessName, $key), $value);
         }
 
-        $this->configurationEditor->saveConfigToFile($this->ezplatformConfigFilePath, $config);
+        $this->configurationEditor->saveConfigToFile($configFilePath, $config);
     }
 
     /**
