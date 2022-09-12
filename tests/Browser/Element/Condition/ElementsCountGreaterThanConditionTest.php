@@ -19,7 +19,7 @@ class ElementsCountGreaterThanConditionTest extends BaseTestCase
     {
         $searchedElementLocator = new CSSLocator('searched-id', 'searched-test');
         $condition = new ElementsCountGreaterThanCondition(
-            $this->createElementWithChildElement('root', $searchedElementLocator, 'ChildText'),
+            $this->createElementWithChildElement('root', $searchedElementLocator, $this->createElement('ChildText')),
             $searchedElementLocator,
             0
         );
@@ -31,7 +31,7 @@ class ElementsCountGreaterThanConditionTest extends BaseTestCase
     {
         $searchedElementLocator = new CSSLocator('searched-id', 'searched-test');
         $condition = new ElementsCountGreaterThanCondition(
-            $this->createElementWithChildElement('root', $searchedElementLocator, 'ChildText'),
+            $this->createElementWithChildElement('root', $searchedElementLocator, $this->createElement('ChildText')),
             $searchedElementLocator,
             1
         );
