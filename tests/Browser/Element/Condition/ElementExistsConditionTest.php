@@ -19,7 +19,7 @@ class ElementExistsConditionTest extends BaseTestCase
     {
         $searchedElementLocator = new CSSLocator('searched-id', 'searched-test');
         $condition = new ElementExistsCondition(
-            $this->createElementWithChildElement('root', $searchedElementLocator, 'ChildText'),
+            $this->createElementWithChildElement('root', $searchedElementLocator, $this->createElement('ChildText')),
             $searchedElementLocator
         );
 
@@ -29,7 +29,7 @@ class ElementExistsConditionTest extends BaseTestCase
     public function testElementDoesNotExist(): void
     {
         $condition = new ElementExistsCondition(
-            $this->createElementWithChildElement('root', new CSSLocator('irrelevant-id', 'irrelevant-child'), 'ChildText'),
+            $this->createElementWithChildElement('root', new CSSLocator('irrelevant-id', 'irrelevant-child'), $this->createElement('ChildText')),
             new CSSLocator('searched-id', 'searched-test')
         );
 
