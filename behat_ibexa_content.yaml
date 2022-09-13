@@ -2,6 +2,7 @@ imports:
     - behat_ibexa_oss.yaml
     - vendor/ezsystems/date-based-publisher/behat_suites_content.yml
     - vendor/ezsystems/ezplatform-workflow/behat_suites_content.yml
+    - vendor/ezsystems/ezplatform-version-comparison/behat_suites.yml
 
 regression:
     suites:
@@ -27,6 +28,7 @@ regression:
               - '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/features/standard'
               - '%paths.base%/vendor/ezsystems/ezplatform-user/features/browser'
               - '%paths.base%/vendor/ezsystems/ezplatform-workflow/features/browser'
+              - '%paths.base%/vendor/ezsystems/ezplatform-version-comparison/features'
             filters:
                 tags: "~@broken&&@IbexaContent"
             contexts: 
@@ -63,5 +65,6 @@ regression:
                 - Ibexa\Scheduler\Behat\BrowserContext\DateBasedPublisherContext
                 - Ibexa\User\Behat\Context\UserSettingsContext
                 - Ibexa\User\Behat\Context\UserSetupContext
+                - Ibexa\VersionComparison\Behat\Context\VersionComparisonContext
                 - Ibexa\Workflow\Behat\Context\WorkflowAdminContext
                 - Ibexa\Workflow\Behat\Context\WorkflowContext
