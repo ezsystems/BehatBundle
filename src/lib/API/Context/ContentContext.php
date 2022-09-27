@@ -42,6 +42,17 @@ class ContentContext implements Context
     }
 
     /**
+     * @Given a :contentTypeIdentifier Content item named :contentName exists in :parentUrl
+     */
+    public function contentItemExists(string $contentTypeIdentifier, string $contentName, string $parentUrl, TableNode $contentItemData): void
+    {
+        $parentUrl = $this->argumentParser->parseUrl($parentUrl);
+        $contentUrl = sprintf('%s/%s', $parentUrl, $this->argumentParser->parseUrl($contentName));
+        $contentData = $this->parseData($contentItemData)[0];
+        $this->contentFacade->createContentIfNotExists($contentTypeIdentifier, $contentUrl, $parentUrl, $contentData);
+    }
+
+    /**
      * @Given I create :contentTypeIdentifier Content items in :parentUrl in :language
      *
      * @param mixed $contentTypeIdentifier
