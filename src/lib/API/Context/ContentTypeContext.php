@@ -53,9 +53,9 @@ class ContentTypeContext implements Context
                 'identifier' => $fieldData['Identifier'],
                 'names' => ['eng-GB' => $fieldData['Name']],
                 'position' => $position,
-                'isRequired' => $this->parseBool($fieldData['Required']),
-                'isTranslatable' => $this->parseBool($fieldData['Translatable']),
-                'isSearchable' => $this->parseBool($fieldData['Searchable']),
+                'isRequired' => array_key_exists('Required', $fieldData) ? $this->parseBool($fieldData['Required']) : false,
+                'isTranslatable' => array_key_exists('Translatable', $fieldData) ? $this->parseBool($fieldData['Translatable']) : false,
+                'isSearchable' => array_key_exists('Searchable', $fieldData) ? $this->parseBool($fieldData['Searchable']) : false,
                 'fieldGroup' => array_key_exists('Category', $fieldData) ? $fieldData['Category'] : null,
                 'fieldSettings' => array_key_exists('Settings', $fieldData) ? $this->parseFieldSettings($fieldTypeIdentifier, $fieldData['Settings']) : null,
             ]);
