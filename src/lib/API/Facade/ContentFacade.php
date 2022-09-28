@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace EzSystems\Behat\API\Facade;
 
 use eZ\Publish\API\Repository\ContentService;
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\API\Repository\URLAliasService;
@@ -127,5 +128,25 @@ class ContentFacade
     private function flushHTTPcache(): void
     {
         $this->cacheManager->flush();
+    }
+
+    public function createContentIfNotExists(string $contentTypeIdentifier, string $contentUrl, string $parentUrl, array $contentItemData, string $language = 'eng-GB'): void
+    {
+        if ($this->contentExists($contentUrl)) {
+            return;
+        }
+
+        $this->createContent($contentTypeIdentifier, $parentUrl, $language, $contentItemData);
+    }
+
+    private function contentExists(string $contentUrl): bool
+    {
+        try {
+            $this->urlAliasService->lookup($contentUrl);
+
+            return true;
+        } catch (NotFoundException $exception) {
+            return false;
+        }
     }
 }

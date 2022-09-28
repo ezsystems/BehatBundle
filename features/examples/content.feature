@@ -3,14 +3,17 @@ Feature: Example scenarios showing how to use steps involving Languages, Content
   @admin
   Scenario Outline: Create a language, Content Type and Content Items
     Given Language "Polski" with code "pol-PL" exists
+    And a "folder" Content item named "Test Folder" exists in root
+      | name        | short_name  |
+      | Test Folder | Test Folder |
     And I create a "<contentTypeName>" Content Type in "Content" with "<contentTypeIdentifier>" identifier
       | Field Type  | Name         | Identifier        | Required | Searchable | Translatable | Settings        |
       | Text line   | Name         | name	           | yes      | yes	       | yes          |                 |
       | <fieldType> | TestedField  | testedfield       | yes      | no	       | yes          | <fieldSettings> |
-    And I create "Folder" Content items in root in "pol-PL"
+    And I create "Folder" Content items in "Test Folder" in "pol-PL"
       | name              | short_name          |
       | <contentTypeName> | <contentTypeName>   |
-    And I create 2 "<contentTypeIdentifier>" Content items in "<contentTypeName>" in "pol-PL"
+    And I create 2 "<contentTypeIdentifier>" Content items in "Test Folder/<contentTypeName>" in "pol-PL"
 
     Examples:
       | contentTypeName      | contentTypeIdentifier | fieldType                    | fieldSettings                                                         |
