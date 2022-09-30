@@ -20,17 +20,20 @@ use RuntimeException;
 
 trait InteractiveDebuggerTrait
 {
-    public function setInteractiveBreakpoint(): void
+    /**
+     * @var array Key - name of the variable Value - value of the variable, example: ['myVariable' => 'testValue']
+     */
+    public function setInteractiveBreakpoint(array $variables = []): void
     {
-        $this->startInteractiveSession(null, false);
+        $this->startInteractiveSession(null, false, $variables);
     }
 
     public function startInteractiveSessionOnException(Exception $exception, bool $expectsReturnValue)
     {
-        return $this->startInteractiveSession($exception, $expectsReturnValue);
+        return $this->startInteractiveSession($exception, $expectsReturnValue, []);
     }
 
-    protected function startInteractiveSession(?Exception $exception, bool $isReturnValueExpected)
+    protected function startInteractiveSession(?Exception $exception, bool $isReturnValueExpected, array $variables)
     {
         if ($this->isRunningInteractive()) {
             if ($exception !== null) {
@@ -49,6 +52,7 @@ trait InteractiveDebuggerTrait
         $this->addCommands($sh, $component);
         $sh->writeStartupMessages();
         $sh->setBoundObject($component);
+        $sh->setScopeVariables($variables);
         $sh->addBaseImports();
         if ($exception !== null) {
             $sh->displayExceptionMessage($exception);
