@@ -15,7 +15,8 @@ class ContentTypeCreatedInTheBackground implements KnownIssueInterface
     public function matches(TestFailureData $testFailureData): bool
     {
         return $testFailureData->applicationLogContainsFragment('DefaultChoiceListFactory') &&
-            $testFailureData->applicationLogContainsFragment('Notice: Undefined index');
+            ($testFailureData->applicationLogContainsFragment('Warning: Undefined array key') ||
+            $testFailureData->applicationLogContainsFragment('Notice: Undefined index'));
     }
 
     public function getJiraReference(): string
