@@ -53,11 +53,11 @@ error(){
 }
 
 behat(){
-    "$COMPOSER_RUNTIME_BIN_DIR/behat" ${CONFIG} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT} ${OTHER_OPTIONS}
+    "$COMPOSER_RUNTIME_BIN_DIR/behat" ${CONFIG} ${PROFILE}${SUITE}${TAGS}--no-interaction --colors -vv ${STRICT} ${OTHER_OPTIONS}
 }
 
 fastest(){
-    get_behat_features | "$COMPOSER_RUNTIME_BIN_DIR/fastest" -o -v "$COMPOSER_RUNTIME_BIN_DIR/behat {} ${CONFIG} ${PROFILE}${SUITE}${TAGS}--no-interaction -vv ${STRICT} ${OTHER_OPTIONS}"
+    get_behat_features | "$COMPOSER_RUNTIME_BIN_DIR/fastest" --ansi -o -v "$COMPOSER_RUNTIME_BIN_DIR/behat {} ${CONFIG} ${PROFILE}${SUITE}${TAGS}--no-interaction --colors -vv ${STRICT} ${OTHER_OPTIONS}"
 }
 
 # Fastest option 'list-features' gives us the list of all features from given context in random order, which are later
