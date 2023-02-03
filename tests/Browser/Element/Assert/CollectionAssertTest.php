@@ -46,7 +46,7 @@ class CollectionAssertTest extends BaseTestCase
         $collectionAssert->containsElementsWithText($expectedElementTexts);
     }
 
-    public function provideForTestAssertionPasses(): iterable
+    public static function provideForTestAssertionPasses(): iterable
     {
         return [
             [[], []],
@@ -59,7 +59,7 @@ class CollectionAssertTest extends BaseTestCase
         ];
     }
 
-    public function provideForTestAssertionFails(): iterable
+    public static function provideForTestAssertionFails(): iterable
     {
         return [
             [['Test1'], ['Test2']],

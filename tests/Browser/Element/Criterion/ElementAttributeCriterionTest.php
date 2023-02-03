@@ -19,19 +19,20 @@ class ElementAttributeCriterionTest extends BaseTestCase
     /**
      * @dataProvider dataProviderTestMatches
      */
-    public function testMatches(ElementInterface $element, bool $shouldMatch): void
+    public function testMatches(string $attributeName, string $attributeValue, bool $shouldMatch): void
     {
         $criterion = new ElementAttributeCriterion('expectedAttribute', 'expectedValue');
+        $element = $this->createElementWithAttribute($attributeName, $attributeValue);
 
         Assert::assertEquals($shouldMatch, $criterion->matches($element));
     }
 
-    public function dataProviderTestMatches(): array
+    public static function dataProviderTestMatches(): array
     {
         return [
-            [$this->createElementWithAttribute('expectedAttribute', ''), false],
-            [$this->createElementWithAttribute('expectedAttribute', 'notexpectedValue'), false],
-            [$this->createElementWithAttribute('expectedAttribute', 'expectedValue'), true],
+            ['expectedAttribute', '', false],
+            ['expectedAttribute', 'notexpectedValue', false],
+            ['expectedAttribute', 'expectedValue', true],
         ];
     }
 
