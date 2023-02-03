@@ -30,7 +30,7 @@
         "guzzlehttp/psr7": "^1.6.1",
         "liuggio/fastest": "^1.7",
         "php-http/client-common": "^2.1",
-        "phpunit/phpunit": "^8.5 || ^9.0",
+        "phpunit/phpunit": "^8.5 || ^9.0 || ^10.0",
         "symfony/config": "^5.0",
         "symfony/console": "^5.0",
         "symfony/dependency-injection": "^5.0",
