@@ -10,8 +10,8 @@ namespace EzSystems\Behat\Test\Browser\Element\Criterion;
 
 use EzSystems\Behat\Test\Browser\Element\BaseTestCase;
 use Ibexa\Behat\Browser\Element\Criterion\ChildElementTextCriterion;
-use Ibexa\Behat\Browser\Element\ElementInterface;
 use Ibexa\Behat\Browser\Locator\CSSLocator;
+use Ibexa\Behat\Browser\Locator\LocatorInterface;
 use Ibexa\Behat\Browser\Locator\XPathLocator;
 use PHPUnit\Framework\Assert;
 
@@ -20,19 +20,20 @@ class ChildElementTextCriterionTest extends BaseTestCase
     /**
      * @dataProvider dataProviderTestMatches
      */
-    public function testMatches(ElementInterface $element, bool $shouldMatch): void
+    public function testMatches(LocatorInterface $locator, string $childElementText, bool $shouldMatch): void
     {
         $criterion = new ChildElementTextCriterion(new XPathLocator('id', 'selector'), 'expectedChildText');
+        $element = $this->createElementWithChildElement('ignore', $locator, $this->createElement($childElementText));
 
         Assert::assertEquals($shouldMatch, $criterion->matches($element));
     }
 
-    public function dataProviderTestMatches(): array
+    public static function dataProviderTestMatches(): array
     {
         return [
-            [$this->createElementWithChildElement('ignore', new XPathLocator('id', 'selector'), $this->createElement('expectedChildText')), true],
-            [$this->createElementWithChildElement('ignore', new XPathLocator('id', 'selector'), $this->createElement('notExpectedChildText')), false],
-            [$this->createElementWithChildElement('ignore', new XPathLocator('id', 'invalidSelector'), $this->createElement('expectedChildText')), false],
+            [new XPathLocator('id', 'selector'), 'expectedChildText', true],
+            [new XPathLocator('id', 'selector'), 'notExpectedChildText', false],
+            [new XPathLocator('id', 'invalidSelector'), 'expectedChildText', false],
         ];
     }
 

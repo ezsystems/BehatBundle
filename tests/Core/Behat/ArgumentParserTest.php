@@ -35,7 +35,7 @@ class ArgumentParserTest extends TestCase
         Assert::assertEquals($expectedResult, $actualResult);
     }
 
-    public function provideUrlData()
+    public static function provideUrlData()
     {
         return [
             ['', '/'],

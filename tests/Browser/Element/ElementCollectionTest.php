@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace EzSystems\Behat\Test\Browser\Element;
 
 use Ibexa\Behat\Browser\Element\Criterion\ElementTextCriterion;
-use Ibexa\Behat\Browser\Element\ElementCollection;
 use Ibexa\Behat\Browser\Element\ElementInterface;
 use Ibexa\Behat\Browser\Element\Mapper\ElementTextMapper;
 use Ibexa\Behat\Browser\Exception\ElementNotFoundException;
 use Ibexa\Behat\Browser\Locator\CSSLocator;
+use Ibexa\Behat\Browser\Locator\LocatorInterface;
 use PHPUnit\Framework\Assert;
 
 class ElementCollectionTest extends BaseTestCase
@@ -61,25 +61,23 @@ class ElementCollectionTest extends BaseTestCase
     /**
      * @dataProvider dataProviderTestAny
      */
-    public function testAny(ElementCollection $collection, bool $expectedAnyValue): void
+    public function testAny(LocatorInterface $locator, array $elementNames, bool $expectedAnyValue): void
     {
+        $collection = $this->createCollection($locator, ...$elementNames);
         Assert::assertEquals($expectedAnyValue, $collection->any());
     }
 
-    public function dataProviderTestAny(): array
+    public static function dataProviderTestAny(): array
     {
         return [
             [
-                $this->createCollection(
                 new CSSLocator('identifier', 'selector'),
-                'Element1', 'Element2', 'Element3'
-                ),
+                ['Element1', 'Element2', 'Element3'],
                 true,
             ],
             [
-                $this->createCollection(
-                    new CSSLocator('identifier', 'selector'),
-                ),
+                new CSSLocator('identifier', 'selector'),
+                [],
                 false,
             ],
         ];
@@ -88,25 +86,23 @@ class ElementCollectionTest extends BaseTestCase
     /**
      * @dataProvider dataProviderTestEmpty
      */
-    public function testEmpty(ElementCollection $collection, bool $expectedEmptyValue): void
+    public function testEmpty(LocatorInterface $locator, array $elementNames, bool $expectedEmptyValue): void
     {
+        $collection = $this->createCollection($locator, ...$elementNames);
         Assert::assertEquals($expectedEmptyValue, $collection->empty());
     }
 
-    public function dataProviderTestEmpty(): array
+    public static function dataProviderTestEmpty(): array
     {
         return [
             [
-                $this->createCollection(
-                    new CSSLocator('identifier', 'selector'),
-                    'Element1', 'Element2', 'Element3'
-                ),
+                new CSSLocator('identifier', 'selector'),
+                ['Element1', 'Element2', 'Element3'],
                 false,
             ],
             [
-                $this->createCollection(
-                    new CSSLocator('identifier', 'selector'),
-                ),
+                new CSSLocator('identifier', 'selector'),
+                [],
                 true,
             ],
         ];

@@ -147,7 +147,7 @@ class ElementTest extends BaseTestCase
         Assert::assertEquals($expectedElementText, $element->find($locator)->getText());
     }
 
-    public function dataProvidertestAdditionalLocatorConditionsAreAppliedWhenUsingFind(): array
+    public static function dataProvidertestAdditionalLocatorConditionsAreAppliedWhenUsingFind(): array
     {
         return [
             [new VisibleCSSLocator('id', 'selector'), 'VisibleElement'],
@@ -170,7 +170,7 @@ class ElementTest extends BaseTestCase
         Assert::assertCount($expectedElementCount, $element->findAll($locator));
     }
 
-    public function dataProvidertestAdditionalLocatorConditionsAreAppliedWhenUsingFindAll(): array
+    public static function dataProvidertestAdditionalLocatorConditionsAreAppliedWhenUsingFindAll(): array
     {
         return [
             [new VisibleCSSLocator('id', 'selector'), 1],
