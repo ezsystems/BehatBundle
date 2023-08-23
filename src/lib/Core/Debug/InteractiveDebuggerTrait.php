@@ -83,9 +83,13 @@ trait InteractiveDebuggerTrait
     {
         $trace = debug_backtrace();
         foreach ($trace as $traceLine) {
-            if ($traceLine['function'] === 'eval') {
+            if (!array_key_exists('function', $traceLine) ||
+                    $traceLine['function'] === 'eval' ||
+                    !array_key_exists('object', $traceLine)
+            ) {
                 continue;
             }
+
             $object = $traceLine['object'];
             if ($object instanceof Component) {
                 return $object;
