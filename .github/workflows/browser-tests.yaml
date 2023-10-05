@@ -10,21 +10,24 @@ on:
 jobs:
     admin-ui:
         name: "Admin UI tests"
-        uses: ibexa/gh-workflows/.github/workflows/browser-tests.yml@main
+        uses: ibexa/gh-workflows/.github/workflows/browser-tests.yml@set-error-reporting
         with:
             project-edition: 'oss'
+            php-image: "ghcr.io/ibexa/docker/php:7.4-node18"
             project-version: '^3.3.x-dev'
             test-suite:  '--profile=browser --suite=admin-ui-full'
             test-setup-phase-1: '--profile=setup --suite=personas --mode=standard'
             test-setup-phase-2: '--profile=setup --suite=content-translation --mode=standard'
         secrets:
             SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-    examples:
-        name: "BehatBundle examples"
-        uses: ibexa/gh-workflows/.github/workflows/browser-tests.yml@main
+    admin-ui2:
+        name: "Admin UI tests"
+        uses: ibexa/gh-workflows/.github/workflows/browser-tests.yml@set-error-reporting
         with:
             project-edition: 'oss'
             project-version: '^3.3.x-dev'
-            test-suite:  '--mode=standard --profile=service --suite=examples'
+            test-suite:  '--profile=browser --suite=admin-ui-full'
+            test-setup-phase-1: '--profile=setup --suite=personas --mode=standard'
+            test-setup-phase-2: '--profile=setup --suite=content-translation --mode=standard'
         secrets:
             SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
