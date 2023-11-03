@@ -24,6 +24,7 @@ CONFIG=''
 OTHER_OPTIONS=''
 MODE='parallel'
 STRICT='--strict'
+PROCESS=''
 GROUP_COUNT=1
 GROUP_OFFSET=0
 
@@ -40,6 +41,7 @@ Options:
 \t -s, --suite=SUITE; Behat tests suite;
 \t -t, --tags=TAGS; Behat tags filter;
 \t --non-strict; Run Behat in non-strict mode;
+\t --process=N; Number of parallel processes, default: available CPUs;
 \t --group-count; Split the tests into multiple groups
 \t --group-offset; Use together with --group-count, get Scenarios for a group
 " | column -t -s ";"
@@ -57,7 +59,7 @@ behat(){
 }
 
 fastest(){
-    get_behat_features | "$COMPOSER_RUNTIME_BIN_DIR/fastest" --ansi -o -v "$COMPOSER_RUNTIME_BIN_DIR/behat {} ${CONFIG} ${PROFILE}${SUITE}${TAGS}--no-interaction --colors -vv ${STRICT} ${OTHER_OPTIONS}"
+    get_behat_features | "$COMPOSER_RUNTIME_BIN_DIR/fastest" $PROCESS --ansi -o -v "$COMPOSER_RUNTIME_BIN_DIR/behat {} ${CONFIG} ${PROFILE}${SUITE}${TAGS}--no-interaction --colors -vv ${STRICT} ${OTHER_OPTIONS}"
 }
 
 # Fastest option 'list-features' gives us the list of all features from given context in random order, which are later
@@ -82,6 +84,7 @@ case $i in
     -t=*|--tags=*)     TAGS="--tags=${i#*=} ";;
     -c=*|--config=*)   CONFIG="--config=${i#*=}";;
     --non-strict)      STRICT='';;
+    --process=*) PROCESS="--process=${i#*=}";;
     --group-count=*)   GROUP_COUNT=${i#*=};;
     --group-offset=*)  GROUP_OFFSET=${i#*=};;
     -h|--help)         usage; exit 1;;
