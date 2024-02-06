@@ -12,7 +12,7 @@
         "php": "^7.3 || ^8.0",
         "ext-json": "*",
         "behat/behat": "^3.11",
-        "behat/mink-browserkit-driver": "^1.4",
+        "behat/mink-browserkit-driver": "^2.2",
         "behat/mink-selenium2-driver": "^1.4",
         "behat/mink": "^1.8",
         "bex/behat-screenshot": "^2.1",
