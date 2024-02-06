@@ -17,9 +17,11 @@ default:
         Behat\MinkExtension:
             files_path: '%paths.base%/vendor/ezsystems/ezplatform-admin-ui/src/lib/Behat/TestFiles/'
             base_url: '%env(string:WEB_HOST)%'
-            browserkit_http: ~
             javascript_session: 'selenium'
+            default_session: browserkit
             sessions:
+                browserkit:
+                    browserkit_http: ~
                 selenium:
                     selenium2:
                         browser: chrome
