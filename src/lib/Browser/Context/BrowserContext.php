@@ -65,8 +65,7 @@ class BrowserContext extends RawMinkContext
         if ($this->getSession()->getDriver() instanceof ChromeDriver) {
             return $responseHeaders[$header];
         }
-        var_dump($responseHeaders);
 
-        return $responseHeaders[$header][0];
+        return $responseHeaders[strtolower($header)][0];
     }
 }
