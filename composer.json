@@ -37,7 +37,7 @@
         "symfony/process": "^5.4",
         "symfony/property-access": "^5.0",
         "symfony/yaml": "^5.0",
-        "psy/psysh": "^0.10.8"
+        "psy/psysh": "^0.11.23"
     },
     "require-dev": {
         "ibexa/ci-scripts": "^0.1@dev",
